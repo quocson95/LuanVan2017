@@ -1,0 +1,22 @@
+﻿<Properties StartupConfiguration="{DD4CB8EF-84FA-431B-926D-F1910CBD7FEE}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="TipCalculator/TipCalculator/MainPage.xaml">
+    <Files>
+      <File FileName="TipCalculator/TipCalculator/MainPage.xaml" Line="7" Column="41" />
+      <File FileName="TipCalculator/TipCalculator/App.xaml.cs" Line="16" Column="59" />
+      <File FileName="TipCalculator/TipCalculator/App.xaml" Line="10" Column="15" />
+      <File FileName="TipCalculator/TipCalculator/MainPage.xaml.cs" Line="24" Column="18" />
+      <File FileName="TipCalculator/TipCalculator/Call_Setting.xaml.cs" Line="9" Column="10" />
+      <File FileName="TipCalculator/TipCalculator/Call_Setting.xaml" Line="6" Column="35" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <DisabledProjects>
+    <String>TipCalculator/TipCalculator.UWP/TipCalculator.UWP.csproj</String>
+  </DisabledProjects>
+  <MonoDevelop.Ide.ItemProperties.TipCalculator.Droid PreferredExecutionTarget="Android.Android_Accelerated_x86" />
+</Properties>

@@ -2,6 +2,22 @@ TipCalculator.Droid.MainActivity, TipCalculator.Droid;md51d951371f1a6b819d5bb505
 TipCalculator.Droid.MainActivity, TipCalculator.Droid, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md51d951371f1a6b819d5bb5058602fdf09.MainActivity
 TipCalculator.Droid.MainActivity;md51d951371f1a6b819d5bb5058602fdf09.MainActivity
 tipcalculator.droid.MainActivity;md51d951371f1a6b819d5bb5058602fdf09.MainActivity
+TipCalculator.Droid.Test, TipCalculator.Droid;md51d951371f1a6b819d5bb5058602fdf09.Test
+TipCalculator.Droid.Test, TipCalculator.Droid, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md51d951371f1a6b819d5bb5058602fdf09.Test
+TipCalculator.Droid.Test;md51d951371f1a6b819d5bb5058602fdf09.Test
+tipcalculator.droid.Test;md51d951371f1a6b819d5bb5058602fdf09.Test
+TipCalculator.Droid.FragmentBase, TipCalculator.Droid;md51d951371f1a6b819d5bb5058602fdf09.FragmentBase
+TipCalculator.Droid.FragmentBase, TipCalculator.Droid, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md51d951371f1a6b819d5bb5058602fdf09.FragmentBase
+TipCalculator.Droid.FragmentBase;md51d951371f1a6b819d5bb5058602fdf09.FragmentBase
+tipcalculator.droid.FragmentBase;md51d951371f1a6b819d5bb5058602fdf09.FragmentBase
+TipCalculator.Droid.MainApplication, TipCalculator.Droid;md51d951371f1a6b819d5bb5058602fdf09.MainApplication
+TipCalculator.Droid.MainApplication, TipCalculator.Droid, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md51d951371f1a6b819d5bb5058602fdf09.MainApplication
+TipCalculator.Droid.MainApplication;md51d951371f1a6b819d5bb5058602fdf09.MainApplication
+tipcalculator.droid.MainApplication;md51d951371f1a6b819d5bb5058602fdf09.MainApplication
+TipCalculator.Droid.VoiceRecognize, TipCalculator.Droid;md51d951371f1a6b819d5bb5058602fdf09.VoiceRecognize
+TipCalculator.Droid.VoiceRecognize, TipCalculator.Droid, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md51d951371f1a6b819d5bb5058602fdf09.VoiceRecognize
+TipCalculator.Droid.VoiceRecognize;md51d951371f1a6b819d5bb5058602fdf09.VoiceRecognize
+tipcalculator.droid.VoiceRecognize;md51d951371f1a6b819d5bb5058602fdf09.VoiceRecognize
 Android.Support.Design.Widget.Snackbar/SnackbarActionClickImplementor, Xamarin.Android.Support.Design;android.support.design.widget.Snackbar_SnackbarActionClickImplementor
 Android.Support.Design.Widget.Snackbar+SnackbarActionClickImplementor, Xamarin.Android.Support.Design, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;android.support.design.widget.Snackbar_SnackbarActionClickImplementor
 Android.Support.Design.Widget.Snackbar.SnackbarActionClickImplementor;android.support.design.widget.Snackbar_SnackbarActionClickImplementor

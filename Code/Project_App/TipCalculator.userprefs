@@ -1,22 +1,29 @@
 ﻿<Properties StartupConfiguration="{DD4CB8EF-84FA-431B-926D-F1910CBD7FEE}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="TipCalculator/TipCalculator/MainPage.xaml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="TipCalculator/TipCalculator.Droid/VoiceRecognize.cs">
     <Files>
-      <File FileName="TipCalculator/TipCalculator/MainPage.xaml" Line="7" Column="41" />
-      <File FileName="TipCalculator/TipCalculator/App.xaml.cs" Line="16" Column="59" />
-      <File FileName="TipCalculator/TipCalculator/App.xaml" Line="10" Column="15" />
-      <File FileName="TipCalculator/TipCalculator/MainPage.xaml.cs" Line="24" Column="18" />
-      <File FileName="TipCalculator/TipCalculator/Call_Setting.xaml.cs" Line="9" Column="10" />
-      <File FileName="TipCalculator/TipCalculator/Call_Setting.xaml" Line="6" Column="35" />
+      <File FileName="TipCalculator/TipCalculator.Droid/FragmentBase.cs" Line="12" Column="38" />
+      <File FileName="TipCalculator/TipCalculator/ITest.cs" Line="10" Column="21" />
+      <File FileName="TipCalculator/TipCalculator.Droid/Test.cs" Line="41" Column="32" />
+      <File FileName="TipCalculator/TipCalculator/MainPage.xaml.cs" Line="37" Column="34" />
+      <File FileName="TipCalculator/TipCalculator.Droid/MainActivity.cs" Line="30" Column="30" />
+      <File FileName="TipCalculator/TipCalculator/MainPage.xaml" Line="65" Column="15" />
+      <File FileName="TipCalculator/TipCalculator.Droid/MainApplication.cs" Line="1" Column="1" />
+      <File FileName="TipCalculator/TipCalculator.Droid/packages.config" Line="1" Column="1" />
+      <File FileName="TipCalculator/TipCalculator.Droid/VoiceRecognize.cs" Line="24" Column="10" />
     </Files>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/sondq/Dropbox/LuanVan/Code/Project_App/TipCalculator/TipCalculator.Droid/Test.cs" relfile="TipCalculator/TipCalculator.Droid/Test.cs" line="103" column="1" />
+      <Breakpoint file="/Users/sondq/Dropbox/LuanVan/Code/Project_App/TipCalculator/TipCalculator.Droid/Test.cs" relfile="TipCalculator/TipCalculator.Droid/Test.cs" line="53" column="1" />
+      <Breakpoint file="/Users/sondq/Dropbox/LuanVan/Code/Project_App/TipCalculator/TipCalculator.Droid/Test.cs" relfile="TipCalculator/TipCalculator.Droid/Test.cs" line="41" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />
   <DisabledProjects>
     <String>TipCalculator/TipCalculator.UWP/TipCalculator.UWP.csproj</String>
   </DisabledProjects>
-  <MonoDevelop.Ide.ItemProperties.TipCalculator.Droid PreferredExecutionTarget="Android.Android_Accelerated_x86" />
+  <MonoDevelop.Ide.ItemProperties.TipCalculator.Droid PreferredExecutionTarget="Android.192.168.56.101:5555" />
 </Properties>

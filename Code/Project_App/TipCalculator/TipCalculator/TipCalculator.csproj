@@ -48,6 +48,7 @@
     <Compile Include="Call_Setting.xaml.cs">
       <DependentUpon>Call_Setting.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ITest.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainPage.xaml">

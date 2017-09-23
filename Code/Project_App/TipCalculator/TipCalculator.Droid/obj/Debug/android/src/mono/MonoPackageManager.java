@@ -100,6 +100,7 @@ class MonoPackageManager_Resources {
 		/* We need to ensure that "TipCalculator.Droid.dll" comes first in this list. */
 		"TipCalculator.Droid.dll",
 		"FormsViewGroup.dll",
+		"Plugin.CurrentActivity.dll",
 		"Xamarin.Android.Support.Animated.Vector.Drawable.dll",
 		"Xamarin.Android.Support.Design.dll",
 		"Xamarin.Android.Support.v4.dll",

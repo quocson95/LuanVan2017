@@ -23,7 +23,7 @@ namespace FreeHand
             TextView callSetting = FindViewById<TextView>(Resource.Id.call_setting);
             callSetting.Click += delegate {
                 {
-                    Intent callSettingIntent = new Intent(this,typeof(CallSettingActivity));
+                    Intent callSettingIntent = new Intent(this,typeof(SpeechRecognizingActivity));
                     StartActivity(callSettingIntent);
                 }
             };

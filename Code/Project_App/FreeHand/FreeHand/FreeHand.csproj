@@ -50,6 +50,8 @@
     <Compile Include="CallSettingActivity.cs" />
     <Compile Include="SpeechRecognizingActivity.cs" />
     <Compile Include="TtsActivity.cs" />
+    <Compile Include="TextToSpeechLib.cs" />
+    <Compile Include="TestingTTSActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -68,6 +70,7 @@
     <AndroidResource Include="Resources\layout\layout_call_setting.axml" />
     <AndroidResource Include="Resources\drawable\end.png" />
     <AndroidResource Include="Resources\layout\Layout_SpeechRecognizingActivity.axml" />
+    <AndroidResource Include="Resources\layout\Layout_Testing.axml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

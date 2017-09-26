@@ -1,29 +1,36 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System;
 using Android.App;
-using Android.OS;
+using Android.Content;
 using Android.Widget;
+using Android.OS;
 using Android.Speech.Tts;
-using Java.Util;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Java.Util;
+using Android.Util;
+
 namespace FreeHand
 {
     [Activity(Label = "TestingTTSActivity")]
     public class TestingTTSActivity : Activity
     {
+        private static string TAG = "TestingTTSActivity";
         private Button btn_getInstance, btn_getEngines, btn_getVoices, btn_Speak;
         private Spinner spn_engines, spn_voices, spn_lang;
         private EditText txt_input;
         private TextToSpeechLib ttsLib;
         private IList<TextToSpeech.EngineInfo> _listEngines;
-        private ICollection<Locale> _languageSupport;
+        private TextToSpeech.EngineInfo _selectEngine;
+		private List<string> _listLang;
+        private Locale _selectLang;
         private IList<String> _voices;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Layout_Testing);
             SetBehavior();
+            _listLang = new List<string> { };
             btn_getInstance.Click += delegate {
                 ttsLib = TextToSpeechLib.Instance(this);
             };
@@ -34,12 +41,25 @@ namespace FreeHand
 
             spn_engines.ItemSelected += async (object sender, AdapterView.ItemSelectedEventArgs e)  => 
 			{
-                TextToSpeech.EngineInfo engine = _listEngines[(int)e.Id];
-                int i = await GetLanguageSupportByEngine(engine);
+                _selectEngine = _listEngines[(int)e.Id];
+                int i = await GetLanguageSupportByEngine(_selectEngine);
+                await ttsLib.CreateTtsAsync(this,_selectEngine.Name);
 			};
-            spn_lang.ItemSelected += (object sender, AdapterView.ItemSelectedEventArgs e) =>
+            spn_lang.ItemSelected += async (object sender, AdapterView.ItemSelectedEventArgs e) => 
             {
 
+                //var s = ((Spinner)sender).GetItemAtPosition((int)e.Id);
+                //Log.Debug(TAG, s.ToString());
+                //_selectLang = new Locale("en-US");
+                //_selectLang = _languageSupport.F(t => t.DisplayLanguage == langAvailable[(int)e.Id]);
+                _selectLang = new Locale(_listLang[(int)e.Id]);
+                Log.Debug(TAG,_listLang[(int)e.Id]);
+                bool status = await ttsLib.SetLang(_selectLang);
+            };
+            btn_Speak.Click += delegate
+            {
+                //ttsLib.CreateTtsAsync(this,);
+                ttsLib.SpeakMessenger();               
             };
             // Create your application here
         }
@@ -57,14 +77,19 @@ namespace FreeHand
         }
 
         protected async Task<int> GetLanguageSupportByEngine(TextToSpeech.EngineInfo engine){
-            _languageSupport = await ttsLib.GetLanguageSupportByEngineAsync(this,engine);
-            var listLang = new List<string>();
-            foreach (var lang in _languageSupport)
+            var languageSupport = await ttsLib.GetLanguageSupportByEngineAsync(this,engine);
+            var langDisplay = new List<string>();
+            //_listLang.Clear();
+            foreach (var lang in languageSupport)
 			{
-                listLang.Add(lang.DisplayLanguage);
+                langDisplay.Add(lang.DisplayLanguage);
+                _listLang.Add(lang.ISO3Language);
 			}
-            if (listLang.Count == 0) listLang.Add("NONE");
-            var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, listLang);
+
+            if (_listLang.Count == 0) _listLang.Add("NONE");
+            //_listLang = _listLang.OrderBy(t => t).Distinct().ToList();
+            langDisplay = _listLang.OrderBy(t => t).Distinct().ToList();
+            var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, _listLang);
             spn_lang.Adapter = adapter;
             return 0;
         }

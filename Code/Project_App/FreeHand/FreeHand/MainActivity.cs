@@ -2,12 +2,17 @@
 using Android.Widget;
 using Android.OS;
 using Android.Content;
+using Android.Util;
 
 namespace FreeHand
 {
     [Activity(Label = "FreeHand", MainLauncher = true, Icon = "@mipmap/icon")]
     public class MainActivity : Activity
     {
+        private static readonly string TAG = "MainActivity";
+        		 
+        SMSBroadcastReceiver smsReceiver;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -27,7 +32,24 @@ namespace FreeHand
                     StartActivity(callSettingIntent);
                 }
             };
+            smsReceiver = new SMSBroadcastReceiver();
+            this.RegisterReceiver(this.smsReceiver, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
         }
-    }
+		protected override void OnResume()
+		{
+			base.OnResume();
+            Log.Debug(TAG,"OnResume");
+		
+			//RegisterReceiver(this.smsReceiver, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
+		}
+		protected override void OnPause()
+		{
+			UnregisterReceiver(smsReceiver);
+            Log.Debug(TAG, "OnPause");
+			// Code omitted for clarity
+			base.OnPause();
+		}
+
+	}
 }
 

@@ -52,6 +52,7 @@
     <Compile Include="TtsActivity.cs" />
     <Compile Include="TextToSpeechLib.cs" />
     <Compile Include="TestingTTSActivity.cs" />
+    <Compile Include="SMSBroadcastReceiver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

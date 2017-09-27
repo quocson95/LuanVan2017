@@ -7,14 +7,15 @@
     android:minHeight="25px"
     android:id="@android:id/background"
     android:background="@android:color/background_light">
-    <ImageView
-        android:src="@drawable/start"
+    <ImageButton
+        android:src="@drawable/end"
         android:layout_width="match_parent"
         android:layout_height="331.5dp"
         android:id="@+id/btn_power"
         android:layout_marginBottom="20.0dp"
         android:layout_marginRight="47.5dp"
-        android:layout_marginLeft="50dp" />
+        android:layout_marginLeft="50dp"
+        android:background="@android:color/background_light" />
     <LinearLayout
         android:orientation="horizontal"
         android:minWidth="25px"
@@ -29,10 +30,11 @@
             android:textSize="25dp"
             android:layout_width="314.0dp"
             android:layout_height="wrap_content"
-            android:checked="true"
+            android:checked="false"
             android:textOn="ON"
             android:textOff="OFF"
-            android:textColor="#000" />
+            android:textColor="#000" 
+            android:id="@+id/power_switch"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"

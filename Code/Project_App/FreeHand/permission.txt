@@ -1,0 +1,6 @@
+SMS need permission
+    +READ_SMS
+    +WRITE_SMS
+    +SEND_SMS
+    +BROADCAST_SMS
+    +RECEIVE_SMS

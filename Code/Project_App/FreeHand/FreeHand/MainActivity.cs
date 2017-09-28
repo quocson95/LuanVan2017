@@ -1,7 +1,12 @@
-﻿using Android.App;
+﻿
+using System;
+
+using Android;
+using Android.App;
+using Android.Content;
+using Android.Views;
 using Android.Widget;
 using Android.OS;
-using Android.Content;
 using Android.Util;
 
 namespace FreeHand
@@ -10,7 +15,14 @@ namespace FreeHand
     public class MainActivity : Activity
     {
         private static readonly string TAG = "MainActivity";
-        		 
+        /* Permissions required to read and write contacts.Used to get PhoneBook.
+        */
+		static string[] PERMISSIONS_CONTACT = {
+			Manifest.Permission.ReadContacts,
+			Manifest.Permission.WriteContacts
+};		 
+
+
         SMSBroadcastReceiver smsReceiver;
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -19,7 +31,8 @@ namespace FreeHand
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
-
+			Model.MessengeQueue _messengeQueue = Model.MessengeQueue.GetInstance();
+			_messengeQueue.RetrievePhoneBook(this);
             // Get our button from the layout resource,
             // and attach an event to it
             //Button button = FindViewById<Button>(Resource.Id.myButton);
@@ -32,8 +45,11 @@ namespace FreeHand
                     StartActivity(callSettingIntent);
                 }
             };
+            //-----------//
+            //Listen for SMS
             smsReceiver = new SMSBroadcastReceiver();
             this.RegisterReceiver(this.smsReceiver, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
+            //--------//
             int count = 0;
             var imageButton = FindViewById<ImageButton>(Resource.Id.btn_power);
             var switchPower = FindViewById<Switch>(Resource.Id.power_switch);
@@ -66,7 +82,7 @@ namespace FreeHand
 			// Code omitted for clarity
 			base.OnPause();
 		}
-
+		
 	}
 }
 

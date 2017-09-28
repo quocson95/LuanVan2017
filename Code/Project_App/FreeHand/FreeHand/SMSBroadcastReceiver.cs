@@ -27,39 +27,42 @@ namespace FreeHand
 			//InvokeAbortBroadcast();
 			Log.Info(TAG, "Intent received: " + intent.Action);
             Toast.MakeText(context,"alo alo", ToastLength.Long).Show();
-			//try
-			//{
-			//	if (intent.Action != IntentAction) return;
+			try
+			{
+				if (intent.Action != IntentAction) return;
 
-			//	var bundle = intent.Extras;
+				var bundle = intent.Extras;
 
-			//	if (bundle == null) return;
+				if (bundle == null) return;
+				var pdus = bundle.Get("pdus");
+                var castedPdus = JNIEnv.GetArray<Java.Lang.Object>(pdus.Handle);
 
-			//	var pdus = bundle.Get("pdus");
-   //             var castedPdus = JNIEnv.GetArray<Java.Lang.Object>(pdus.Handle);
+				var msgs = new SmsMessage[castedPdus.Length];
+				Model.MessengeQueue _messengeQueue = Model.MessengeQueue.GetInstance();			
+				var sb = new StringBuilder();
+				String sender = null;
+				for (var i = 0; i < msgs.Length; i++)
+				{
+					var bytes = new byte[JNIEnv.GetArrayLength(castedPdus[i].Handle)];
+					JNIEnv.CopyArray(castedPdus[i].Handle, bytes);
 
-			//	var msgs = new SmsMessage[castedPdus.Length];
+					msgs[i] = SmsMessage.CreateFromPdu(bytes);
+					if (sender == null)
+						sender = msgs[i].OriginatingAddress;
+					sb.Append(string.Format("SMS From: {0}{1}Body: {2}{1}", msgs[i].OriginatingAddress,
+						Environment.NewLine, msgs[i].MessageBody));
+                    Model.IMessengeData _smsData = new Model.SMSData(msgs[i].OriginatingAddress, msgs[i].MessageBody);
+                    _messengeQueue.EnqueueMessengeQueue(_smsData);
 
-			//	var sb = new StringBuilder();
-			//	String sender = null;
-			//	for (var i = 0; i < msgs.Length; i++)
-			//	{
-			//		var bytes = new byte[JNIEnv.GetArrayLength(castedPdus[i].Handle)];
-			//		JNIEnv.CopyArray(castedPdus[i].Handle, bytes);
-
-			//		msgs[i] = SmsMessage.CreateFromPdu(bytes);
-			//		if (sender == null)
-			//			sender = msgs[i].OriginatingAddress;
-			//		sb.Append(string.Format("SMS From: {0}{1}Body: {2}{1}", msgs[i].OriginatingAddress,
-			//			Environment.NewLine, msgs[i].MessageBody));
-
-			//		Toast.MakeText(context, sb.ToString(), ToastLength.Long).Show();
-			//	}
-			//}
-			//catch (Exception ex)
-			//{
-			//	Toast.MakeText(context, ex.Message, ToastLength.Long).Show();
-			//}
+					//Toast.MakeText(context, sb.ToString(), ToastLength.Long).Show();
+                    Log.Info(TAG,sb.ToString());
+                }
+			}
+			catch (Exception ex)
+			{
+                //Toast.MakeText(context, ex.Message, ToastLength.Long).Show();
+                Log.Info(TAG, ex.Message);
+			}
 		}
     }
 }

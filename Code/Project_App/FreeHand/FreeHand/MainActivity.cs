@@ -52,18 +52,20 @@ namespace FreeHand
             //--------//
             int count = 0;
             var imageButton = FindViewById<ImageButton>(Resource.Id.btn_power);
-            var switchPower = FindViewById<Switch>(Resource.Id.power_switch);
+            var status = FindViewById<TextView>(Resource.Id.status);
             imageButton.Click += delegate {
                 count++;
                 if (count % 2 == 1) { // Start Application
                     imageButton.SetImageResource(Resource.Drawable.start);
-                    switchPower.Toggle();
+                    status.Text="Click to turn off";
+                    status.SetTextColor(Android.Graphics.Color.Red);
                     Toast.MakeText(this, "Application Started", ToastLength.Long).Show();
                 }
                 else { // Stop Application
                     imageButton.SetImageResource(Resource.Drawable.end);
-                    switchPower.Toggle();
                     Toast.MakeText(this, "Application Stopped", ToastLength.Long).Show();
+                    status.Text = "Click to turn on";
+                    status.SetTextColor(Android.Graphics.Color.Green);
                 }
                 };
 

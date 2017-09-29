@@ -25,16 +25,13 @@
         android:id="@+id/linearLayout1"
         android:layout_marginBottom="20.0dp"
         android:layout_marginLeft="50dp">
-        <Switch
-            android:text="Turn on Application"
-            android:textSize="25dp"
-            android:layout_width="314.0dp"
+        <TextView
+            android:text="Click to turn on"
+            android:textSize="40dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="false"
-            android:textOn="ON"
-            android:textOff="OFF"
-            android:textColor="#000" 
-            android:id="@+id/power_switch"/>
+            android:textColor="#0F0"
+            android:id="@+id/status" />
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"

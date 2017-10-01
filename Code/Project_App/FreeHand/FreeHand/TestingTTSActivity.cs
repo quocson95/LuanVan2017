@@ -1,15 +1,13 @@
 ﻿using System;
 using Android.App;
-using Android.Content;
 using Android.Widget;
 using Android.OS;
 using Android.Speech.Tts;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Java.Util;
 using Android.Util;
-
+using Java.Util;
 namespace FreeHand
 {
     [Activity(Label = "TestingTTSActivity")]
@@ -17,19 +15,20 @@ namespace FreeHand
     {
         private static string TAG = "TestingTTSActivity";
         private Button btn_getInstance, btn_getEngines, btn_getVoices, btn_Speak;
-        private Spinner spn_engines, spn_voices, spn_lang;
+        private Spinner spn_engines, spn_lang;
         private EditText txt_input;
         private TextToSpeechLib ttsLib;
         private IList<TextToSpeech.EngineInfo> _listEngines;
         private TextToSpeech.EngineInfo _selectEngine;
 		private List<string> _listLang;
         private Locale _selectLang;
-        private IList<String> _voices;
+        //private IList<String> _voices;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Layout_Testing);
             SetBehavior();
+            ttsLib = TextToSpeechLib.Instance(this);
             _listLang = new List<string> { };
             btn_getInstance.Click += delegate {
                 ttsLib = TextToSpeechLib.Instance(this);
@@ -43,7 +42,7 @@ namespace FreeHand
 			{
                 _selectEngine = _listEngines[(int)e.Id];
                 int i = await GetLanguageSupportByEngine(_selectEngine);
-                await ttsLib.CreateTtsAsync(this,_selectEngine.Name);
+                await ttsLib.CreateTtsAsync();
 			};
             spn_lang.ItemSelected += async (object sender, AdapterView.ItemSelectedEventArgs e) => 
             {
@@ -56,10 +55,11 @@ namespace FreeHand
                 Log.Debug(TAG,_listLang[(int)e.Id]);
                 bool status = await ttsLib.SetLang(_selectLang);
             };
-            btn_Speak.Click += delegate
+            btn_Speak.Click +=  async delegate
             {
                 //ttsLib.CreateTtsAsync(this,);
-                ttsLib.SpeakMessenger();               
+                int i  = await ttsLib.SpeakMessenger("ss");  
+                Log.Info(TAG,"result speak "+i.ToString());
             };
             // Create your application here
         }

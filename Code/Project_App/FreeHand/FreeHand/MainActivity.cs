@@ -1,41 +1,31 @@
-﻿
-using System;
-
-using Android;
-using Android.App;
+﻿using Android.App;
 using Android.Content;
-using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Android.Util;
+using System.Threading.Tasks;
 
 namespace FreeHand
 {
+
     [Activity(Label = "FreeHand", MainLauncher = true, Icon = "@mipmap/icon")]
     public class MainActivity : Activity
-    {
+	{
         private static readonly string TAG = "MainActivity";
+        //private static readonly int CHECK_PERMISSION = 1000;
         /* Permissions required to read and write contacts.Used to get PhoneBook.
         */
-		static string[] PERMISSIONS_CONTACT = {
-			Manifest.Permission.ReadContacts,
-			Manifest.Permission.WriteContacts
-};		 
-
-
-        SMSBroadcastReceiver smsReceiver;
-
+        //SMSBroadcastReceiver smsReceiver;
+        private bool APP_RUNNIG;
+		Intent MessengeServiceToStart;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
+            RequestPermission();
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
-			Model.MessengeQueue _messengeQueue = Model.MessengeQueue.GetInstance();
-			_messengeQueue.RetrievePhoneBook(this);
-            // Get our button from the layout resource,
-            // and attach an event to it
-            //Button button = FindViewById<Button>(Resource.Id.myButton);
+            MessengeServiceToStart = new Intent(this, typeof(MessengeService));			
+			Log.Info(TAG, "Start service Messenge.");
 
             //button.Click += delegate { button.Text = $"{count++} clicks!"; };
             TextView callSetting = FindViewById<TextView>(Resource.Id.call_setting);
@@ -45,31 +35,35 @@ namespace FreeHand
                     StartActivity(callSettingIntent);
                 }
             };
-            //-----------//
-            //Listen for SMS
-            smsReceiver = new SMSBroadcastReceiver();
-            this.RegisterReceiver(this.smsReceiver, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
-            //--------//
-            int count = 0;
+            //-----------//           
+            //int count = 0;
+            if (savedInstanceState == null) APP_RUNNIG = false;
             var imageButton = FindViewById<ImageButton>(Resource.Id.btn_power);
             var switchPower = FindViewById<Switch>(Resource.Id.power_switch);
-            imageButton.Click += delegate {
-                count++;
-                if (count % 2 == 1) { // Start Application
-                    imageButton.SetImageResource(Resource.Drawable.start);
-                    switchPower.Toggle();
-                    Toast.MakeText(this, "Application Started", ToastLength.Long).Show();
-                }
-                else { // Stop Application
+            imageButton.Click += async delegate {               
+                if (!APP_RUNNIG) { // Start Application
                     imageButton.SetImageResource(Resource.Drawable.end);
                     switchPower.Toggle();
-                    Toast.MakeText(this, "Application Stopped", ToastLength.Long).Show();
+                    Toast.MakeText(this, "Application Started", ToastLength.Long).Show();
+                    APP_RUNNIG = true;
+                    await StartApplication();
                 }
-                };
+                else { // Stop Application
+                    imageButton.SetImageResource(Resource.Drawable.start);
+                    switchPower.Toggle();
+                    Toast.MakeText(this, "Application Stopped", ToastLength.Long).Show();
+                    APP_RUNNIG = false;
+                    await StopApplication();
+                }
+            };
 
         }
 		protected override void OnResume()
 		{
+			//Listen for SMS
+			//smsReceiver = new SMSBroadcastReceiver(this,this);
+			//this.RegisterReceiver(this.smsReceiver, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
+			//--------//
 			base.OnResume();
             Log.Debug(TAG,"OnResume");
 		
@@ -77,12 +71,74 @@ namespace FreeHand
 		}
 		protected override void OnPause()
 		{
-			UnregisterReceiver(smsReceiver);
+			
+			//UnregisterReceiver(smsReceiver);
             Log.Debug(TAG, "OnPause");
 			// Code omitted for clarity
 			base.OnPause();
 		}
-		
+        void RequestPermission()
+        {
+            //Intent checkPermissionIntent = new Intent(this, typeof(CheckPermission));
+            //StartActivityForResult(checkPermissionIntent,CHECK_PERMISSION);
+        }
+        async Task StartApplication()
+        {
+            Log.Info(TAG, "StartApplication");
+            StartReadConfig();
+            await StartInitTTS();
+            StartService(MessengeServiceToStart);
+        }
+
+        async Task StopApplication()
+        {
+            Log.Info(TAG, "StopApplication");
+            StopService(MessengeServiceToStart);
+            await StopTTS();
+
+        }
+
+        void StartReadConfig(){            
+            Config config = Config.Instance();
+            config.Read(this);
+        }
+        async Task StartInitTTS()
+        {
+            Config config = Config.Instance();
+            TextToSpeechLib tts = TextToSpeechLib.Instance(this);
+            ConfigFormat configFormat = config.ConfigFormat;
+            if (string.IsNullOrEmpty(configFormat.TtsConfig.engineName))
+                tts.SetEngine(configFormat.TtsConfig.engineName);
+            await tts.CreateTtsAsync();
+            if (string.IsNullOrEmpty(configFormat.TtsConfig.lang)){
+                await tts.SetLang(new Java.Util.Locale(configFormat.TtsConfig.lang));
+            }
+        }
+        async Task StopTTS(){
+            TextToSpeechLib tts = TextToSpeechLib.Instance(this);
+            await tts.Stop();
+        }
+
+
+        protected override void OnSaveInstanceState(Bundle savedInstanceState)
+		{
+            // Save UI state changes to the savedInstanceState.
+            // This bundle will be passed to onCreate if the process is
+            // killed and restarted.
+            this.Resources.GetString(Resource.String.SAVE_APP_RUNNING_STATUS);
+            savedInstanceState.PutBoolean("MyBoolean", true);		
+            base.OnSaveInstanceState(savedInstanceState);
+		}
+
+		protected override void OnRestoreInstanceState(Bundle savedInstanceState)
+		{
+			base.OnRestoreInstanceState(savedInstanceState);
+            // Restore UI state from the savedInstanceState.
+            // This bundle has also been passed to onCreate.
+            string name = this.Resources.GetString(Resource.String.SAVE_APP_RUNNING_STATUS);
+            APP_RUNNIG =  savedInstanceState.GetBoolean(name);			
+		}
+
 	}
 }
 

@@ -7,5 +7,6 @@ namespace FreeHand.Model
         string GetNameSender();
         string GetAddrSender();
         string Reply(string msg);
+        void SetNameSender(string name);
     }
 }

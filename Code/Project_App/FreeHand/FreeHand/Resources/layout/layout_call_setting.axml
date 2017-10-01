@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:minWidth="25px"
     android:minHeight="25px"
-    android:id="@android:id/background"
+    android:id="@+id/background"
     android:background="@android:color/background_light">
     <TextView
         android:textAppearance="?android:attr/textAppearanceLarge"

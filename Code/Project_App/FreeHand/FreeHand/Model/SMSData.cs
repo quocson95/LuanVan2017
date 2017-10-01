@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace FreeHand.Model
 {
     public class SMSData : IMessengeData
@@ -13,6 +14,9 @@ namespace FreeHand.Model
             //_smsNameSender = name; 
             //TODO
             //need function get name from contact
+        }
+        public void SetNameSender(string name){
+            _smsNameSender = name;
         }
         public string GetMessengeContent()
         {
@@ -30,5 +34,6 @@ namespace FreeHand.Model
         {
             return "";
         }
+       
     }
 }

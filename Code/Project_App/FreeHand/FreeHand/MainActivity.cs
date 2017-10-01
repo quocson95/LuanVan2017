@@ -42,7 +42,7 @@ namespace FreeHand
             var imageButton = FindViewById<ImageButton>(Resource.Id.btn_power);
             imageButton.Click += async delegate {               
                 if (!APP_RUNNIG) { // Start Application
-                    imageButton.SetImageResource(Resource.Drawable.end);
+                    imageButton.SetImageResource(Resource.Drawable.start);
 					status.Text = "Click to turn off";
 					status.SetTextColor(Android.Graphics.Color.Red);
                     Toast.MakeText(this, "Application Started", ToastLength.Long).Show();
@@ -50,7 +50,7 @@ namespace FreeHand
                     await StartApplication();
                 }
                 else { // Stop Application
-                    imageButton.SetImageResource(Resource.Drawable.start);
+                    imageButton.SetImageResource(Resource.Drawable.end);
 					status.Text = "Click to turn on";
 					status.SetTextColor(Android.Graphics.Color.Green);
                     Toast.MakeText(this, "Application Stopped", ToastLength.Long).Show();

@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using Android.Content.Res;
+﻿using System.IO;
 using Android.Content;
 using Newtonsoft.Json;
 using Android.Util;

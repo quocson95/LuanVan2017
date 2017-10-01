@@ -82,8 +82,8 @@
     <Compile Include="Model\MessengeQueue.cs" />
     <Compile Include="CheckPermission.cs" />
     <Compile Include="MessengeService.cs" />
-    <Compile Include="Config.cs" />
-    <Compile Include="ConfigFormat.cs" />
+    <Compile Include="Model\Config.cs" />
+    <Compile Include="Model\ConfigFormat.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

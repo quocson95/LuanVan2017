@@ -4,6 +4,7 @@ using Android.Widget;
 using Android.OS;
 using Android.Util;
 using System.Threading.Tasks;
+using FreeHand.Model;
 
 namespace FreeHand
 {

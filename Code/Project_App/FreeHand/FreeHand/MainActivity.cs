@@ -29,6 +29,7 @@ namespace FreeHand
 
             //button.Click += delegate { button.Text = $"{count++} clicks!"; };
             TextView callSetting = FindViewById<TextView>(Resource.Id.call_setting);
+            TextView status = FindViewById<TextView>(Resource.Id.status);
             callSetting.Click += delegate {
                 {
                     Intent callSettingIntent = new Intent(this,typeof(TestingTTSActivity));
@@ -39,18 +40,19 @@ namespace FreeHand
             //int count = 0;
             if (savedInstanceState == null) APP_RUNNIG = false;
             var imageButton = FindViewById<ImageButton>(Resource.Id.btn_power);
-            var switchPower = FindViewById<Switch>(Resource.Id.power_switch);
             imageButton.Click += async delegate {               
                 if (!APP_RUNNIG) { // Start Application
                     imageButton.SetImageResource(Resource.Drawable.end);
-                    switchPower.Toggle();
+					status.Text = "Click to turn off";
+					status.SetTextColor(Android.Graphics.Color.Red);
                     Toast.MakeText(this, "Application Started", ToastLength.Long).Show();
                     APP_RUNNIG = true;
                     await StartApplication();
                 }
                 else { // Stop Application
                     imageButton.SetImageResource(Resource.Drawable.start);
-                    switchPower.Toggle();
+					status.Text = "Click to turn on";
+					status.SetTextColor(Android.Graphics.Color.Green);
                     Toast.MakeText(this, "Application Stopped", ToastLength.Long).Show();
                     APP_RUNNIG = false;
                     await StopApplication();

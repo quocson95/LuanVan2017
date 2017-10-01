@@ -1,0 +1,17 @@
+﻿<Properties StartupConfiguration="{C0E33CFA-C48D-44C5-AD7B-3F307E39A085}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../../../../../../Library/Frameworks/Xamarin.Android.framework/Versions/7.4.5-1/lib/xbuild/Xamarin/Android/Xamarin.Android.Common.targets">
+    <Files>
+      <File FileName="FreeHand/MainActivity.cs" Line="131" Column="78" />
+      <File FileName="../../../../../../../Library/Frameworks/Xamarin.Android.framework/Versions/7.4.5-1/lib/xbuild/Xamarin/Android/Xamarin.Android.Common.targets" Line="1038" Column="35" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/sondq/Dropbox/LuanVan/Code/Project_App/FreeHand/FreeHand/TtsActivity.cs" relfile="FreeHand/TtsActivity.cs" line="100" column="11" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.FreeHand AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.Android_Accelerated_x86" />
+  <MultiItemStartupConfigurations />
+</Properties>

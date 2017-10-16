@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:foo="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#2895FF">
+        <TextView
+            android:id="@+id/name_app"
+            android:background="#2895FF"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:text="Free Hand "
+            foo:layout_widthPercent="100%"
+            foo:layout_heightPercent="20%"
+            android:textSize="48dp"
+            fontPath="Fonts/HELR45W.ttf" />
+        <android.support.percent.PercentFrameLayout
+            android:id="@+id/layout_one"
+            android:layout_below="@+id/name_app"
+            foo:layout_widthPercent="100%"
+            foo:layout_heightPercent="50%"
+            android:minWidth="25px"
+            android:minHeight="25px">
+            <Button
+                android:id="@+id/btn_main"
+                android:background="@drawable/circle_shape"
+                android:text="Play"
+                android:textSize="64dp"
+                android:textColor="#FFFFFF"
+                android:layout_gravity="center_vertical|center_horizontal"
+                foo:layout_widthPercent="60%"
+                foo:layout_aspectRatio="100%"
+                fontPath="Fonts/HELR45W.ttf" />
+        </android.support.percent.PercentFrameLayout>
+        <TextView
+            android:id="@+id/layout_space1"
+            android:layout_below="@+id/layout_one"
+            android:background="#2895FF"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:text="Space 1 "
+            foo:layout_widthPercent="100%"
+            foo:layout_heightPercent="10%" />
+        <android.support.percent.PercentFrameLayout
+            android:id="@+id/layout_two"
+            android:layout_below="@+id/layout_space1"
+            foo:layout_widthPercent="100%"
+            foo:layout_heightPercent="10%"
+            android:minWidth="25px"
+            android:minHeight="25px">
+            <Button
+                android:id="@+id/btn_main"
+                android:background="@drawable/shape"
+                android:text="Setting"
+                android:textSize="20dp"
+                android:textColor="#2895FF"
+                android:layout_gravity="center_vertical|center_horizontal"
+                foo:layout_widthPercent="90%"
+                foo:layout_heightPercent="90%"
+                fontPath="Fonts/HELR45W.ttf" />
+        </android.support.percent.PercentFrameLayout>
+        <TextView
+            android:id="@+id/layout_space2"
+            android:layout_below="@+id/layout_two"
+            android:background="#2895FF"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:text="Space 2"
+            foo:layout_widthPercent="100%"
+            foo:layout_heightPercent="10%" />
+    </android.support.percent.PercentRelativeLayout>
+</LinearLayout>

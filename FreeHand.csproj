@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C0E33CFA-C48D-44C5-AD7B-3F307E39A085}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>FreeHand</RootNamespace>
+    <AssemblyName>FreeHand</AssemblyName>
+    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
+    <AndroidApplication>True</AndroidApplication>
+    <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
+    <AndroidResgenClass>Resource</AndroidResgenClass>
+    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
+    <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
+    <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
+    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>None</AndroidLinkMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidManagedSymbols>true</AndroidManagedSymbols>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Mono.Android" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="Xamarin.Android.Support.Vector.Drawable">
+      <HintPath>..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\lib\MonoAndroid403\Xamarin.Android.Support.Vector.Drawable.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.Animated.Vector.Drawable">
+      <HintPath>..\packages\Xamarin.Android.Support.Animated.Vector.Drawable.23.4.0.1\lib\MonoAndroid403\Xamarin.Android.Support.Animated.Vector.Drawable.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v4">
+      <HintPath>packages\Crosslight.Xamarin.Android.Support.v4.23.1.1\lib\MonoAndroid10\Xamarin.Android.Support.v4.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.AppCompat">
+      <HintPath>packages\Crosslight.Xamarin.Android.Support.v7.AppCompat.23.1.1\lib\MonoAndroid10\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>packages\Newtonsoft.Json.10.0.3\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="EasySplashScreen">
+      <HintPath>packages\EasySplashScreen.1.0.0\lib\EasySplashScreen.dll</HintPath>
+    </Reference>
+    <Reference Include="NineOldAndroids">
+      <HintPath>packages\Xamarin.NineOldAndroids.0.0.1\lib\MonoAndroid\NineOldAndroids.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialSpinner">
+      <HintPath>packages\MaterialSpinner-Xamarin.1.1.1\lib\MonoAndroid\MaterialSpinner.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.Design">
+      <HintPath>packages\Xamarin.Android.Support.Design.23.4.0.1\lib\MonoAndroid43\Xamarin.Android.Support.Design.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.RecyclerView">
+      <HintPath>packages\Crosslight.Xamarin.Android.Support.v7.RecyclerView.23.1.1\lib\MonoAndroid10\Xamarin.Android.Support.v7.RecyclerView.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.Percent">
+      <HintPath>packages\Xamarin.Android.Support.Percent.23.4.0.1\lib\MonoAndroid403\Xamarin.Android.Support.Percent.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Platform">
+      <HintPath>packages\MvvmCross.Platform.4.0.0\lib\MonoAndroid\MvvmCross.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Platform.Droid">
+      <HintPath>packages\MvvmCross.Platform.4.0.0\lib\MonoAndroid\MvvmCross.Platform.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Core">
+      <HintPath>packages\MvvmCross.Core.4.0.0\lib\MonoAndroid\MvvmCross.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Droid">
+      <HintPath>packages\MvvmCross.Core.4.0.0\lib\MonoAndroid\MvvmCross.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Binding">
+      <HintPath>packages\MvvmCross.Binding.4.0.0\lib\MonoAndroid\MvvmCross.Binding.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Binding.Droid">
+      <HintPath>packages\MvvmCross.Binding.4.0.0\lib\MonoAndroid\MvvmCross.Binding.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Localization">
+      <HintPath>packages\MvvmCross.Binding.4.0.0\lib\MonoAndroid\MvvmCross.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Android.Export" />
+    <Reference Include="MvvmCross.Calligraphy">
+      <HintPath>packages\MvvmCross.Calligraphy.1.0.0\lib\MonoAndroid\MvvmCross.Calligraphy.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MainActivity.cs" />
+    <Compile Include="Resources\Resource.designer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CallSettingActivity.cs" />
+    <Compile Include="SpeechRecognizingActivity.cs" />
+    <Compile Include="TtsActivity.cs" />
+    <Compile Include="TextToSpeechLib.cs" />
+    <Compile Include="TestingTTSActivity.cs" />
+    <Compile Include="SMSBroadcastReceiver.cs" />
+    <Compile Include="Model\IMessengeData.cs" />
+    <Compile Include="Model\SMSData.cs" />
+    <Compile Include="Model\MessengeQueue.cs" />
+    <Compile Include="CheckPermission.cs" />
+    <Compile Include="MessengeService.cs" />
+    <Compile Include="Model\Config.cs" />
+    <Compile Include="Model\ConfigFormat.cs" />
+    <Compile Include="SplashActivity.cs" />
+    <Compile Include="Test_STT_Activity.cs" />
+    <Compile Include="STTLib.cs" />
+    <Compile Include="TestActivity.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\AndroidManifest.xml" />
+    <None Include="Assets\AboutAssets.txt" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\Strings.xml" />
+    <AndroidResource Include="Resources\mipmap-hdpi\Icon.png" />
+    <AndroidResource Include="Resources\mipmap-mdpi\Icon.png" />
+    <AndroidResource Include="Resources\mipmap-xhdpi\Icon.png" />
+    <AndroidResource Include="Resources\mipmap-xxhdpi\Icon.png" />
+    <AndroidResource Include="Resources\mipmap-xxxhdpi\Icon.png" />
+    <AndroidResource Include="Resources\drawable\start.png" />
+    <AndroidResource Include="Resources\layout\layout_call_setting.axml" />
+    <AndroidResource Include="Resources\drawable\end.png" />
+    <AndroidResource Include="Resources\layout\Layout_SpeechRecognizingActivity.axml" />
+    <AndroidResource Include="Resources\layout\Layout_Testing.axml" />
+    <AndroidResource Include="Resources\layout\Target.axml" />
+    <AndroidResource Include="Resources\drawable\load.gif" />
+    <AndroidResource Include="Resources\drawable\Download_Clockwise.gif" />
+    <AndroidResource Include="Resources\drawable\loading_animation.gif" />
+    <AndroidResource Include="Resources\layout\STT_Layout.axml" />
+    <AndroidResource Include="Resources\layout\Layout_Speech_Setting.axml" />
+    <AndroidResource Include="..\..\..\..\..\..\Desktop\untitled folder\stroke.png">
+      <Link>Resources\drawable\stroke.png</Link>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Main_layout.axml" />
+    <AndroidResource Include="Resources\drawable\circle_shape.axml" />
+    <AndroidResource Include="Resources\drawable\base.png" />
+    <AndroidResource Include="Resources\drawable\shape.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\drawable\" />
+    <Folder Include="Model\" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\config.js" />
+    <AndroidAsset Include="Assets\Fonts\HELR45W.ttf" />
+    <AndroidAsset Include="Assets\Fonts\VNI-HLThuphap.ttf" />
+    <AndroidAsset Include="Assets\Fonts\Dosis-ExtraBold.otf" />
+    <AndroidAsset Include="Assets\Fonts\Dosis-Medium.otf" />
+    <AndroidAsset Include="Assets\Fonts\Montserrat-Medium.otf" />
+    <AndroidAsset Include="Assets\Fonts\Montserrat-Regular.otf" />
+    <AndroidAsset Include="Assets\Fonts\Montserrat-SemiBold.otf" />
+    <AndroidAsset Include="Assets\Fonts\Pacifico.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="xamandroidsupportdesign">
+      <Version>23.4.0.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
+</Project>

@@ -109,7 +109,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainActivity.cs" />
+    <Compile Include="SplashActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CallSettingActivity.cs" />
@@ -125,7 +125,7 @@
     <Compile Include="MessengeService.cs" />
     <Compile Include="Model\Config.cs" />
     <Compile Include="Model\ConfigFormat.cs" />
-    <Compile Include="SplashActivity.cs" />
+    <Compile Include="MainActivity.cs" />
     <Compile Include="Test_STT_Activity.cs" />
     <Compile Include="STTLib.cs" />
     <Compile Include="TestActivity.cs" />
@@ -153,13 +153,15 @@
     <AndroidResource Include="Resources\drawable\loading_animation.gif" />
     <AndroidResource Include="Resources\layout\STT_Layout.axml" />
     <AndroidResource Include="Resources\layout\Layout_Speech_Setting.axml" />
-    <AndroidResource Include="..\..\..\..\..\..\Desktop\untitled folder\stroke.png">
-      <Link>Resources\drawable\stroke.png</Link>
-    </AndroidResource>
     <AndroidResource Include="Resources\layout\Main_layout.axml" />
     <AndroidResource Include="Resources\drawable\circle_shape.axml" />
     <AndroidResource Include="Resources\drawable\base.png" />
     <AndroidResource Include="Resources\drawable\shape.axml" />
+    <AndroidResource Include="Resources\drawable\splash_screen.xml" />
+    <AndroidResource Include="Resources\drawable\splash_logo.png" />
+    <AndroidResource Include="Resources\values\color.xml" />
+    <AndroidResource Include="Resources\values\style.xml" />
+    <AndroidResource Include="Resources\drawable\stroke.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

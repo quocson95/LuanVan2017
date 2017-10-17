@@ -29,7 +29,7 @@
             <Button
                 android:id="@+id/btn_main"
                 android:background="@drawable/circle_shape"
-                android:text="Play"
+                android:text="@string/start_app"
                 android:textSize="64dp"
                 android:textColor="#FFFFFF"
                 android:layout_gravity="center_vertical|center_horizontal"
@@ -41,10 +41,6 @@
             android:id="@+id/layout_space1"
             android:layout_below="@+id/layout_one"
             android:background="#2895FF"
-            android:gravity="center"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            android:text="Space 1 "
             foo:layout_widthPercent="100%"
             foo:layout_heightPercent="10%" />
         <android.support.percent.PercentFrameLayout
@@ -70,9 +66,6 @@
             android:layout_below="@+id/layout_two"
             android:background="#2895FF"
             android:gravity="center"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            android:text="Space 2"
             foo:layout_widthPercent="100%"
             foo:layout_heightPercent="10%" />
     </android.support.percent.PercentRelativeLayout>

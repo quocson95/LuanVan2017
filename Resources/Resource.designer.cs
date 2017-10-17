@@ -1108,32 +1108,32 @@ namespace FreeHand
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f0c0046
-			public const int abc_background_cache_hint_selector_material_dark = 2131492934;
+			// aapt resource value: 0x7f0c004b
+			public const int abc_background_cache_hint_selector_material_dark = 2131492939;
 			
-			// aapt resource value: 0x7f0c0047
-			public const int abc_background_cache_hint_selector_material_light = 2131492935;
+			// aapt resource value: 0x7f0c004c
+			public const int abc_background_cache_hint_selector_material_light = 2131492940;
 			
-			// aapt resource value: 0x7f0c0048
-			public const int abc_color_highlight_material = 2131492936;
+			// aapt resource value: 0x7f0c004d
+			public const int abc_color_highlight_material = 2131492941;
 			
 			// aapt resource value: 0x7f0c0000
 			public const int abc_input_method_navigation_guard = 2131492864;
 			
-			// aapt resource value: 0x7f0c0049
-			public const int abc_primary_text_disable_only_material_dark = 2131492937;
+			// aapt resource value: 0x7f0c004e
+			public const int abc_primary_text_disable_only_material_dark = 2131492942;
 			
-			// aapt resource value: 0x7f0c004a
-			public const int abc_primary_text_disable_only_material_light = 2131492938;
+			// aapt resource value: 0x7f0c004f
+			public const int abc_primary_text_disable_only_material_light = 2131492943;
 			
-			// aapt resource value: 0x7f0c004b
-			public const int abc_primary_text_material_dark = 2131492939;
+			// aapt resource value: 0x7f0c0050
+			public const int abc_primary_text_material_dark = 2131492944;
 			
-			// aapt resource value: 0x7f0c004c
-			public const int abc_primary_text_material_light = 2131492940;
+			// aapt resource value: 0x7f0c0051
+			public const int abc_primary_text_material_light = 2131492945;
 			
-			// aapt resource value: 0x7f0c004d
-			public const int abc_search_url_text = 2131492941;
+			// aapt resource value: 0x7f0c0052
+			public const int abc_search_url_text = 2131492946;
 			
 			// aapt resource value: 0x7f0c0001
 			public const int abc_search_url_text_normal = 2131492865;
@@ -1144,11 +1144,14 @@ namespace FreeHand
 			// aapt resource value: 0x7f0c0003
 			public const int abc_search_url_text_selected = 2131492867;
 			
-			// aapt resource value: 0x7f0c004e
-			public const int abc_secondary_text_material_dark = 2131492942;
+			// aapt resource value: 0x7f0c0053
+			public const int abc_secondary_text_material_dark = 2131492947;
 			
-			// aapt resource value: 0x7f0c004f
-			public const int abc_secondary_text_material_light = 2131492943;
+			// aapt resource value: 0x7f0c0054
+			public const int abc_secondary_text_material_light = 2131492948;
+			
+			// aapt resource value: 0x7f0c0048
+			public const int accent = 2131492936;
 			
 			// aapt resource value: 0x7f0c0004
 			public const int accent_material_dark = 2131492868;
@@ -1294,6 +1297,12 @@ namespace FreeHand
 			// aapt resource value: 0x7f0c0027
 			public const int material_grey_900 = 2131492903;
 			
+			// aapt resource value: 0x7f0c0046
+			public const int primary = 2131492934;
+			
+			// aapt resource value: 0x7f0c0047
+			public const int primaryDark = 2131492935;
+			
 			// aapt resource value: 0x7f0c0028
 			public const int primary_dark_material_dark = 2131492904;
 			
@@ -1336,23 +1345,29 @@ namespace FreeHand
 			// aapt resource value: 0x7f0c0035
 			public const int secondary_text_disabled_material_light = 2131492917;
 			
+			// aapt resource value: 0x7f0c004a
+			public const int splash_background = 2131492938;
+			
 			// aapt resource value: 0x7f0c0036
 			public const int switch_thumb_disabled_material_dark = 2131492918;
 			
 			// aapt resource value: 0x7f0c0037
 			public const int switch_thumb_disabled_material_light = 2131492919;
 			
-			// aapt resource value: 0x7f0c0050
-			public const int switch_thumb_material_dark = 2131492944;
+			// aapt resource value: 0x7f0c0055
+			public const int switch_thumb_material_dark = 2131492949;
 			
-			// aapt resource value: 0x7f0c0051
-			public const int switch_thumb_material_light = 2131492945;
+			// aapt resource value: 0x7f0c0056
+			public const int switch_thumb_material_light = 2131492950;
 			
 			// aapt resource value: 0x7f0c0038
 			public const int switch_thumb_normal_material_dark = 2131492920;
 			
 			// aapt resource value: 0x7f0c0039
 			public const int switch_thumb_normal_material_light = 2131492921;
+			
+			// aapt resource value: 0x7f0c0049
+			public const int window_background = 2131492937;
 			
 			static Color()
 			{
@@ -1956,17 +1971,23 @@ namespace FreeHand
 			// aapt resource value: 0x7f02004d
 			public const int my_background = 2130837581;
 			
-			// aapt resource value: 0x7f020051
-			public const int notification_template_icon_bg = 2130837585;
+			// aapt resource value: 0x7f020053
+			public const int notification_template_icon_bg = 2130837587;
 			
 			// aapt resource value: 0x7f02004e
 			public const int shape = 2130837582;
 			
 			// aapt resource value: 0x7f02004f
-			public const int start = 2130837583;
+			public const int splash_logo = 2130837583;
 			
 			// aapt resource value: 0x7f020050
-			public const int stroke = 2130837584;
+			public const int splash_screen = 2130837584;
+			
+			// aapt resource value: 0x7f020051
+			public const int start = 2130837585;
+			
+			// aapt resource value: 0x7f020052
+			public const int stroke = 2130837586;
 			
 			static Drawable()
 			{
@@ -2798,8 +2819,14 @@ namespace FreeHand
 			// aapt resource value: 0x7f080018
 			public const int hello = 2131230744;
 			
+			// aapt resource value: 0x7f08001a
+			public const int start_app = 2131230746;
+			
 			// aapt resource value: 0x7f080013
 			public const int status_bar_notification_info_overflow = 2131230739;
+			
+			// aapt resource value: 0x7f08001b
+			public const int stop_app = 2131230747;
 			
 			static String()
 			{
@@ -3254,6 +3281,15 @@ namespace FreeHand
 			
 			// aapt resource value: 0x7f0a0135
 			public const int Base_Widget_Design_TabLayout = 2131362101;
+			
+			// aapt resource value: 0x7f0a014e
+			public const int MyTheme = 2131362126;
+			
+			// aapt resource value: 0x7f0a014d
+			public const int MyTheme_Base = 2131362125;
+			
+			// aapt resource value: 0x7f0a014f
+			public const int MyTheme_Splash = 2131362127;
 			
 			// aapt resource value: 0x7f0a0010
 			public const int Platform_AppCompat = 2131361808;

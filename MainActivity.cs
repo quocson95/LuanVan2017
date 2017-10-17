@@ -10,7 +10,6 @@ using Android.OS;
 using Android.Util;
 using System.Threading.Tasks;
 using FreeHand.Model;
-using GR.Net.Maroulis.Library;
 using Android.Views;
 using Android.Support.V7.App;
 using Android.Graphics;
@@ -22,7 +21,7 @@ namespace FreeHand
     {
         private bool APP_RUNNIG;
         Intent MessengeServiceToStart;
-        private static readonly string TAG = "SplashActivity";
+        private static readonly string TAG = "MainActivity";
 
         protected override void OnCreate(Bundle savedInstanceState)
         {

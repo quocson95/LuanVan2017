@@ -1948,52 +1948,79 @@ namespace FreeHand
 			public const int abc_textfield_search_material = 2130837572;
 			
 			// aapt resource value: 0x7f020045
-			public const int @base = 2130837573;
+			public const int background_press = 2130837573;
 			
 			// aapt resource value: 0x7f020046
-			public const int circle_shape = 2130837574;
+			public const int @base = 2130837574;
 			
 			// aapt resource value: 0x7f020047
-			public const int design_fab_background = 2130837575;
+			public const int button = 2130837575;
 			
 			// aapt resource value: 0x7f020048
-			public const int design_snackbar_background = 2130837576;
+			public const int circle = 2130837576;
 			
 			// aapt resource value: 0x7f020049
-			public const int Download_Clockwise = 2130837577;
+			public const int circle_shape = 2130837577;
 			
 			// aapt resource value: 0x7f02004a
-			public const int end = 2130837578;
+			public const int circle_shape_white = 2130837578;
 			
 			// aapt resource value: 0x7f02004b
-			public const int icons8_Settings_40 = 2130837579;
+			public const int color_text_press = 2130837579;
+			
+			// aapt resource value: 0x7f02005c
+			public const int default_background = 2130837596;
 			
 			// aapt resource value: 0x7f02004c
-			public const int load = 2130837580;
+			public const int design_fab_background = 2130837580;
 			
 			// aapt resource value: 0x7f02004d
-			public const int loading_animation = 2130837581;
+			public const int design_snackbar_background = 2130837581;
 			
 			// aapt resource value: 0x7f02004e
-			public const int my_background = 2130837582;
-			
-			// aapt resource value: 0x7f020054
-			public const int notification_template_icon_bg = 2130837588;
+			public const int Download_Clockwise = 2130837582;
 			
 			// aapt resource value: 0x7f02004f
-			public const int shape = 2130837583;
+			public const int end = 2130837583;
 			
 			// aapt resource value: 0x7f020050
-			public const int splash_logo = 2130837584;
+			public const int forward_default = 2130837584;
 			
 			// aapt resource value: 0x7f020051
-			public const int splash_screen = 2130837585;
+			public const int forward_press = 2130837585;
 			
 			// aapt resource value: 0x7f020052
-			public const int start = 2130837586;
+			public const int load = 2130837586;
 			
 			// aapt resource value: 0x7f020053
-			public const int stroke = 2130837587;
+			public const int loading_animation = 2130837587;
+			
+			// aapt resource value: 0x7f020054
+			public const int my_background = 2130837588;
+			
+			// aapt resource value: 0x7f02005b
+			public const int notification_template_icon_bg = 2130837595;
+			
+			// aapt resource value: 0x7f02005d
+			public const int pressed_background = 2130837597;
+			
+			// aapt resource value: 0x7f020055
+			public const int settings_40 = 2130837589;
+			
+			// aapt resource value: 0x7f020056
+			public const int shape = 2130837590;
+			
+			// aapt resource value: 0x7f020057
+			public const int splash_logo = 2130837591;
+			
+			// aapt resource value: 0x7f020058
+			public const int splash_screen = 2130837592;
+			
+			// aapt resource value: 0x7f020059
+			public const int start = 2130837593;
+			
+			// aapt resource value: 0x7f02005a
+			public const int stroke = 2130837594;
 			
 			static Drawable()
 			{
@@ -2089,17 +2116,20 @@ namespace FreeHand
 			// aapt resource value: 0x7f070080
 			public const int btn_getVoices = 2131165312;
 			
-			// aapt resource value: 0x7f070097
-			public const int btn_ins = 2131165335;
+			// aapt resource value: 0x7f0700a0
+			public const int btn_ins = 2131165344;
 			
-			// aapt resource value: 0x7f070098
-			public const int btn_lis = 2131165336;
+			// aapt resource value: 0x7f0700a1
+			public const int btn_lis = 2131165345;
 			
-			// aapt resource value: 0x7f070086
-			public const int btn_main = 2131165318;
+			// aapt resource value: 0x7f0700a3
+			public const int btn_power = 2131165347;
 			
-			// aapt resource value: 0x7f07009a
-			public const int btn_power = 2131165338;
+			// aapt resource value: 0x7f070085
+			public const int btn_run = 2131165317;
+			
+			// aapt resource value: 0x7f070088
+			public const int btn_setting = 2131165320;
 			
 			// aapt resource value: 0x7f070081
 			public const int btn_speak = 2131165313;
@@ -2110,8 +2140,8 @@ namespace FreeHand
 			// aapt resource value: 0x7f070047
 			public const int buttonPanel = 2131165255;
 			
-			// aapt resource value: 0x7f07009e
-			public const int call_setting = 2131165342;
+			// aapt resource value: 0x7f0700a7
+			public const int call_setting = 2131165351;
 			
 			// aapt resource value: 0x7f07000b
 			public const int calligraphy_tag_id = 2131165195;
@@ -2133,6 +2163,9 @@ namespace FreeHand
 			
 			// aapt resource value: 0x7f070091
 			public const int chronometer = 2131165329;
+			
+			// aapt resource value: 0x7f070098
+			public const int circle_top = 2131165336;
 			
 			// aapt resource value: 0x7f070036
 			public const int clip_horizontal = 2131165238;
@@ -2227,26 +2260,41 @@ namespace FreeHand
 			// aapt resource value: 0x7f070042
 			public const int image = 2131165250;
 			
-			// aapt resource value: 0x7f07009c
-			public const int imageView1 = 2131165340;
+			// aapt resource value: 0x7f0700a5
+			public const int imageView1 = 2131165349;
 			
 			// aapt resource value: 0x7f070095
 			public const int info = 2131165333;
 			
+			// aapt resource value: 0x7f07009a
+			public const int item_1 = 2131165338;
+			
+			// aapt resource value: 0x7f07009b
+			public const int item_2 = 2131165339;
+			
+			// aapt resource value: 0x7f07009c
+			public const int item_3 = 2131165340;
+			
+			// aapt resource value: 0x7f07009d
+			public const int item_4 = 2131165341;
+			
+			// aapt resource value: 0x7f07009e
+			public const int item_5 = 2131165342;
+			
+			// aapt resource value: 0x7f07009f
+			public const int item_6 = 2131165343;
+			
 			// aapt resource value: 0x7f070000
 			public const int item_touch_helper_previous_elevation = 2131165184;
 			
-			// aapt resource value: 0x7f070085
-			public const int layout_one = 2131165317;
-			
-			// aapt resource value: 0x7f070087
-			public const int layout_space1 = 2131165319;
+			// aapt resource value: 0x7f070086
+			public const int layout_space1 = 2131165318;
 			
 			// aapt resource value: 0x7f070089
 			public const int layout_space2 = 2131165321;
 			
-			// aapt resource value: 0x7f070088
-			public const int layout_two = 2131165320;
+			// aapt resource value: 0x7f070087
+			public const int layout_two = 2131165319;
 			
 			// aapt resource value: 0x7f070032
 			public const int left = 2131165234;
@@ -2380,8 +2428,8 @@ namespace FreeHand
 			// aapt resource value: 0x7f070016
 			public const int showTitle = 2131165206;
 			
-			// aapt resource value: 0x7f07009d
-			public const int sms_setting = 2131165341;
+			// aapt resource value: 0x7f0700a6
+			public const int sms_setting = 2131165350;
 			
 			// aapt resource value: 0x7f07006f
 			public const int snackbar_action = 2131165295;
@@ -2391,6 +2439,9 @@ namespace FreeHand
 			
 			// aapt resource value: 0x7f07002a
 			public const int snap = 2131165226;
+			
+			// aapt resource value: 0x7f070097
+			public const int space_1 = 2131165335;
 			
 			// aapt resource value: 0x7f070048
 			public const int spacer = 2131165256;
@@ -2419,8 +2470,8 @@ namespace FreeHand
 			// aapt resource value: 0x7f070034
 			public const int start = 2131165236;
 			
-			// aapt resource value: 0x7f07009b
-			public const int status = 2131165339;
+			// aapt resource value: 0x7f0700a4
+			public const int status = 2131165348;
 			
 			// aapt resource value: 0x7f07008c
 			public const int status_bar_latest_event_content = 2131165324;
@@ -2452,6 +2503,9 @@ namespace FreeHand
 			// aapt resource value: 0x7f07004b
 			public const int title_template = 2131165259;
 			
+			// aapt resource value: 0x7f070099
+			public const int title_top = 2131165337;
+			
 			// aapt resource value: 0x7f070035
 			public const int top = 2131165237;
 			
@@ -2467,8 +2521,8 @@ namespace FreeHand
 			// aapt resource value: 0x7f07007d
 			public const int txt_input = 2131165309;
 			
-			// aapt resource value: 0x7f070099
-			public const int txt_view = 2131165337;
+			// aapt resource value: 0x7f0700a2
+			public const int txt_view = 2131165346;
 			
 			// aapt resource value: 0x7f070009
 			public const int up = 2131165193;
@@ -2692,13 +2746,16 @@ namespace FreeHand
 			public const int select_dialog_singlechoice_material = 2130968628;
 			
 			// aapt resource value: 0x7f040035
-			public const int STT_Layout = 2130968629;
+			public const int Setting = 2130968629;
 			
 			// aapt resource value: 0x7f040036
-			public const int support_simple_spinner_dropdown_item = 2130968630;
+			public const int STT_Layout = 2130968630;
 			
 			// aapt resource value: 0x7f040037
-			public const int Target = 2130968631;
+			public const int support_simple_spinner_dropdown_item = 2130968631;
+			
+			// aapt resource value: 0x7f040038
+			public const int Target = 2130968632;
 			
 			static Layout()
 			{

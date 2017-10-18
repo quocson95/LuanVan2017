@@ -10,6 +10,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Android.Util;
 using Calligraphy;
 
 namespace FreeHand
@@ -17,14 +18,19 @@ namespace FreeHand
     [Activity(Label = "TestActivity",Theme = "@android:style/Theme.NoTitleBar")]
     public class TestActivity : Activity
     {
+        private static readonly string TAG = "TestActivity";
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.Main_layout);
+            SetContentView(Resource.Layout.Setting);
 			CalligraphyConfig.InitDefault(new CalligraphyConfig.Builder()
 			.SetDefaultFontPath("Fonts/HELR45W.ttf")
 			.SetFontAttrId(Resource.Attribute.fontPath)
 			.Build());
+            Button btn = (Button)FindViewById(Resource.Id.item_1);
+            btn.Click += delegate {
+                Log.Info(TAG,"press");
+            };
    //         Spinner spinner = (Spinner)FindViewById(Resource.Id.spinner1);
 			//// Create your application here
 			//string[] ITEMS = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6" };

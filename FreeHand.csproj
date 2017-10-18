@@ -150,7 +150,15 @@
     <AndroidResource Include="Resources\values\color.xml" />
     <AndroidResource Include="Resources\values\style.xml" />
     <AndroidResource Include="Resources\drawable\stroke.png" />
-    <AndroidResource Include="Resources\drawable\icons8_Settings_40.png" />
+    <AndroidResource Include="Resources\layout\Setting.axml" />
+    <AndroidResource Include="Resources\drawable\circle_shape_white.axml" />
+    <AndroidResource Include="Resources\drawable\circle.xml" />
+    <AndroidResource Include="Resources\drawable\button.xml" />
+    <AndroidResource Include="Resources\drawable\settings_40.png" />
+    <AndroidResource Include="Resources\drawable\color_text_press.xml" />
+    <AndroidResource Include="Resources\drawable\background_press.xml" />
+    <AndroidResource Include="Resources\drawable\forward_default.png" />
+    <AndroidResource Include="Resources\drawable\forward_press.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
@@ -159,12 +167,12 @@
   <ItemGroup>
     <AndroidAsset Include="Assets\config.js" />
     <AndroidAsset Include="Assets\Fonts\HELR45W.ttf" />
-    <AndroidAsset Include="Assets\Fonts\VNI-HLThuphap.ttf" />
-    <AndroidAsset Include="Assets\Fonts\Dosis-ExtraBold.otf" />
-    <AndroidAsset Include="Assets\Fonts\Dosis-Medium.otf" />
-    <AndroidAsset Include="Assets\Fonts\Montserrat-Medium.otf" />
-    <AndroidAsset Include="Assets\Fonts\Montserrat-Regular.otf" />
-    <AndroidAsset Include="Assets\Fonts\Montserrat-SemiBold.otf" />
+    <AndroidAsset Include="Assets\Fonts\VNI_HLThuphap.ttf" />
+    <AndroidAsset Include="Assets\Fonts\Dosis_ExtraBold.otf" />
+    <AndroidAsset Include="Assets\Fonts\Dosis_Medium.otf" />
+    <AndroidAsset Include="Assets\Fonts\Montserrat_Medium.otf" />
+    <AndroidAsset Include="Assets\Fonts\Montserrat_Regular.otf" />
+    <AndroidAsset Include="Assets\Fonts\Montserrat_SemiBold.otf" />
     <AndroidAsset Include="Assets\Fonts\Pacifico.ttf" />
   </ItemGroup>
   <ItemGroup>

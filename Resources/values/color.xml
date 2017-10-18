@@ -7,4 +7,8 @@
     <color name="window_background">#F5F5F5</color>
     <color name="splash_background">#FFFFFF</color>
     <color name="main_background">#2895FF</color>
+	
+	<drawable name="default_background">#ffffff</drawable>
+	<drawable name="pressed_background">#bdc3c7</drawable>
+ 
 </resources>

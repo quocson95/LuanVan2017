@@ -19,27 +19,20 @@
             foo:layout_heightPercent="20%"
             android:textSize="48dp"
             fontPath="Fonts/HELR45W.ttf" />
-        <android.support.percent.PercentFrameLayout
-            android:id="@+id/layout_one"
+        <Button
+            android:id="@+id/btn_run"
             android:layout_below="@+id/name_app"
-            foo:layout_widthPercent="100%"
+            android:background="@drawable/background_press"
+            android:text="@string/start_app"
+            android:textSize="64dp"
+            android:textColor="#FFFFFF"
+            android:layout_centerInParent="true"
             foo:layout_heightPercent="50%"
-            android:minWidth="25px"
-            android:minHeight="25px">
-            <Button
-                android:id="@+id/btn_main"
-                android:background="@drawable/circle_shape"
-                android:text="@string/start_app"
-                android:textSize="64dp"
-                android:textColor="#FFFFFF"
-                android:layout_gravity="center_vertical|center_horizontal"
-                foo:layout_widthPercent="60%"
-                foo:layout_aspectRatio="100%"
-                fontPath="Fonts/HELR45W.ttf" />
-        </android.support.percent.PercentFrameLayout>
+            foo:layout_aspectRatio="100%"
+            fontPath="Fonts/HELR45W.ttf" />
         <TextView
             android:id="@+id/layout_space1"
-            android:layout_below="@+id/layout_one"
+            android:layout_below="@+id/btn_run"
             android:background="@color/main_background"
             foo:layout_widthPercent="100%"
             foo:layout_heightPercent="10%" />
@@ -57,17 +50,17 @@
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:background="@drawable/shape">
                 <Button
-                    android:id="@+id/btn_main"
-                    android:drawableLeft="@drawable/icons8_Settings_40"
-                    android:background="#fff"
+                    android:id="@+id/btn_setting"
+                    android:drawableLeft="@drawable/settings_40"
+                    android:background="@drawable/default_background"
                     fontPath="Fonts/HELR45W.ttf"
                     android:text="  Setting"
                     android:textColor="@color/main_background"
-                    android:textSize="35dp"
+                    android:textSize="26dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical|center_horizontal"
-                    android:paddingTop="10px" />
+                    android:gravity="center" />
             </LinearLayout>
         </android.support.percent.PercentFrameLayout>
         <TextView

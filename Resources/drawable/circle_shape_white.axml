@@ -13,10 +13,10 @@
         -->
         <shape android:shape="oval">
             <solid android:color="#00000000"/>
-            <stroke android:color="@color/main_background" android:width="5dp"/>
+            <stroke android:color="#ffffff" android:width="5dp"/>
             <!-- Set the same value for both width and height to get a circular shape -->
-            <size android:width="1000dp" android:height="1000dp"/>
-			
+            <size android:width="250dp" android:height="250dp"/>
+            
         </shape>
     </item>
 </selector>

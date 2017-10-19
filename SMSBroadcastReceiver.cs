@@ -22,7 +22,7 @@ namespace FreeHand
     {
 
         private static readonly string TAG = "SMSBroadcastReceiver";
-        private Context _context;
+        Context _context;
         private static readonly string IntentAction = "android.provider.Telephony.SMS_RECEIVED";
         private Model.MessengeQueue _messengeQueue;
         private TextToSpeechLib ttsLib;
@@ -53,7 +53,7 @@ namespace FreeHand
             //speech.StartListening(_stt.IntentSTT());
 
             Model.IMessengeData messengeData = null;
-            _config.RunningSpeech = true;
+            _config.RunningSMSHandle = true;
             int status;
             status = -1;
             while (!_messengeQueue.Empty())
@@ -104,7 +104,7 @@ namespace FreeHand
                     //messengeData.Reply(_answer);
                 }
             }
-            _config.RunningSpeech = false;
+            _config.RunningSMSHandle = false;
 
         }
         private async Task<int> listenRequest()
@@ -175,7 +175,7 @@ namespace FreeHand
                     //Toast.MakeText(context, sb.ToString(), ToastLength.Long).Show();
                     Log.Info(TAG, sb.ToString());
                 }
-                if (!_config.RunningSpeech) SMSHandleSpeak();
+                if (!_config.RunningSMSHandle) SMSHandleSpeak();
 
                 //Send Broadcast for handle new messenge in queue
                 //            string nameBroadcast = context.Resources.GetString(Resource.String.Speak_SMS_Broadcast_Receiver);

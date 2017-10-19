@@ -10,9 +10,9 @@ using Android.OS;
 using Android.Util;
 using System.Threading.Tasks;
 using FreeHand.Model;
-using Android.Views;
+using Android.Telephony;
 using Android.Support.V7.App;
-using Android.Graphics;
+using Android.Media;
 
 namespace FreeHand
 {
@@ -20,8 +20,9 @@ namespace FreeHand
     public class MainActivity : AppCompatActivity
     {
         private bool APP_RUNNIG;
-        Intent MessengeServiceToStart;
+        Intent MessengeServiceToStart,PhoneCallServiceToStart;
         TextToSpeechLib _tts;
+        private Config _config;
         private static readonly string TAG = "MainActivity";
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -32,7 +33,8 @@ namespace FreeHand
             _tts = TextToSpeechLib.Instance();
             _tts.SetMainContext(this);
             MessengeServiceToStart = new Intent(this, typeof(MessengeService));
-            InitUiListener();
+            PhoneCallServiceToStart = new Intent(this, typeof(PhoneCallService));
+            InitUiListener();                
             Log.Info(TAG, "Start service Messenge.");
             if (savedInstanceState == null) APP_RUNNIG = false;
             //button.Click += delegate { button.Text = $"{count++} clicks!"; };
@@ -131,22 +133,27 @@ namespace FreeHand
         async Task StartApplication()
         {
             Log.Info(TAG, "StartApplication");
+
             await StartInitTTS();
+            _config.AudioManage = (AudioManager)GetSystemService(Context.AudioService);
+            TelephonyManager tm = (TelephonyManager)this.GetSystemService(Context.TelephonyService);
             StartService(MessengeServiceToStart);
+            StartService(PhoneCallServiceToStart);
         }
 
         async Task StopApplication()
         {
             Log.Info(TAG, "StopApplication");
             StopService(MessengeServiceToStart);
+            StartService(PhoneCallServiceToStart);
             await StopTTS();
 
         }
 
         void StartReadConfig()
         {
-            Config config = Config.Instance();
-            config.Read(this);
+            _config = Config.Instance();
+            _config.Read(this);
         }
         async Task StartInitTTS()
         {                        

@@ -118,6 +118,8 @@
     <Compile Include="STTLib.cs" />
     <Compile Include="TestActivity.cs" />
     <Compile Include="Setting_Speech.cs" />
+    <Compile Include="PhoneCallService.cs" />
+    <Compile Include="PhoneCallBroadcastReceiver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />

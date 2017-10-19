@@ -2,7 +2,7 @@
 using Android.Content;
 using Newtonsoft.Json;
 using Android.Util;
-
+using Android.Media;
 namespace FreeHand
 {
     public class Config
@@ -10,7 +10,9 @@ namespace FreeHand
         private static readonly string TAG = "Config";
         private bool _updateConfig;
         private bool _writeConfig;
-        private bool _runningSpeech;
+        private bool _runningSMSHandle;
+        private bool _runningCallHanle;
+        private AudioManager audioManage;
         private ConfigFormat configFormat;
 
         public ConfigFormat ConfigFormat
@@ -23,7 +25,9 @@ namespace FreeHand
 
         public bool UpdateConfig { get => _updateConfig; set => _updateConfig = value; }
         public bool WriteConfig { get => _writeConfig; set => _writeConfig = value; }
-        public bool RunningSpeech { get => _runningSpeech; set => _runningSpeech = value; }
+        public bool RunningSMSHandle { get => _runningSMSHandle; set => _runningSMSHandle = value; }
+        public AudioManager AudioManage { get => audioManage; set => audioManage = value; }
+        public bool RunningCallHanle { get => _runningCallHanle; set => _runningCallHanle = value; }
 
         //TTS
         public TTSConfig GetTTSConfig()
@@ -60,7 +64,8 @@ namespace FreeHand
         {
             _writeConfig = false;
             _updateConfig = false;
-            _runningSpeech = false;
+            _runningSMSHandle = false;
+            _runningCallHanle = false;
         }
 
         public static Config Instance()

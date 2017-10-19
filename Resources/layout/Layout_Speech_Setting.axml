@@ -7,11 +7,31 @@
     android:minHeight="25px"
     android:id="@+id/background">
     <Button
-        android:id="@+id/btn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Circular Shape"
-        android:layout_centerInParent="true"
-        android:background="@drawable/shape"
-        android:textColor="#fff" />
+        android:id="@+id/btn_getInstance"
+        android:text="Ins" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_getEngines"
+        android:text="Eng" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_getVoices"
+        android:text="Voice" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_speak"
+        android:text="Speak" />
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spn_engines" />
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spn_lang" />
 </LinearLayout>

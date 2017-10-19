@@ -24,24 +24,43 @@ namespace FreeHand
         {
             _intentSTT = new Intent(RecognizerIntent.ActionRecognizeSpeech);
             _intentSTT.PutExtra(RecognizerIntent.ExtraLanguageModel, RecognizerIntent.LanguageModelFreeForm);
-
             // put a message on the modal dialog
             _intentSTT.PutExtra(RecognizerIntent.ExtraPrompt, "title");
 
             // if there is more then 1.5s of silence, consider the speech over
             _intentSTT.PutExtra(RecognizerIntent.ExtraSpeechInputCompleteSilenceLengthMillis, 5000);
             //_intentSTT.PutExtra(RecognizerIntent.ExtraSpeechInputPossiblyCompleteSilenceLengthMillis, 1500);
-            _intentSTT.PutExtra(RecognizerIntent.ExtraSpeechInputMinimumLengthMillis, 5000);
+            _intentSTT.PutExtra(RecognizerIntent.ExtraSpeechInputMinimumLengthMillis, 15000);
             _intentSTT.PutExtra(RecognizerIntent.ExtraMaxResults, 1);
 
             // you can specify other languages recognised here, for example
             // voiceIntent.PutExtra(RecognizerIntent.ExtraLanguage, Java.Util.Locale.German);
             // if you wish it to recognise the default Locale language and German
             // if you do use another locale, regional dialects may not be recognised very well
-
             _intentSTT.PutExtra(RecognizerIntent.ExtraLanguage, Java.Util.Locale.Default);
         }
+        public Intent IntentSTTCustome(string lang)
+        {
+            Intent intent = new Intent(RecognizerIntent.ActionRecognizeSpeech);
+            intent.PutExtra(RecognizerIntent.ExtraLanguageModel, RecognizerIntent.LanguageModelFreeForm);
+            // intent a message on the modal dialog
+            _intentSTT.PutExtra(RecognizerIntent.ExtraPrompt, "title");
 
+            // if there is more then 1.5s of silence, consider the speech over
+            intent.PutExtra(RecognizerIntent.ExtraSpeechInputCompleteSilenceLengthMillis, 5000);
+            //_intentSTT.PutExtra(RecognizerIntent.ExtraSpeechInputPossiblyCompleteSilenceLengthMillis, 1500);
+            intent.PutExtra(RecognizerIntent.ExtraSpeechInputMinimumLengthMillis, 15000);
+            intent.PutExtra(RecognizerIntent.ExtraMaxResults, 1);
+
+            // you can specify other languages recognised here, for example
+            // voiceIntent.PutExtra(RecognizerIntent.ExtraLanguage, Java.Util.Locale.German);
+            // if you wish it to recognise the default Locale language and German
+            // if you do use another locale, regional dialects may not be recognised very well
+            Java.Util.Locale locale = new Java.Util.Locale(lang);
+            Log.Info(TAG,"lang intent "+lang);
+            intent.PutExtra(RecognizerIntent.ExtraLanguage, locale);
+            return intent;
+        }
         public static STTLib Instance()
         {
             if (_instance == null) _instance = new STTLib();

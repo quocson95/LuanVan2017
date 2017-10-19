@@ -25,22 +25,22 @@ namespace FreeHand
         private Context _context;
         private static readonly string IntentAction = "android.provider.Telephony.SMS_RECEIVED";
         private Model.MessengeQueue _messengeQueue;
-        private bool isSMSHandleSpeakRunning = false;
         private TextToSpeechLib ttsLib;
         private STTLib _stt;
         private SpeechRecognizer _speech;
         private TaskCompletionSource<Java.Lang.Object> _tcs;
-        private string _answer;
+        private Config _config;
+        private string _answer = "";
 
 		public SMSBroadcastReceiver() { }
         public SMSBroadcastReceiver(Context context)
         {
             Log.Info(TAG, "test contructor broadcast service");
             _messengeQueue = Model.MessengeQueue.GetInstance();
-
+            _config = Config.Instance();
             _context = context;
             //_activity = act;
-            ttsLib = TextToSpeechLib.Instance(_context);
+            ttsLib = TextToSpeechLib.Instance();
             _stt = STTLib.Instance();
         }
 
@@ -53,47 +53,58 @@ namespace FreeHand
             //speech.StartListening(_stt.IntentSTT());
 
             Model.IMessengeData messengeData = null;
-            isSMSHandleSpeakRunning = true;
+            _config.RunningSpeech = true;
             int status;
             status = -1;
             while (!_messengeQueue.Empty())
             {
+                if (_config.UpdateConfig) 
+                {
+                    _config.UpdateConfig = false;
+                    await ttsLib.ReInitTTS();   
+                }
                 messengeData = _messengeQueue.DequeueMessengeQueue();
                 //Speak content SMS comming
                 await SpeakContentSMS(messengeData);
-
+                int tryNumber = 3;
                 //Listen request of user : Yes or No
-                while (status != 0)
+                while (status != 0 && tryNumber > 0)
                 {
                     status = await listenRequest();
                     await Task.Delay(500);
                     if (status != 0)
                     {
+                        tryNumber--;
                         await SpeakMsg("I can't hear you, please try again");
                         await Task.Delay(500);
                     }
                 }
-                Log.Info(TAG, "status " + status.ToString());
-                Log.Info(TAG, _answer);
-                //await Task.Delay(1000);
-                //Listen msg reply
-                await SpeakMsg("Please speak messenge after beep ");
-                await Task.Delay(500);
-                status = -1;
-                while (status != 0)
-				{
-					status = await listenRequest();
-					await Task.Delay(500);
-					if (status != 0)
-					{
-						await SpeakMsg("I can't hear you, please try again");
-						await Task.Delay(500);
-					}
-				}
-                Log.Info(TAG, _answer);
-                messengeData.Reply(_answer);
+                if (status == 0)
+                {
+                    Log.Info(TAG, "status " + status.ToString());
+                    Log.Info(TAG, "Listen Answer "+_answer);
+                    //await Task.Delay(1000);
+                    //Listen msg reply
+                    await SpeakMsg("Please speak messenge after beep ");
+                    await Task.Delay(500);
+                    status = -1;
+                    tryNumber = 3;
+                    while (status != 0)
+                    {
+                        status = await listenRequest();
+                        await Task.Delay(500);
+                        if (status != 0 && tryNumber >= 0)
+                        {
+                            tryNumber--;
+                            await SpeakMsg("I can't hear you, please try again");
+                            await Task.Delay(500);
+                        }
+                    }
+                    Log.Info(TAG,"Listen reply "+ _answer);
+                    //messengeData.Reply(_answer);
+                }
             }
-            isSMSHandleSpeakRunning = false;
+            _config.RunningSpeech = false;
 
         }
         private async Task<int> listenRequest()
@@ -132,7 +143,7 @@ namespace FreeHand
         {
             //InvokeASendBroadcasttBroadcast();
             Log.Info(TAG, "Intent received: " + intent.Action);
-            Toast.MakeText(context, "alo alo", ToastLength.Long).Show();
+            Toast.MakeText(context, "New Messenge", ToastLength.Short).Show();
             try
             {
                 if (intent.Action != IntentAction) return;
@@ -164,7 +175,7 @@ namespace FreeHand
                     //Toast.MakeText(context, sb.ToString(), ToastLength.Long).Show();
                     Log.Info(TAG, sb.ToString());
                 }
-                if (!isSMSHandleSpeakRunning) SMSHandleSpeak();
+                if (!_config.RunningSpeech) SMSHandleSpeak();
 
                 //Send Broadcast for handle new messenge in queue
                 //            string nameBroadcast = context.Resources.GetString(Resource.String.Speak_SMS_Broadcast_Receiver);

@@ -21,6 +21,7 @@ namespace FreeHand
     {
         private bool APP_RUNNIG;
         Intent MessengeServiceToStart;
+        TextToSpeechLib _tts;
         private static readonly string TAG = "MainActivity";
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -28,11 +29,12 @@ namespace FreeHand
             SetContentView(Resource.Layout.Main_layout);
             RequestPermission();
 			StartReadConfig();
-
+            _tts = TextToSpeechLib.Instance();
+            _tts.SetMainContext(this);
             MessengeServiceToStart = new Intent(this, typeof(MessengeService));
             InitUiListener();
             Log.Info(TAG, "Start service Messenge.");
-
+            if (savedInstanceState == null) APP_RUNNIG = false;
             //button.Click += delegate { button.Text = $"{count++} clicks!"; };
             //TextView callSetting = FindViewById<TextView>(Resource.Id.call_setting);
             //TextView smsSetting = FindViewById<TextView>(Resource.Id.sms_setting);
@@ -76,19 +78,30 @@ namespace FreeHand
         {
             Button btnRun = FindViewById<Button>(Resource.Id.btn_run);
             Button btnSetting = FindViewById<Button>(Resource.Id.btn_setting);
-            btnRun.Click += delegate {
-                HanleMainService(btnRun);
+            btnRun.Click += async delegate {
+                await HanleMainService(btnRun);
             };
 
             btnSetting.Click += delegate {
-                Intent settingIntent = new Intent(this, typeof(TestActivity));
+                Intent settingIntent = new Intent(this, typeof(Setting_Speech));
                 StartActivity(settingIntent);
             };
         }
 
-        private void HanleMainService(Button btn)
+        private async Task HanleMainService(Button btn)
         {
-            btn.Text = "OFF";
+            if (!APP_RUNNIG){      
+                btn.SetText(Resource.String.start_app);
+                Toast.MakeText(this, "Application Started", ToastLength.Long).Show();
+                APP_RUNNIG = true;
+                await StartApplication();
+            }
+            else {
+                btn.SetText(Resource.String.stop_app);
+                Toast.MakeText(this, "Application Stop", ToastLength.Long).Show();
+                APP_RUNNIG = false;
+                await StopApplication();
+            }
         }
 
         protected override void OnResume()
@@ -136,20 +149,17 @@ namespace FreeHand
             config.Read(this);
         }
         async Task StartInitTTS()
-        {
-            Config config = Config.Instance();
-            TextToSpeechLib tts = TextToSpeechLib.Instance(this);
-            TTSConfig ttsConfig = config.GetTTSConfig();
-            await tts.CreateTtsAsync();
-            if (string.IsNullOrEmpty(ttsConfig.lang))
-            {
-                await tts.SetLang(new Java.Util.Locale(ttsConfig.lang));
-            }
+        {                        
+            await _tts.GetTTS(this);
+
+            //if (string.IsNullOrEmpty(ttsConfig.lang))
+            //{
+            //    await tts.SetLang(new Java.Util.Locale(ttsConfig.lang));
+            //}
         }
         async Task StopTTS()
-        {
-            TextToSpeechLib tts = TextToSpeechLib.Instance(this);
-            await tts.Stop();
+        {            
+            await _tts.Stop();
         }
 
 
@@ -170,6 +180,7 @@ namespace FreeHand
             // This bundle has also been passed to onCreate.
             string name = this.Resources.GetString(Resource.String.SAVE_APP_RUNNING_STATUS);
             APP_RUNNIG = savedInstanceState.GetBoolean(name);
+            //Log.Info(TAG, "APP_RUNNIG");
         }
     }
 }

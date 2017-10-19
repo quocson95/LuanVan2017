@@ -117,6 +117,7 @@
     <Compile Include="Test_STT_Activity.cs" />
     <Compile Include="STTLib.cs" />
     <Compile Include="TestActivity.cs" />
+    <Compile Include="Setting_Speech.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -159,6 +160,10 @@
     <AndroidResource Include="Resources\drawable\background_press.xml" />
     <AndroidResource Include="Resources\drawable\forward_default.png" />
     <AndroidResource Include="Resources\drawable\forward_press.png" />
+    <AndroidResource Include="Resources\layout\Speech.xml" />
+    <AndroidResource Include="Resources\layout\popup.xml" />
+    <AndroidResource Include="Resources\drawable\circle_shape_blue.xml" />
+    <AndroidResource Include="Resources\drawable\main_text_press.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

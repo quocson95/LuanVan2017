@@ -14,101 +14,151 @@ namespace FreeHand
     [Activity(Label = "TextToSpeechLib")]
     public class TextToSpeechLib : Activity, TextToSpeech.IOnInitListener
     {
-        private static readonly string TAG = "TextToSpeechLib";
-		private Context _context;
+        private static readonly string TAG = "TextToSpeechLib";		
 		//private string _engineName;
         private static readonly Int16 REQUEST_CODE = 1995, LANG_REQUEST = 2017;
         private static TextToSpeechLib instance; //Singleton obj
-        private TTSConfig _ttsConfig;
-        public TextToSpeech textToSpeech;
-        private TaskCompletionSource<Java.Lang.Object> _tcs;
+        private Config _config;
+        private Context _mainContext;
+        public TextToSpeech _textToSpeech;
+        private TaskCompletionSource<Java.Lang.Object> _tcs;       		
+        private TaskCompletionSource<Java.Lang.Object> _tcs_speak;            
 
-		public TextToSpeechLib() { }
-
-        private TextToSpeechLib(Context context)
+        public TextToSpeechLib()
         {
-            this._context = context;
-            Config conf = Config.Instance();
-            _ttsConfig = conf.GetTTSConfig();
+            _config = Config.Instance();
         }
 
         //public void SetEngine(string engine){
             
         //}
 
-		public async Task<bool> SetLang(Locale lang)
+        public void SetMainContext(Context contex)
+        {
+            _mainContext = contex;
+        }
+		public void SetLang(Locale lang)
 		{
 
 			_tcs = null;
-			_tcs = new TaskCompletionSource<Java.Lang.Object>();
-			textToSpeech.SetLanguage(lang);
-			if ((int)await _tcs.Task != (int)OperationResult.Success)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
+			//_tcs = new TaskCompletionSource<Java.Lang.Object>();
+			_textToSpeech.SetLanguage(lang);
+			//if ((int)await _tcs.Task != (int)OperationResult.Success)
 
-        public static TextToSpeechLib Instance(Context c)
+        }
+
+        public static TextToSpeechLib Instance()
         {
-            if (instance == null) instance = new TextToSpeechLib(c);
+            if (instance == null) instance = new TextToSpeechLib();
             return instance;
         }
 
 
-        public async Task<TextToSpeech> GetTTS(){
-            if (textToSpeech != null) return textToSpeech;
-            else return await CreateTtsAsync();
-        }
-
-        public async Task<TextToSpeech> CreateTtsAsync()
-        {
-            //Reinitilize
-            if (textToSpeech != null)
+        public async Task<TextToSpeech> GetTTS(Context context){            
+            if (_textToSpeech != null)
             {
-                try
-                {
-                    textToSpeech.Stop();
-                    textToSpeech.Shutdown();
-                    textToSpeech = null;
-                }
+                try{
+                    _textToSpeech.Stop();
+                    _textToSpeech.Shutdown();
+                    _textToSpeech = null;
+                }  
                 catch 
                 {
-                    /*don't care */
+                    Log.Info(TAG, "Error when GetTTS");
                 }
-
+            } 
+            _textToSpeech = await CreateTtsAsync(context,this,_config.GetTtsEngine());
+            var locale = new Locale(_config.GetTtsLang());
+            SetLang(locale);
+            if (_textToSpeech != null)
+            {
+                _textToSpeech.SetOnUtteranceProgressListener(new UtteranceProgressLs(this));
+                Log.Info(TAG, "Set callback for textToSpeech");
             }
+            return _textToSpeech;
+        }
+
+        public async Task ReInitTTS()
+        {
+            await GetTTS(_mainContext);
+        }
+
+        private async Task<TextToSpeech> CreateTtsAsync(Context context,TextToSpeech.IOnInitListener listen,string engine)
+        {
+            //Reinitilize
+            //if (_textToSpeech != null)
+            //{
+            //    try
+            //    {                    
+            //        _textToSpeech.Stop();
+            //        _textToSpeech.Shutdown();
+            //        _textToSpeech = null;
+            //    }
+            //    catch 
+            //    {
+            //        /*don't care */
+            //    }
+
+            //}
+            TextToSpeech tts;
             _tcs = null;
             _tcs = new TaskCompletionSource<Java.Lang.Object>();
-            string engineName = _ttsConfig.engineName;
-            textToSpeech = new TextToSpeech(_context, this, engineName);
+            string engineName = _config.GetTtsEngine();
+            if (string.IsNullOrEmpty(engine)) tts = new TextToSpeech(context, listen);
+            else tts = new TextToSpeech(context, listen, engine);
             if ((int)await _tcs.Task != (int)OperationResult.Success)
             {
                 Log.Debug(TAG, "Engine: " + engineName + " failed to initialize.");
-                textToSpeech = null;
+                tts = null;
             }           
             _tcs = null;
-            return textToSpeech;
+            return tts;
         }
 
         //Get Engines support by Device
-        public IList<TextToSpeech.EngineInfo> GetEngines(Context c){
+        public async Task<List<string>> GetEngines(Context c){
             Log.Debug(TAG, "Trying to get Engine: ");
-            TextToSpeech _tts = new TextToSpeech(c, null);
-            IList<TextToSpeech.EngineInfo> engines = _tts.Engines;
+            TextToSpeech tts = await CreateTtsAsync(c, this, null);
+            IList<TextToSpeech.EngineInfo> engines = tts.Engines;
+            var listNameEngine = new List<string>();
+            foreach (var engine in engines)
+            {
+                listNameEngine.Add(engine.Label);
+            }
+            if (listNameEngine.Count == 0) listNameEngine.Add("NONE");
             try
             {
-                _tts.Shutdown();
+                tts.Shutdown();
             }
             catch 
             { 
                 /* don't care */ 
             }
-            return engines;
+            return listNameEngine;
         }
+
+        public async Task<ICollection<Locale>> GetLanguageSupportByEngineAsync(Context c, string engine)
+        {
+            Log.Debug(TAG, "Trying to create TTS Engine: ");
+            TextToSpeech _tts = await CreateTtsAsync(c,this,engine);
+            ICollection<Locale> langCollect = null;
+            List<string> lang = new List<string>();
+            if (_tts != null)
+            {
+                langCollect = _tts.AvailableLanguages;
+                //Clear TTS
+                try
+                {
+                    _tts.Shutdown();
+                }
+                catch { /* don't care */ }
+                _tts = null;
+            }
+            return langCollect;
+
+        }
+
+
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
@@ -138,37 +188,20 @@ namespace FreeHand
             return data;
         }
 
-        public async Task<ICollection<Locale>>  GetLanguageSupportByEngineAsync(Context c, TextToSpeech.EngineInfo engine){
-            Log.Debug(TAG, "Trying to create TTS Engine: ");
-            TextToSpeech _tts = await CreateTtsAsync();
-            ICollection<Locale> lang = null;
-            if (_tts != null){
-                lang = _tts.AvailableLanguages;
-                //Clear TTS
-                try
-                {
-                    _tts.Shutdown();
-                }
-                catch{ /* don't care */ }
-                _tts = null;
-            }
-            return lang;
-           
-        }
-
 		public async Task<int> SpeakMessenger(string msg)
 		{
-			if (textToSpeech == null)
+			if (_textToSpeech == null)
 			{
                 Log.Info(TAG," textToSpeech is null");
 				return 0;
 			}
 
-			if (textToSpeech.IsSpeaking)
+			if (_textToSpeech.IsSpeaking)
 			{
 				try
 				{
-					textToSpeech.Stop();
+					_textToSpeech.Stop();
+                    _tcs_speak.TrySetResult(new Java.Lang.Integer(1));           
 				}
 				catch {/*Dont Care*/};
 			}
@@ -178,12 +211,12 @@ namespace FreeHand
 			Bundle bundle = new Bundle();
 			bundle.PutString(TextToSpeech.Engine.KeyParamUtteranceId, "123");
 			//p.Add(TextToSpeech.Engine.KeyParamUtteranceId, "ThisUtterance");
-			_tcs = null;
-            _tcs = new TaskCompletionSource<Java.Lang.Object>();
-            textToSpeech.Speak(cs, QueueMode.Flush, bundle, "this");
-            textToSpeech.PlaySilentUtterance(1000, QueueMode.Add, null);
-			int status = (int) await _tcs.Task;
-            _tcs = null;
+            _tcs_speak = null;
+            _tcs_speak = new TaskCompletionSource<Java.Lang.Object>();
+            _textToSpeech.Speak(cs, QueueMode.Flush, bundle, "this");
+            _textToSpeech.PlaySilentUtterance(1000, QueueMode.Add, null);
+            int status = (int) await _tcs_speak.Task;
+            _tcs_speak = null;
             return status;
 			//            //textToSpeech.Speak("this is name of sender", QueueMode.Flush, null);
 			//            textToSpeech.PlaySilentUtterance(2000,QueueMode.Add,null);
@@ -191,28 +224,25 @@ namespace FreeHand
 			//            textToSpeech.Speak(cs, QueueMode.Add, null, null);
 			//textToSpeech.PlaySilentUtterance(2000, QueueMode.Add, null);
 		}
+
+
 		
         public async Task Stop(){
-            if (textToSpeech == null) return;
+            if (_textToSpeech == null) return;
             try {
-                textToSpeech.Stop();
-                textToSpeech.Shutdown();
+                _textToSpeech.Stop();
+                _textToSpeech.Shutdown();
             }
             catch (System.Exception e)
             {
                 Log.Info(TAG,"Err when Stop TTS "+e);  
-            }
+            } 
         }
 
 		void TextToSpeech.IOnInitListener.OnInit(OperationResult status)
 		{
-			Log.Debug(TAG, "OnInit() status = " + status);
-			if (textToSpeech != null)
-			{
-				textToSpeech.SetOnUtteranceProgressListener(new UtteranceProgressLs(this));
-                Log.Info(TAG,"Set callback for textToSpeech");
-			}
-			_tcs.SetResult(new Java.Lang.Integer((int)status));
+			Log.Debug(TAG, "OnInit() status = " + status);			
+            _tcs.TrySetResult(new Java.Lang.Integer((int)status));
 
 		}
 
@@ -220,7 +250,7 @@ namespace FreeHand
 		public void DoSomething()
 		{
             Log.Info(TAG, "Do something called");
-            _tcs.SetResult(new Java.Lang.Integer(1));			
+            _tcs_speak.SetResult(new Java.Lang.Integer(1));			
 		}
 
 		public class UtteranceProgressLs : UtteranceProgressListener

@@ -9,7 +9,6 @@ using Android.Widget;
 using Android.OS;
 using Android.Util;
 using System.Threading.Tasks;
-using FreeHand.Model;
 using Android.Telephony;
 using Android.Support.V7.App;
 using Android.Media;
@@ -85,7 +84,7 @@ namespace FreeHand
             };
 
             btnSetting.Click += delegate {
-                Intent settingIntent = new Intent(this, typeof(Setting_Speech));
+                Intent settingIntent = new Intent(this, typeof(SettingActivity));
                 StartActivity(settingIntent);
             };
         }

@@ -32,12 +32,13 @@ namespace FreeHand
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.Speech);
+
             //Load Font
             CalligraphyConfig.InitDefault(new CalligraphyConfig.Builder()
             .SetDefaultFontPath("Fonts/HELR45W.ttf")
             .SetFontAttrId(Resource.Attribute.fontPath)
             .Build());
+            SetContentView(Resource.Layout.Speech);
             _changeEngine = false;
             _tts = TextToSpeechLib.Instance();
             _config = Config.Instance();

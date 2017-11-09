@@ -31,7 +31,6 @@ namespace FreeHand
         private TaskCompletionSource<Java.Lang.Object> _tcs;
         private Config _config;
         private string _answer = "";
-
 		public SMSBroadcastReceiver() { }
         public SMSBroadcastReceiver(Context context)
         {
@@ -175,13 +174,13 @@ namespace FreeHand
                     //Toast.MakeText(context, sb.ToString(), ToastLength.Long).Show();
                     Log.Info(TAG, sb.ToString());
                 }
-                if (!_config.RunningSMSHandle) SMSHandleSpeak();
+                //if (!_config.RunningSMSHandle) SMSHandleSpeak();
 
                 //Send Broadcast for handle new messenge in queue
                 //            string nameBroadcast = context.Resources.GetString(Resource.String.Speak_SMS_Broadcast_Receiver);
-                //            var speakSMSIntent = new Intent(nameBroadcast);
+                var speakSMSIntent = new Intent("FreeHand.QueueMessenge.Invoke");
                 //speakSMSIntent.PutExtra("someKey", "someValue");
-                //context.SendBroadcast(speakSMSIntent);
+                context.SendBroadcast(speakSMSIntent);
             }
             catch (Exception ex)
             {

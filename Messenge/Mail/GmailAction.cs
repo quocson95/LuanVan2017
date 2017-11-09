@@ -13,15 +13,23 @@ namespace FreeHand
         private static readonly string TAG = "GmailAction";
         private ImapClient client;
         private string usr, pwd;
+        public delegate void MarkSeenAction(MailKit.UniqueId uid);
+        private MarkSeenAction markSeenAction;
         public GmailAction(string usr,string pwd)
         {
             this.usr = usr;
             this.pwd = pwd;
+            markSeenAction = MarkSeen;
         }
 
+        private void MarkSeen(MailKit.UniqueId uid){
+            var inbox = client.Inbox;
+            inbox.AddFlags(uid, MessageFlags.Seen, true);
+        }
         public void Login()
         {
             try{
+                Log.Info(TAG,"LOGIN GMAIL");
                 if (client == null) client = new ImapClient();
                     client.ServerCertificateValidationCallback = (s, c, ch, e) => true;
                     client.Connect("imap.gmail.com", 993, SecureSocketOptions.SslOnConnect);
@@ -41,11 +49,12 @@ namespace FreeHand
 
         public List<Model.IMessengeData> SyncInbox()
         {
+            Log.Info(TAG, "Sync Inbox GMAIL");
             List<Model.IMessengeData> lstInbox = new List<Model.IMessengeData>();
             if (client.IsConnected)
             {
                 var inbox = client.Inbox;
-                inbox.Open(FolderAccess.ReadOnly);
+                inbox.Open(FolderAccess.ReadWrite);
                 Console.WriteLine("Total messages: {0}", inbox.Count);
                 Console.WriteLine("Recent messages: {0}", inbox.Recent);
                 //for (int i = 0; i < inbox.Count; i++)
@@ -56,7 +65,7 @@ namespace FreeHand
                 //Get unread mess
                 foreach (var uid in inbox.Search(SearchQuery.NotSeen))
                 {
-                    Model.IMessengeData mailData = new Gmail();
+                    Model.IMessengeData mailData = new Gmail(uid,markSeenAction);
                     var message = inbox.GetMessage(uid);
                     Console.WriteLine("Subject: {0}", message.Subject);
                     foreach (var mailbox in message.From.Mailboxes)
@@ -70,7 +79,8 @@ namespace FreeHand
                 }
             }
             else {
-                Log.Info(TAG,"Sync mail not run, not connect to server");
+                Log.Info(TAG,"Sync mail not run, not connect to server try login");
+                Login();
             }
             return lstInbox;
         }

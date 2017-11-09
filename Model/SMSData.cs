@@ -8,10 +8,12 @@ namespace FreeHand.Model
         private string _smsContent { get; set;}
         private string _smsNumber { get; set; }
         private string _smsNameSender { get; set;}
+        private string _type;
         public SMSData(string number,string content)
         {
             _smsContent = content;
             _smsNumber = number;
+            _type = "SMS";
             //_smsNameSender = name; 
             //TODO
             //need function get name from contact
@@ -46,6 +48,16 @@ namespace FreeHand.Model
         public void SetAddrSender(string name)
         {
             throw new NotImplementedException();
+        }
+
+        public void MarkSeen()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string Type()
+        {
+            return _type;
         }
     }
 }

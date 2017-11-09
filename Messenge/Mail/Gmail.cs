@@ -6,12 +6,19 @@ namespace FreeHand
     {
         private List<string> _nameSender;
         private List<string> _addrSender;
+        private string _type;
         private string _content;
-        public Gmail()
+        private MailKit.UniqueId _uids;       
+        private FreeHand.GmailAction.MarkSeenAction markSeenAction;
+        public Gmail(MailKit.UniqueId uids,FreeHand.GmailAction.MarkSeenAction m1)
         {
+            _type = "EMA";
+            _uids = uids;
+            markSeenAction = m1;
             _nameSender = new List<string>();
             _addrSender = new List<string>();
         }
+
 
         public string GetAddrSender()
         {
@@ -23,9 +30,9 @@ namespace FreeHand
 
         public string GetMessengeContent()
         {
-            throw new NotImplementedException();
-        }    
-              
+            return _content;
+        }
+
 
         public string GetNameSender()
         {
@@ -33,6 +40,11 @@ namespace FreeHand
             foreach (var item in _nameSender)
                 result = result + item + " ";
             return result;
+        }
+
+        public void MarkSeen()
+        {
+            markSeenAction(_uids);
         }
 
         public string Reply(string msg)
@@ -53,6 +65,11 @@ namespace FreeHand
         public void SetNameSender(string name)
         {
             _nameSender.Add(name);
+        }
+
+        public string Type()
+        {
+            return _type;
         }
     }
 }

@@ -7,49 +7,67 @@ namespace FreeHand
 {
     public class MailManager
     {
-        private static MailManager instance;
-        private List<IMailAction> listMailAction;
-        System.Timers.Timer aTimer;
+        private static MailManager _instance;
+        private List<IMailAction> _listMailAction;
+        System.Timers.Timer _aTimer;
+        private bool _enableAutoCheck;
+        private Model.MessengeQueue _messQueue;
+        private Context _context;
         private TaskCompletionSource<Java.Lang.Object> _tcs;
+
+        public bool EnableAutoCheck { get => _enableAutoCheck; set => _enableAutoCheck = value; }
+        public Context Context { get => _context; set => _context = value; }
 
         private MailManager()
         {
-            listMailAction = new List<IMailAction>();
-            aTimer = new System.Timers.Timer();
-            aTimer.Enabled = false;
+
+            _listMailAction = new List<IMailAction>();
+            _aTimer = new System.Timers.Timer();
+            _aTimer.Enabled = false;
+            EnableAutoCheck = false;
+            _aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            _aTimer.Interval = 30000;
+            _messQueue = Model.MessengeQueue.GetInstance();
         }
+
 
         public static MailManager Instance()
         {
-            if (instance == null) instance = new MailManager();
-            return instance;
+            if (_instance == null) _instance = new MailManager();
+            return _instance;
         }
 
         public void AddMailAccount(IMailAction item)
         {
-            listMailAction.Add(item);
+            _listMailAction.Add(item);
         }
 
         public void CheckMail()
         {
-            foreach(var item in listMailAction ){
-                item.SyncInbox();
+            foreach (var item in _listMailAction)
+            {
+                _messQueue.EnqueueMessengeListQueue(item.SyncInbox());
+            }
+            if (!_messQueue.Empty())
+            {
+                var speakSMSIntent = new Intent("FreeHand.QueueMessenge.Invoke");
+                _context.SendBroadcast(speakSMSIntent);
             }
 
         }
-        public void autoCheckMail()
+        public void StartAutoCheckMail()
         {
             Console.WriteLine("Timer start");
-            aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            aTimer.Interval = 30000;
-            aTimer.Enabled = true;
+            if (!_enableAutoCheck) _aTimer.Enabled = false;
+            else _aTimer.Enabled = true;
         }
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            aTimer.Enabled = false;
+            _aTimer.Enabled = false;
             CheckMail();
-            aTimer.Enabled = true;
+            if (!_enableAutoCheck) _aTimer.Enabled = false;
+            else _aTimer.Enabled = true;
         }
-            
+
     }
 }

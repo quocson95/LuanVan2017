@@ -1,8 +1,5 @@
 ﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 
 using Android.App;
 using Android.Content;
@@ -39,11 +36,17 @@ namespace FreeHand
         private void SetListenerUI()
         {
             btn_login.Click += delegate {
-                gmail.Login();
-                if (gmail.isLogin()) mailMng.AddMailAccount(gmail);
+                Task task = new Task(delegate ()
+                {
+                    gmail.Login();
+                    if (gmail.isLogin()) mailMng.AddMailAccount(gmail);
+                });
+                task.Start();
+                task.Wait();
+
             };
             btn_sync_mail.Click += delegate {
-                mailMng.autoCheckMail();
+                mailMng.StartAutoCheckMail();
             };
             btn_print.Click += delegate {
                 

@@ -5,6 +5,7 @@ namespace FreeHand.Model
 {
     public interface IMessengeData
     {
+        string Type();
         string GetMessengeContent();
         string GetNameSender();
         string GetAddrSender();
@@ -12,5 +13,6 @@ namespace FreeHand.Model
         void SetNameSender(string name);
         void SetMessengeContent(string content);
         void SetAddrSender(string addr);
+        void MarkSeen();
     }
 }

@@ -135,6 +135,7 @@
     <Compile Include="Messenge\Mail\MailSetting.cs" />
     <Compile Include="Messenge\Mail\IMailAction.cs" />
     <Compile Include="Messenge\Mail\MailManager.cs" />
+    <Compile Include="Messenge\SpeakMessengeBroadcastReceiver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />

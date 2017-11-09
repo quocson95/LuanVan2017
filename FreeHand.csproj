@@ -95,6 +95,16 @@
     <Reference Include="Xamarin.Android.Support.Percent">
       <HintPath>packages\Crosslight.Xamarin.Android.Support.Percent.23.1.1\lib\MonoAndroid10\Xamarin.Android.Support.Percent.dll</HintPath>
     </Reference>
+    <Reference Include="BouncyCastle">
+      <HintPath>packages\MimeKit.1.20.0\lib\MonoAndroid10\BouncyCastle.dll</HintPath>
+    </Reference>
+    <Reference Include="MimeKit">
+      <HintPath>packages\MimeKit.1.20.0\lib\MonoAndroid10\MimeKit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="MailKit">
+      <HintPath>packages\MailKit.1.20.0\lib\MonoAndroid10\MailKit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SplashActivity.cs" />
@@ -120,6 +130,11 @@
     <Compile Include="PhoneCallService.cs" />
     <Compile Include="PhoneCallBroadcastReceiver.cs" />
     <Compile Include="SettingActivity.cs" />
+    <Compile Include="Messenge\Mail\Gmail.cs" />
+    <Compile Include="Messenge\Mail\GmailAction.cs" />
+    <Compile Include="Messenge\Mail\MailSetting.cs" />
+    <Compile Include="Messenge\Mail\IMailAction.cs" />
+    <Compile Include="Messenge\Mail\MailManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -166,10 +181,14 @@
     <AndroidResource Include="Resources\layout\popup.xml" />
     <AndroidResource Include="Resources\drawable\circle_shape_blue.xml" />
     <AndroidResource Include="Resources\drawable\main_text_press.xml" />
+    <AndroidResource Include="Resources\layout\Mail_Setting_Layout.axml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
     <Folder Include="Model\" />
+    <Folder Include="Messenge\" />
+    <Folder Include="Messenge\SMS\" />
+    <Folder Include="Messenge\Mail\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\config.js" />

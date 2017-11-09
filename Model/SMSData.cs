@@ -19,6 +19,7 @@ namespace FreeHand.Model
         public void SetNameSender(string name){
             _smsNameSender = name;
         }
+
         public string GetMessengeContent()
         {
             return _smsContent;
@@ -36,6 +37,15 @@ namespace FreeHand.Model
             SmsManager.Default.SendTextMessage(_smsNumber, null,msg, null, null);			
             return "";
         }
-       
+
+        public void SetMessengeContent(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetAddrSender(string name)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

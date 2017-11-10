@@ -107,35 +107,35 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SplashActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CallSettingActivity.cs" />
-    <Compile Include="SpeechRecognizingActivity.cs" />
-    <Compile Include="TtsActivity.cs" />
-    <Compile Include="TextToSpeechLib.cs" />
-    <Compile Include="TestingTTSActivity.cs" />
-    <Compile Include="SMSBroadcastReceiver.cs" />
-    <Compile Include="Model\IMessengeData.cs" />
-    <Compile Include="Model\SMSData.cs" />
-    <Compile Include="Model\MessengeQueue.cs" />
-    <Compile Include="CheckPermission.cs" />
-    <Compile Include="MessengeService.cs" />
     <Compile Include="Model\Config.cs" />
     <Compile Include="Model\ConfigFormat.cs" />
-    <Compile Include="MainActivity.cs" />
-    <Compile Include="Test_STT_Activity.cs" />
-    <Compile Include="STTLib.cs" />
-    <Compile Include="Setting_Speech.cs" />
-    <Compile Include="PhoneCallService.cs" />
-    <Compile Include="PhoneCallBroadcastReceiver.cs" />
-    <Compile Include="SettingActivity.cs" />
     <Compile Include="Messenge\Mail\Gmail.cs" />
     <Compile Include="Messenge\Mail\GmailAction.cs" />
     <Compile Include="Messenge\Mail\MailSetting.cs" />
     <Compile Include="Messenge\Mail\IMailAction.cs" />
     <Compile Include="Messenge\Mail\MailManager.cs" />
-    <Compile Include="Messenge\SpeakMessengeBroadcastReceiver.cs" />
+    <Compile Include="SpeechLibrary\STTLib.cs" />
+    <Compile Include="SpeechLibrary\TextToSpeechLib.cs" />
+    <Compile Include="SpeechLibrary\TtsActivity.cs" />
+    <Compile Include="Messenge\SMS\SMSData.cs" />
+    <Compile Include="Messenge\IMessengeData.cs" />
+    <Compile Include="Messenge\MessengeQueue.cs" />
+    <Compile Include="Messenge\Service\MessengeService.cs" />
+    <Compile Include="Messenge\Service\SMSBroadcastReceiver.cs" />
+    <Compile Include="Messenge\Service\SpeakMessengeBroadcastReceiver.cs" />
+    <Compile Include="Phone\PhoneCallBroadcastReceiver.cs" />
+    <Compile Include="Phone\PhoneCallService.cs" />
+    <Compile Include="Activity\CheckPermission.cs" />
+    <Compile Include="Activity\MainActivity.cs" />
+    <Compile Include="Activity\SplashActivity.cs" />
+    <Compile Include="Activity\Test\Test_STT_Activity.cs" />
+    <Compile Include="Activity\Test\TestingTTSActivity.cs" />
+    <Compile Include="Activity\Setting\Setting_Speech.cs" />
+    <Compile Include="Activity\Setting\SettingActivity.cs" />
+    <Compile Include="Activity\Test\SpeechRecognizingActivity.cs" />
+    <Compile Include="Activity\Setting\CallSettingActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -190,6 +190,11 @@
     <Folder Include="Messenge\" />
     <Folder Include="Messenge\SMS\" />
     <Folder Include="Messenge\Mail\" />
+    <Folder Include="SpeechLibrary\" />
+    <Folder Include="Messenge\Service\" />
+    <Folder Include="Phone\" />
+    <Folder Include="Activity\" />
+    <Folder Include="Activity\Setting\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\config.js" />

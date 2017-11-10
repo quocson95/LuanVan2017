@@ -110,7 +110,6 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Config.cs" />
-    <Compile Include="Model\ConfigFormat.cs" />
     <Compile Include="Messenge\Mail\Gmail.cs" />
     <Compile Include="Messenge\Mail\GmailAction.cs" />
     <Compile Include="Messenge\Mail\MailSetting.cs" />
@@ -136,6 +135,8 @@
     <Compile Include="Activity\Setting\SettingActivity.cs" />
     <Compile Include="Activity\Test\SpeechRecognizingActivity.cs" />
     <Compile Include="Activity\Setting\CallSettingActivity.cs" />
+    <Compile Include="Activity\Test\EmptyActivity.cs" />
+    <Compile Include="Activity\Setting\PhoneSettingActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -178,11 +179,13 @@
     <AndroidResource Include="Resources\drawable\background_press.xml" />
     <AndroidResource Include="Resources\drawable\forward_default.png" />
     <AndroidResource Include="Resources\drawable\forward_press.png" />
-    <AndroidResource Include="Resources\layout\Speech.xml" />
+    <AndroidResource Include="Resources\layout\Speech.axml" />
     <AndroidResource Include="Resources\layout\popup.xml" />
     <AndroidResource Include="Resources\drawable\circle_shape_blue.xml" />
     <AndroidResource Include="Resources\drawable\main_text_press.xml" />
     <AndroidResource Include="Resources\layout\Mail_Setting_Layout.axml" />
+    <AndroidResource Include="Resources\layout\Phone_Layout.axml" />
+    <AndroidResource Include="Resources\drawable\EnableDisableColor.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

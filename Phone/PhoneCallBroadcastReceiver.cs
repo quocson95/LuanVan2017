@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Android.Views;
 using Android.OS;
 using Android.Content;
 using Android.Speech;
@@ -31,7 +31,7 @@ namespace FreeHand
             _context = context;
             _config = Config.Instance();
             _tts = TextToSpeechLib.Instance();
-            _stt = STTLib.Instance();
+            _stt = STTLib.Instance();       
         }
 
         private async Task PhoneCallHanler()
@@ -42,8 +42,19 @@ namespace FreeHand
             //var status = await listenRequest();
             Intent i = new Intent(Intent.ActionMain);
             i.AddCategory(Intent.CategoryHome);
-            _context.StartActivity(i);
+            Intent btnDown = new Intent(Intent.ActionMediaButton).PutExtra(
+                Intent.ExtraKeyEvent, new KeyEvent(KeyEventActions.Down,
+                                                   Keycode.Headsethook));
+            Intent btnUp = new Intent(Intent.ActionMediaButton).PutExtra(
+                Intent.ExtraKeyEvent, new KeyEvent(KeyEventActions.Up,
+                                                   Keycode.Headsethook));
+            Intent headSetUnPluggedintent = new Intent(Intent.ActionHeadsetPlug);
+            headSetUnPluggedintent.PutExtra("state", 0);
+            headSetUnPluggedintent.PutExtra("name", "Headset");
+            //var tm = (TelephonyManager)_context.GetSystemService(Context.TelecomService);
 
+            _context.SendOrderedBroadcast(btnDown, null);
+            _context.SendOrderedBroadcast(btnUp, null);
         }
 
         private async Task<int> listenRequest()

@@ -67,8 +67,8 @@ namespace FreeHand
                     Log.Info(TAG, "Error when GetTTS");
                 }
             } 
-            _textToSpeech = await CreateTtsAsync(context,this,_config.GetTtsEngine());
-            var locale = new Locale(_config.GetTtsLang());
+            _textToSpeech = await CreateTtsAsync(context,this,_config.ttsConfig.EngineName);
+            var locale = new Locale(_config.ttsConfig.Lang);
             SetLang(locale);
             if (_textToSpeech != null)
             {
@@ -103,7 +103,7 @@ namespace FreeHand
             TextToSpeech tts;
             _tcs = null;
             _tcs = new TaskCompletionSource<Java.Lang.Object>();
-            string engineName = _config.GetTtsEngine();
+            string engineName = _config.ttsConfig.EngineName;
             if (string.IsNullOrEmpty(engine)) tts = new TextToSpeech(context, listen);
             else tts = new TextToSpeech(context, listen, engine);
             if ((int)await _tcs.Task != (int)OperationResult.Success)

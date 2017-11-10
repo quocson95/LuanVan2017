@@ -25,17 +25,22 @@ namespace FreeHand
         private static readonly string TAG = "MainActivity";
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            Log.Info(TAG, "OnCreate");
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Main_layout);
-            RequestPermission();
-			StartReadConfig();
+            RequestPermission();	
+            if (savedInstanceState == null)
+            {
+                APP_RUNNIG = false;
+            }
+            StartReadConfig();
             _tts = TextToSpeechLib.Instance();
             _tts.SetMainContext(this);
             MessengeServiceToStart = new Intent(this, typeof(MessengeService));
             PhoneCallServiceToStart = new Intent(this, typeof(PhoneCallService));
             InitUiListener();                
             Log.Info(TAG, "Start service Messenge.");
-            if (savedInstanceState == null) APP_RUNNIG = false;
+
             //button.Click += delegate { button.Text = $"{count++} clicks!"; };
             //TextView callSetting = FindViewById<TextView>(Resource.Id.call_setting);
             //TextView smsSetting = FindViewById<TextView>(Resource.Id.sms_setting);
@@ -84,7 +89,7 @@ namespace FreeHand
             };
 
             btnSetting.Click += delegate {
-                Intent settingIntent = new Intent(this, typeof(FreeHand.MailSetting));
+                Intent settingIntent = new Intent(this, typeof(FreeHand.PhoneSettingActivity));
                 StartActivity(settingIntent);
             };
         }
@@ -124,6 +129,13 @@ namespace FreeHand
             // Code omitted for clarity
             base.OnPause();
         }
+
+        protected override void OnStop()
+        {
+            Log.Info(TAG, "OnStop");
+            _config.save();
+            base.OnStop();
+        }
         void RequestPermission()
         {
             //Intent checkPermissionIntent = new Intent(this, typeof(CheckPermission));
@@ -152,7 +164,8 @@ namespace FreeHand
         void StartReadConfig()
         {
             _config = Config.Instance();
-            _config.Read(this);
+            //_config.Read(this);
+            _config.load();
         }
         async Task StartInitTTS()
         {                        
@@ -186,7 +199,9 @@ namespace FreeHand
             // This bundle has also been passed to onCreate.
             string name = this.Resources.GetString(Resource.String.SAVE_APP_RUNNING_STATUS);
             APP_RUNNIG = savedInstanceState.GetBoolean(name);
-            //Log.Info(TAG, "APP_RUNNIG");
+            Log.Info(TAG, "OnRestoreInstanceState");
         }
+
+
     }
 }

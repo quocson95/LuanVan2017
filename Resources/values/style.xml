@@ -10,6 +10,12 @@
     <item name="android:windowNoTitle">true</item>  
     <item name="android:windowFullscreen">true</item>  
     <item name="android:windowContentOverlay">@null</item>  
-    <item name="android:windowActionBar">true</item>  
+    <item name="android:windowActionBar">true</item> 
+	<item name="android:colorControlActivated">@drawable/enabledisablecolor</item>
   </style>
+	
+    <style name="SwitchTheme" parent="Theme.AppCompat.Light">
+        <item name="android:colorControlActivated">@drawable/enabledisablecolor</item>
+    </style>
+	
 </resources>

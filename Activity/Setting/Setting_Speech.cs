@@ -20,8 +20,7 @@ namespace FreeHand
     {
         private static readonly string TAG = "Setting_Speech";
         private TextToSpeechLib _tts;
-        private Config _config;
-        private TTSConfig _ttsConfig;
+        private Config _config;      
         private string _selectEngine, _selectLang;
         private Spinner spn_eng,spn_lang;
         private bool _changeEngine;
@@ -57,7 +56,7 @@ namespace FreeHand
             };
 
             btn_test.Click += async delegate {
-                var locale = new Locale(_config.GetTtsLang());
+                var locale = new Locale(_config.ttsConfig.Lang);
                 if (_changeEngine) await _tts.GetTTS(this);
                 _changeEngine = false;
                 //await SampleText();
@@ -96,8 +95,8 @@ namespace FreeHand
 
             };
             btn_ok.Click += delegate {
-                _config.SetTtsLang(_selectLang);
-                _config.SetTtsEngine(_selectEngine);
+                _config.ttsConfig.Lang = _selectLang;
+                _config.ttsConfig.EngineName = _selectEngine;
                 _config.UpdateConfig = true;
                 _config.WriteConfig = true;
             };
@@ -116,10 +115,10 @@ namespace FreeHand
 
             Intent intent = new Intent(TextToSpeech.Engine.ActionGetSampleText);
 
-            intent.PutExtra("language", _config.GetTtsLang());
+            intent.PutExtra("language", _config.ttsConfig.Lang);
             intent.PutExtra("country", tmp.Country);
             intent.PutExtra("variant", tmp.Variant);
-            intent.SetPackage(_config.GetTtsEngine());
+            intent.SetPackage(_config.ttsConfig.EngineName);
             _tcs = null;
             _tcs = new TaskCompletionSource<Java.Lang.Object>();
             try

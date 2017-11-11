@@ -43,6 +43,7 @@ namespace FreeHand
             _stt = STTLib.Instance();
         }
 
+        //Will not used , instead using broadcast to SpeakMessengeBroadcast
         private async Task SMSHandleSpeak()
         {            
             Contract.Ensures(Contract.Result<Task>() != null);
@@ -50,9 +51,9 @@ namespace FreeHand
             //SpeechRecognizer speech = SpeechRecognizer.CreateSpeechRecognizer(_context);
             //speech.SetRecognitionListener(this);
             //speech.StartListening(_stt.IntentSTT());
-
+            if (_config.smsConfig.IsHandleSMSRunnig == true) return;
+            _config.smsConfig.IsHandleSMSRunnig = true;
             Model.IMessengeData messengeData = null;
-            _config.RunningSMSHandle = true;
             int status;
             status = -1;
             while (!_messengeQueue.Empty())
@@ -62,11 +63,14 @@ namespace FreeHand
                     _config.UpdateConfig = false;
                     await ttsLib.ReInitTTS();   
                 }
-                messengeData = _messengeQueue.DequeueMessengeQueue();
+
+                messengeData = GetMessege(_config.smsConfig.StateSMS);
                 //Speak content SMS comming
-                await SpeakContentSMS(messengeData);
+                _config.smsConfig.StateSMS = Config.STATE_SMS.SPEAK_NUMBER;
+                await SpeakContentSMS(messengeData, _config.smsConfig.StateSMS);
                 int tryNumber = 3;
                 //Listen request of user : Yes or No
+                _config.smsConfig.StateSMS = Config.STATE_SMS.LISTENT_REQUEST_ANSWER;
                 while (status != 0 && tryNumber > 0)
                 {
                     status = await listenRequest();
@@ -80,6 +84,7 @@ namespace FreeHand
                 }
                 if (status == 0)
                 {
+                    _config.smsConfig.StateSMS = Config.STATE_SMS.LISTEN_CONTENT_ANSWER; 
                     Log.Info(TAG, "status " + status.ToString());
                     Log.Info(TAG, "Listen Answer "+_answer);
                     //await Task.Delay(1000);
@@ -102,10 +107,32 @@ namespace FreeHand
                     Log.Info(TAG,"Listen reply "+ _answer);
                     //messengeData.Reply(_answer);
                 }
+                else {
+                    //Can not hear request reply
+                }
             }
-            _config.RunningSMSHandle = false;
+            _config.smsConfig.StateSMS = Config.STATE_SMS.DONE;
+            _config.smsConfig.IsHandleSMSRunnig = false;
 
         }
+
+        private Model.IMessengeData GetMessege(Config.STATE_SMS state)
+        {
+            Model.IMessengeData result;
+            switch (state)
+            {
+                case Config.STATE_SMS.IDLE:
+                case Config.STATE_SMS.DONE: 
+                    result = _messengeQueue.DequeueMessengeQueue();
+                    break;
+                default:
+                    result = _config.smsConfig.MessengeBackUp;
+                    break;
+            }
+            return result;
+
+        }
+
         private async Task<int> listenRequest()
         {
 			_speech = SpeechRecognizer.CreateSpeechRecognizer(_context);
@@ -117,20 +144,41 @@ namespace FreeHand
             catch(Exception e){}
             return (int) await _tcs.Task;
 		}
-        private async Task SpeakContentSMS(Model.IMessengeData messengeData)
-        {			
-            //messengeData.Reply("aaa");
-			Log.Info(TAG, messengeData.GetAddrSender());
-			await SpeakMsg("Get new SMS messeger ");
-            await SpeakMsg("From ");
-			await SpeakMsg(messengeData.GetAddrSender());
-            await SpeakMsg("Name Sender ");
-            await SpeakMsg(messengeData.GetNameSender());
-			await SpeakMsg("Content of Messenger");
-			//Log.Info(TAG, messengeData.GetMessengeContent());
-			await SpeakMsg(messengeData.GetMessengeContent());
 
-			await SpeakMsg("Do you want reply");
+        //private async Task ListenContentAnswer()
+        //{
+            
+        //}
+
+        private async Task SpeakContentSMS(Model.IMessengeData messengeData,Config.STATE_SMS state)
+        {
+            //messengeData.Reply("aaa");
+            if (state == Config.STATE_SMS.SPEAK_NUMBER)
+            {
+                Log.Info(TAG, messengeData.GetAddrSender());
+                await SpeakMsg("Get new SMS messeger ");
+                await SpeakMsg("From ");
+                await SpeakMsg(messengeData.GetAddrSender());
+                state = Config.STATE_SMS.SPEAK_NAME_SENDER;
+            }
+            if (state == Config.STATE_SMS.SPEAK_NAME_SENDER)
+            {
+                await SpeakMsg("Name Sender ");
+                await SpeakMsg(messengeData.GetNameSender());
+                state = Config.STATE_SMS.SPEAK_CONTENT;
+            }
+            if (state == Config.STATE_SMS.SPEAK_CONTENT)
+            {
+                await SpeakMsg("Content of Messenger");
+                //Log.Info(TAG, messengeData.GetMessengeContent());
+                await SpeakMsg(messengeData.GetMessengeContent());
+                state = Config.STATE_SMS.READY_REPLY;
+            }
+            await Task.Delay(500);
+            if (state == Config.STATE_SMS.LISTENT_REQUEST_ANSWER) {
+                await SpeakMsg("Do you want reply");    
+            }
+			
         }
         private async Task SpeakMsg(string msg)
         {
@@ -327,6 +375,11 @@ namespace FreeHand
             //progressBarControl();
 
         }
+
+        //public override void OnStop()
+        //{
+            
+        //}
     }
 }
     

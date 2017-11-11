@@ -38,6 +38,14 @@ namespace FreeHand
         {
             return null;
         }
+
+        public override void OnDestroy(){
+            Log.Info(TAG,"OnDestroy");
+            base.OnDestroy();
+            this.UnregisterReceiver(this.smsReceiver);
+            this.UnregisterReceiver(this._speakReceicer);
+            mailMng.EnableAutoCheck = false;
+        }
     }
 
 }

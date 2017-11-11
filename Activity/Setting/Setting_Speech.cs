@@ -65,7 +65,7 @@ namespace FreeHand
                  */
 
                 _tts.SetLang(locale);
-                _config.RunningSMSHandle = false;
+                _config.smsConfig.IsHandleSMSRunnig = false;
                 var k = await _tts.SpeakMessenger("this is messenger test");
             };
 

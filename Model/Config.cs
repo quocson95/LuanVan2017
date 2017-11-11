@@ -9,12 +9,31 @@ namespace FreeHand
 
     public class Config
     {
+        public enum STATE_SMS 
+        {   
+            IDLE,
+            SPEAK_NUMBER,
+            SPEAK_NAME_SENDER,
+            SPEAK_CONTENT,
+            LISTENT_REQUEST_ANSWER,
+            LISTEN_CONTENT_ANSWER,
+            READY_REPLY,
+            DONE
+        }
+
+        public enum PERMISSION_RUN 
+        {
+            MESSENGE,
+            PHONE
+        }
         public class PhoneConfig
         {
             private bool smartAlert;
             private bool enable;
             private bool allowAutoAcceptCall;
+            public bool IsHandlePhoneRunnig { get; set; }
             private int timeAutoAcceptCall;
+
             public PhoneConfig()
             {
                 smartAlert = false;
@@ -29,27 +48,35 @@ namespace FreeHand
             public int TimeAutoAcceptCall { get => timeAutoAcceptCall; set => timeAutoAcceptCall = value; }
         }
 
+        public class SMSConfig
+        {
+            public bool IsHandleSMSRunnig { get; set; }
+            public Model.IMessengeData MessengeBackUp { get; set; }
+            public STATE_SMS StateSMS { get; set; }
+            public SMSConfig (){
+                StateSMS = STATE_SMS.IDLE;
+                MessengeBackUp = null;
+            }
+        }
+
         public class TTSConfig
         {
             public string EngineName { set; get; }
             public string Lang { set; get; }
         }
+
         private static readonly string TAG = "Config";
         private bool _updateConfig;
         private bool _writeConfig;
-        private bool _runningSMSHandle;
-        private bool _runningCallHanle;
         private AudioManager audioManage;
-
         public PhoneConfig phoneConfig;
+        public SMSConfig smsConfig;
         public TTSConfig ttsConfig;
-       
-
+        private Model.MessengeQueue messengeQueue;
         public bool UpdateConfig { get => _updateConfig; set => _updateConfig = value; }
         public bool WriteConfig { get => _writeConfig; set => _writeConfig = value; }
-        public bool RunningSMSHandle { get => _runningSMSHandle; set => _runningSMSHandle = value; }
+
         public AudioManager AudioManage { get => audioManage; set => audioManage = value; }
-        public bool RunningCallHanle { get => _runningCallHanle; set => _runningCallHanle = value; }
 
         //TTS
         //public MessengeConfig _messengeConfig;		
@@ -61,9 +88,9 @@ namespace FreeHand
         {
             _writeConfig = false;
             _updateConfig = false;
-            _runningSMSHandle = false;
-            _runningCallHanle = false;
+
             phoneConfig = new PhoneConfig();
+            smsConfig = new SMSConfig();
             ttsConfig = new TTSConfig();
         }
 
@@ -76,6 +103,36 @@ namespace FreeHand
             return instance;
         }
 
+        public void Clean()
+        {
+            smsConfig.StateSMS = STATE_SMS.IDLE;
+            smsConfig.MessengeBackUp = null;
+            smsConfig.IsHandleSMSRunnig = false;
+
+            phoneConfig.IsHandlePhoneRunnig = false;
+
+            messengeQueue = Model.MessengeQueue.GetInstance();
+            messengeQueue.Clear();
+
+        }
+        //Permission run
+        public bool GetPermissionRun(PERMISSION_RUN type)
+        {
+            bool is_allow = false;
+            switch (type)
+            {
+                case PERMISSION_RUN.PHONE:                        
+                        is_allow = true;
+                        break;
+                case PERMISSION_RUN.MESSENGE:
+                    is_allow = !phoneConfig.IsHandlePhoneRunnig;
+                    break;  
+                default:
+                    is_allow = false;
+                    break;
+            }
+            return is_allow;
+        }
         //Phone Config
 
 
@@ -98,7 +155,7 @@ namespace FreeHand
 
         public void load()
         {
-            Log.Info(TAG,"Load Config");
+            Log.Info(TAG, "Load Config");
             loadPhoneConfig();
             loadTTSConfig();
         }
@@ -112,7 +169,7 @@ namespace FreeHand
             prefEditor.PutInt("PhoneConfig.TimeAutoAcceptCall", phoneConfig.TimeAutoAcceptCall);
             prefEditor.Commit();
         }
-            
+
         private void saveTTSConfig()
         {
             var prefs = Application.Context.GetSharedPreferences("Freehand", FileCreationMode.Private);
@@ -137,6 +194,8 @@ namespace FreeHand
             ttsConfig.EngineName = prefs.GetString("TTSConfig.EngineName", "Default");
             ttsConfig.Lang = prefs.GetString("TTSConfig.Lang", "en-US");
         }
+
+
 
     }
 

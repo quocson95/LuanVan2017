@@ -156,7 +156,8 @@ namespace FreeHand
         {
             Log.Info(TAG, "StopApplication");
             StopService(MessengeServiceToStart);
-            StartService(PhoneCallServiceToStart);
+            StopService(PhoneCallServiceToStart);
+            _config.Clean();
             await StopTTS();
 
         }

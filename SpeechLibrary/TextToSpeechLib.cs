@@ -249,7 +249,7 @@ namespace FreeHand
 		//Control error when speak       
 		public void DoSomething()
 		{
-            Log.Info(TAG, "Do something called");
+            //Log.Info(TAG, "Do something called");
             _tcs_speak.SetResult(new Java.Lang.Integer(1));			
 		}
 

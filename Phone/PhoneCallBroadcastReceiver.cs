@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Android.Views;
+using Android.App;
 using Android.OS;
+using Android.Views;
 using Android.Content;
 using Android.Speech;
 using Android.Media;
@@ -24,6 +25,7 @@ namespace FreeHand
         string _telephone,_answer;
         STTLib _stt;
         TaskCompletionSource<Java.Lang.Object> _tcs;
+        Task task;
         public PhoneCallBroadcastReceiver() { }
         public PhoneCallBroadcastReceiver(Context context)
         {
@@ -36,25 +38,40 @@ namespace FreeHand
 
         private async Task PhoneCallHanler()
         {
+            
             await _tts.SpeakMessenger("You Has New Call From "+_telephone);
             await Task.Delay(500);
-            Log.Info(TAG,"Start Listen");
+            Log.Info(TAG,"Start Listen");    
             //var status = await listenRequest();
-            Intent i = new Intent(Intent.ActionMain);
-            i.AddCategory(Intent.CategoryHome);
-            Intent btnDown = new Intent(Intent.ActionMediaButton).PutExtra(
-                Intent.ExtraKeyEvent, new KeyEvent(KeyEventActions.Down,
-                                                   Keycode.Headsethook));
-            Intent btnUp = new Intent(Intent.ActionMediaButton).PutExtra(
-                Intent.ExtraKeyEvent, new KeyEvent(KeyEventActions.Up,
-                                                   Keycode.Headsethook));
-            Intent headSetUnPluggedintent = new Intent(Intent.ActionHeadsetPlug);
-            headSetUnPluggedintent.PutExtra("state", 0);
-            headSetUnPluggedintent.PutExtra("name", "Headset");
-            //var tm = (TelephonyManager)_context.GetSystemService(Context.TelecomService);
+            //Instrumentation inst = new Instrumentation();
+            //inst.SendKeyDownUpSync(Android.Views.Keycode.Menu);
+            //inst.SendKeyDownUpSync(Android.Views.Keycode.ProgBlue);
 
-            _context.SendOrderedBroadcast(btnDown, null);
-            _context.SendOrderedBroadcast(btnUp, null);
+            //Intent headSetUnPluggedintent = new Intent(Intent.ActionHeadsetPlug);
+            //headSetUnPluggedintent.AddFlags(ActivityFlags.ReceiverRegisteredOnly);
+            //headSetUnPluggedintent.PutExtra("state", 0);
+            //headSetUnPluggedintent.PutExtra("name", "Headset");
+            //_context.SendOrderedBroadcast(headSetUnPluggedintent, null);
+            //Intent  btnUp = new Intent(Intent.ActionMediaButton);
+            //btnUp.PutExtra(Intent.ExtraKeyEvent, new KeyEvent(
+            //    KeyEventActions.Up, Keycode.Headsethook));
+            //_context.SendOrderedBroadcast(btnUp, "android.permission.CALL_PRIVILEGED");
+
+           
+            //i.AddCategory(Intent.CategoryHome);
+            //Intent btnDown = new Intent(Intent.ActionMediaButton).PutExtra(
+            //    Intent.ExtraKeyEvent, new KeyEvent(KeyEventActions.Down,
+            //                                       Keycode.Headsethook));
+            //Intent btnUp = new Intent(Intent.ActionMediaButton).PutExtra(
+            //    Intent.ExtraKeyEvent, new KeyEvent(KeyEventActions.Up,
+            //                                       Keycode.Headsethook));
+            //Intent headSetUnPluggedintent = new Intent(Intent.ActionHeadsetPlug);
+            //headSetUnPluggedintent.PutExtra("state", 0);
+            //headSetUnPluggedintent.PutExtra("name", "Headset");
+            ////var tm = (TelephonyManager)_context.GetSystemService(Context.TelecomService);
+
+            //_context.SendOrderedBroadcast(btnDown, null);
+            //_context.SendOrderedBroadcast(btnUp, null);
         }
 
         private async Task<int> listenRequest()
@@ -81,20 +98,19 @@ namespace FreeHand
 
                 // check the current state
                 if (state == TelephonyManager.ExtraStateRinging)
-                {
-
-                    Log.Info(TAG, "Phone ExtraStateRinging");
+                {                    
+                    Log.Info(TAG, "Phone ExtraStateRinging");                    ;
                     var x = _config.AudioManage.RingerMode = RingerMode.Vibrate;
+
                     // read the incoming call telephone number...
                     _telephone = intent.GetStringExtra(TelephonyManager.ExtraIncomingNumber);
                     if (string.IsNullOrEmpty(_telephone))
                         _telephone = string.Empty;
                     Log.Info(TAG, "Incoming Numer " + _telephone);
-                    if (!_config.RunningCallHanle)
-                    {
-                        _config.RunningCallHanle = true;
-                        PhoneCallHanler();
-
+                    if (_config.GetPermissionRun(Config.PERMISSION_RUN.PHONE))
+                    {             
+                          _config.phoneConfig.IsHandlePhoneRunnig = true;
+                          PhoneCallHanler();
                     }
                 }
                 else if (state == TelephonyManager.ExtraStateOffhook)
@@ -104,8 +120,16 @@ namespace FreeHand
                 }
                 else if (state == TelephonyManager.ExtraStateIdle)
                 {
-                    _config.RunningCallHanle = false;
-                    Log.Info(TAG, "Phone ExtraStateIdle");
+                    _config.phoneConfig.IsHandlePhoneRunnig = false;
+                    Log.Info(TAG, "Phone ExtraStateIdle,SMS running "+_config.smsConfig.IsHandleSMSRunnig.ToString()  ); 
+                    if (_config.smsConfig.IsHandleSMSRunnig)
+                    {
+                        Log.Info(TAG, "Send Speak Broadcast"); 
+                        _config.smsConfig.IsHandleSMSRunnig = false;
+                        var speakSMSIntent = new Intent("FreeHand.QueueMessenge.Invoke");
+                        context.SendBroadcast(speakSMSIntent);
+                    }                  
+
                     // incoming call end
                 }
             }

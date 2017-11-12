@@ -105,6 +105,18 @@
     <Reference Include="MailKit">
       <HintPath>packages\MailKit.1.20.0\lib\MonoAndroid10\MailKit.dll</HintPath>
     </Reference>
+    <Reference Include="DeviceMotion.Plugin.Abstractions">
+      <HintPath>packages\Xam.Plugin.DeviceMotion.1.1.2\lib\MonoAndroid10\DeviceMotion.Plugin.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="DeviceMotion.Plugin">
+      <HintPath>packages\Xam.Plugin.DeviceMotion.1.1.2\lib\MonoAndroid10\DeviceMotion.Plugin.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Vibrate.Abstractions">
+      <HintPath>packages\Xam.Plugins.Vibrate.3.0.1\lib\MonoAndroid10\Plugin.Vibrate.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Vibrate">
+      <HintPath>packages\Xam.Plugins.Vibrate.3.0.1\lib\MonoAndroid10\Plugin.Vibrate.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -137,6 +149,7 @@
     <Compile Include="Activity\Setting\CallSettingActivity.cs" />
     <Compile Include="Activity\Test\EmptyActivity.cs" />
     <Compile Include="Activity\Setting\PhoneSettingActivity.cs" />
+    <Compile Include="Phone\ScreenStateBroadcastReceiver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />

@@ -33,6 +33,7 @@ namespace FreeHand
             private bool allowAutoAcceptCall;
             public bool IsHandlePhoneRunnig { get; set; }
             private int timeAutoAcceptCall;
+            public int MissedCall { set; get; }
 
             public PhoneConfig()
             {
@@ -40,6 +41,7 @@ namespace FreeHand
                 enable = false;
                 allowAutoAcceptCall = false;
                 timeAutoAcceptCall = 0;
+                MissedCall = 0;
             }
 
             public bool SmartAlert { get => smartAlert; set => smartAlert = value; }

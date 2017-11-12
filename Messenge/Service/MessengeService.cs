@@ -16,6 +16,7 @@ namespace FreeHand
         private Messenge.SpeakMessengeBroadcastReceiver _speakReceicer;
         private Config config;
         private MailManager mailMng;
+
         public override StartCommandResult OnStartCommand(Android.Content.Intent intent, StartCommandFlags flags, int startId)
         {
             // start your service logic here
@@ -44,6 +45,9 @@ namespace FreeHand
             base.OnDestroy();
             this.UnregisterReceiver(this.smsReceiver);
             this.UnregisterReceiver(this._speakReceicer);
+            this.smsReceiver.Dispose();
+            this._speakReceicer.Dispose();
+
             mailMng.EnableAutoCheck = false;
         }
     }

@@ -11,6 +11,8 @@ using Android.Speech;
 using Android.Media;
 using Android.Util;
 using Android.Telephony;
+using DeviceMotion.Plugin;
+
 namespace FreeHand
 {
     [BroadcastReceiver(Enabled = true, Exported = false)]
@@ -24,8 +26,7 @@ namespace FreeHand
         SpeechRecognizer _speech;
         string _telephone,_answer;
         STTLib _stt;
-        TaskCompletionSource<Java.Lang.Object> _tcs;
-        Task task;
+        TaskCompletionSource<Java.Lang.Object> _tcs;    
         public PhoneCallBroadcastReceiver() { }
         public PhoneCallBroadcastReceiver(Context context)
         {
@@ -41,8 +42,10 @@ namespace FreeHand
             
             await _tts.SpeakMessenger("You Has New Call From "+_telephone);
             await Task.Delay(500);
-            Log.Info(TAG,"Start Listen");    
-            //var status = await listenRequest();
+
+            Intent buttonDown = new Intent(Intent.ActionMediaButton);
+            buttonDown.PutExtra(Intent.ExtraKeyEvent, new KeyEvent(KeyEventActions.Up, Keycode.Headsethook));
+            _context.SendOrderedBroadcast(buttonDown, Android.Manifest.Permission.CallPrivileged);
             //Instrumentation inst = new Instrumentation();
             //inst.SendKeyDownUpSync(Android.Views.Keycode.Menu);
             //inst.SendKeyDownUpSync(Android.Views.Keycode.ProgBlue);
@@ -89,6 +92,8 @@ namespace FreeHand
         }
         public override void OnReceive(Context context, Intent intent)
         {
+            bool acceptCall;
+            acceptCall = false;
             Log.Info(TAG, "OnReceive");
             // ensure there is information
             if (intent.Extras != null)
@@ -100,7 +105,7 @@ namespace FreeHand
                 if (state == TelephonyManager.ExtraStateRinging)
                 {                    
                     Log.Info(TAG, "Phone ExtraStateRinging");                    ;
-                    var x = _config.AudioManage.RingerMode = RingerMode.Vibrate;
+                    _config.AudioManage.RingerMode = RingerMode.Vibrate;
 
                     // read the incoming call telephone number...
                     _telephone = intent.GetStringExtra(TelephonyManager.ExtraIncomingNumber);
@@ -116,11 +121,13 @@ namespace FreeHand
                 else if (state == TelephonyManager.ExtraStateOffhook)
                 {
                     // incoming call answer
+                    acceptCall = true;
                     Log.Info(TAG, "Phone ExtraStateOffhook");
                 }
                 else if (state == TelephonyManager.ExtraStateIdle)
                 {
                     _config.phoneConfig.IsHandlePhoneRunnig = false;
+                    _config.phoneConfig.MissedCall++;
                     Log.Info(TAG, "Phone ExtraStateIdle,SMS running "+_config.smsConfig.IsHandleSMSRunnig.ToString()  ); 
                     if (_config.smsConfig.IsHandleSMSRunnig)
                     {

@@ -37,7 +37,7 @@ namespace FreeHand
             _tts = TextToSpeechLib.Instance();
             _tts.SetMainContext(this);
             MessengeServiceToStart = new Intent(this, typeof(MessengeService));
-            PhoneCallServiceToStart = new Intent(this, typeof(PhoneCallService));
+            PhoneCallServiceToStart = new Intent(this, typeof(Phone.PhoneCallService));
             InitUiListener();                
             Log.Info(TAG, "Start service Messenge.");
 

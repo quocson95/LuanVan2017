@@ -34,7 +34,7 @@ namespace FreeHand
             .SetDefaultFontPath("Fonts/HELR45W.ttf")
             .SetFontAttrId(Resource.Attribute.fontPath)
             .Build());
-            SetContentView(Resource.Layout.Setting_Speech_Layout);
+            SetContentView(Resource.Layout.Speech_Setting_Layout_new);
             _tts = TextToSpeechLib.Instance();
             _stt = STTLib.Instance();
             _config = Config.Instance();

@@ -89,7 +89,7 @@ namespace FreeHand
             };
 
             btnSetting.Click += delegate {
-                Intent settingIntent = new Intent(this, typeof(Setting_Speech));
+                Intent settingIntent = new Intent(this, typeof(FreeHand.ActivityClass.SettingClass.Custom_Reply_SMS));
                 StartActivity(settingIntent);
             };
         }

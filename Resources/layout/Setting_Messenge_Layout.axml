@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:foo="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minHeight="800dp"
+        android:background="@android:color/white"
+        android:layout_gravity="start"
+        android:paddingLeft="10dp">
+    <!--Circle Titile-->
+        <TextView
+            foo:layout_widthPercent="100%"
+            foo:layout_heightPercent="5%"
+            android:id="@+id/space_1" />
+        <Button
+            android:id="@+id/circle_top"
+            android:layout_below="@+id/space_1"
+            android:background="@drawable/circle_shape"
+            android:text="FH"
+            android:textSize="64dp"
+            android:textColor="@color/main_background"
+            android:layout_gravity="center_horizontal"
+            foo:layout_heightPercent="25%"
+            foo:layout_aspectRatio="100%"
+            fontPath="Fonts/Pacifico.ttf"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0.0dp" />
+        <TextView
+            android:id="@+id/space_2"
+            android:layout_below="@+id/circle_top"
+            foo:layout_widthPercent="100%"
+            foo:layout_heightPercent="5%" />
+    <!--Label-->
+        <TextView
+            android:id="@+id/label_sms"
+            android:layout_below="@+id/circle_top"
+            foo:layout_widthPercent="90%"
+            foo:layout_heightPercent="5%"
+            android:text="  SMS"
+            android:gravity="left|center"
+            android:textColor="@drawable/color_text_press"
+            android:textSize="18dp"
+            android:background="@android:color/white"
+            fontPath="Fonts/Montserrat_Regular.otf"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    <!--    Enable Service    -->
+        <Switch
+            android:id="@+id/sw_enable_messenge"
+            android:layout_below="@+id/label_sms"
+            foo:layout_widthPercent="90%"
+            foo:layout_heightPercent="5%"
+            android:layout_height="wrap_content"
+            android:text="Enable Service"
+            android:textSize="16dp"
+            fontPath="Fonts/Pacifico.ttf"
+            android:textColor="@color/main_background"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:checked="false" />
+    <!--        Allow Speak  Name Sender     -->
+        <Switch
+            android:id="@+id/sw_allow_speak_namesender_sms"
+            android:layout_below="@+id/sw_enable_messenge"
+            foo:layout_widthPercent="90%"
+            foo:layout_heightPercent="5%"
+            android:layout_height="wrap_content"
+            android:text="Allow Speak Name's Sender"
+            android:textSize="16dp"
+            fontPath="Fonts/Pacifico.ttf"
+            android:textColor="@color/main_background"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:checked="false" />
+    <!--   Allow Speak Number Sender      -->
+        <Switch
+            android:id="@+id/sw_allow_speak_numsender_sms"
+            android:layout_below="@+id/sw_allow_speak_namesender_sms"
+            foo:layout_widthPercent="90%"
+            foo:layout_heightPercent="5%"
+            android:layout_height="wrap_content"
+            android:text="Allow Speak Number's Sender"
+            android:textSize="16dp"
+            fontPath="Fonts/Pacifico.ttf"
+            android:textColor="@color/main_background"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:checked="false" />
+    <!--  Alllow Speak Content SMM      -->
+        <Switch
+            android:id="@+id/sw_allow_speak_content_sms"
+            android:layout_below="@+id/sw_allow_speak_numsender_sms"
+            foo:layout_widthPercent="90%"
+            foo:layout_heightPercent="5%"
+            android:layout_height="wrap_content"
+            android:text="Allow Speak Content Messenege"
+            android:textSize="16dp"
+            fontPath="Fonts/Pacifico.ttf"
+            android:textColor="@color/main_background"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:checked="false" />
+        <Switch
+            android:id="@+id/sw_allow_reply_sms"
+            android:layout_below="@+id/sw_allow_speak_content_sms"
+            foo:layout_widthPercent="90%"
+            foo:layout_heightPercent="5%"
+            android:layout_height="wrap_content"
+            android:text="Allow Auto Reply"
+            android:textSize="16dp"
+            fontPath="Fonts/Pacifico.ttf"
+            android:textColor="@color/main_background"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:checked="false" />
+        <EditText
+            android:id="@+id/textArea_content_sms_auto_reply"
+            android:layout_below="@+id/sw_allow_reply_sms"
+            foo:layout_widthPercent="90%"
+            foo:layout_heightPercent="10%"
+            android:background="@null"
+            android:gravity="top|left"
+            android:inputType="textMultiLine"
+            android:overScrollMode="always"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical"
+            android:lines="3"
+            android:hint="Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter  Enter  Enter  Enter  Enter "
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </android.support.percent.PercentRelativeLayout>
+</LinearLayout>

@@ -268,7 +268,7 @@ namespace FreeHand
             phoneConfig.TimeAutoAcceptCall = prefs.GetInt("PhoneConfig.TimeAutoAcceptCall", 10);
         }
 
-        async void LoadSpeechConfig()
+        void LoadSpeechConfig()
         {
             //Speech To Text
             LoadSTTConfig();
@@ -325,6 +325,8 @@ namespace FreeHand
             string valueDefault;
 
             valueDefault = prefs.GetString("TTSConfig.LangSupportBySTT", NOT_FOUND);
+            if (valueDefault.Equals("null")) 
+                return;
             if (valueDefault.Equals(NOT_FOUND))
             {
                 STTLib stt = STTLib.Instance();

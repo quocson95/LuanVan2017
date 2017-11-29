@@ -1,17 +1,9 @@
 ﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+using FreeHand;
 
-namespace FreeHand.Activity.Setting
+namespace FreeHand.ActivityClass.SettingClass
 {
     [Activity(Label = "Setting_Messenge")]
     public class Setting_Messenge : Activity
@@ -19,7 +11,7 @@ namespace FreeHand.Activity.Setting
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
+            SetContentView(Resource.Layout.Setting_Messenge_Layout);
             // Create your application here
         }
     }

@@ -168,19 +168,20 @@
     <Compile Include="Messenge\Service\SpeakMessengeBroadcastReceiver.cs" />
     <Compile Include="Phone\PhoneCallBroadcastReceiver.cs" />
     <Compile Include="Phone\PhoneCallService.cs" />
-    <Compile Include="Activity\CheckPermission.cs" />
-    <Compile Include="Activity\MainActivity.cs" />
-    <Compile Include="Activity\SplashActivity.cs" />
-    <Compile Include="Activity\Test\Test_STT_Activity.cs" />
-    <Compile Include="Activity\Test\TestingTTSActivity.cs" />
-    <Compile Include="Activity\Setting\Setting_Speech.cs" />
-    <Compile Include="Activity\Setting\SettingActivity.cs" />
-    <Compile Include="Activity\Test\SpeechRecognizingActivity.cs" />
-    <Compile Include="Activity\Setting\CallSettingActivity.cs" />
-    <Compile Include="Activity\Test\EmptyActivity.cs" />
-    <Compile Include="Activity\Setting\PhoneSettingActivity.cs" />
+    <Compile Include="ActivityClass\CheckPermission.cs" />
+    <Compile Include="ActivityClass\MainActivity.cs" />
+    <Compile Include="ActivityClass\SplashActivity.cs" />
+    <Compile Include="ActivityClass\Test\Test_STT_Activity.cs" />
+    <Compile Include="ActivityClass\Test\TestingTTSActivity.cs" />
+    <Compile Include="ActivityClass\SettingClass\Setting_Speech.cs" />
+    <Compile Include="ActivityClass\SettingClass\SettingActivity.cs" />
+    <Compile Include="ActivityClass\Test\SpeechRecognizingActivity.cs" />
+    <Compile Include="ActivityClass\SettingClass\CallSettingActivity.cs" />
+    <Compile Include="ActivityClass\Test\EmptyActivity.cs" />
+    <Compile Include="ActivityClass\SettingClass\PhoneSettingActivity.cs" />
     <Compile Include="Phone\ScreenStateBroadcastReceiver.cs" />
-    <Compile Include="Activity\Setting\Setting_Messenge.cs" />
+    <Compile Include="ActivityClass\SettingClass\Setting_Messenge.cs" />
+    <Compile Include="ActivityClass\SettingClass\Custom_Reply_SMS.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -231,6 +232,10 @@
     <AndroidResource Include="Resources\layout\Phone_Layout.axml" />
     <AndroidResource Include="Resources\drawable\EnableDisableColor.xml" />
     <AndroidResource Include="Resources\layout\Setting_Speech_Layout.axml" />
+    <AndroidResource Include="Resources\layout\Custom_Reply_SMS.axml" />
+    <AndroidResource Include="Resources\layout\Setting_Messenge_Layout.axml" />
+    <AndroidResource Include="Resources\layout\Speech_Setting_Layout_new.axml" />
+    <AndroidResource Include="Resources\layout\confirm_Template_Layout.axml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
@@ -241,8 +246,8 @@
     <Folder Include="SpeechLibrary\" />
     <Folder Include="Messenge\Service\" />
     <Folder Include="Phone\" />
-    <Folder Include="Activity\" />
-    <Folder Include="Activity\Setting\" />
+    <Folder Include="ActivityClass\" />
+    <Folder Include="ActivityClass\SettingClass\" />
     <Folder Include="Messenge\Mail\Gmail\" />
   </ItemGroup>
   <ItemGroup>

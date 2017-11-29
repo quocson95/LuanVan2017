@@ -31,7 +31,7 @@ namespace FreeHand.Messenge
             _ttsLib = TextToSpeechLib.Instance();
             _stt = STTLib.Instance();
         }
-        private async Task SMSHandleSpeak()
+        private async void SMSHandleSpeak()
         {
             _config.smsConfig.IsHandleSMSRunnig = true;
             Log.Info(TAG,"SMS Handle status "+_config.smsConfig.IsHandleSMSRunnig.ToString());
@@ -162,8 +162,12 @@ namespace FreeHand.Messenge
                 //    //Can not hear request reply
                 //}
             }
+            //End While
             if (_config.smsConfig.StateSMS == Config.STATE_SMS.DONE)
+            {
+                _config.smsConfig.StateSMS = Config.STATE_SMS.IDLE;
                 _config.smsConfig.IsHandleSMSRunnig = false;
+            }                
 
         }
 
@@ -220,6 +224,7 @@ namespace FreeHand.Messenge
         private Model.IMessengeData GetMessege(Config.STATE_SMS state)
         {
             Model.IMessengeData result;
+            result = null;
             switch (state)
             {
                 case Config.STATE_SMS.IDLE:
@@ -227,6 +232,7 @@ namespace FreeHand.Messenge
                     if (!_messengeQueue.Empty())
                         result = _messengeQueue.DequeueMessengeQueue();
                     else result = null;
+
                     _config.smsConfig.MessengeBackUp = result;
                     break;
                 default:

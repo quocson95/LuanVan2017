@@ -3,6 +3,11 @@ using Android.Content;
 using System.Collections.Generic;
 using System.Timers;
 using System.Threading.Tasks;
+using System.Security.Cryptography.X509Certificates;
+using Google.Apis.Auth.OAuth2;
+
+using System.Threading;
+
 namespace FreeHand
 {
     public class MailManager
@@ -55,18 +60,30 @@ namespace FreeHand
             }
 
         }
-        public void StartAutoCheckMail()
+        public async Task StartAutoCheckMail()
         {
-            Console.WriteLine("Timer start");
-            if (!_enableAutoCheck) _aTimer.Enabled = false;
-            else _aTimer.Enabled = true;
+            //CheckMail();
+            //Console.WriteLine("Timer start");
+            //if (!_enableAutoCheck) _aTimer.Enabled = false;
+            //else _aTimer.Enabled = true;
+            var certificate = new X509Certificate2(@"C:\path\to\certificate.p12", "kakula@7#9", X509KeyStorageFlags.Exportable);
+            var credential = new ServiceAccountCredential(new ServiceAccountCredential
+                                                          .Initializer("699738745588-ulrlq8d7tk37fct854i0hauk34ie5hh9.apps.googleusercontent.com @developer.gserviceaccount.com")
+            {
+                // Note: other scopes can be found here: https://developers.google.com/gmail/api/auth/scopes
+                Scopes = new[] { "https://mail.google.com/" },
+                User = "dangquocson1995@gmail.com@gmail.com"
+            }.FromCertificate(certificate));
+
+            bool result = await credential.RequestAccessTokenAsync(CancellationToken.None);
+
         }
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            _aTimer.Enabled = false;
-            CheckMail();
-            if (!_enableAutoCheck) _aTimer.Enabled = false;
-            else _aTimer.Enabled = true;
+            //_aTimer.Enabled = false;
+            //CheckMail();
+            //if (!_enableAutoCheck) _aTimer.Enabled = false;
+            //else _aTimer.Enabled = true;=
         }
 
     }

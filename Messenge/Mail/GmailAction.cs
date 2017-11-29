@@ -32,12 +32,12 @@ namespace FreeHand
                 Log.Info(TAG,"LOGIN GMAIL");
                 if (client == null) client = new ImapClient();
                     client.ServerCertificateValidationCallback = (s, c, ch, e) => true;
-                    client.Connect("imap.gmail.com", 993, SecureSocketOptions.SslOnConnect);
-
+                    client.Connect("imap.gmail.com", 993,SecureSocketOptions.SslOnConnect);               
                     // disable OAuth2 authentication unless you are actually using an access_token
                     client.AuthenticationMechanisms.Remove("XOAUTH2");
 
                 client.Authenticate(usr, pwd);
+
                                     
                                     
 

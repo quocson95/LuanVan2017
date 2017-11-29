@@ -20,6 +20,7 @@ namespace FreeHand
         private static TextToSpeechLib instance; //Singleton obj
         private Config _config;
         private Context _mainContext;
+        private Dictionary<string, string> _supportLanguage = null;
         public TextToSpeech _textToSpeech;
         private TaskCompletionSource<Java.Lang.Object> _tcs;       		
         private TaskCompletionSource<Java.Lang.Object> _tcs_speak;            
@@ -47,6 +48,16 @@ namespace FreeHand
 
         }
 
+        private void SetPitch()
+        {
+            _textToSpeech.SetPitch(_config.ttsConfig.SeekPitch);
+        }
+
+        private void SetSpeed()
+        {
+            _textToSpeech.SetSpeechRate(_config.ttsConfig.SeekSpeed);
+        }
+
         public static TextToSpeechLib Instance()
         {
             if (instance == null) instance = new TextToSpeechLib();
@@ -67,9 +78,11 @@ namespace FreeHand
                     Log.Info(TAG, "Error when GetTTS");
                 }
             } 
-            _textToSpeech = await CreateTtsAsync(context,this,_config.ttsConfig.EngineName);
-            var locale = new Locale(_config.ttsConfig.Lang);
+            _textToSpeech = await CreateTtsAsync(context,this,_config.ttsConfig.EngineNameSelect);
+            var locale = new Locale(_config.ttsConfig.LangSelectByTTS);
             SetLang(locale);
+            SetPitch();
+            SetSpeed();
             if (_textToSpeech != null)
             {
                 _textToSpeech.SetOnUtteranceProgressListener(new UtteranceProgressLs(this));
@@ -103,7 +116,7 @@ namespace FreeHand
             TextToSpeech tts;
             _tcs = null;
             _tcs = new TaskCompletionSource<Java.Lang.Object>();
-            string engineName = _config.ttsConfig.EngineName;
+            string engineName = _config.ttsConfig.EngineNameSelect;
             if (string.IsNullOrEmpty(engine)) tts = new TextToSpeech(context, listen);
             else tts = new TextToSpeech(context, listen, engine);
             if ((int)await _tcs.Task != (int)OperationResult.Success)
@@ -137,27 +150,43 @@ namespace FreeHand
             return listNameEngine;
         }
 
-        public async Task<ICollection<Locale>> GetLanguageSupportByEngineAsync(Context c, string engine)
+        public async Task<Dictionary<string,string>> GetLanguageSupportByEngineAsync(Context c, string engine)
         {
-            Log.Debug(TAG, "Trying to create TTS Engine: ");
-            TextToSpeech _tts = await CreateTtsAsync(c,this,engine);
-            ICollection<Locale> langCollect = null;
-            List<string> lang = new List<string>();
-            if (_tts != null)
+            Log.Debug(TAG, "GetLanguageSupportByEngineAsync: ");
+            if (_supportLanguage == null)
             {
-                langCollect = _tts.AvailableLanguages;
-                //Clear TTS
-                try
+
+                TextToSpeech _tts = await CreateTtsAsync(c, this, engine);
+                ICollection<Locale> langCollect = null;
+                List<string> lang = new List<string>();
+
+                if (_tts != null)
                 {
-                    _tts.Shutdown();
+                    _supportLanguage = new Dictionary<string, string>();
+                    langCollect = _tts.AvailableLanguages;
+                    AddToSupportLanguageList(langCollect);
+                    //Clear TTS
+                    try
+                    {
+                        _tts.Shutdown();
+                    }
+                    catch { /* don't care */ }
+                    _tts = null;
                 }
-                catch { /* don't care */ }
-                _tts = null;
             }
-            return langCollect;
+            return _supportLanguage;
 
         }
 
+        private void AddToSupportLanguageList(ICollection<Locale> langCollect)
+        {
+            foreach(var item in langCollect){
+                if (!_supportLanguage.ContainsKey(item.Language))
+                {
+                    _supportLanguage.Add(item.Language,item.DisplayLanguage);
+                }
+            }
+        }
 
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)

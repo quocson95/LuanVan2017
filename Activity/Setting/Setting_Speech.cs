@@ -1,18 +1,14 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Android.Speech.Tts;
-using Android.Speech;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
-using System.Threading.Tasks;
+using Android.Util;
 using Android.Widget;
 using Calligraphy;
-using Android.Util;
-using Java.Util;
+
 namespace FreeHand
 {
     [Activity(Label = "Setting_Speech",Theme = "@style/Theme.AppCompat.Light.NoActionBar")]
@@ -20,14 +16,15 @@ namespace FreeHand
     {
         private static readonly string TAG = "Setting_Speech";
         private TextToSpeechLib _tts;
+        private STTLib _stt;
         private Config _config;      
-        private string _selectEngine, _selectLang;
-        private Spinner spn_eng,spn_lang;
-        private bool _changeEngine;
-        Locale tmp;
-        private List<string> _listEngine,_listLangDisplayName,_listLangCode;
-        private ICollection<Locale> _listLangCollect;
-        private TaskCompletionSource<Java.Lang.Object> _tcs;  
+        private Spinner _spin_enigne_master, _spin_lang_speak,_spin_lang_listen;
+        private Button _btn_engine_master, _btn_lang_listen;       
+        private SeekBar _seekSpeed, _seekPitch;
+        private int _seekSpeedValue, _seekPitchValue;
+        private TextView _labelSpeedValue, _labelPitchValue;
+        private IList<string> _listLangTTS, _listLangSST;
+        //private TaskCompletionSource<Java.Lang.Object> _tcs;  
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -37,108 +34,182 @@ namespace FreeHand
             .SetDefaultFontPath("Fonts/HELR45W.ttf")
             .SetFontAttrId(Resource.Attribute.fontPath)
             .Build());
-            SetContentView(Resource.Layout.Speech);
-            _changeEngine = false;
+            SetContentView(Resource.Layout.Setting_Speech_Layout);
             _tts = TextToSpeechLib.Instance();
+            _stt = STTLib.Instance();
             _config = Config.Instance();
             // Create your application here
-            Button btn_engine = FindViewById<Button>(Resource.Id.item_1);
-            Button btn_test = FindViewById<Button>(Resource.Id.item_3);
-            Button btn_ok = FindViewById<Button>(Resource.Id.item_4);
-            spn_eng = FindViewById<Spinner>(Resource.Id.spinner_engine);
-            spn_lang = FindViewById<Spinner>(Resource.Id.spinner_lang);
+           
+            InitUI();
+            InitDataUI();
+            SetActionUI();
+            //spn_lang = FindViewById<Spinner>(Resource.Id.spinner_lang);
 
-            btn_engine.Click += async delegate {
-                await BtnEngineClick();
-                //GetLangSTT();
-               
 
-            };
 
-            btn_test.Click += async delegate {
-                var locale = new Locale(_config.ttsConfig.Lang);
-                if (_changeEngine) await _tts.GetTTS(this);
-                _changeEngine = false;
-                //await SampleText();
-                /*TODO
-                 * ADD funtion get messenger sample for test tts config
-                 */
+            //spn_lang.ItemSelected += (object sender, AdapterView.ItemSelectedEventArgs e) =>
+            //{      
+            //    _selectLang = _listLangCode[(int)e.Id];
 
-                _tts.SetLang(locale);
-                _config.smsConfig.IsHandleSMSRunnig = false;
-                var k = await _tts.SpeakMessenger("this is messenger test");
-            };
-
-            spn_eng.ItemSelected += async (object sender, AdapterView.ItemSelectedEventArgs e) =>
-            {                
-                Log.Info(TAG, "Select Engine");
-                _changeEngine = true;
-                _selectEngine = _listEngine[(int)e.Id];
-                _listLangDisplayName = new List<string>();
-                _listLangCode = new List<string>();
-                _listLangCollect = await _tts.GetLanguageSupportByEngineAsync(this, _selectEngine);
-
-                foreach (var it in _listLangCollect)
-                {
-                    tmp = it;
-                    _listLangDisplayName.Add(it.DisplayName);
-                    _listLangCode.Add(it.ISO3Language);
-                }
-                var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, _listLangDisplayName);
-                spn_lang.Adapter = adapter;
-
-            };
-
-            spn_lang.ItemSelected += (object sender, AdapterView.ItemSelectedEventArgs e) =>
-            {      
-                _selectLang = _listLangCode[(int)e.Id];
-
-            };
-            btn_ok.Click += delegate {
-                _config.ttsConfig.Lang = _selectLang;
-                _config.ttsConfig.EngineName = _selectEngine;
-                _config.UpdateConfig = true;
-                _config.WriteConfig = true;
-            };
+            //};
+            //btn_ok.Click += delegate {
+            //    _config.ttsConfig.Lang = _selectLang;
+            //    _config.ttsConfig.EngineName = _selectEngine;
+            //    _config.UpdateConfig = true;
+            //    _config.WriteConfig = true;
+            //};
         }
 
-        private async Task BtnEngineClick()
+        private void InitUI()
+        {
+            _btn_engine_master = FindViewById<Button>(Resource.Id.btn_engine_master);
+            _btn_lang_listen = FindViewById<Button>(Resource.Id.label_listen_lang);
+            _spin_enigne_master = FindViewById<Spinner>(Resource.Id.spinner_engine_master);
+            _spin_lang_speak = FindViewById<Spinner>(Resource.Id.spinner_speak_lang);
+            _spin_lang_listen = FindViewById<Spinner>(Resource.Id.spinner_listen_lang);
+
+            _seekSpeed = FindViewById<SeekBar>(Resource.Id.seek_speed);
+            _seekPitch = FindViewById<SeekBar>(Resource.Id.seek_pitch);
+
+            //TextView
+            _labelPitchValue = FindViewById<TextView>(Resource.Id.value_pitch);
+            _labelSpeedValue = FindViewById<TextView>(Resource.Id.value_speed);
+
+            //Init Value
+
+        }
+
+        private void InitDataUI()
+        {
+            //Engine
+            SetDataTTS();
+            SetDataSTT();
+
+                       
+        }
+
+        private void  SetDataTTS()
+        {
+            //Engine
+            var listEngine = _config.ttsConfig.ListEngineName;
+            var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, listEngine);
+            _spin_enigne_master.Adapter = adapter;
+            var index = listEngine.IndexOf(_config.ttsConfig.LangSelectByTTS);
+            _spin_enigne_master.SetSelection(index);
+
+            //Set Label Seek
+            _seekSpeed.Progress = (int)(_config.ttsConfig.SeekSpeed * 20);
+            _seekPitch.Progress = (int)(_config.ttsConfig.SeekPitch * 20);
+            _labelSpeedValue.Text = _config.ttsConfig.SeekSpeed.ToString();
+            _labelPitchValue.Text = _config.ttsConfig.SeekPitch.ToString();
+
+
+        }
+        private void SetDataSTT()
+        {
+            _listLangSST = new List<string>();
+            //GetLangSTT();               
+            var dictionaryLangSupport = _config.ttsConfig.LangSupportBySTT;
+
+            foreach (var item in dictionaryLangSupport)
+            {
+                _listLangSST.Add(item.Value);
+            }
+            var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, _listLangSST);
+            _spin_lang_listen.Adapter = adapter;
+            var index = _config.ttsConfig.LangSupportBySTT.Keys.ToList().IndexOf(_config.ttsConfig.LangSelectBySTT);
+            _spin_lang_listen.SetSelection(index);
+        }
+
+        private void SetActionUI()
+        {
+            SetActionTTSUI();
+            SetActionSTTUI();
+                                 
+        }
+
+        private void SetActionTTSUI()
+        {            
+            _spin_enigne_master.ItemSelected += (object sender, AdapterView.ItemSelectedEventArgs e) =>
+            {
+                Log.Info(TAG, "Select Engine");               
+                _listLangTTS = new List<string>();
+                var dictionaryLangSupport = _config.ttsConfig.LangSupportByTTS;
+
+                foreach (var it in dictionaryLangSupport)
+                {
+                    _listLangTTS.Add(it.Value);
+                }
+                var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, _listLangTTS);
+                _spin_lang_speak.Adapter = adapter;
+                //var index = supportLanguageName.IndexOf(_config.ttsConfig.LangSelectByTTS);
+                var index = _config.ttsConfig.LangSupportByTTS.Keys.ToList().IndexOf(_config.ttsConfig.LangSelectByTTS);
+                _spin_lang_speak.SetSelection(index);
+
+                _config.UpdateConfig = true;
+
+            };
+
+            _spin_lang_speak.ItemSelected += (object sender, AdapterView.ItemSelectedEventArgs e) =>
+            {
+                Log.Info(TAG, "Select Lang Speak id" + e.Id.ToString());
+                _config.ttsConfig.LangSelectByTTS = _config.ttsConfig.LangSupportByTTS.Where(pair => pair.Value == _listLangTTS[(int)e.Id])
+                    .Select(pair => pair.Key)
+                    .FirstOrDefault();
+
+                _config.UpdateConfig = true;
+            };
+
+            _seekPitch.ProgressChanged += (object sender, SeekBar.ProgressChangedEventArgs e) => {
+                if (e.FromUser)
+                {
+                    var var1 = e.Progress / 2;
+                    _config.ttsConfig.SeekPitch = ((float)((float)var1 / 10.0));
+                    _labelPitchValue.Text = _config.ttsConfig.SeekPitch.ToString();
+
+                    _config.UpdateConfig = true;
+                }
+            };
+
+            _seekSpeed.ProgressChanged += (object sender, SeekBar.ProgressChangedEventArgs e) => {
+                if (e.FromUser)
+                {
+                    var var1 = e.Progress / 2;
+                    _config.ttsConfig.SeekSpeed = ((float)((float)var1 / 10.0));
+                    _labelSpeedValue.Text = _config.ttsConfig.SeekSpeed.ToString();
+                    _config.UpdateConfig = true;
+
+                }
+
+            };
+
+        }
+
+        private void SetActionSTTUI()
+        {            
+
+            _spin_lang_listen.ItemSelected += (object sender, AdapterView.ItemSelectedEventArgs e) =>
+            {
+                Log.Info(TAG, "Selected Lang Listen id " + e.Id.ToString());
+                _config.ttsConfig.LangSelectBySTT = _config.ttsConfig.LangSupportBySTT.Where(pair => pair.Value == _listLangSST[(int)e.Id])
+                    .Select(pair => pair.Key)
+                    .FirstOrDefault();
+            };
+        }
+        private void BtnEngineClick()
         {
             Log.Info(TAG,"Get Engine");
-            _listEngine = await _tts.GetEngines(this);
-            var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, _listEngine);
-            spn_eng.Adapter = adapter;
         }   
-        public async Task<int> SampleText()
-        {
-            _tcs = null;
 
-            Intent intent = new Intent(TextToSpeech.Engine.ActionGetSampleText);
+        //public void GetLangSTT()
+        //{
+        //    Intent intent = new Intent(RecognizerIntent.ActionGetLanguageDetails);
 
-            intent.PutExtra("language", _config.ttsConfig.Lang);
-            intent.PutExtra("country", tmp.Country);
-            intent.PutExtra("variant", tmp.Variant);
-            intent.SetPackage(_config.ttsConfig.EngineName);
-            _tcs = null;
-            _tcs = new TaskCompletionSource<Java.Lang.Object>();
-            try
-            {
-                
-                StartActivityForResult(intent, 10);
-                await _tcs.Task;
-            }
-            catch (ActivityNotFoundException ex)
-            {
-                Log.Info(TAG, "Failed to get sample text, no activity found for " + intent + ")");
-            }
-            return 0;
-        }
-        public void GetLangSTT()
-        {
-            Intent intent = new Intent(RecognizerIntent.ActionGetLanguageDetails);
+        //    this.SendOrderedBroadcast(intent,null, new LanguageDetailsChecker(spin_lang_listen,this), null, Result.Ok, null, null);
+        //}
 
-            StartActivityForResult(intent, 10);
-        }
+
+
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
@@ -148,5 +219,13 @@ namespace FreeHand
             }
         }
 
+        protected override void OnStop()
+        {
+            Log.Info(TAG, "OnStop");
+            _config.Save();
+            base.OnStop();
+        }
+
     }
+
 }

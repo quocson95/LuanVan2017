@@ -17,16 +17,17 @@ namespace FreeHand.Phone
         string querySorter = String.Format("{0} desc limit 3", CallLog.Calls.Date);
         private DeviceMotionImplementation sensor;
         private Context _context;
-        private string lastValueX;
-        private TextToSpeechLib tts;
-
+        private string _lastValueX;
+        private TextToSpeechLib _tts;
+        private Config _config;
         public ScreenStateBroadcastReceiver() {}
         public ScreenStateBroadcastReceiver(Context context)
         {
             _context = context;
-            lastValueX = null;
+            _lastValueX = null;
             sensor = new DeviceMotionImplementation();
-            tts = TextToSpeechLib.Instance();
+            _tts = TextToSpeechLib.Instance();
+            _config = Config.Instance();
         }
 
         public override void OnReceive(Context context, Intent intent)
@@ -88,7 +89,8 @@ namespace FreeHand.Phone
                         wakeLock.Acquire();                        
                         wakeLock.Release();
 
-                        tts.SpeakMessenger("You have missed call");
+                    if(_config.GetPermissionRun(Config.PERMISSION_RUN.NOTIFY_MISS_CALL))
+                        _tts.SpeakMessenger("You have missed call");
                         
                     }
                     
@@ -102,11 +104,11 @@ namespace FreeHand.Phone
             string value;
             value = x.X.ToString();
             isMotion = false;
-            if (lastValueX != null && string.Compare(lastValueX,value) != 0)
+            if (_lastValueX != null && string.Compare(_lastValueX,value) != 0)
             {
                 isMotion = true;
             }
-            lastValueX = value;
+            _lastValueX = value;
             return isMotion;
         }
 

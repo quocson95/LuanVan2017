@@ -52,6 +52,10 @@ namespace FreeHand.Model
             _queueMessenge.Clear();
             return Empty();
         }
+
+        public int Count(){
+            return _queueMessenge.Count;
+        }
 		public string GetNameFromPhoneNumber(string number)
 		{
 			String selection = ContactsContract.CommonDataKinds.Contactables.InterfaceConsts.HasPhoneNumber + " = " + 1;

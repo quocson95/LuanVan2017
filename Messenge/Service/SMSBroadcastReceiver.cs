@@ -25,8 +25,8 @@ namespace FreeHand
         Context _context;
         private static readonly string IntentAction = "android.provider.Telephony.SMS_RECEIVED";
         private Model.MessengeQueue _messengeQueue;
-        private TextToSpeechLib ttsLib;
-        private STTLib _stt;
+        //private TextToSpeechLib ttsLib;
+        //private STTLib _stt;
         private SpeechRecognizer _speech;
         private TaskCompletionSource<Java.Lang.Object> _tcs;
         private Config _config;
@@ -39,10 +39,10 @@ namespace FreeHand
             _config = Config.Instance();
             _context = context;
             //_activity = act;
-            ttsLib = TextToSpeechLib.Instance();
-            _stt = STTLib.Instance();
+            //ttsLib = TextToSpeechLib.Instance();
+            //_stt = STTLib.Instance();
         }
-
+/*
         //Will not used , instead using broadcast to SpeakMessengeBroadcast
         private async Task SMSHandleSpeak()
         {            
@@ -185,7 +185,7 @@ namespace FreeHand
             if (string.IsNullOrEmpty(msg)) return;
             int status = await ttsLib.SpeakMessenger(msg);
         }
-
+*/
         public override void OnReceive(Context context, Intent intent)
         {
             //InvokeASendBroadcasttBroadcast();
@@ -220,7 +220,7 @@ namespace FreeHand
                     _smsData.SetNameSender(nameSender);                    
                     _messengeQueue.EnqueueMessengeQueue(_smsData);
                     //Toast.MakeText(context, sb.ToString(), ToastLength.Long).Show();
-                    Log.Info(TAG, sb.ToString());
+                    Log.Info(TAG,"Num Messenger: "+ _messengeQueue.Count().ToString());
                 }
                 //if (!_config.RunningSMSHandle) SMSHandleSpeak();
 
@@ -228,7 +228,7 @@ namespace FreeHand
                 //            string nameBroadcast = context.Resources.GetString(Resource.String.Speak_SMS_Broadcast_Receiver);
                 var speakSMSIntent = new Intent("FreeHand.QueueMessenge.Invoke");
                 //speakSMSIntent.PutExtra("someKey", "someValue");
-                context.SendBroadcast(speakSMSIntent);
+                context.SendOrderedBroadcast(speakSMSIntent,null);
             }
             catch (Exception ex)
             {

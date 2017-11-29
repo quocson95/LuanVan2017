@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:foo="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="800dp"
+                android:background="@android:color/white"
+                android:layout_gravity="start">
+            <!--Circle Titile-->
+                <TextView
+                    foo:layout_widthPercent="100%"
+                    foo:layout_heightPercent="5%"
+                    android:id="@+id/space_1" />
+                <Button
+                    android:id="@+id/circle_top"
+                    android:layout_below="@+id/space_1"
+                    android:background="@drawable/circle_shape"
+                    android:text="FH"
+                    android:textSize="64dp"
+                    android:textColor="@color/main_background"
+                    android:layout_gravity="center_horizontal"
+                    foo:layout_heightPercent="25%"
+                    foo:layout_aspectRatio="100%"
+                    fontPath="Fonts/Pacifico.ttf"
+                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="0.0dp" />
+            <!--    Engine Master    -->
+                <Button
+                    android:id="@+id/btn_engine_master"
+                    android:layout_below="@+id/circle_top"
+                    foo:layout_widthPercent="30%"
+                    foo:layout_heightPercent="5%"
+                    android:text="Engine"
+                    android:gravity="left|center"
+                    android:textColor="@drawable/color_text_press"
+                    android:textSize="22dp"
+                    android:background="@android:color/white"
+                    fontPath="Fonts/Montserrat_Regular.otf"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <Spinner
+                    android:id="@+id/spinner_engine_master"
+                    android:layout_toEndOf="@+id/btn_engine_master"
+                    android:layout_below="@+id/circle_top"
+                    foo:layout_widthPercent="50%"
+                    foo:layout_heightPercent="5%"
+                    android:textSize="16dp"
+                    android:background="@android:color/white" />
+                <TextView
+                    android:id="@+id/speak_setting"
+                    android:layout_below="@+id/btn_engine_master"
+                    foo:layout_widthPercent="100%"
+                    foo:layout_heightPercent="5%"
+                    android:text="Voice Speak"
+                    android:gravity="left|center"
+                    fontPath="Fonts/HELR45W.ttf"
+                    android:textColor="@color/main_background"
+                    android:textSize="22dp" />
+            <!--   Engine  SST   -->
+                <Button
+                    android:id="@+id/item_1"
+                    android:layout_below="@+id/speak_setting"
+                    foo:layout_widthPercent="30%"
+                    foo:layout_heightPercent="5%"
+                    android:text="Language"
+                    android:gravity="left|center"
+                    android:textColor="@drawable/color_text_press"
+                    android:textSize="18dp"
+                    android:background="@android:color/white"
+                    fontPath="Fonts/Montserrat_Regular.otf"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            <!--     Speed Speak   -->
+                <Spinner
+                    android:id="@+id/spinner_speak_lang"
+                    android:layout_toEndOf="@+id/item_1"
+                    android:layout_below="@+id/speak_setting"
+                    foo:layout_widthPercent="50%"
+                    foo:layout_heightPercent="5%"
+                    android:textSize="16dp"
+                    android:background="@android:color/white"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/label_speed"
+                    android:layout_below="@+id/spinner_speak_lang"
+                    foo:layout_widthPercent="20%"
+                    foo:layout_heightPercent="5%"
+                    android:text="Speed"
+                    android:gravity="left|center"
+                    android:textColor="@drawable/color_text_press"
+                    android:textSize="18dp"
+                    android:background="@android:color/white"
+                    fontPath="Fonts/Montserrat_Regular.otf"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:id="@+id/value_speed"
+                    android:layout_below="@+id/spinner_speak_lang"
+                    android:layout_toEndOf="@+id/label_speed"
+                    foo:layout_widthPercent="10%"
+                    foo:layout_heightPercent="5%"
+                    android:text="1.1"
+                    android:gravity="left|center"
+                    android:textColor="@drawable/color_text_press"
+                    android:textSize="18dp"
+                    android:background="@android:color/white"
+                    fontPath="Fonts/Montserrat_Regular.otf"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            <!--  Pitch      -->
+                <SeekBar
+                    android:id="@+id/seek_speed"
+                    android:layout_toRightOf="@+id/value_speed"
+                    android:layout_below="@+id/spinner_speak_lang"
+                    foo:layout_widthPercent="50%"
+                    foo:layout_heightPercent="5%"
+                    android:textSize="16dp"
+                    android:background="@android:color/white"
+                    android:layout_width="match_parent" />
+                <TextView
+                    android:id="@+id/label_pitch"
+                    android:layout_below="@+id/label_speed"
+                    foo:layout_widthPercent="20%"
+                    foo:layout_heightPercent="5%"
+                    android:text="Pitch"
+                    android:gravity="left|center"
+                    android:textColor="@drawable/color_text_press"
+                    android:textSize="18dp"
+                    android:background="@android:color/white"
+                    fontPath="Fonts/Montserrat_Regular.otf"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:id="@+id/value_pitch"
+                    android:layout_below="@+id/label_speed"
+                    android:layout_toEndOf="@+id/label_pitch"
+                    foo:layout_widthPercent="10%"
+                    foo:layout_heightPercent="5%"
+                    android:text="1.0"
+                    android:gravity="left|center"
+                    android:textColor="@drawable/color_text_press"
+                    android:textSize="18dp"
+                    android:background="@android:color/white"
+                    fontPath="Fonts/Montserrat_Regular.otf"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <SeekBar
+                    android:id="@+id/seek_pitch"
+                    android:layout_below="@+id/label_speed"
+                    android:layout_toRightOf="@+id/value_pitch"
+                    foo:layout_widthPercent="50%"
+                    foo:layout_heightPercent="5%"
+                    android:textSize="16dp"
+                    android:background="@android:color/white" />
+            <!--  Listen Speak      -->
+                <TextView
+                    android:id="@+id/listen_setting"
+                    android:layout_below="@+id/label_pitch"
+                    foo:layout_widthPercent="100%"
+                    foo:layout_heightPercent="5%"
+                    android:text="Listen Voice"
+                    android:gravity="left|center"
+                    fontPath="Fonts/HELR45W.ttf"
+                    android:textColor="@color/main_background"
+                    android:textSize="22dp" />
+            <!--   Engine  SST   -->
+                <Button
+                    android:id="@+id/label_listen_lang"
+                    android:layout_below="@+id/listen_setting"
+                    foo:layout_widthPercent="30%"
+                    foo:layout_heightPercent="5%"
+                    android:text="Language"
+                    android:gravity="left|center"
+                    android:textColor="@drawable/color_text_press"
+                    android:textSize="18dp"
+                    android:background="@android:color/white"
+                    fontPath="Fonts/Montserrat_Regular.otf"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <Spinner
+                    android:id="@+id/spinner_listen_lang"
+                    android:layout_toEndOf="@+id/item_1"
+                    android:layout_below="@+id/listen_setting"
+                    foo:layout_widthPercent="50%"
+                    foo:layout_heightPercent="5%"
+                    android:textSize="16dp"
+                    android:background="@android:color/white" />
+            <!--  Test Speak      -->
+                <TextView
+                    android:id="@+id/test_setting"
+                    android:layout_below="@+id/label_listen_lang"
+                    foo:layout_widthPercent="100%"
+                    foo:layout_heightPercent="5%"
+                    android:text="Test Voice"
+                    android:gravity="left|center"
+                    fontPath="Fonts/HELR45W.ttf"
+                    android:textColor="@color/main_background"
+                    android:textSize="22dp" />
+                <Button
+                    android:id="@+id/test_btn_txt"
+                    android:layout_below="@+id/test_setting"
+                    foo:layout_widthPercent="30%"
+                    foo:layout_heightPercent="5%"
+                    android:text="Speak"
+                    android:gravity="left|center"
+                    android:textColor="@drawable/color_text_press"
+                    android:textSize="18dp"
+                    fontPath="Fonts/Montserrat_Regular.otf"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <EditText
+                    android:id="@+id/test_txt_input"
+                    android:layout_below="@+id/test_setting"
+                    android:layout_toEndOf="@+id/test_btn_txt"
+                    foo:layout_widthPercent="60%"
+                    foo:layout_heightPercent="5%"
+                    android:text="Test Voice"
+                    android:textColor="@color/material_grey_300" />
+            </android.support.percent.PercentRelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

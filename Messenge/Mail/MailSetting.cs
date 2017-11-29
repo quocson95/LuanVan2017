@@ -45,8 +45,8 @@ namespace FreeHand
                 task.Wait();
 
             };
-            btn_sync_mail.Click += delegate {
-                mailMng.StartAutoCheckMail();
+            btn_sync_mail.Click += async delegate {
+                await mailMng.StartAutoCheckMail();
             };
             btn_print.Click += delegate {
                 

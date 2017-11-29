@@ -89,7 +89,7 @@ namespace FreeHand
         protected override void OnStop()
         {
             Log.Info(TAG, "OnStop");
-            _config.save();
+            _config.Save();
             base.OnStop();
         }
     }

@@ -15,8 +15,8 @@ using Android.Media;
 
 namespace FreeHand
 {
-    [Activity(Label = "MainActivity", Theme = "@style/Theme.AppCompat.Light.NoActionBar")]
-    public class MainActivity : AppCompatActivity
+    [Activity(Label = "MainActivity", Theme = "@android:style/Theme.DeviceDefault")]
+    public class MainActivity : Activity
     {
         private bool APP_RUNNIG;
         Intent MessengeServiceToStart,PhoneCallServiceToStart;
@@ -89,7 +89,7 @@ namespace FreeHand
             };
 
             btnSetting.Click += delegate {
-                Intent settingIntent = new Intent(this, typeof(FreeHand.PhoneSettingActivity));
+                Intent settingIntent = new Intent(this, typeof(Setting_Speech));
                 StartActivity(settingIntent);
             };
         }
@@ -133,7 +133,7 @@ namespace FreeHand
         protected override void OnStop()
         {
             Log.Info(TAG, "OnStop");
-            _config.save();
+            _config.Save();
             base.OnStop();
         }
         void RequestPermission()
@@ -166,7 +166,7 @@ namespace FreeHand
         {
             _config = Config.Instance();
             //_config.Read(this);
-            _config.load();
+            _config.Load();
         }
         async Task StartInitTTS()
         {                        

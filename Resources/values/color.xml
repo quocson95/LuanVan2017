@@ -10,5 +10,8 @@
 	
 	<drawable name="default_background">#ffffff</drawable>
 	<drawable name="pressed_background">#bdc3c7</drawable>
+	
+    <drawable name="press_label_switch_press">#7dc7c0</drawable>
+	<drawable name="press_label_switch_default">#b9b9b9</drawable>
  
 </resources>

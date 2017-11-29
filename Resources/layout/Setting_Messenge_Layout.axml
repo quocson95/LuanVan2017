@@ -1,141 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:foo="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <android.support.percent.PercentRelativeLayout
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:minWidth="25px"
+    android:minHeight="25px"
+    android:padding="10dp"
+    android:background="@android:color/white">
+<!--  Icon Master  -->
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:minHeight="800dp"
-        android:background="@android:color/white"
-        android:layout_gravity="start"
-        android:paddingLeft="10dp">
-    <!--Circle Titile-->
-        <TextView
-            foo:layout_widthPercent="100%"
-            foo:layout_heightPercent="5%"
-            android:id="@+id/space_1" />
+        android:layout_height="wrap_content">
         <Button
             android:id="@+id/circle_top"
-            android:layout_below="@+id/space_1"
-            android:background="@drawable/circle_shape"
+            android:background="@drawable/setting_circle_touch"
             android:text="FH"
             android:textSize="64dp"
-            android:textColor="@color/main_background"
+            android:textColor="@drawable/setting_text_circle_press"
             android:layout_gravity="center_horizontal"
-            foo:layout_heightPercent="25%"
-            foo:layout_aspectRatio="100%"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
             fontPath="Fonts/Pacifico.ttf"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="20dp"
             android:layout_centerInParent="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="0.0dp" />
-        <TextView
-            android:id="@+id/space_2"
-            android:layout_below="@+id/circle_top"
-            foo:layout_widthPercent="100%"
-            foo:layout_heightPercent="5%" />
+            android:enabled="true" />
     <!--Label-->
         <TextView
             android:id="@+id/label_sms"
             android:layout_below="@+id/circle_top"
-            foo:layout_widthPercent="90%"
-            foo:layout_heightPercent="5%"
-            android:text="  SMS"
-            android:gravity="left|center"
-            android:textColor="@drawable/color_text_press"
-            android:textSize="18dp"
-            android:background="@android:color/white"
-            fontPath="Fonts/Montserrat_Regular.otf"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center|left"
+            android:text="SMS"
+            android:textColor="@color/main_background"
+            android:textSize="25dp" />
     <!--    Enable Service    -->
         <Switch
             android:id="@+id/sw_enable_messenge"
             android:layout_below="@+id/label_sms"
-            foo:layout_widthPercent="90%"
-            foo:layout_heightPercent="5%"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
             android:text="Enable Service"
-            android:textSize="16dp"
-            fontPath="Fonts/Pacifico.ttf"
-            android:textColor="@color/main_background"
-            android:layout_gravity="center_horizontal"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:checked="false" />
+            android:textColor="@drawable/label_switch"
+            android:textSize="20dp"
+            android:checked="true" />
     <!--        Allow Speak  Name Sender     -->
         <Switch
             android:id="@+id/sw_allow_speak_namesender_sms"
             android:layout_below="@+id/sw_enable_messenge"
-            foo:layout_widthPercent="90%"
-            foo:layout_heightPercent="5%"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
             android:text="Allow Speak Name's Sender"
-            android:textSize="16dp"
-            fontPath="Fonts/Pacifico.ttf"
-            android:textColor="@color/main_background"
-            android:layout_gravity="center_horizontal"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:checked="false" />
+            android:textColor="@drawable/label_switch"
+            android:textSize="20dp" />
     <!--   Allow Speak Number Sender      -->
         <Switch
             android:id="@+id/sw_allow_speak_numsender_sms"
             android:layout_below="@+id/sw_allow_speak_namesender_sms"
-            foo:layout_widthPercent="90%"
-            foo:layout_heightPercent="5%"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
             android:text="Allow Speak Number's Sender"
-            android:textSize="16dp"
-            fontPath="Fonts/Pacifico.ttf"
-            android:textColor="@color/main_background"
-            android:layout_gravity="center_horizontal"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:checked="false" />
+            android:textColor="@drawable/label_switch"
+            android:textSize="20dp" />
     <!--  Alllow Speak Content SMM      -->
         <Switch
             android:id="@+id/sw_allow_speak_content_sms"
             android:layout_below="@+id/sw_allow_speak_numsender_sms"
-            foo:layout_widthPercent="90%"
-            foo:layout_heightPercent="5%"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
             android:text="Allow Speak Content Messenege"
-            android:textSize="16dp"
-            fontPath="Fonts/Pacifico.ttf"
-            android:textColor="@color/main_background"
-            android:layout_gravity="center_horizontal"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:checked="false" />
+            android:textColor="@drawable/label_switch"
+            android:textSize="20dp" />
+    <!--  Alllow Auto Reply SMM      -->
         <Switch
             android:id="@+id/sw_allow_reply_sms"
             android:layout_below="@+id/sw_allow_speak_content_sms"
-            foo:layout_widthPercent="90%"
-            foo:layout_heightPercent="5%"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@drawable/label_switch"
             android:text="Allow Auto Reply"
-            android:textSize="16dp"
-            fontPath="Fonts/Pacifico.ttf"
-            android:textColor="@color/main_background"
-            android:layout_gravity="center_horizontal"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:checked="false" />
-        <EditText
-            android:id="@+id/textArea_content_sms_auto_reply"
+            android:textSize="20dp" />
+    <!--Custom SMS Reply-->
+        <TextView
+            android:id="@+id/btn_custom_sms_reply"
             android:layout_below="@+id/sw_allow_reply_sms"
-            foo:layout_widthPercent="90%"
-            foo:layout_heightPercent="10%"
-            android:background="@null"
-            android:gravity="top|left"
-            android:inputType="textMultiLine"
-            android:overScrollMode="always"
-            android:scrollbarStyle="insideInset"
-            android:scrollbars="vertical"
-            android:lines="3"
-            android:hint="Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter Enter  Enter  Enter  Enter  Enter "
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    </android.support.percent.PercentRelativeLayout>
-</LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textSize="20dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center|left"
+            android:text="Custom SMS Reply"
+            android:textColor="@drawable/label_switch" />
+    <!--   Mail Setting     -->
+    <!--Label-->
+        <TextView
+            android:id="@+id/label_mail"
+            android:layout_below="@+id/btn_custom_sms_reply"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center|left"
+            android:text="Email"
+            android:textColor="@color/main_background"
+            android:textSize="25dp" />
+    <!--    Enable Service    -->
+        <Switch
+            android:id="@+id/sw_enable_mail"
+            android:layout_below="@+id/label_mail"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:text="Enable Service"
+            android:textColor="@drawable/label_switch"
+            android:textSize="20dp" />
+    <!--  Alllow Auto Reply SMM      -->
+        <Switch
+            android:id="@+id/sw_allow_reply_mail"
+            android:layout_below="@+id/sw_enable_mail"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@drawable/label_switch"
+            android:text="Allow Auto Reply"
+            android:textSize="20dp" />
+    <!--Custom SMS Reply-->
+        <TextView
+            android:id="@+id/btn_custom_mail_reply"
+            android:layout_below="@+id/sw_allow_reply_mail"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textSize="20dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center|left"
+            android:text="Custom Mail Reply"
+            android:textColor="@drawable/label_switch" />
+    </RelativeLayout>
+</ScrollView>

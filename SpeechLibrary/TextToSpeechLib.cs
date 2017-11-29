@@ -20,7 +20,7 @@ namespace FreeHand
         private static TextToSpeechLib instance; //Singleton obj
         private Config _config;
         private Context _mainContext;
-        private Dictionary<string, string> _supportLanguage = null;
+        private Dictionary<string, string> _supportLanguage;
         public TextToSpeech _textToSpeech;
         private TaskCompletionSource<Java.Lang.Object> _tcs;       		
         private TaskCompletionSource<Java.Lang.Object> _tcs_speak;            
@@ -28,6 +28,7 @@ namespace FreeHand
         public TextToSpeechLib()
         {
             _config = Config.Instance();
+            _supportLanguage = null;
         }
 
         //public void SetEngine(string engine){

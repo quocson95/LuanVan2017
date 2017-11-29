@@ -39,10 +39,13 @@ namespace FreeHand
             _stt = STTLib.Instance();
             _config = Config.Instance();
             // Create your application here
-           
-            InitUI();
-            InitDataUI();
-            SetActionUI();
+            Task configWork = new Task(() =>
+            {
+                InitUI();
+                InitDataUI();
+                SetActionUI();
+            });
+            configWork.Start();
             //spn_lang = FindViewById<Spinner>(Resource.Id.spinner_lang);
 
 

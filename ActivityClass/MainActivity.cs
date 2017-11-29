@@ -21,64 +21,27 @@ namespace FreeHand
         private bool APP_RUNNIG;
         Intent MessengeServiceToStart,PhoneCallServiceToStart;
         TextToSpeechLib _tts;
-        private Config _config;
+        private Config _config;       
         private static readonly string TAG = "MainActivity";
         protected override void OnCreate(Bundle savedInstanceState)
         {
             Log.Info(TAG, "OnCreate");
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Main_layout);
-            RequestPermission();	
+            RequestPermission();
+
+
             if (savedInstanceState == null)
             {
                 APP_RUNNIG = false;
             }
-            StartReadConfig();
             _tts = TextToSpeechLib.Instance();
             _tts.SetMainContext(this);
+            StartReadConfig();
             MessengeServiceToStart = new Intent(this, typeof(MessengeService));
             PhoneCallServiceToStart = new Intent(this, typeof(Phone.PhoneCallService));
-            InitUiListener();                
-            Log.Info(TAG, "Start service Messenge.");
-
-            //button.Click += delegate { button.Text = $"{count++} clicks!"; };
-            //TextView callSetting = FindViewById<TextView>(Resource.Id.call_setting);
-            //TextView smsSetting = FindViewById<TextView>(Resource.Id.sms_setting);
-            //TextView status = FindViewById<TextView>(Resource.Id.status);
-    //        callSetting.Click += delegate {
-    //            {
-    //                Intent callSettingIntent = new Intent(this, typeof(TestActivity));
-    //                StartActivity(callSettingIntent);
-    //            }
-    //        };
-    //        smsSetting.Click += delegate {
-    //            Intent smsSettingIntent = new Intent(this, typeof(Test_STT_Activity));
-				//StartActivity(smsSettingIntent);
-            //};
-            //-----------//           
-            //int count = 0;
-            //if (savedInstanceState == null) APP_RUNNIG = false;
-            //var imageButton = FindViewById<ImageButton>(Resource.Id.btn_power);
-            //imageButton.Click += async delegate {
-            //    if (!APP_RUNNIG)
-            //    { // Start Application
-            //        imageButton.SetImageResource(Resource.Drawable.start);
-            //        //status.Text = "Click to turn off";
-            //        //status.SetTextColor(Android.Graphics.Color.Red);
-            //        Toast.MakeText(this, "Application Started", ToastLength.Long).Show();
-            //        APP_RUNNIG = true;
-            //        await StartApplication();
-            //    }
-            //    else
-            //    { // Stop Application
-            //        imageButton.SetImageResource(Resource.Drawable.end);
-            //        //status.Text = "Click to turn on";
-            //        //status.SetTextColor(Android.Graphics.Color.Green);
-            //        Toast.MakeText(this, "Application Stopped", ToastLength.Long).Show();
-            //        APP_RUNNIG = false;
-            //        await StopApplication();
-            //    }
-            //};
+            Log.Info(TAG, "Start service Messenge.");            
+            InitUiListener();
         }
         private void InitUiListener()
         {
@@ -89,7 +52,7 @@ namespace FreeHand
             };
 
             btnSetting.Click += delegate {
-                Intent settingIntent = new Intent(this, typeof(FreeHand.ActivityClass.SettingClass.Custom_Reply_SMS));
+                Intent settingIntent = new Intent(this, typeof(FreeHand.ActivityClass.SettingClass.Setting_Messenge));
                 StartActivity(settingIntent);
             };
         }

@@ -22,10 +22,10 @@
         <Button
             android:id="@+id/btn_run"
             android:layout_below="@+id/name_app"
-            android:background="@drawable/background_press"
+            android:background="@drawable/main_circle_press"
             android:text="@string/stop_app"
             android:textSize="64dp"
-            android:textColor="@drawable/main_text_press"
+            android:textColor="@drawable/main_text_circle_press"
             android:layout_centerInParent="true"
             foo:layout_heightPercent="50%"
             foo:layout_aspectRatio="100%"

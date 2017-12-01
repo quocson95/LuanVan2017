@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Android.App;
+
 using Android.Content;
 using Android.Widget;
 using Android.OS;
@@ -20,59 +21,76 @@ namespace FreeHand
     {
         private bool APP_RUNNIG;
         Intent MessengeServiceToStart,PhoneCallServiceToStart;
+        Intent startMainServiceIntent, stopMainServiceInstant;
         TextToSpeechLib _tts;
         private Config _config;       
-        private static readonly string TAG = "MainActivity";
+        private static readonly string TAG = typeof(MainActivity).FullName;
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            Log.Info(TAG, "OnCreate");
+            Log.Info(TAG, "OnCreate: initializing ");
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Main_layout);
             RequestPermission();
-
+            LoadConfig();
 
             if (savedInstanceState == null)
             {
                 APP_RUNNIG = false;
             }
-            _tts = TextToSpeechLib.Instance();
-            _tts.SetMainContext(this);
-            StartReadConfig();
-            MessengeServiceToStart = new Intent(this, typeof(MessengeService));
-            PhoneCallServiceToStart = new Intent(this, typeof(Phone.PhoneCallService));
-            Log.Info(TAG, "Start service Messenge.");            
+            //_tts = TextToSpeechLib.Instance();
+            //_tts.SetMainContext(this);
+            //StartReadConfig();
+            //MessengeServiceToStart = new Intent(this, typeof(MessengeService));
+            //PhoneCallServiceToStart = new Intent(this, typeof(Phone.PhoneCallService));
+            //Log.Info(TAG, "Start service Messenge.");            
             InitUiListener();
         }
         private void InitUiListener()
         {
             Button btnRun = FindViewById<Button>(Resource.Id.btn_run);
             Button btnSetting = FindViewById<Button>(Resource.Id.btn_setting);
-            btnRun.Click += async delegate {
-                await HanleMainService(btnRun);
+            btnRun.Click +=  delegate {
+                 RunClick(btnRun);
             };
 
             btnSetting.Click += delegate {
-                Intent settingIntent = new Intent(this, typeof(FreeHand.ActivityClass.SettingClass.Setting_Messenge));
+                Intent settingIntent = new Intent(this, typeof(Setting_Speech));
                 StartActivity(settingIntent);
             };
         }
 
-        private async Task HanleMainService(Button btn)
+        private void RunClick(Button btn)
         {
-            if (!APP_RUNNIG){      
+            if (!_config.MainServiceRunning)
+            {      
                 btn.SetText(Resource.String.start_app);
-                Toast.MakeText(this, "Application Started", ToastLength.Long).Show();
-                APP_RUNNIG = true;
-                await StartApplication();
+                //Toast.MakeText(this, "Application Started", ToastLength.Long).Show();
+                //APP_RUNNIG = true;
+                startMainServiceIntent = new Intent(this, typeof(MainService));
+                startMainServiceIntent.SetAction(Model.Constants.ACTION_START);
+                StartService(startMainServiceIntent);
+                _config.MainServiceRunning = true;
+                //await StartApplication();
             }
-            else {
+            else
+            {
                 btn.SetText(Resource.String.stop_app);
-                Toast.MakeText(this, "Application Stop", ToastLength.Long).Show();
-                APP_RUNNIG = false;
-                await StopApplication();
+                //Toast.MakeText(this, "Application Stop", ToastLength.Long).Show();
+                //APP_RUNNIG = false;
+                stopMainServiceInstant = new Intent(this, typeof(MainService));
+                stopMainServiceInstant.SetAction(Model.Constants.ACTION_STOP);
+                StartService(stopMainServiceInstant);
+                StopService(stopMainServiceInstant);
+                _config.MainServiceRunning = false;
+                //await StopApplication();
             }
         }
 
+        private void LoadConfig()
+        {
+            _config = Config.Instance();
+            _config.Load();
+        }
         protected override void OnResume()
         {
             //Listen for SMS
@@ -115,13 +133,13 @@ namespace FreeHand
             StartService(PhoneCallServiceToStart);
         }
 
-        async Task StopApplication()
+        void StopApplication()
         {
             Log.Info(TAG, "StopApplication");
             StopService(MessengeServiceToStart);
             StopService(PhoneCallServiceToStart);
             _config.Clean();
-            await StopTTS();
+            _tts.Stop();
 
         }
 
@@ -133,39 +151,12 @@ namespace FreeHand
         }
         async Task StartInitTTS()
         {                        
-            await _tts.GetTTS(this);
+            await _tts.GetTTS();
 
             //if (string.IsNullOrEmpty(ttsConfig.lang))
             //{
             //    await tts.SetLang(new Java.Util.Locale(ttsConfig.lang));
             //}
-        }
-        async Task StopTTS()
-        {            
-            await _tts.Stop();
-        }
-
-
-        protected override void OnSaveInstanceState(Bundle savedInstanceState)
-        {
-            // Save UI state changes to the savedInstanceState.
-            // This bundle will be passed to onCreate if the process is
-            // killed and restarted.
-            this.Resources.GetString(Resource.String.SAVE_APP_RUNNING_STATUS);
-            savedInstanceState.PutBoolean("MyBoolean", true);
-            base.OnSaveInstanceState(savedInstanceState);
-        }
-
-        protected override void OnRestoreInstanceState(Bundle savedInstanceState)
-        {
-            base.OnRestoreInstanceState(savedInstanceState);
-            // Restore UI state from the savedInstanceState.
-            // This bundle has also been passed to onCreate.
-            string name = this.Resources.GetString(Resource.String.SAVE_APP_RUNNING_STATUS);
-            APP_RUNNIG = savedInstanceState.GetBoolean(name);
-            Log.Info(TAG, "OnRestoreInstanceState");
-        }
-
-
+        }                   
     }
 }

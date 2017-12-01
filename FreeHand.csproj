@@ -163,7 +163,7 @@
     <Compile Include="Messenge\SMS\SMSData.cs" />
     <Compile Include="Messenge\IMessengeData.cs" />
     <Compile Include="Messenge\MessengeQueue.cs" />
-    <Compile Include="Messenge\Service\MessengeService.cs" />
+    <Compile Include="Messenge\Service\MessengeManage.cs" />
     <Compile Include="Messenge\Service\SMSBroadcastReceiver.cs" />
     <Compile Include="Messenge\Service\SpeakMessengeBroadcastReceiver.cs" />
     <Compile Include="Phone\PhoneCallBroadcastReceiver.cs" />
@@ -182,6 +182,8 @@
     <Compile Include="Phone\ScreenStateBroadcastReceiver.cs" />
     <Compile Include="ActivityClass\SettingClass\Setting_Messenge.cs" />
     <Compile Include="ActivityClass\SettingClass\Custom_Reply_Messenge.cs" />
+    <Compile Include="MainService.cs" />
+    <Compile Include="Model\Constants.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -231,16 +233,16 @@
     <AndroidResource Include="Resources\layout\Mail_Setting_Layout.axml" />
     <AndroidResource Include="Resources\layout\Phone_Layout.axml" />
     <AndroidResource Include="Resources\drawable\EnableDisableColor.xml" />
-    <AndroidResource Include="Resources\layout\Setting_Speech_Layout.axml" />
     <AndroidResource Include="Resources\layout\Custom_Reply_SMS.axml" />
     <AndroidResource Include="Resources\layout\Setting_Messenge_Layout.axml" />
-    <AndroidResource Include="Resources\layout\Speech_Setting_Layout_new.axml" />
-    <AndroidResource Include="Resources\layout\confirm_Template_Layout.axml" />
+    <AndroidResource Include="Resources\layout\Setting_Speech_Layout.axml" />
+    <AndroidResource Include="Resources\layout\template_confirm.axml" />
     <AndroidResource Include="Resources\drawable\label_switch.xml" />
     <AndroidResource Include="Resources\drawable\setting_circle_touch.xml" />
     <AndroidResource Include="Resources\drawable\setting_circle_default.xml" />
     <AndroidResource Include="Resources\drawable\setting_circle_press.xml" />
     <AndroidResource Include="Resources\drawable\setting_text_circle_press.xml" />
+    <AndroidResource Include="Resources\layout\template_circle_top.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

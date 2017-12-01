@@ -2,6 +2,7 @@
 <resources>
 	<string name="hello">Hello World, Click Me!</string>
 	<string name="app_name">Free Hand</string>
+	<string name="notification_text">Notify</string>
 	<string name="SAVE_APP_RUNNING_STATUS">SAVE_APP_RUNNING_STATUS</string> 
 	<string name="start_app">ON</string>
 	<string name="stop_app">OFF</string>

@@ -5,7 +5,8 @@
     android:orientation="vertical"
     android:minWidth="25px"
     android:minHeight="25px"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:background="@android:color/white">
     <EditText
         android:id="@+id/textArea_content_sms_auto_reply"
         android:minWidth="100dp"
@@ -28,7 +29,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp" />
-    <Button
+    <include
+        layout="@layout/template_confirm" />
+<!-- <Button
         android:id="@+id/btn_ok"
         android:maxHeight="100dp"
         android:minHeight="50dp"
@@ -48,5 +51,5 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:textColor="@android:color/black"
-        android:text="Cancel" />
+        android:text="Cancel" />-->
 </RelativeLayout>

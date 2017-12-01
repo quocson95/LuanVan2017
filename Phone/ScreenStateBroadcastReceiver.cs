@@ -16,14 +16,11 @@ namespace FreeHand.Phone
         private string queryFilter = String.Format("{0}={1}", CallLog.Calls.Type, (int)CallType.Missed);
         string querySorter = String.Format("{0} desc limit 3", CallLog.Calls.Date);
         private DeviceMotionImplementation sensor;
-        private Context _context;
         private string _lastValueX;
         private TextToSpeechLib _tts;
         private Config _config;
-        public ScreenStateBroadcastReceiver() {}
-        public ScreenStateBroadcastReceiver(Context context)
-        {
-            _context = context;
+        public ScreenStateBroadcastReceiver()       
+        {            
             _lastValueX = null;
             sensor = new DeviceMotionImplementation();
             _tts = TextToSpeechLib.Instance();
@@ -37,7 +34,7 @@ namespace FreeHand.Phone
             switch (intent.Action)
             {
                 case (Intent.ActionScreenOff):
-                    HandleScreenOffEvent();
+                    HandleScreenOffEvent(context);
                     break;
                 case (Intent.ActionScreenOn):
                     HandleScreenOnEvent();
@@ -47,12 +44,12 @@ namespace FreeHand.Phone
             }
         }
 
-        private void HandleScreenOffEvent()
+        private void HandleScreenOffEvent(Context context)
         {
             Log.Info(TAG,"HandleScreenOffEvent");
-            if (IsMissCallLogExist())
+            if (IsMissCallLogExist(context))
             {
-                StartMonitorSensor();
+                StartMonitorSensor(context);
             }
         }
 
@@ -60,10 +57,10 @@ namespace FreeHand.Phone
         {
         }
 
-        private bool IsMissCallLogExist()
+        private bool IsMissCallLogExist(Context context)
         {
             bool result = false;
-            Android.Database.ICursor queryData = _context.ContentResolver.Query(CallLog.Calls.ContentUri, null, queryFilter, null, querySorter);
+            Android.Database.ICursor queryData = context.ContentResolver.Query(CallLog.Calls.ContentUri, null, queryFilter, null, querySorter);
             if (queryData.MoveToNext())
             {
                 result = true;
@@ -71,7 +68,7 @@ namespace FreeHand.Phone
             return result;
         }
 
-        private void StartMonitorSensor()
+        private void StartMonitorSensor(Context context)
         {            
             sensor.Start(MotionSensorType.Accelerometer,MotionSensorDelay.Default);
             sensor.SensorValueChanged += (s, a)  =>
@@ -84,7 +81,7 @@ namespace FreeHand.Phone
                         var v = CrossVibrate.Current;
                         if (v.CanVibrate) v.Vibration(); //Default 500ms
                         
-                        var powerManager = (PowerManager)_context.GetSystemService(Context.PowerService);
+                        var powerManager = (PowerManager)context.GetSystemService(Context.PowerService);
                         var wakeLock = powerManager.NewWakeLock(WakeLockFlags.ScreenDim | WakeLockFlags.AcquireCausesWakeup, "StackOverflow");
                         wakeLock.Acquire();                        
                         wakeLock.Release();

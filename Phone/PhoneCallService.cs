@@ -11,48 +11,40 @@ using DeviceMotion.Plugin.Abstractions;
 
 namespace FreeHand.Phone
 {
-    [Service(Label = "PhoneCallService")]
-    [IntentFilter(new String[] { "com.yourname.PhoneCallService" })]
-    public class PhoneCallService : Service
+    public class PhoneCallService
     {
-        private static readonly string TAG = "PhoneCallService";
+        private static readonly string TAG = typeof(PhoneCallService).FullName;
         private PhoneCallBroadcastReceiver phoneCallReceiver;
         private ScreenStateBroadcastReceiver mScreenStateReceiver;
         private Config config;
         DeviceMotionImplementation sensor;
 
-        public override StartCommandResult OnStartCommand(Android.Content.Intent intent, StartCommandFlags flags, int startId)
+        public void Start()
         {
             // start your service logic here
             config = Config.Instance();
-            phoneCallReceiver = new PhoneCallBroadcastReceiver(this);
-            this.RegisterReceiver(this.phoneCallReceiver, new IntentFilter("android.intent.action.PHONE_STATE"));
-
+            phoneCallReceiver = new PhoneCallBroadcastReceiver();
+            Application.Context.RegisterReceiver(this.phoneCallReceiver, new IntentFilter("android.intent.action.PHONE_STATE"));
             MonitorScreen();
-            // Return the correct StartCommandResult for the type of service you are building
-            return StartCommandResult.NotSticky;
+            // Return the correct StartCommandResult for the type of service you are building           
         }
 
         private void MonitorScreen()
         {
-            mScreenStateReceiver = new ScreenStateBroadcastReceiver(this);
+            mScreenStateReceiver = new ScreenStateBroadcastReceiver();
             IntentFilter screenStateFilter = new IntentFilter();
             screenStateFilter.AddAction(Intent.ActionScreenOff);
             screenStateFilter.AddAction(Intent.ActionScreenOn);
-            this.RegisterReceiver(mScreenStateReceiver, screenStateFilter);
+            Application.Context.RegisterReceiver(mScreenStateReceiver, screenStateFilter);
         }
-        public override IBinder OnBind(Intent intent)
+      
+        public void Stop()
         {
-            return null;
-        }
-        public override void OnDestroy()
-        {
-            Log.Info(TAG, "OnDestroy");
-            base.OnDestroy();
-            this.UnregisterReceiver(this.phoneCallReceiver);
-            this.UnregisterReceiver(this.mScreenStateReceiver);
-            this.phoneCallReceiver.Dispose();
-            this.mScreenStateReceiver.Dispose();
+            Log.Info(TAG, "Stop");           
+            Application.Context.UnregisterReceiver(this.phoneCallReceiver);
+            Application.Context.UnregisterReceiver(this.mScreenStateReceiver);
+            phoneCallReceiver.Dispose();
+            mScreenStateReceiver.Dispose();
 
             
         }

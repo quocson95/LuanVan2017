@@ -34,7 +34,7 @@ namespace FreeHand
 
         public readonly string NOT_FOUND = "NOT_FOUND";
         public class PhoneConfig
-        {
+        {            
             private bool smartAlert;
             private bool enable;
             private bool allowAutoAcceptCall;
@@ -59,12 +59,31 @@ namespace FreeHand
 
         public class SMSConfig
         {
+            //Setting user
+            public bool Enable { set; get; }
+            public bool AllowSpeakName { set; get; }
+            public bool AllowSpeakNumber { set; get; }
+            public bool AllowSpeakContent { set;  get;}
+            public bool AllowAutoReply { set; get; }
+            public string CustomContetnReply { set; get; }
+
+            //System configure
             public bool IsHandleSMSRunnig { get; set; }
             public Model.IMessengeData MessengeBackUp { get; set; }
             public STATE_SMS StateSMS { get; set; }
             public SMSConfig (){
                 StateSMS = STATE_SMS.IDLE;
                 MessengeBackUp = null;
+                IsHandleSMSRunnig = false;
+            }
+
+            public void Clean()
+            {
+                IsHandleSMSRunnig = false;
+                MessengeBackUp = null;
+                StateSMS = STATE_SMS.IDLE;
+                Model.MessengeQueue messengeQueue = Model.MessengeQueue.GetInstance();
+                messengeQueue.Clear();
             }
         }
 
@@ -97,6 +116,7 @@ namespace FreeHand
         private static readonly string TAG = "Config";
         private bool _updateConfig;
         private bool _writeConfig;
+        public bool MainServiceRunning { set; get; }
         private AudioManager audioManage;
         public PhoneConfig phoneConfig;
         public SMSConfig smsConfig;
@@ -116,7 +136,8 @@ namespace FreeHand
         {
             _writeConfig = false;
             _updateConfig = false;
-
+            MainServiceRunning = false;
+            audioManage = (AudioManager)Application.Context.GetSystemService(Context.AudioService);
             phoneConfig = new PhoneConfig();
             smsConfig = new SMSConfig();
             ttsConfig = new TTSConfig();
@@ -136,16 +157,14 @@ namespace FreeHand
          */
         public void Clean()
         {
-            smsConfig.StateSMS = STATE_SMS.IDLE;
-            smsConfig.MessengeBackUp = null;
-            smsConfig.IsHandleSMSRunnig = false;
+            smsConfig.Clean();
 
             phoneConfig.IsHandlePhoneRunnig = false;
 
-            messengeQueue = Model.MessengeQueue.GetInstance();
-            messengeQueue.Clear();
+
 
         }
+
 
         /*
          * Init Speech Engine for STT and TTS
@@ -181,17 +200,7 @@ namespace FreeHand
         }
         //Phone Config
 
-
-        public void Read(Context context)
-        {
-            //Log.Info(TAG, "Start Read Config");
-            //using (StreamReader sr = new StreamReader(context.Assets.Open("config.js")))
-            //{
-            //    content = sr.ReadToEnd();
-            //}
-            //Log.Info(TAG, "Content config.js" + content);
-            //configFormat = JsonConvert.DeserializeObject<ConfigFormat>(content);
-        }
+               
 
         public void Save()
         {
@@ -204,12 +213,24 @@ namespace FreeHand
         {
             Log.Info(TAG, "Load Config");
 
-            Task configWork = new Task(() => { 
+            //Task configWork = new Task(() => { 
                 LoadPhoneConfig();
                 LoadSpeechConfig(); 
-            });
-            configWork.Start();
+            //});
+            //configWork.Start();
 
+        }
+
+        private void SaveSMSConfig()
+        {
+            var prefs = Application.Context.GetSharedPreferences("SMS", FileCreationMode.Private);
+            var prefEditor = prefs.Edit();
+            prefEditor.PutBoolean("Enable",smsConfig.Enable);
+            prefEditor.PutBoolean("AllowSpeakName",smsConfig.AllowSpeakName);
+            prefEditor.PutBoolean("AllowSpeakNumber",smsConfig.AllowSpeakNumber);
+            prefEditor.PutBoolean("AllowSpeakContent",smsConfig.AllowSpeakContent);
+            prefEditor.PutBoolean("AllowAutoReply",smsConfig.AllowAutoReply);
+            prefEditor.PutString("CustomContetnReply",smsConfig.CustomContetnReply);
         }
         private void SavePhoneConfig()
         {
@@ -258,6 +279,23 @@ namespace FreeHand
             prefEditor.Commit();
         }
 
+        private void LoadSMSConfig()
+        {
+        //    public bool Enable { set; get; }
+        //public bool AllowSpeakName { set; get; }
+        //public bool AllowSpeakNumber { set; get; }
+        //public bool AllowSpeakContent { set; get; }
+        //public bool AllowAutoReply { set; get; }
+        //public string CustomContetnReply { set; get; }
+            Log.Info(TAG, "Load SMS Config");
+            var prefs = Application.Context.GetSharedPreferences("SMS", FileCreationMode.Private);
+            smsConfig.Enable = prefs.GetBoolean("Enable", false);
+            smsConfig.AllowSpeakName = prefs.GetBoolean("AllowSpeakName", false);
+            smsConfig.AllowSpeakNumber = prefs.GetBoolean("AllowSpeakNumber", false);
+            smsConfig.AllowSpeakContent = prefs.GetBoolean("AllowSpeakContent", false);
+            smsConfig.CustomContetnReply = prefs.GetString("CustomContetnReply", "");
+        }
+
         private void LoadPhoneConfig()
         {
             Log.Info(TAG, "Load Phone Config");
@@ -276,14 +314,16 @@ namespace FreeHand
             LoadTTSConfig();        
         }
 
+
+
         async void LoadTTSConfig()
         {
             Log.Info(TAG, "Load Speech TTS Config");
             var prefs = Application.Context.GetSharedPreferences("Freehand", FileCreationMode.Private);
             ttsConfig.EngineNameSelect = prefs.GetString("TTSConfig.EngineNameSelect", NOT_FOUND);
             ttsConfig.LangSelectByTTS = prefs.GetString("TTSConfig.LangSelectByTTS", NOT_FOUND);
-            ttsConfig.SeekPitch = prefs.GetFloat("TTSConfig.SeekPitch", 10);
-            ttsConfig.SeekSpeed = prefs.GetFloat("TTSConfig.SeekSpeed", 10);
+            ttsConfig.SeekPitch = prefs.GetFloat("TTSConfig.SeekPitch", 1);
+            ttsConfig.SeekSpeed = prefs.GetFloat("TTSConfig.SeekSpeed", 1);
             string valueDefault;
             valueDefault = prefs.GetString("TTSConfig.ListEngineName", NOT_FOUND);
             TextToSpeechLib tts = TextToSpeechLib.Instance();

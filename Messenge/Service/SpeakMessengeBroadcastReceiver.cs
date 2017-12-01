@@ -6,13 +6,12 @@ using Android.OS;
 using Android.Speech;
 using Android.Util;
 
-namespace FreeHand.Messenge
+namespace FreeHand.Messenge.Service
 {
-    [BroadcastReceiver]
+    [BroadcastReceiver(Enabled = true, Exported = false)]
     public class SpeakMessengeBroadcastReceiver : BroadcastReceiver,IRecognitionListener
     {
-        private static readonly string TAG = "SpeakMessengeBroadcastReceiver";
-        Context _context;
+        private static readonly string TAG = typeof(SpeakMessengeBroadcastReceiver).FullName;
         private Model.MessengeQueue _messengeQueue;
         private TextToSpeechLib _ttsLib;
         private STTLib _stt;
@@ -20,20 +19,40 @@ namespace FreeHand.Messenge
         private SpeechRecognizer _speech;
         private TaskCompletionSource<Java.Lang.Object> _tcs;
         private string _answer = "";
-        private static readonly string IntentAction = "FreeHand.QueueMessenge.Invoke";
-        public SpeakMessengeBroadcastReceiver(){}
-        public SpeakMessengeBroadcastReceiver(Context context)
-        {
-            _context = context;
-            Log.Info(TAG, "Contructor");
+        bool stop;
+        public SpeakMessengeBroadcastReceiver(){         
+            Log.Info(TAG, "Initializing");
             _messengeQueue = Model.MessengeQueue.GetInstance();
             _config = Config.Instance();
             _ttsLib = TextToSpeechLib.Instance();
             _stt = STTLib.Instance();
         }
-        private async void SMSHandleSpeak()
+
+        public override void OnReceive(Context context, Intent intent)
         {
+            Log.Info(TAG, "OnReceive: "+intent.Action);
+
+            if (!_config.smsConfig.IsHandleSMSRunnig)
+                SMSHandleSpeak(context);            
+        }
+
+        public void Stop()
+        {
+            Log.Info(TAG, "Stop: ");
+            stop = true;
+            if (_speech != null)
+            {               
+                _speech.Cancel();
+                _speech.UnregisterFromRuntime();
+
+            }
+            _ttsLib.Stop();
+            _config.smsConfig.Clean();
+        }
+        private async void SMSHandleSpeak(Context context)
+        {           
             _config.smsConfig.IsHandleSMSRunnig = true;
+            stop = false;
             Log.Info(TAG,"SMS Handle status "+_config.smsConfig.IsHandleSMSRunnig.ToString());
 
             Model.IMessengeData messengeData = null;
@@ -51,7 +70,7 @@ namespace FreeHand.Messenge
             messengeData = GetMessege(_config.smsConfig.StateSMS);
 
             while (!EmptyMessenge() &&
-                   _config.GetPermissionRun(Config.PERMISSION_RUN.MESSENGE))                  
+                   _config.GetPermissionRun(Config.PERMISSION_RUN.MESSENGE) && !stop)                  
             {
                 if (_config.UpdateConfig)
                 {
@@ -91,7 +110,7 @@ namespace FreeHand.Messenge
                     case Config.STATE_SMS.LISTENT_REQUEST_ANSWER:
                         if (_config.GetPermissionRun(Config.PERMISSION_RUN.MESSENGE))
                         {
-                            status = await listenRequest();
+                            status = await listenRequest(context);
                             if (status == 0)
                                 _config.smsConfig.StateSMS = Config.STATE_SMS.LISTEN_CONTENT_ANSWER;
                             else if (status != 0 && try_listen > 0)
@@ -175,9 +194,9 @@ namespace FreeHand.Messenge
             if (_messengeQueue.Empty() && _config.smsConfig.MessengeBackUp == null) return true;
             return false;
         }
-        private async Task<int> listenRequest()
+        private async Task<int> listenRequest(Context context)
         {
-            _speech = SpeechRecognizer.CreateSpeechRecognizer(_context);
+            _speech = SpeechRecognizer.CreateSpeechRecognizer(context);
             _speech.SetRecognitionListener(this);
             _tcs = new TaskCompletionSource<Java.Lang.Object>();
             try
@@ -249,14 +268,7 @@ namespace FreeHand.Messenge
             if (string.IsNullOrEmpty(msg)) return;
             int status = await _ttsLib.SpeakMessenger(msg);
         }
-
-        public override void OnReceive(Context context, Intent intent)
-        {
-            Log.Info(TAG,"FreeHand.QueueMessenge.Invoke");
-            if (!_config.smsConfig.IsHandleSMSRunnig)
-                SMSHandleSpeak();
-        }
-
+               
 
         //Speech Interface Implement
         public void OnBeginningOfSpeech()

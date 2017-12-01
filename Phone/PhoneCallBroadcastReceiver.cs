@@ -13,13 +13,12 @@ using Android.Util;
 using Android.Telephony;
 using DeviceMotion.Plugin;
 
-namespace FreeHand
+namespace FreeHand.Phone
 {
     [BroadcastReceiver(Enabled = true, Exported = false)]
     public class PhoneCallBroadcastReceiver : BroadcastReceiver,IRecognitionListener
     {
         private static readonly string TAG = "PhoneCallBroadcastReceiver";
-        Context _context;
        
         private Config _config;
         TextToSpeechLib _tts;
@@ -27,11 +26,9 @@ namespace FreeHand
         string _telephone,_answer;
         STTLib _stt;
         TaskCompletionSource<Java.Lang.Object> _tcs;    
-        public PhoneCallBroadcastReceiver() { }
-        public PhoneCallBroadcastReceiver(Context context)
+        public PhoneCallBroadcastReceiver()        
         {
-            Log.Info(TAG, "Contructor");
-            _context = context;
+            Log.Info(TAG, "Initializing");           
             _config = Config.Instance();
             _tts = TextToSpeechLib.Instance();
             _stt = STTLib.Instance();       
@@ -45,42 +42,13 @@ namespace FreeHand
 
             Intent buttonDown = new Intent(Intent.ActionMediaButton);
             buttonDown.PutExtra(Intent.ExtraKeyEvent, new KeyEvent(KeyEventActions.Up, Keycode.Headsethook));
-            _context.SendOrderedBroadcast(buttonDown, Android.Manifest.Permission.CallPrivileged);
-            //Instrumentation inst = new Instrumentation();
-            //inst.SendKeyDownUpSync(Android.Views.Keycode.Menu);
-            //inst.SendKeyDownUpSync(Android.Views.Keycode.ProgBlue);
-
-            //Intent headSetUnPluggedintent = new Intent(Intent.ActionHeadsetPlug);
-            //headSetUnPluggedintent.AddFlags(ActivityFlags.ReceiverRegisteredOnly);
-            //headSetUnPluggedintent.PutExtra("state", 0);
-            //headSetUnPluggedintent.PutExtra("name", "Headset");
-            //_context.SendOrderedBroadcast(headSetUnPluggedintent, null);
-            //Intent  btnUp = new Intent(Intent.ActionMediaButton);
-            //btnUp.PutExtra(Intent.ExtraKeyEvent, new KeyEvent(
-            //    KeyEventActions.Up, Keycode.Headsethook));
-            //_context.SendOrderedBroadcast(btnUp, "android.permission.CALL_PRIVILEGED");
-
-           
-            //i.AddCategory(Intent.CategoryHome);
-            //Intent btnDown = new Intent(Intent.ActionMediaButton).PutExtra(
-            //    Intent.ExtraKeyEvent, new KeyEvent(KeyEventActions.Down,
-            //                                       Keycode.Headsethook));
-            //Intent btnUp = new Intent(Intent.ActionMediaButton).PutExtra(
-            //    Intent.ExtraKeyEvent, new KeyEvent(KeyEventActions.Up,
-            //                                       Keycode.Headsethook));
-            //Intent headSetUnPluggedintent = new Intent(Intent.ActionHeadsetPlug);
-            //headSetUnPluggedintent.PutExtra("state", 0);
-            //headSetUnPluggedintent.PutExtra("name", "Headset");
-            ////var tm = (TelephonyManager)_context.GetSystemService(Context.TelecomService);
-
-            //_context.SendOrderedBroadcast(btnDown, null);
-            //_context.SendOrderedBroadcast(btnUp, null);
+            Application.Context.SendOrderedBroadcast(buttonDown, Android.Manifest.Permission.CallPrivileged);
         }
 
         private async Task<int> listenRequest()
         {
             
-            _speech = SpeechRecognizer.CreateSpeechRecognizer(_context);
+            _speech = SpeechRecognizer.CreateSpeechRecognizer(Application.Context);
             _speech.SetRecognitionListener(this);
             _tcs = new TaskCompletionSource<Java.Lang.Object>();
             try

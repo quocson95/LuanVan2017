@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:minWidth="25px"
     android:minHeight="25px"
@@ -11,7 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <Button
+    <!-- <Button
             android:id="@+id/circle_top"
             android:background="@drawable/setting_circle_touch"
             android:text="FH"
@@ -24,14 +24,16 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="20dp"
             android:layout_centerInParent="true"
-            android:enabled="true" />
+            android:enabled="false" />-->
+        <include
+            layout="@layout/template_circle_top" />
     <!--Label-->
         <TextView
             android:id="@+id/label_sms"
             android:layout_below="@+id/circle_top"
             android:layout_width="150dp"
             android:layout_height="45dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="180dp"
             android:gravity="center|left"
             android:text="SMS"
             android:textColor="@color/main_background"
@@ -89,7 +91,7 @@
             android:textSize="20dp" />
     <!--Custom SMS Reply-->
         <TextView
-            android:id="@+id/btn_custom_sms_reply"
+            android:id="@+id/tv_custom_sms_reply"
             android:layout_below="@+id/sw_allow_reply_sms"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -98,11 +100,23 @@
             android:gravity="center|left"
             android:text="Custom SMS Reply"
             android:textColor="@drawable/label_switch" />
+        <TextView
+            android:id="@+id/tv_content_custom_reply"
+            android:layout_below="@+id/tv_custom_sms_reply"
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:textSize="16dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center|left"
+            android:singleLine="true"
+            android:text="This is custom reply"
+            android:textColor="@drawable/label_switch" />
     <!--   Mail Setting     -->
     <!--Label-->
         <TextView
             android:id="@+id/label_mail"
-            android:layout_below="@+id/btn_custom_sms_reply"
+            android:layout_below="@+id/tv_content_custom_reply"
             android:layout_width="150dp"
             android:layout_height="45dp"
             android:layout_marginTop="20dp"
@@ -132,7 +146,7 @@
             android:textSize="20dp" />
     <!--Custom SMS Reply-->
         <TextView
-            android:id="@+id/btn_custom_mail_reply"
+            android:id="@+id/tv_custom_mail_reply"
             android:layout_below="@+id/sw_allow_reply_mail"
             android:layout_width="match_parent"
             android:layout_height="40dp"

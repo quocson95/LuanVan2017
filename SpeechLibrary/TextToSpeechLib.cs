@@ -66,7 +66,7 @@ namespace FreeHand
         }
 
 
-        public async Task<TextToSpeech> GetTTS(Context context){            
+        public async Task<TextToSpeech> GetTTS(){            
             if (_textToSpeech != null)
             {
                 try{
@@ -79,7 +79,7 @@ namespace FreeHand
                     Log.Info(TAG, "Error when GetTTS");
                 }
             } 
-            _textToSpeech = await CreateTtsAsync(context,this,_config.ttsConfig.EngineNameSelect);
+            _textToSpeech = await CreateTtsAsync(Application.Context,this,_config.ttsConfig.EngineNameSelect);
             var locale = new Locale(_config.ttsConfig.LangSelectByTTS);
             SetLang(locale);
             SetPitch();
@@ -94,7 +94,7 @@ namespace FreeHand
 
         public async Task ReInitTTS()
         {
-            await GetTTS(_mainContext);
+            await GetTTS();
         }
 
         private async Task<TextToSpeech> CreateTtsAsync(Context context,TextToSpeech.IOnInitListener listen,string engine)
@@ -119,7 +119,7 @@ namespace FreeHand
             _tcs = new TaskCompletionSource<Java.Lang.Object>();
             string engineName = _config.ttsConfig.EngineNameSelect;
             if (string.IsNullOrEmpty(engine)) tts = new TextToSpeech(context, listen);
-            else tts = new TextToSpeech(context, listen, engine);
+            else tts = new TextToSpeech(Application.Context, listen, engine);
             if ((int)await _tcs.Task != (int)OperationResult.Success)
             {
                 Log.Debug(TAG, "Engine: " + engineName + " failed to initialize.");
@@ -132,7 +132,7 @@ namespace FreeHand
         //Get Engines support by Device
         public async Task<List<string>> GetEngines(Context c){
             Log.Debug(TAG, "Trying to get Engine: ");
-            TextToSpeech tts = await CreateTtsAsync(c, this, null);
+            TextToSpeech tts = await CreateTtsAsync(Application.Context, this, null);
             IList<TextToSpeech.EngineInfo> engines = tts.Engines;
             var listNameEngine = new List<string>();
             foreach (var engine in engines)
@@ -157,7 +157,7 @@ namespace FreeHand
             if (_supportLanguage == null)
             {
 
-                TextToSpeech _tts = await CreateTtsAsync(c, this, engine);
+                TextToSpeech _tts = await CreateTtsAsync(Application.Context, this, engine);
                 ICollection<Locale> langCollect = null;
                 List<string> lang = new List<string>();
 
@@ -223,7 +223,7 @@ namespace FreeHand
 			if (_textToSpeech == null)
 			{
                 Log.Info(TAG," textToSpeech is null");
-				return 0;
+                await GetTTS();
 			}
 
 			if (_textToSpeech.IsSpeaking)
@@ -257,11 +257,12 @@ namespace FreeHand
 
 
 		
-        public async Task Stop(){
+        public void Stop(){
             if (_textToSpeech == null) return;
             try {
                 _textToSpeech.Stop();
                 _textToSpeech.Shutdown();
+                _textToSpeech = null;
             }
             catch (System.Exception e)
             {

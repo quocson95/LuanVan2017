@@ -42,7 +42,7 @@ namespace FreeHand
 			{
                 _selectEngine = _listEngines[(int)e.Id];
                 int i = await GetLanguageSupportByEngine(_selectEngine);
-                await ttsLib.GetTTS(this);
+                await ttsLib.GetTTS();
 			};
             spn_lang.ItemSelected += async (object sender, AdapterView.ItemSelectedEventArgs e) => 
             {

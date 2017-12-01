@@ -19,7 +19,7 @@ namespace FreeHand
         private STTLib _stt;
         private Config _config;      
         private Spinner _spin_enigne_master, _spin_lang_speak,_spin_lang_listen;
-        private Button _btn_engine_master, _btn_lang_listen;       
+        private TextView _tv_engine_master, _tv_lang_listen;       
         private SeekBar _seekSpeed, _seekPitch;
         private int _seekSpeedValue, _seekPitchValue;
         private TextView _labelSpeedValue, _labelPitchValue;
@@ -34,18 +34,18 @@ namespace FreeHand
             .SetDefaultFontPath("Fonts/HELR45W.ttf")
             .SetFontAttrId(Resource.Attribute.fontPath)
             .Build());
-            SetContentView(Resource.Layout.Speech_Setting_Layout_new);
+            SetContentView(Resource.Layout.Setting_Speech_Layout);
             _tts = TextToSpeechLib.Instance();
             _stt = STTLib.Instance();
             _config = Config.Instance();
             // Create your application here
-            Task configWork = new Task(() =>
-            {
+            //Task configWork = new Task(() =>
+            //{
                 InitUI();
+                SetListenerUI();
                 InitDataUI();
-                SetActionUI();
-            });
-            configWork.Start();
+            //});
+            //configWork.Start();
             //spn_lang = FindViewById<Spinner>(Resource.Id.spinner_lang);
 
 
@@ -65,8 +65,8 @@ namespace FreeHand
 
         private void InitUI()
         {
-            _btn_engine_master = FindViewById<Button>(Resource.Id.btn_engine_master);
-            _btn_lang_listen = FindViewById<Button>(Resource.Id.label_listen_lang);
+            _tv_engine_master = FindViewById<TextView>(Resource.Id.btn_engine_master);
+            _tv_lang_listen = FindViewById<TextView>(Resource.Id.label_listen_lang);
             _spin_enigne_master = FindViewById<Spinner>(Resource.Id.spinner_engine_master);
             _spin_lang_speak = FindViewById<Spinner>(Resource.Id.spinner_speak_lang);
             _spin_lang_listen = FindViewById<Spinner>(Resource.Id.spinner_listen_lang);
@@ -81,7 +81,12 @@ namespace FreeHand
             //Init Value
 
         }
+        private void SetListenerUI()
+        {
+            SetActionTTSUI();
+            SetActionSTTUI();
 
+        }
         private void InitDataUI()
         {
             //Engine
@@ -123,13 +128,7 @@ namespace FreeHand
             var index = _config.ttsConfig.LangSupportBySTT.Keys.ToList().IndexOf(_config.ttsConfig.LangSelectBySTT);
             _spin_lang_listen.SetSelection(index);
         }
-
-        private void SetActionUI()
-        {
-            SetActionTTSUI();
-            SetActionSTTUI();
-                                 
-        }
+               
 
         private void SetActionTTSUI()
         {            

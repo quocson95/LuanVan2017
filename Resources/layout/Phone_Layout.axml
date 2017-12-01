@@ -1,108 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:foo="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <android.support.percent.PercentRelativeLayout
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:padding="10dp">
+<!--Cirle top-->
+    <include
+        layout="@layout/template_circle_top"
+        android:id="@+id/circle_top" />
+<!--  Enable Service  -->
+    <Switch
+        android:id="@+id/sw_enable"
+        android:layout_below="@+id/circle_top"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/material_grey_100">
-        <TextView
-            foo:layout_widthPercent="100%"
-            foo:layout_heightPercent="5%"
-            android:id="@+id/space_1" />
-        <Button
-            android:id="@+id/circle_top"
-            android:layout_below="@+id/space_1"
-            foo:layout_heightPercent="25%"
-            foo:layout_aspectRatio="100%"
-            android:background="@drawable/circle_shape"
-            android:text="FH"
-            android:textSize="64dp"
-            android:textColor="@color/main_background"
-            android:layout_gravity="center_horizontal"
-            fontPath="Fonts/Pacifico.ttf"
-            android:layout_centerInParent="true"
-            android:layout_centerHorizontal="true" />
-        <Switch
-            android:id="@+id/sw_enable"
-            android:layout_below="@+id/circle_top"
-            foo:layout_widthPercent="90%"
-            foo:layout_heightPercent="8%"
-            android:layout_height="wrap_content"
-            android:text="Enable"
-            android:textSize="16dp"
-            fontPath="Fonts/Pacifico.ttf"
-            android:textColor="@color/main_background"
-            android:layout_gravity="center_horizontal"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:checked="false" />
-        <Switch
-            android:id="@+id/sw_auto_accept_call"
-            android:layout_below="@+id/sw_enable"
-            foo:layout_widthPercent="90%"
-            foo:layout_heightPercent="8%"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Auto Accept Call"
-            android:textSize="16dp"
-            fontPath="Fonts/Pacifico.ttf"
-            android:textColor="@color/main_background"
-            android:layout_gravity="center_horizontal"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:checked="true" />
-        <TextView
-            android:id="@+id/label_time_auto_accept_call"
-            android:layout_toRightOf="@+id/lable_auto_accept_call"
-            android:layout_below="@+id/sw_auto_accept_call"
-            foo:layout_widthPercent="10%"
-            foo:layout_heightPercent="8%"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:textColor="@color/main_background"
-            android:textSize="16dp"
-            android:text="30s"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true" />
-        <SeekBar
-            android:id="@+id/sk_time_auto_accept_call"
-            android:layout_below="@+id/lable_auto_accept_call"
-            foo:layout_widthPercent="90%"
-            foo:layout_heightPercent="8%"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true" />
-        <Switch
-            android:id="@+id/sw_smartAlert"
-            android:layout_below="@+id/sk_time_auto_accept_call"
-            foo:layout_widthPercent="90%"
-            foo:layout_heightPercent="8%"
-            android:layout_height="wrap_content"
-            android:text="Smart Alert"
-            android:textSize="16dp"
-            fontPath="Fonts/Pacifico.ttf"
-            android:textColor="@color/main_background"
-            android:layout_gravity="center_horizontal"
-            android:checked="true"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true" />
-        <TextView
-            android:id="@+id/lable_auto_accept_call"
-            android:layout_below="@id/sw_auto_accept_call"
-            foo:layout_widthPercent="80%"
-            foo:layout_heightPercent="8%"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/main_background"
-            android:textSize="16dp"
-            android:text="    Time Wait Before Accept Call"
-            android:layout_toLeftOf="@id/lable_auto_accept_call" />
-    </android.support.percent.PercentRelativeLayout>
-</LinearLayout>
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@drawable/label_switch"
+        android:text="Enable"
+        android:textSize="20dp" />
+    <Switch
+        android:id="@+id/sw_auto_accept_call"
+        android:layout_below="@+id/sw_enable"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="@drawable/label_switch"
+        android:text="Auto Accept Call"
+        android:textSize="20dp" />
+    <TextView
+        android:id="@+id/lable_auto_accept_call"
+        android:layout_below="@+id/sw_auto_accept_call"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="@drawable/label_switch"
+        android:text="Time Wait Before Accept Call"
+        android:gravity="center|left"
+        android:textSize="20dp" />
+    <TextView
+        android:id="@+id/label_time_auto_accept_call"
+        android:layout_below="@+id/sw_auto_accept_call"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="@drawable/label_switch"
+        android:text="30s"
+        android:gravity="center|right"
+        android:textSize="20dp"
+        android:layout_alignParentEnd="true" />
+    <SeekBar
+        android:id="@+id/sk_time_auto_accept_call"
+        android:layout_below="@+id/label_time_auto_accept_call"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@android:color/white"
+        android:layout_alignParentRight="true" />
+    <Switch
+        android:id="@+id/sw_smartAlert"
+        android:layout_below="@+id/sk_time_auto_accept_call"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="@drawable/label_switch"
+        android:text="Smart Alert"
+        android:textSize="20dp" />
+</RelativeLayout>

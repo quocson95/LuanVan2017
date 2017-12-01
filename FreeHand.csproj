@@ -184,6 +184,7 @@
     <Compile Include="ActivityClass\SettingClass\Custom_Reply_Messenge.cs" />
     <Compile Include="MainService.cs" />
     <Compile Include="Model\Constants.cs" />
+    <Compile Include="Model\Commom.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />

@@ -36,8 +36,12 @@ namespace FreeHand.Phone
 
         private async Task PhoneCallHanler()
         {
-            
+            string nameCaller;
+            nameCaller = Model.Commom.GetNameFromPhoneNumber(_telephone);
+
             await _tts.SpeakMessenger("You Has New Call From "+_telephone);
+            await Task.Delay(500);
+            await _tts.SpeakMessenger("Name Caller " + nameCaller);
             await Task.Delay(500);
 
             Intent buttonDown = new Intent(Intent.ActionMediaButton);

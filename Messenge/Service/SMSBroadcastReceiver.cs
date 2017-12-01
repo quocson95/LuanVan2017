@@ -56,8 +56,8 @@ namespace FreeHand.Messenge.Service
                     if (sender == null)
                         sender = msgs[i].OriginatingAddress;                   
                     Model.IMessengeData _smsData = new Model.SMSData(msgs[i].OriginatingAddress, msgs[i].MessageBody);
-                    string nameSender = GetNameFromPhoneNumber(context,_smsData.GetAddrSender());
-                    Log.Info(TAG, "name contact " + nameSender);
+                    string nameSender = Model.Commom.GetNameFromPhoneNumber(_smsData.GetAddrSender());
+                    Log.Info(TAG, "Name Sender " + nameSender);
                     _smsData.SetNameSender(nameSender);                    
                     _messengeQueue.EnqueueMessengeQueue(_smsData);
                     //Toast.MakeText(context, sb.ToString(), ToastLength.Long).Show();
@@ -78,27 +78,6 @@ namespace FreeHand.Messenge.Service
             }
         }
 
-        private string GetNameFromPhoneNumber(Context context, string number)
-        {
-            Android.Net.Uri uri = Android.Net.Uri.WithAppendedPath(ContactsContract.PhoneLookup.ContentFilterUri, Android.Net.Uri.Encode(number));
-
-            String[] projection = new String[] { ContactsContract.PhoneLookup.InterfaceConsts.DisplayName };
-
-            String contactName;
-            contactName = "UNKNOW";
-            var cursor = Android.App.Application.Context.ContentResolver.Query(uri, projection, null, null, null);
-
-            if (cursor != null)
-            {
-                if (cursor.MoveToFirst())
-                {
-                    contactName = cursor.GetString(0);
-                }
-                cursor.Close();
-            }
-            Log.Info(TAG, "Detect Contact Name " + contactName);
-            return contactName;
-        }
     }
 }
     

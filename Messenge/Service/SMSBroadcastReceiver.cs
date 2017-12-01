@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Diagnostics.Contracts;
-
-using Android.Provider;
-using Android.Database;
 using Android.Content;
+using Android.Provider;
 using Android.Runtime;
-using Android.Widget;
 using Android.Telephony;
-using Android.OS;
-using Android.Speech;
 using Android.Util;
 
 namespace FreeHand.Messenge.Service
@@ -54,7 +45,7 @@ namespace FreeHand.Messenge.Service
                 var castedPdus = JNIEnv.GetArray<Java.Lang.Object>(pdus.Handle);
 
                 var msgs = new SmsMessage[castedPdus.Length];
-                var sb = new StringBuilder();
+
                 String sender = null;
                 for (var i = 0; i < msgs.Length; i++)
                 {
@@ -63,9 +54,7 @@ namespace FreeHand.Messenge.Service
 
                     msgs[i] = SmsMessage.CreateFromPdu(bytes);
                     if (sender == null)
-                        sender = msgs[i].OriginatingAddress;
-                    sb.Append(string.Format("SMS From: {0}{1}Body: {2}{1}", msgs[i].OriginatingAddress,
-                        System.Environment.NewLine, msgs[i].MessageBody));
+                        sender = msgs[i].OriginatingAddress;                   
                     Model.IMessengeData _smsData = new Model.SMSData(msgs[i].OriginatingAddress, msgs[i].MessageBody);
                     string nameSender = GetNameFromPhoneNumber(context,_smsData.GetAddrSender());
                     Log.Info(TAG, "name contact " + nameSender);
@@ -89,89 +78,27 @@ namespace FreeHand.Messenge.Service
             }
         }
 
-        public string GetNameFromPhoneNumber(Context context,string number)
+        private string GetNameFromPhoneNumber(Context context, string number)
         {
-            string result = "UNKNOWN";
-            var uri = ContactsContract.CommonDataKinds.Phone.ContentUri;
-            var uriii = ContactsContract.PhoneLookup.ContentFilterUri;
+            Android.Net.Uri uri = Android.Net.Uri.WithAppendedPath(ContactsContract.PhoneLookup.ContentFilterUri, Android.Net.Uri.Encode(number));
 
-			string[] projection = {
-               ContactsContract.Contacts.InterfaceConsts.Id,
-               ContactsContract.Contacts.InterfaceConsts.DisplayName,
-                //ContactsContract.Contacts.InterfaceConsts.PhotoId,
-                //ContactsContract.Contacts.InterfaceConsts.HasPhoneNumber,
-                ContactsContract.CommonDataKinds.Phone.Number
-            };
-            //var num = PhoneNumberUtils.FormatNumber(number.ToString(), "VI");
-            //var y = PhoneNumberUtils.FormatNumber(number);
+            String[] projection = new String[] { ContactsContract.PhoneLookup.InterfaceConsts.DisplayName };
 
+            String contactName;
+            contactName = "UNKNOW";
+            var cursor = Android.App.Application.Context.ContentResolver.Query(uri, projection, null, null, null);
 
-            var loader = new CursorLoader(context, uri, projection, ContactsContract.CommonDataKinds.Phone.Number + "=" + number, null, null);
-			var cursor = (ICursor)loader.LoadInBackground();
-
-            if (cursor.MoveToFirst())
+            if (cursor != null)
             {
-                //do
-                //{
-                    var Id = cursor.GetLong(cursor.GetColumnIndex(projection[0]));
-                    var DisplayName = cursor.GetString(cursor.GetColumnIndex(projection[1]));
-                    //var PhotoId = cursor.GetString(cursor.GetColumnIndex(projection[2]));
-                    //var hasPhone = cursor.GetString(cursor.GetColumnIndex(projection[3]));
-                    var Number = cursor.GetString(cursor.GetColumnIndex(projection[2]));
-                    Log.Info(TAG, Id.ToString());
-					Log.Info(TAG, DisplayName);
-                    Log.Info(TAG, Number);
-                    result = DisplayName;
-                    //break;
-                //} while (cursor.MoveToNext());
+                if (cursor.MoveToFirst())
+                {
+                    contactName = cursor.GetString(0);
+                }
+                cursor.Close();
             }
-
-
-
-
-            //String selection = ContactsContract.CommonDataKinds.Contactables.InterfaceConsts.HasPhoneNumber + " = " + 1;
-            //var uri = ContactsContract.CommonDataKinds.Phone.ContentUri;
-            //string[] projection = {
-            //	ContactsContract.Contacts.InterfaceConsts.Id,
-            //	ContactsContract.Contacts.InterfaceConsts.DisplayName ,
-            //	ContactsContract.CommonDataKinds.Phone.Number
-            //                     //ContactsContract.CommonDataKinds.Phone
-
-            //         };
-            ////var cursor = act.Con(uri, projection, null, null, null);
-            ////var cursor = ApplicationContext.ContentResolver.Query(uri, projection, null, null, null);
-            //using (var cursor = _activity.ContentResolver.Query(ContactsContract.CommonDataKinds.Phone.ContentUri, null, null, null, null))
-            ////var loader = new CursorLoader(_activity, uri, projection, null, null, null);
-            ////var cursor = (ICursor)loader.LoadInBackground();
-            //if (cursor.MoveToFirst())
-            //{
-            //	do
-            //	{
-            //		//var Id = cursor.GetLong(cursor.GetColumnIndex(projection[0]));
-            //		var DisplayName = cursor.GetString(cursor.GetColumnIndex(projection[1]));
-            //		var Number = cursor.GetString(cursor.GetColumnIndex(projection[2]));
-            //		if (number == Number) return DisplayName;
-            //	} while (cursor.MoveToNext());
-            //}
-            return result;
+            Log.Info(TAG, "Detect Contact Name " + contactName);
+            return contactName;
         }
-
-        /*
-         * Get only number from 
-         * Ex (097) 455-8367 to 09874558367
-         */ 
-        private void ConverNumber(string source, ref string des)
-        {
-            des = "";
-            foreach (char it in source )
-            {
-                if (it > 47 && it < 58) des += it;
-            }
-        }
-
-        /* Compare two contact
-         * Ex 84974558367 is equal 0974558367, +84974558367
-         */        	
     }
 }
     

@@ -65,6 +65,12 @@ namespace FreeHand
             public bool AllowSpeakNumber { set; get; }
             public bool AllowSpeakContent { set;  get;}
             public bool AllowAutoReply { set; get; }
+            //Previous state            
+            public bool PrevAllowSpeakName { set; get; }
+            public bool PrevAllowSpeakNumber { set; get; }
+            public bool PrevAllowSpeakContent { set; get; }
+            public bool PrevAllowAutoReply { set; get; }
+
             public string CustomContetnReply { set; get; }
 
             //System configure
@@ -84,6 +90,22 @@ namespace FreeHand
                 StateSMS = STATE_SMS.IDLE;
                 Model.MessengeQueue messengeQueue = Model.MessengeQueue.GetInstance();
                 messengeQueue.Clear();
+            }
+
+            public void Backup()
+            {
+                PrevAllowAutoReply = AllowAutoReply;
+                PrevAllowSpeakName = AllowSpeakName;
+                PrevAllowSpeakNumber = AllowSpeakNumber;
+                PrevAllowSpeakContent = AllowSpeakContent;
+                
+            }
+            public void Restore()
+            {
+                AllowAutoReply = PrevAllowAutoReply;
+                AllowSpeakName = PrevAllowSpeakName;
+                AllowSpeakNumber = PrevAllowSpeakNumber;
+                AllowSpeakContent = PrevAllowSpeakContent;
             }
         }
 
@@ -206,6 +228,7 @@ namespace FreeHand
         {
             Log.Info(TAG, "Save Config");
             SavePhoneConfig();
+            SaveSMSConfig();
             SaveSpeechConfig();
         }
 
@@ -215,13 +238,14 @@ namespace FreeHand
 
             //Task configWork = new Task(() => { 
                 LoadPhoneConfig();
+                LoadSMSConfig();
                 LoadSpeechConfig(); 
             //});
             //configWork.Start();
 
         }
 
-        private void SaveSMSConfig()
+        public void SaveSMSConfig()
         {
             var prefs = Application.Context.GetSharedPreferences("SMS", FileCreationMode.Private);
             var prefEditor = prefs.Edit();
@@ -231,6 +255,13 @@ namespace FreeHand
             prefEditor.PutBoolean("AllowSpeakContent",smsConfig.AllowSpeakContent);
             prefEditor.PutBoolean("AllowAutoReply",smsConfig.AllowAutoReply);
             prefEditor.PutString("CustomContetnReply",smsConfig.CustomContetnReply);
+
+            //Previous State
+            prefEditor.PutBoolean("PrevAllowSpeakName", smsConfig.PrevAllowSpeakName);
+            prefEditor.PutBoolean("PrevAllowSpeakNumber", smsConfig.PrevAllowSpeakNumber);
+            prefEditor.PutBoolean("PrevAllowSpeakContent", smsConfig.PrevAllowSpeakContent);
+            prefEditor.PutBoolean("PrevAllowAutoReply", smsConfig.PrevAllowAutoReply);
+            prefEditor.Commit();
         }
         private void SavePhoneConfig()
         {
@@ -293,7 +324,14 @@ namespace FreeHand
             smsConfig.AllowSpeakName = prefs.GetBoolean("AllowSpeakName", false);
             smsConfig.AllowSpeakNumber = prefs.GetBoolean("AllowSpeakNumber", false);
             smsConfig.AllowSpeakContent = prefs.GetBoolean("AllowSpeakContent", false);
+            smsConfig.AllowAutoReply = prefs.GetBoolean("AllowAutoReply", false);
             smsConfig.CustomContetnReply = prefs.GetString("CustomContetnReply", "");
+
+            //Previous State
+            smsConfig.PrevAllowSpeakName = prefs.GetBoolean("PrevAllowSpeakName", false);
+            smsConfig.PrevAllowSpeakNumber = prefs.GetBoolean("PrevAllowSpeakNumber", false);
+            smsConfig.PrevAllowSpeakContent = prefs.GetBoolean("PrevAllowSpeakContent", false);
+            smsConfig.PrevAllowAutoReply = prefs.GetBoolean("PrevAllowAutoReply", false);
         }
 
         private void LoadPhoneConfig()

@@ -39,10 +39,13 @@ namespace FreeHand.Phone
             string nameCaller;
             nameCaller = Model.Commom.GetNameFromPhoneNumber(_telephone);
 
-            await _tts.SpeakMessenger("You Has New Call From "+_telephone);
+            await _tts.SpeakMessenger("You Has New Call From ");
             await Task.Delay(500);
-            await _tts.SpeakMessenger("Name Caller " + nameCaller);
+            await _tts.SpeakMessenger(_telephone);
             await Task.Delay(500);
+            await _tts.SpeakMessenger("Name Caller ");
+            await Task.Delay(500);
+            await _tts.SpeakMessenger(nameCaller);
 
             Intent buttonDown = new Intent(Intent.ActionMediaButton);
             buttonDown.PutExtra(Intent.ExtraKeyEvent, new KeyEvent(KeyEventActions.Up, Keycode.Headsethook));

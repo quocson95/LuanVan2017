@@ -18,41 +18,54 @@ namespace FreeHand.ActivityClass.SettingClass
     {
         string[] items;
         EditText editText;
-
+        Config _cfg;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.Custom_Reply_SMS);
+            SetContentView(Resource.Layout.Custom_Reply_SMS);       
+            items = new string[] { "Vegetables", "Fruits", "Flower Buds", "Legumes", "Bulbs", "Tubers","Lalalang","This is good day to die","Lengend never die" };
+            var listView = FindViewById<ListView>(Resource.Id.ListView);
+            listView.Adapter = new ArrayAdapter<String>(this, Resource.Layout.listText, items);
+            listView.ItemClick += OnListItemClick;
+            editText = FindViewById<EditText>(Resource.Id.textArea_content_sms_auto_reply);
+            _cfg = Config.Instance();
+            string type = Intent.GetStringExtra("type");
+            SetDataEditText(type);
 
-            Task configWork = new Task(() =>
+            Button OK = FindViewById<Button>(Resource.Id.btn_ok);
+            Button Cancel = FindViewById<Button>(Resource.Id.btn_cancel);
+
+            Intent callBackIntent = new Intent(this, typeof(Setting_Messenge));
+
+            OK.Click += delegate
             {
-                items = new string[] { "Vegetables", "Fruits", "Flower Buds", "Legumes", "Bulbs", "Tubers" };
-                var listView = FindViewById<ListView>(Resource.Id.ListView);
-                listView.Adapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleListItem1, items);
-                listView.ItemClick += OnListItemClick;
-                editText = FindViewById<EditText>(Resource.Id.textArea_content_sms_auto_reply);
-                Button OK = FindViewById<Button>(Resource.Id.btn_ok);
-                Button Cancel = FindViewById<Button>(Resource.Id.btn_cancel);
+                callBackIntent.PutExtra("sms_reply_ok", editText.Text);
+                SetResult(Result.Ok, callBackIntent);
+                Finish();
+            };
 
-                Intent callBackIntent = new Intent(this, typeof(Setting_Messenge));
-
-                OK.Click += delegate
-                {
-                    callBackIntent.PutExtra("sms_reply_ok",editText.Text);
-                    SetResult(Result.Ok, callBackIntent);
-                    Finish();
-                };
-
-                Cancel.Click += delegate
-                {
-                    SetResult(Result.Canceled);
-                    Finish();
-                };
-            });
-            configWork.Start();
-
+            Cancel.Click += delegate
+            {
+                SetResult(Result.Canceled);
+                Finish();
+            };
+           
             // Create your application here
         }
+
+        private void SetDataEditText(string type)
+        {
+            switch(type)
+            {
+                case "sms":
+                    editText.Text = _cfg.smsConfig.CustomContetnReply;
+                    break;
+                case "mail":
+                    //TODO
+                    break;
+            }
+        }
+
         void OnListItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {            
             var t = items[e.Position];

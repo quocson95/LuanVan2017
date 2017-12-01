@@ -244,6 +244,7 @@
     <AndroidResource Include="Resources\drawable\setting_circle_press.xml" />
     <AndroidResource Include="Resources\drawable\setting_text_circle_press.xml" />
     <AndroidResource Include="Resources\layout\template_circle_top.xml" />
+    <AndroidResource Include="Resources\layout\listText.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

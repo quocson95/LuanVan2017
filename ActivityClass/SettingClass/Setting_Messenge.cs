@@ -3,12 +3,15 @@ using Android.App;
 using Android.OS;
 using FreeHand;
 using System;
+using Android.Content;
+using Android.Util;
 
 namespace FreeHand.ActivityClass.SettingClass
 {
     [Activity(Label = "Setting_Messenge")]
     public class Setting_Messenge : Activity
     {
+        private readonly string TAG = typeof(Setting_Messenge).FullName;
         private Switch _swEnable_sms, _swEnable_mail;
         private Switch _swAllowSpeakNameSMS, _swAllowSpeakNumberSMS, _swAllowSpeakContentSMS, _swAllowAutoReplySMS;
         private Switch _swAllowAutoReplyMail;
@@ -39,25 +42,58 @@ namespace FreeHand.ActivityClass.SettingClass
             _swAllowAutoReplySMS = FindViewById<Switch>(Resource.Id.sw_allow_reply_sms);
 
             _customSMSReply = FindViewById<TextView>(Resource.Id.tv_custom_sms_reply);
-            _tvContentSMSReply = FindViewById<TextView>(Resource.Id.tv_content_custom_reply);
-
+            _tvContentSMSReply = FindViewById<TextView>(Resource.Id.tv_content_custom_reply);              
 
             //Mail
             _swEnable_mail = FindViewById<Switch>(Resource.Id.sw_enable_mail);
             _swAllowAutoReplyMail = FindViewById<Switch>(Resource.Id.sw_allow_reply_mail);
             _tvContentMailReply = FindViewById<TextView>(Resource.Id.tv_custom_mail_reply);
             InitListenerUI();
+            InitDataUI();
 
+        }
+
+        private void InitDataUI()
+        {
+            /*
+             * SMS
+             */ 
+            _tvContentSMSReply.Text = _cfg.smsConfig.CustomContetnReply;
+
+
+            _swEnable_sms.Checked = _cfg.smsConfig.Enable;
+            if (_cfg.smsConfig.Enable)
+            {
+                RestoreStateSwSMS();
+            }
+            else DisableAllServiceSMS();
+
+            /*
+             * Mail
+             */
+        }
+
+        private void RestoreStateSwSMS()
+        {
+            var smsCfg = _cfg.smsConfig;
+            smsCfg.Restore();
+            _swAllowSpeakNameSMS.Checked = smsCfg.AllowSpeakName;
+            _swAllowSpeakNumberSMS.Checked = smsCfg.AllowSpeakNumber;
+            _swAllowSpeakContentSMS.Checked = smsCfg.AllowSpeakContent;
+            _swAllowAutoReplySMS.Checked = smsCfg.AllowAutoReply;
         }
 
         private void InitListenerUI()
         {
+            /*
+             * SMS
+             */
             //Enable
             _swEnable_sms.CheckedChange += (object sender, CompoundButton.CheckedChangeEventArgs e) => 
-            {
+            {                
                 _cfg.smsConfig.Enable = e.IsChecked;
                 if (e.IsChecked){
-                    EnableAllServiceSMS();
+                    RestoreStateSwSMS();
                 }
                 else {
                     DisableAllServiceSMS();
@@ -75,8 +111,27 @@ namespace FreeHand.ActivityClass.SettingClass
 
             //Auto Reply
             _swAllowAutoReplySMS.CheckedChange += CheckedChange;
+
+            _customSMSReply.Click += delegate {
+                Intent intent = new Intent(this, typeof(Custom_Reply_Messenge));
+                intent.PutExtra("type","sms");
+                StartActivityForResult(intent,Model.Constants.Code_Setting_Messenge_SMS);
+            };
         }
 
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            if (requestCode.Equals(Model.Constants.Code_Setting_Messenge_SMS))
+            {
+                if(resultCode == Result.Ok)
+                {
+                    _cfg.smsConfig.CustomContetnReply = data.GetStringExtra("sms_reply_ok");
+                    _tvContentSMSReply.Text = _cfg.smsConfig.CustomContetnReply;
+                }
+            }
+        }
         private void CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
         {
             Switch sw = (Switch)sender;
@@ -116,6 +171,7 @@ namespace FreeHand.ActivityClass.SettingClass
 
         private void DisableAllServiceSMS()
         {
+            _cfg.smsConfig.Backup();
             _swAllowSpeakNameSMS.Checked = false;
             _swAllowSpeakNumberSMS.Checked = false;
             _swAllowSpeakContentSMS.Checked = false;
@@ -123,12 +179,12 @@ namespace FreeHand.ActivityClass.SettingClass
             
         }
 
-        private void EnableAllServiceSMS()
+
+        protected override void OnDestroy()
         {
-            _swAllowSpeakNameSMS.Checked = true;
-            _swAllowSpeakNumberSMS.Checked = true;
-            _swAllowSpeakContentSMS.Checked = true;
-            _swAllowAutoReplySMS.Checked = true;
+            Log.Info(TAG,"Destroy");
+            base.OnDestroy();
+            _cfg.SaveSMSConfig();
         }
     }
 }

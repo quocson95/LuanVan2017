@@ -60,11 +60,12 @@ namespace FreeHand
             {
                 //Stop Service
                 Log.Info(TAG, "OnStartCommand: The Main service is stopped.");
+                handler.RemoveCallbacks(runnable);
                 StopMessengeManage();
                 StopPhoneManage();
                 StopForeground(true);
                 StopSelf();
-                handler.RemoveCallbacks(runnable);
+
                 isStart = false;
             }
                 

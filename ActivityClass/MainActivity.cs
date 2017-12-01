@@ -54,7 +54,7 @@ namespace FreeHand
             };
 
             btnSetting.Click += delegate {
-                Intent settingIntent = new Intent(this, typeof(Setting_Speech));
+                Intent settingIntent = new Intent(this, typeof(ActivityClass.SettingClass.Setting_Messenge));
                 StartActivity(settingIntent);
             };
         }
@@ -80,7 +80,7 @@ namespace FreeHand
                 stopMainServiceInstant = new Intent(this, typeof(MainService));
                 stopMainServiceInstant.SetAction(Model.Constants.ACTION_STOP);
                 StartService(stopMainServiceInstant);
-                StopService(stopMainServiceInstant);
+                //StopService(stopMainServiceInstant);
                 _config.MainServiceRunning = false;
                 //await StopApplication();
             }

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="30dp"
+    android:background="@android:color/white">
+<!--<TextView
+        android:padding="10dp"
+        android:text="Sign in with Goole !"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/google_button"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="000"
+        android:height="40dp"
+        android:gravity="center"
+        android:background="@drawable/borderbutton"
+        android:backgroundTint="@android:color/white"
+        android:drawableLeft="@drawable/google_36"
+   />
+    -->
+<!--<Button
+        android:text="Sign Up!"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnDialogEmail"
+        android:textSize="20dp"
+        android:textColor="#fff"
+        android:textStyle="bold"
+       
+        android:height="70dp"
+        android:background="@drawable/buttonadd"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="30dp" />-->
+    <Button
+        android:text="Sign in with Google !"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/google_button"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:height="40dp"
+        android:gravity="center"
+        android:background="@drawable/button_google"
+        android:drawableLeft="@drawable/googleimage"
+        android:textAllCaps="false" />
+    <Button
+        android:text="Sign in with Zalo !"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:id="@+id/zalo_buton"
+        android:layout_below="@+id/google_button"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textColor="#fff"
+        android:height="40dp"
+        android:gravity="center"
+        android:background="@drawable/button_zalo"
+        android:drawableLeft="@drawable/zaloimage"
+        android:textAllCaps="false" />
+</RelativeLayout>

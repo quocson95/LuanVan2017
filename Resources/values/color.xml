@@ -13,5 +13,5 @@
 	
     <drawable name="press_label_switch_press">#7dc7c0</drawable>
 	<drawable name="press_label_switch_default">#b9b9b9</drawable>
- 
+    <color name="zaloColor">#0084e1</color>
 </resources>

@@ -342,6 +342,7 @@
     <AndroidResource Include="Resources\drawable\button_google.xml" />
     <AndroidResource Include="Resources\drawable\mk_zalo_ico.png" />
     <AndroidResource Include="Resources\drawable\google_image.png" />
+    <AndroidResource Include="Resources\layout\listAccount.axml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

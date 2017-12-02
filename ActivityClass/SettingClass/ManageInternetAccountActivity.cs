@@ -17,6 +17,7 @@ namespace FreeHand.ActivityClass.SettingClass
     public class ManageInternetAccountActivity : Activity
     {
         Button _btnAddAccount;
+        ListView listView;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -28,7 +29,15 @@ namespace FreeHand.ActivityClass.SettingClass
         private void InitUI()
         {
             _btnAddAccount = FindViewById<Button>(Resource.Id.btn_add_account);
-
+            listView = FindViewById<ListView>(Resource.Id.ListViewAccount);
+            var items = new List<string>();
+            items.Add("first");
+            items.Add("first");
+            items.Add("first");
+            items.Add("first");
+            items.Add("first");
+            items.Add("first");items.Add("first");items.Add("first");items.Add("first");items.Add("first");items.Add("first");items.Add("first");
+            listView.Adapter = new Messenge.Mail.ListAccountAdapter(this, items);
             SetListenerUI();
         }
 

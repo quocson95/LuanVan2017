@@ -187,6 +187,7 @@
     <Compile Include="Model\Commom.cs" />
     <Compile Include="ActivityClass\SettingClass\ManageInternetAccountActivity.cs" />
     <Compile Include="ActivityClass\SettingClass\DialogAccount.cs" />
+    <Compile Include="Messenge\Mail\ListAccountAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />

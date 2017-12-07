@@ -14,7 +14,7 @@
         android:maxHeight="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@null"
+        android:background="@drawable/edittextstyle"
         android:gravity="top|left"
         android:inputType="textMultiLine"
         android:textColor="@android:color/black"
@@ -22,7 +22,8 @@
         android:scrollbarStyle="insideInset"
         android:scrollbars="vertical"
         android:maxLines="3"
-        android:hint="" />
+        android:padding="5dp"
+        android:hint="Simple" />
     <ListView
         android:id="@+id/ListView"
         android:layout_below="@+id/textArea_content_sms_auto_reply"
@@ -31,25 +32,4 @@
         android:layout_marginBottom="50dp" />
     <include
         layout="@layout/template_confirm" />
-<!-- <Button
-        android:id="@+id/btn_ok"
-        android:maxHeight="100dp"
-        android:minHeight="50dp"
-        android:minWidth="150dp"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:textColor="@android:color/black"
-        android:text="OK"
-        android:layout_alignParentBottom="true" />
-    <Button
-        android:id="@+id/btn_cancel"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:maxHeight="50dp"
-        android:minHeight="50dp"
-        android:minWidth="150dp"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:textColor="@android:color/black"
-        android:text="Cancel" />-->
 </RelativeLayout>

@@ -115,18 +115,21 @@ namespace FreeHand
         }
         private void SetDataSTT()
         {
-            _listLangSST = new List<string>();
-            //GetLangSTT();               
-            var dictionaryLangSupport = _config.ttsConfig.LangSupportBySTT;
-
-            foreach (var item in dictionaryLangSupport)
+            if (_config.ttsConfig.isSupportSTT)
             {
-                _listLangSST.Add(item.Value);
+                _listLangSST = new List<string>();
+                //GetLangSTT();               
+                var dictionaryLangSupport = _config.ttsConfig.LangSupportBySTT;
+
+                foreach (var item in dictionaryLangSupport)
+                {
+                    _listLangSST.Add(item.Value);
+                }
+                var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, _listLangSST);
+                _spin_lang_listen.Adapter = adapter;
+                var index = _config.ttsConfig.LangSupportBySTT.Keys.ToList().IndexOf(_config.ttsConfig.LangSelectBySTT);
+                _spin_lang_listen.SetSelection(index);
             }
-            var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, _listLangSST);
-            _spin_lang_listen.Adapter = adapter;
-            var index = _config.ttsConfig.LangSupportBySTT.Keys.ToList().IndexOf(_config.ttsConfig.LangSelectBySTT);
-            _spin_lang_listen.SetSelection(index);
         }
                
 

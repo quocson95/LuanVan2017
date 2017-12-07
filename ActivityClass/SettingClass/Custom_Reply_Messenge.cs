@@ -13,7 +13,7 @@ using Android.Widget;
 
 namespace FreeHand.ActivityClass.SettingClass
 {
-    [Activity(Label = "Custom_Reply_SMS")]
+    [Activity(Label = "Custom_Reply_SMS",Theme = "@android:style/Theme.NoTitleBar")]
     public class Custom_Reply_Messenge : Activity
     {
         string[] items;

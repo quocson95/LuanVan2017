@@ -5,5 +5,6 @@
     android:layout_height="wrap_content"
     android:textAppearance="?android:attr/textAppearanceListItemSmall"
     android:gravity="center_vertical"
-    android:textColor="#000000"
+    android:textColor="@drawable/color_text_press"
+    android:background="@android:color/white"
     android:minHeight="?android:attr/listPreferredItemHeightSmall" />

@@ -117,6 +117,8 @@ namespace FreeHand
             public string LangSelectByTTS { set; get; }
             public Dictionary<string, string> LangSupportBySTT { set; get; }
             public Dictionary<string, string> LangSupportByTTS { set; get; }
+            public bool isSupportSTT;
+            public bool isSupportTTS;
             public float SeekPitch;
             public float SeekSpeed;
             public TTSConfig()
@@ -359,7 +361,7 @@ namespace FreeHand
             Log.Info(TAG, "Load Speech TTS Config");
             var prefs = Application.Context.GetSharedPreferences("Freehand", FileCreationMode.Private);
             ttsConfig.EngineNameSelect = prefs.GetString("TTSConfig.EngineNameSelect", NOT_FOUND);
-            ttsConfig.LangSelectByTTS = prefs.GetString("TTSConfig.LangSelectByTTS", NOT_FOUND);
+            ttsConfig.LangSelectByTTS = prefs.GetString("TTSConfig.LangSelectByTTS", "en");
             ttsConfig.SeekPitch = prefs.GetFloat("TTSConfig.SeekPitch", 1);
             ttsConfig.SeekSpeed = prefs.GetFloat("TTSConfig.SeekSpeed", 1);
             string valueDefault;
@@ -387,12 +389,13 @@ namespace FreeHand
             else {
                 ttsConfig.LangSupportByTTS = JsonConvert.DeserializeObject<Dictionary<string, string>>(valueDefault);
             }
-
-            if (ttsConfig.LangSelectByTTS.Equals(NOT_FOUND)){
-                ttsConfig.LangSelectByTTS = ttsConfig.LangSupportByTTS.Where(pair => pair.Value == "English")
-                    .Select(pair => pair.Key)
-                    .FirstOrDefault();
-            }
+            valueDefault = ttsConfig.LangSelectByTTS;
+            //if (valueDefault.Equals(NOT_FOUND)){
+            //    Log.Info(TAG,"a");
+            //    ttsConfig.LangSelectByTTS = ttsConfig.LangSupportByTTS.Where(pair => pair.Value.Equals("English"))
+            //        .Select(pair => pair.Key)
+            //        .FirstOrDefault();
+            //}
         }
 
         async void LoadSTTConfig()
@@ -403,22 +406,29 @@ namespace FreeHand
             string valueDefault;
 
             valueDefault = prefs.GetString("TTSConfig.LangSupportBySTT", NOT_FOUND);
-            if (valueDefault.Equals("null")) 
-                return;
-            if (valueDefault.Equals(NOT_FOUND))
+
+            if (string.IsNullOrEmpty(valueDefault) != false)
             {
-                STTLib stt = STTLib.Instance();
-                ttsConfig.LangSupportBySTT = await stt.GetLanguageSupportDisplayLanguage(Application.Context);
+                ttsConfig.isSupportSTT = true;
+                if (valueDefault.Equals(NOT_FOUND))
+                {
+                    STTLib stt = STTLib.Instance();
+                    ttsConfig.LangSupportBySTT = await stt.GetLanguageSupportDisplayLanguage(Application.Context);
+                }
+                else
+                {
+                    ttsConfig.LangSupportBySTT = JsonConvert.DeserializeObject<Dictionary<string, string>>(valueDefault);
+                }
+
+                if (ttsConfig.LangSelectBySTT.Equals(NOT_FOUND))
+                {
+                    ttsConfig.LangSelectBySTT = ttsConfig.LangSupportBySTT.Where(pair => pair.Value.Equals("English"))
+                        .Select(pair => pair.Key)
+                        .FirstOrDefault();
+                }
             }
             else {
-                ttsConfig.LangSupportBySTT = JsonConvert.DeserializeObject<Dictionary<string,string>>(valueDefault);
-            }
-
-            if (ttsConfig.LangSelectBySTT.Equals(NOT_FOUND))
-            {
-                ttsConfig.LangSelectBySTT = ttsConfig.LangSupportBySTT.Where(pair => pair.Value == "English")
-                    .Select(pair => pair.Key)
-                    .FirstOrDefault();
+                ttsConfig.isSupportSTT = false;
             }
         }
 

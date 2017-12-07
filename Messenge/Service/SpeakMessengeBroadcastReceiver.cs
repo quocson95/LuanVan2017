@@ -5,6 +5,7 @@ using Android.Content;
 using Android.OS;
 using Android.Speech;
 using Android.Util;
+using FreeHand.Model;
 
 namespace FreeHand.Messenge.Service
 {
@@ -56,8 +57,7 @@ namespace FreeHand.Messenge.Service
             Log.Info(TAG,"SMS Handle status "+_config.smsConfig.IsHandleSMSRunnig.ToString());
 
             Model.IMessengeData messengeData = null;
-            int status;
-            status = -1;
+           
             int try_listen = 3;
             if (_config.smsConfig.StateSMS != Config.STATE_SMS.IDLE 
                 && _config.smsConfig.StateSMS != Config.STATE_SMS.DONE) {
@@ -88,98 +88,32 @@ namespace FreeHand.Messenge.Service
                         break;
 
                     case Config.STATE_SMS.SPEAK_NUMBER:
-                        await SpeakMsg("you get a new messege ");
-                        await SpeakMsg("From ");
-                        await SpeakMsg(messengeData.GetAddrSender());
-                        _config.smsConfig.StateSMS = Config.STATE_SMS.SPEAK_NAME_SENDER;
+                        await StateSpeakNumber(messengeData);
                         break;
                     case Config.STATE_SMS.SPEAK_NAME_SENDER:
-                        await SpeakMsg("Name Sender ");
-                        await SpeakMsg(messengeData.GetNameSender());
-                        _config.smsConfig.StateSMS = Config.STATE_SMS.SPEAK_CONTENT;
+                        await StateSpeakName(messengeData);
                         break;
                     case Config.STATE_SMS.SPEAK_CONTENT:
-                        await SpeakMsg("Content of Messenge");
-                        await SpeakMsg(messengeData.GetMessengeContent());
-                        _config.smsConfig.StateSMS = Config.STATE_SMS.READY_REPLY;
+                        await StateSpeakContent(messengeData);
                         break;
                     case Config.STATE_SMS.READY_REPLY:
-                        await SpeakMsg("Do you want reply");
-                        _config.smsConfig.StateSMS = Config.STATE_SMS.LISTENT_REQUEST_ANSWER;
+                        await StateReadlyReply();
                         break;
                     case Config.STATE_SMS.LISTENT_REQUEST_ANSWER:
-                        if (_config.GetPermissionRun(Config.PERMISSION_RUN.MESSENGE))
-                        {
-                            status = await listenRequest(context);
-                            if (status == 0)
-                                _config.smsConfig.StateSMS = Config.STATE_SMS.LISTEN_CONTENT_ANSWER;
-                            else if (status != 0 && try_listen > 0)
-                            {
-                                try_listen--;
-                                await SpeakMsg("I can't hear you, please try again");
-                                await Task.Delay(500);
-                                _config.smsConfig.StateSMS = Config.STATE_SMS.LISTENT_REQUEST_ANSWER;
-                            }
-                            else _config.smsConfig.StateSMS = Config.STATE_SMS.DONE;
-                                                  
-                        }
+                        await StateListenRequest(context,try_listen);
+                        try_listen--;
                         break;
                     case Config.STATE_SMS.LISTEN_CONTENT_ANSWER:
                         _config.smsConfig.StateSMS = Config.STATE_SMS.DONE;
                         break;                    
                     case Config.STATE_SMS.DONE:
-                       
+                        
                         messengeData = GetMessege(Config.STATE_SMS.DONE);
                         if (messengeData != null) 
                             _config.smsConfig.StateSMS = Config.STATE_SMS.IDLE;                        
                         break;
                 }
-                //Speak content SMS comming
-                //_config.smsConfig.StateSMS = Config.STATE_SMS.SPEAK_NUMBER;
-                //await SpeakContentSMS(messengeData, _config.smsConfig.StateSMS);
-                //int tryNumber = 3;
-                ////Listen request of user : Yes or No
-                //_config.smsConfig.StateSMS = Config.STATE_SMS.LISTENT_REQUEST_ANSWER;
-                //while (status != 0 && tryNumber > 0 && !_config.phoneConfig.IsHandlePhoneRunnig)
-                //{
-                //    status = await listenRequest();
-                //    await Task.Delay(500);
-                //    if (status != 0)
-                //    {
-                //        tryNumber--;
-                //        await SpeakMsg("I can't hear you, please try again");
-                //        await Task.Delay(500);
-                //    }
-                //}
-                //if (status == 0)
-                //{
-                //    _config.smsConfig.StateSMS = Config.STATE_SMS.LISTEN_CONTENT_ANSWER;
-                //    Log.Info(TAG, "status " + status.ToString());
-                //    Log.Info(TAG, "Listen Answer " + _answer);
-                //    //await Task.Delay(1000);
-                //    //Listen msg reply
-                //    await SpeakMsg("Please speak messenge after beep ");
-                //    await Task.Delay(500);
-                //    status = -1;
-                //    tryNumber = 3;
-                //    while (status != 0 && tryNumber >= 0 && !_config.phoneConfig.IsHandlePhoneRunnig)
-                //    {
-                //        status = await listenRequest();
-                //        await Task.Delay(500);
-                //        if (status != 0 )
-                //        {
-                //            tryNumber--;
-                //            await SpeakMsg("I can't hear you, please try again");
-                //            await Task.Delay(500);
-                //        }
-                //    }
-                //    Log.Info(TAG, "Listen reply " + _answer);
-                //    //messengeData.Reply(_answer);
-                //}
-                //else
-                //{
-                //    //Can not hear request reply
-                //}
+
             }
             //End While
             if (_config.smsConfig.StateSMS == Config.STATE_SMS.DONE)
@@ -188,6 +122,72 @@ namespace FreeHand.Messenge.Service
                 _config.smsConfig.IsHandleSMSRunnig = false;
             }                
 
+        }
+
+        private async Task StateListenRequest(Context context,int try_listen)
+        {
+            if (_config.smsConfig.PrevAllowAutoReply)
+            {
+                if (_config.GetPermissionRun(Config.PERMISSION_RUN.MESSENGE))
+                {
+                    int status;
+                    status = -1;
+                    status = await listenRequest(context);
+                    if (status == 0)
+                        _config.smsConfig.StateSMS = Config.STATE_SMS.LISTEN_CONTENT_ANSWER;
+                    else if (status != 0 && try_listen > 0)
+                    {                        
+                        await SpeakMsg("I can't hear you, please try again");
+                        await Task.Delay(500);
+                        _config.smsConfig.StateSMS = Config.STATE_SMS.LISTENT_REQUEST_ANSWER;
+                    }
+                    else _config.smsConfig.StateSMS = Config.STATE_SMS.DONE;
+
+                }
+            }
+        }
+
+        private async Task StateReadlyReply()
+        {
+            if (_config.smsConfig.AllowAutoReply)
+            {
+                await SpeakMsg("Do you want reply");
+            }
+            _config.smsConfig.StateSMS = Config.STATE_SMS.LISTENT_REQUEST_ANSWER;
+        }
+
+        //StateSpeakContent
+        private async Task StateSpeakContent(IMessengeData messengeData)
+        {
+            if (_config.smsConfig.AllowSpeakContent)
+            {
+                await SpeakMsg("Content of Messenge");
+                await SpeakMsg(messengeData.GetMessengeContent());
+            }
+            _config.smsConfig.StateSMS = Config.STATE_SMS.READY_REPLY;
+        }
+
+        //StateSpeakName
+        private async Task StateSpeakName(IMessengeData messengeData)
+        {
+            if (_config.smsConfig.AllowSpeakName)
+            {
+                await SpeakMsg("Name Sender ");
+                await SpeakMsg(messengeData.GetNameSender());
+            }
+            _config.smsConfig.StateSMS = Config.STATE_SMS.SPEAK_CONTENT;
+        }
+
+        //StateSpeakNumber
+        private async Task StateSpeakNumber(IMessengeData messengeData)
+        {
+            if (_config.smsConfig.AllowSpeakNumber)
+            {
+                await SpeakMsg("you get a new messege ");
+                await SpeakMsg("From ");
+                await SpeakMsg(messengeData.GetAddrSender());
+            }
+            _config.smsConfig.StateSMS = Config.STATE_SMS.SPEAK_NAME_SENDER;
         }
 
         private bool EmptyMessenge(){
@@ -203,7 +203,7 @@ namespace FreeHand.Messenge.Service
             {
                 _speech.StartListening(_stt.IntentSTT());
             }
-            catch (Exception e) { }
+            catch { /* Dont care */}
             return (int)await _tcs.Task;
         }
 

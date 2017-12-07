@@ -5,7 +5,6 @@
     android:orientation="vertical"
     android:minWidth="25px"
     android:minHeight="25px"
-    android:padding="10dp"
     android:background="@android:color/white">
 <!--  Icon Master  -->
     <RelativeLayout
@@ -26,77 +25,120 @@
             android:layout_centerInParent="true"
             android:enabled="false" />-->
         <include
-            layout="@layout/template_circle_top" />
+            layout="@layout/template_circle_top"
+            android:id="@+id/top" />
     <!--Label-->
         <TextView
             android:id="@+id/label_sms"
-            android:layout_below="@+id/circle_top"
+            android:layout_below="@+id/top"
             android:layout_width="150dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="180dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
             android:gravity="center|left"
             android:text="SMS"
             android:textColor="@color/main_background"
-            android:textSize="25dp" />
+            android:textSize="22dp"
+            android:drawableLeft="@drawable/sms_ico" />
     <!--    Enable Service    -->
         <Switch
             android:id="@+id/sw_enable_messenge"
             android:layout_below="@+id/label_sms"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:text="Enable Service"
             android:textColor="@drawable/label_switch"
-            android:textSize="20dp"
+            android:textSize="18dp"
             android:checked="true" />
+        <View
+            android:layout_below="@id/sw_enable_messenge"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#f0f0f0" />
     <!--        Allow Speak  Name Sender     -->
         <Switch
             android:id="@+id/sw_allow_speak_namesender_sms"
             android:layout_below="@+id/sw_enable_messenge"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:text="Allow Speak Name's Sender"
             android:textColor="@drawable/label_switch"
-            android:textSize="20dp" />
+            android:textSize="18dp" />
+        <View
+            android:layout_below="@id/sw_allow_speak_namesender_sms"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#f0f0f0" />
     <!--   Allow Speak Number Sender      -->
         <Switch
             android:id="@+id/sw_allow_speak_numsender_sms"
             android:layout_below="@+id/sw_allow_speak_namesender_sms"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:text="Allow Speak Number's Sender"
             android:textColor="@drawable/label_switch"
-            android:textSize="20dp" />
+            android:textSize="18dp" />
+        <View
+            android:layout_below="@id/sw_allow_speak_numsender_sms"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#f0f0f0" />
     <!--  Alllow Speak Content SMM      -->
         <Switch
             android:id="@+id/sw_allow_speak_content_sms"
             android:layout_below="@+id/sw_allow_speak_numsender_sms"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:text="Allow Speak Content Messenege"
             android:textColor="@drawable/label_switch"
-            android:textSize="20dp" />
+            android:textSize="18dp" />
+        <View
+            android:layout_below="@id/sw_allow_speak_content_sms"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#f0f0f0" />
     <!--  Alllow Auto Reply SMM      -->
         <Switch
             android:id="@+id/sw_allow_reply_sms"
             android:layout_below="@+id/sw_allow_speak_content_sms"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:textColor="@drawable/label_switch"
             android:text="Allow Auto Reply"
-            android:textSize="20dp" />
+            android:textSize="18dp" />
+        <View
+            android:layout_below="@id/sw_allow_reply_sms"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#f0f0f0" />
     <!--Custom SMS Reply-->
         <TextView
             android:id="@+id/tv_custom_sms_reply"
             android:layout_below="@+id/sw_allow_reply_sms"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:textSize="20dp"
-            android:layout_marginLeft="10dp"
+            android:textSize="18dp"
+            android:layout_marginLeft="20dp"
             android:gravity="center|left"
             android:text="Custom SMS Reply"
             android:textColor="@drawable/label_switch" />
@@ -120,38 +162,56 @@
             android:layout_width="150dp"
             android:layout_height="45dp"
             android:layout_marginTop="20dp"
+            android:layout_marginLeft="5dp"
             android:gravity="center|left"
             android:text="Email"
             android:textColor="@color/main_background"
-            android:textSize="25dp" />
+            android:textSize="22dp"
+            android:drawableLeft="@drawable/email_ico" />
     <!--    Enable Service    -->
         <Switch
             android:id="@+id/sw_enable_mail"
             android:layout_below="@+id/label_mail"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:text="Enable Service"
             android:textColor="@drawable/label_switch"
-            android:textSize="20dp" />
+            android:textSize="18dp" />
+        <View
+            android:layout_below="@id/sw_enable_mail"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#f0f0f0" />
     <!--  Alllow Auto Reply SMM      -->
         <Switch
             android:id="@+id/sw_allow_reply_mail"
             android:layout_below="@+id/sw_enable_mail"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:textColor="@drawable/label_switch"
             android:text="Allow Auto Reply"
-            android:textSize="20dp" />
+            android:textSize="18dp" />
+        <View
+            android:layout_below="@id/sw_allow_reply_mail"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#f0f0f0" />
     <!--Custom SMS Reply-->
         <TextView
             android:id="@+id/tv_custom_mail_reply"
             android:layout_below="@+id/sw_allow_reply_mail"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:textSize="20dp"
-            android:layout_marginLeft="10dp"
+            android:textSize="18dp"
+            android:layout_marginLeft="20dp"
             android:gravity="center|left"
             android:text="Custom Mail Reply"
             android:textColor="@drawable/label_switch" />

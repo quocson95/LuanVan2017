@@ -278,7 +278,6 @@
     <AndroidResource Include="Resources\drawable\google_image.png" />
     <AndroidResource Include="Resources\layout\listAccount.axml" />
     <AndroidResource Include="Resources\layout\WebView.axml" />
-    <AndroidResource Include="Resources\layout\line.xml" />
     <AndroidResource Include="Resources\drawable\color_text_press.xml" />
     <AndroidResource Include="Resources\drawable-hdpi\about_ico.png" />
     <AndroidResource Include="Resources\drawable-hdpi\contact_ico.png" />
@@ -315,6 +314,37 @@
     <AndroidResource Include="Resources\drawable-xhdpi\policy_ico.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\policy_ico.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\policy_ico.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\account_ico.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\account_ico.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\account_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\account_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\account_ico.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\email_ico.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\listen_ico.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\sms_ico.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\test_ico.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\voice_ico.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\email_ico.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\listen_ico.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\sms_ico.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\test_ico.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\voice_ico.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\email_ico.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\listen_ico.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\sms_ico.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\test_ico.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\voice_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\email_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\listen_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\sms_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\test_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\voice_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\email_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\listen_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\sms_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\test_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\voice_ico.png" />
+    <AndroidResource Include="Resources\drawable\EditTextStyle.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

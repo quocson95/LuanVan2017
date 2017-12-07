@@ -19,7 +19,7 @@ namespace FreeHand.ActivityClass.SettingClass
     public class SettingActivity : Activity
     {
         private static readonly string TAG = "TestActivity";
-        TextView _tvSpeech, _tvMessenge, _tvPhone, _tvAbout, _tvTerm, _tvPolicy, _tvContact;
+        TextView _tvSpeech, _tvMessenge, _tvPhone, _tvAccount, _tvAbout, _tvTerm, _tvPolicy, _tvContact;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -52,6 +52,7 @@ namespace FreeHand.ActivityClass.SettingClass
             _tvSpeech = FindViewById<TextView>(Resource.Id.speech_setting);
             _tvMessenge = FindViewById<TextView>(Resource.Id.messenge_setting);
             _tvPhone = FindViewById<TextView>(Resource.Id.phone_setting);
+            _tvAccount = FindViewById<TextView>(Resource.Id.account_setting);
             _tvAbout = FindViewById<TextView>(Resource.Id.about_setting);
             _tvTerm = FindViewById<TextView>(Resource.Id.term_setting);
             _tvPolicy = FindViewById<TextView>(Resource.Id.policy_setting);
@@ -75,7 +76,14 @@ namespace FreeHand.ActivityClass.SettingClass
 
             _tvPhone.Click += delegate 
             {
-                //TODO Implement StartActivity Phone Setting
+                Intent intent = new Intent(this, typeof(PhoneSettingActivity));
+                StartActivity(intent);
+            };
+
+            _tvAccount.Click += delegate 
+            {
+                Intent intent = new Intent(this, typeof(ManageInternetAccountActivity));
+                StartActivity(intent);
             };
         }
 

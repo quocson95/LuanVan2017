@@ -1,129 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:foo="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <android.support.percent.PercentRelativeLayout
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:background="@android:color/white">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/material_grey_100">
+        android:layout_height="wrap_content">
+    <!--  Icon Master  -->
+    <!--<Button
+        android:id="@+id/circle_top"
+        android:background="@drawable/circle_shape"
+        android:text="FH"
+        android:textSize="64dp"
+        android:textColor="@color/main_background"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        fontPath="Fonts/Pacifico.ttf"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:layout_centerInParent="true" />-->
+        <include
+            layout="@layout/template_circle_top"
+            android:id="@+id/circle_top" />
+    <!--        Setting-->
         <TextView
-            foo:layout_widthPercent="100%"
-            foo:layout_heightPercent="5%"
-            android:id="@+id/space_1" />
-        <Button
-            android:id="@+id/circle_top"
-            android:layout_below="@+id/space_1"
-            android:background="@drawable/circle_shape"
-            android:text="FH"
-            android:textSize="64dp"
-            android:textColor="@color/main_background"
-            android:layout_gravity="center_horizontal"
-            foo:layout_heightPercent="25%"
-            foo:layout_aspectRatio="100%"
-            fontPath="Fonts/Pacifico.ttf"
-            android:layout_centerInParent="true"
-            android:layout_centerHorizontal="true" />
-        <TextView
-            android:id="@+id/title_top"
+            android:id="@+id/speech_setting"
             android:layout_below="@+id/circle_top"
-            foo:layout_widthPercent="100%"
-            foo:layout_heightPercent="15%"
-            android:text="Setting"
-            fontPath="Fonts/HELR45W.ttf"
-            android:textColor="@color/main_background"
-            android:textSize="36dp"
-            android:gravity="center" />
-        <Button
-            android:id="@+id/item_1"
-            android:layout_below="@+id/title_top"
-            foo:layout_widthPercent="100%"
-            foo:layout_heightPercent="8%"
-            android:text="    Speech"
-            android:gravity="left|center"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:gravity="center|left"
+            android:text="Speech"
             android:textColor="@drawable/color_text_press"
             android:textSize="18dp"
-            android:drawableRight="@drawable/button"
-            android:background="@color/material_grey_100"
-            fontPath="Fonts/Montserrat_Regular.otf"
+            android:drawableLeft="@drawable/speech_ico"
+            android:textAlignment="inherit"
+            android:textAllCaps="false"
+            android:contextClickable="true" />
+        <View
+            android:layout_below="@id/speech_setting"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center|bottom" />
-        <Button
-            android:id="@+id/item_2"
-            android:layout_below="@+id/item_1"
-            foo:layout_widthPercent="100%"
-            foo:layout_heightPercent="8%"
-            android:text="    Messenge"
-            android:gravity="left|center"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#f0f0f0" />
+    <!--        Messenge (SMS + Mail + Other) -->
+        <TextView
+            android:id="@+id/messenge_setting"
+            android:layout_below="@+id/speech_setting"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:gravity="center|left"
+            android:text="Messenge"
             android:textColor="@drawable/color_text_press"
             android:textSize="18dp"
-            android:drawableRight="@drawable/button"
-            android:background="@color/material_grey_100"
-            fontPath="Fonts/Montserrat_Regular.otf"
+            android:drawableLeft="@drawable/messenge_ico"
+            android:contextClickable="true" />
+        <View
+            android:layout_below="@id/messenge_setting"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center|bottom" />
-        <Button
-            android:id="@+id/item_3"
-            android:layout_below="@+id/item_2"
-            foo:layout_widthPercent="100%"
-            foo:layout_heightPercent="8%"
-            android:text="    Phone Call"
-            android:gravity="left|center"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#f0f0f0" />
+    <!--        Phone-->
+        <TextView
+            android:id="@+id/phone_setting"
+            android:layout_below="@+id/messenge_setting"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:gravity="center|left"
+            android:text="Phone"
             android:textColor="@drawable/color_text_press"
             android:textSize="18dp"
-            android:drawableRight="@drawable/button"
-            android:background="@color/material_grey_100"
-            fontPath="Fonts/Montserrat_Regular.otf"
+            android:drawableLeft="@drawable/phone_ico"
+            android:contextClickable="true" />
+        <View
+            android:layout_below="@id/phone_setting"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center|bottom" />
-        <Button
-            android:id="@+id/item_4"
-            android:layout_below="@+id/item_3"
-            foo:layout_widthPercent="100%"
-            foo:layout_heightPercent="8%"
-            android:text="    About"
-            android:gravity="left|center"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#f0f0f0" />
+    <!--        About-->
+        <TextView
+            android:id="@+id/about_setting"
+            android:layout_below="@+id/phone_setting"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:gravity="center|left"
+            android:text="About"
             android:textColor="@drawable/color_text_press"
             android:textSize="18dp"
-            android:drawableRight="@drawable/button"
-            android:background="@color/material_grey_100"
-            fontPath="Fonts/Montserrat_Regular.otf"
+            android:drawableLeft="@drawable/about_ico"
+            android:contextClickable="true" />
+        <View
+            android:layout_below="@id/about_setting"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center|bottom" />
-        <Button
-            android:id="@+id/item_5"
-            android:layout_below="@+id/item_4"
-            foo:layout_widthPercent="100%"
-            foo:layout_heightPercent="8%"
-            android:text="    Privacy Policy"
-            android:gravity="left|center"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#f0f0f0" />
+    <!--        Term & Condition-->
+        <TextView
+            android:id="@+id/term_setting"
+            android:layout_below="@+id/about_setting"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:gravity="center|left"
+            android:text="Term &amp; Condition"
             android:textColor="@drawable/color_text_press"
             android:textSize="18dp"
-            android:drawableRight="@drawable/button"
-            android:background="@color/material_grey_100"
-            fontPath="Fonts/Montserrat_Regular.otf"
+            android:drawableLeft="@drawable/term_ico"
+            android:contextClickable="true" />
+        <View
+            android:layout_below="@id/term_setting"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center|bottom" />
-        <Button
-            android:id="@+id/item_6"
-            android:layout_below="@+id/item_5"
-            foo:layout_widthPercent="100%"
-            foo:layout_heightPercent="8%"
-            android:text="    Contact"
-            android:gravity="left|center"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#f0f0f0" />
+    <!--       Privacy  Policy -->
+        <TextView
+            android:id="@+id/policy_setting"
+            android:layout_below="@+id/term_setting"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:gravity="center|left"
+            android:text="Privacy  Policy"
             android:textColor="@drawable/color_text_press"
             android:textSize="18dp"
-            android:drawableRight="@drawable/button"
-            android:background="@color/material_grey_100"
-            fontPath="Fonts/Montserrat_Regular.otf"
+            android:drawableLeft="@drawable/policy_ico"
+            android:contextClickable="true" />
+        <View
+            android:layout_below="@id/policy_setting"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center|bottom" />
-    </android.support.percent.PercentRelativeLayout>
-</LinearLayout>
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#f0f0f0" />
+    <!--        Contact-->
+        <TextView
+            android:id="@+id/contact_setting"
+            android:layout_below="@+id/policy_setting"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:gravity="center|left"
+            android:text="Contact"
+            android:textColor="@drawable/color_text_press"
+            android:textSize="18dp"
+            android:drawableLeft="@drawable/contact_ico"
+            android:contextClickable="true" />
+        <View
+            android:layout_below="@id/contact_setting"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#f0f0f0"
+            android:contextClickable="true" />
+    </RelativeLayout>
+</ScrollView>

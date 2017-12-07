@@ -45,9 +45,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>packages\Newtonsoft.Json.10.0.3\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="MaterialSpinner">
       <HintPath>packages\MaterialSpinner-Xamarin.1.1.1\lib\MonoAndroid\MaterialSpinner.dll</HintPath>
     </Reference>
@@ -147,6 +144,22 @@
     <Reference Include="Google.Apis.Core">
       <HintPath>packages\Google.Apis.Core.1.30.0\lib\netstandard1.3\Google.Apis.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Google.Apis.Gmail.v1">
+      <HintPath>packages\Google.Apis.Gmail.v1.1.30.0.1034\lib\netstandard1.3\Google.Apis.Gmail.v1.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Json" />
+    <Reference Include="Xamarin.GooglePlayServices.Auth">
+      <HintPath>packages\Xamarin.GooglePlayServices.Auth.29.0.0.2\lib\MonoAndroid41\Xamarin.GooglePlayServices.Auth.dll</HintPath>
+    </Reference>
+    <Reference Include="Auth0Client.Android">
+      <HintPath>Components\Auth0Client-0.5.0\lib\android\Auth0Client.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Components\Auth0Client-0.5.0\lib\android\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Auth.Android">
+      <HintPath>Components\Auth0Client-0.5.0\lib\android\Xamarin.Auth.Android.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -188,91 +201,12 @@
     <Compile Include="ActivityClass\SettingClass\ManageInternetAccountActivity.cs" />
     <Compile Include="ActivityClass\SettingClass\DialogAccount.cs" />
     <Compile Include="Messenge\Mail\ListAccountAdapter.cs" />
+    <Compile Include="Messenge\Mail\Gmail\WebViewActi.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
-    <None Include="Resources\drawable\drawable-hdpi\btn_google_dark_disabled_hdpi.9.png" />
-    <None Include="Resources\drawable\drawable-hdpi\btn_google_dark_focus_hdpi.9.png" />
-    <None Include="Resources\drawable\drawable-hdpi\btn_google_dark_normal_hdpi.9.png" />
-    <None Include="Resources\drawable\drawable-hdpi\btn_google_dark_pressed_hdpi.9.png" />
-    <None Include="Resources\drawable\drawable-hdpi\btn_google_light_disabled_hdpi.9.png" />
-    <None Include="Resources\drawable\drawable-hdpi\btn_google_light_focus_hdpi.9.png" />
-    <None Include="Resources\drawable\drawable-hdpi\btn_google_light_normal_hdpi.9.png" />
-    <None Include="Resources\drawable\drawable-hdpi\btn_google_light_pressed_hdpi.9.png" />
-    <None Include="Resources\drawable\drawable-hdpi\btn_google_signin_dark_disabled_hdpi.9.png" />
-    <None Include="Resources\drawable\drawable-hdpi\btn_google_signin_dark_focus_hdpi.9.png" />
-    <None Include="Resources\drawable\drawable-hdpi\btn_google_signin_dark_normal_hdpi.9.png" />
-    <None Include="Resources\drawable\drawable-hdpi\btn_google_signin_dark_pressed_hdpi.9.png" />
-    <None Include="Resources\drawable\drawable-hdpi\btn_google_signin_light_disabled_hdpi.9.png" />
-    <None Include="Resources\drawable\drawable-hdpi\btn_google_signin_light_focus_hdpi.9.png" />
-    <None Include="Resources\drawable\drawable-hdpi\btn_google_signin_light_normal_hdpi.9.png" />
-    <None Include="Resources\drawable\drawable-hdpi\btn_google_signin_light_pressed_hdpi.9.png" />
-    <None Include="Resources\drawable\drawable-ldpi\btn_google_dark_disabled_ldpi.9.png" />
-    <None Include="Resources\drawable\drawable-ldpi\btn_google_dark_focus_ldpi.9.png" />
-    <None Include="Resources\drawable\drawable-ldpi\btn_google_dark_normal_ldpi.9.png" />
-    <None Include="Resources\drawable\drawable-ldpi\btn_google_dark_pressed_ldpi.9.png" />
-    <None Include="Resources\drawable\drawable-ldpi\btn_google_light_disabled_ldpi.9.png" />
-    <None Include="Resources\drawable\drawable-ldpi\btn_google_light_focus_ldpi.9.png" />
-    <None Include="Resources\drawable\drawable-ldpi\btn_google_light_normal_ldpi.9.png" />
-    <None Include="Resources\drawable\drawable-ldpi\btn_google_light_pressed_ldpi.9.png" />
-    <None Include="Resources\drawable\drawable-ldpi\btn_google_signin_dark_disabled_ldpi.9.png" />
-    <None Include="Resources\drawable\drawable-ldpi\btn_google_signin_dark_focus_ldpi.9.png" />
-    <None Include="Resources\drawable\drawable-ldpi\btn_google_signin_dark_normal_ldpi.9.png" />
-    <None Include="Resources\drawable\drawable-ldpi\btn_google_signin_dark_pressed_ldpi.9.png" />
-    <None Include="Resources\drawable\drawable-ldpi\btn_google_signin_light_disabled_ldpi.9.png" />
-    <None Include="Resources\drawable\drawable-ldpi\btn_google_signin_light_focus_ldpi.9.png" />
-    <None Include="Resources\drawable\drawable-ldpi\btn_google_signin_light_normal_ldpi.9.png" />
-    <None Include="Resources\drawable\drawable-ldpi\btn_google_signin_light_pressed_ldpi.9.png" />
-    <None Include="Resources\drawable\drawable-mdpi \btn_google_dark_disabled_mdpi.9.png" />
-    <None Include="Resources\drawable\drawable-mdpi \btn_google_dark_focus_mdpi.9.png" />
-    <None Include="Resources\drawable\drawable-mdpi \btn_google_dark_normal_mdpi.9.png" />
-    <None Include="Resources\drawable\drawable-mdpi \btn_google_dark_pressed_mdpi.9.png" />
-    <None Include="Resources\drawable\drawable-mdpi \btn_google_light_disabled_mdpi.9.png" />
-    <None Include="Resources\drawable\drawable-mdpi \btn_google_light_focus_mdpi.9.png" />
-    <None Include="Resources\drawable\drawable-mdpi \btn_google_light_normal_mdpi.9.png" />
-    <None Include="Resources\drawable\drawable-mdpi \btn_google_light_pressed_mdpi.9.png" />
-    <None Include="Resources\drawable\drawable-mdpi \btn_google_signin_dark_disabled_mdpi.9.png" />
-    <None Include="Resources\drawable\drawable-mdpi \btn_google_signin_dark_focus_mdpi.9.png" />
-    <None Include="Resources\drawable\drawable-mdpi \btn_google_signin_dark_normal_mdpi.9.png" />
-    <None Include="Resources\drawable\drawable-mdpi \btn_google_signin_dark_pressed_mdpi.9.png" />
-    <None Include="Resources\drawable\drawable-mdpi \btn_google_signin_light_disabled_mdpi.9.png" />
-    <None Include="Resources\drawable\drawable-mdpi \btn_google_signin_light_focus_mdpi.9.png" />
-    <None Include="Resources\drawable\drawable-mdpi \btn_google_signin_light_normal_mdpi.9.png" />
-    <None Include="Resources\drawable\drawable-mdpi \btn_google_signin_light_pressed_mdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xhdpi\btn_google_dark_disabled_xhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xhdpi\btn_google_dark_focus_xhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xhdpi\btn_google_dark_normal_xhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xhdpi\btn_google_dark_pressed_xhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xhdpi\btn_google_light_disabled_xhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xhdpi\btn_google_light_focus_xhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xhdpi\btn_google_light_normal_xhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xhdpi\btn_google_light_pressed_xhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xhdpi\btn_google_signin_dark_disabled_xhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xhdpi\btn_google_signin_dark_focus_xhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xhdpi\btn_google_signin_dark_normal_xhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xhdpi\btn_google_signin_dark_pressed_xhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xhdpi\btn_google_signin_light_disabled_xhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xhdpi\btn_google_signin_light_focus_xhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xhdpi\btn_google_signin_light_normal_xhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xhdpi\btn_google_signin_light_pressed_xhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xxhdpi\btn_google_dark_disabled_xxhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xxhdpi\btn_google_dark_focus_xxhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xxhdpi\btn_google_dark_normal_xxhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xxhdpi\btn_google_dark_pressed_xxhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xxhdpi\btn_google_light_disabled_xxhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xxhdpi\btn_google_light_focus_xxhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xxhdpi\btn_google_light_normal_xxhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xxhdpi\btn_google_light_pressed_xxhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xxhdpi\btn_google_signin_dark_disabled_xxhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xxhdpi\btn_google_signin_dark_focus_xxhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xxhdpi\btn_google_signin_dark_normal_xxhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xxhdpi\btn_google_signin_dark_pressed_xxhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xxhdpi\btn_google_signin_light_disabled_xxhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xxhdpi\btn_google_signin_light_focus_xxhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xxhdpi\btn_google_signin_light_normal_xxhdpi.9.png" />
-    <None Include="Resources\drawable\drawable-xxhdpi\btn_google_signin_light_pressed_xxhdpi.9.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -306,7 +240,6 @@
     <AndroidResource Include="Resources\drawable\circle.xml" />
     <AndroidResource Include="Resources\drawable\button.xml" />
     <AndroidResource Include="Resources\drawable\settings_40.png" />
-    <AndroidResource Include="Resources\drawable\color_text_press.xml" />
     <AndroidResource Include="Resources\drawable\main_circle_press.xml" />
     <AndroidResource Include="Resources\drawable\forward_default.png" />
     <AndroidResource Include="Resources\drawable\forward_press.png" />
@@ -344,6 +277,44 @@
     <AndroidResource Include="Resources\drawable\mk_zalo_ico.png" />
     <AndroidResource Include="Resources\drawable\google_image.png" />
     <AndroidResource Include="Resources\layout\listAccount.axml" />
+    <AndroidResource Include="Resources\layout\WebView.axml" />
+    <AndroidResource Include="Resources\layout\line.xml" />
+    <AndroidResource Include="Resources\drawable\color_text_press.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\about_ico.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\contact_ico.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\messenge_ico.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\phone_ico.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\speech_ico.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\term_ico.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\about_ico.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\contact_ico.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\messenge_ico.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\phone_ico.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\speech_ico.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\term_ico.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\about_ico.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\contact_ico.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\messenge_ico.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\phone_ico.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\speech_ico.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\term_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\about_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\contact_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\messenge_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\phone_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\speech_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\term_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\about_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\contact_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\messenge_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\phone_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\speech_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\term_ico.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\policy_ico.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\policy_ico.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\policy_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\policy_ico.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\policy_ico.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
@@ -369,10 +340,19 @@
     <AndroidAsset Include="Assets\Fonts\Montserrat_Regular.otf" />
     <AndroidAsset Include="Assets\Fonts\Montserrat_SemiBold.otf" />
     <AndroidAsset Include="Assets\Fonts\Pacifico.ttf" />
+    <AndroidAsset Include="Assets\client_secret.json" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="xamandroidsupportdesign">
       <Version>23.4.0.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="mailkit">
+      <Version>1.16.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="Auth0Client">
+      <Version>0.5.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>

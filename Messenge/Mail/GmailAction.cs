@@ -1,11 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using MimeKit;
-using MailKit;
+
+using Android.App;
+using Android.Content;
+using Android.Runtime;
+using Android.Views;
+using Android.Widget;
+using Android.OS;
+using Android.Gms.Common.Apis;
+using Android.Support.V7.App;
+using Android.Gms.Common;
+using Android.Util;
+using Android.Gms.Plus;
 using MailKit.Net.Imap;
-using MailKit.Security;
+using FreeHand.Model;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using MailKit;
+using Google.Apis.Gmail.v1;
 using MailKit.Search;
-using Android.Util; 
+using MailKit.Security;
+
 namespace FreeHand
 {    
     public class GmailAction : IMailAction
@@ -13,6 +27,9 @@ namespace FreeHand
         private static readonly string TAG = "GmailAction";
         private ImapClient client;
         private string usr, pwd;
+        static string[] Scopes = { GmailService.Scope.GmailReadonly };
+        static string ApplicationName = "Gmail API .NET Quickstart";
+
         public delegate void MarkSeenAction(MailKit.UniqueId uid);
         private MarkSeenAction markSeenAction;
         public GmailAction(string usr,string pwd)
@@ -26,26 +43,41 @@ namespace FreeHand
             var inbox = client.Inbox;
             inbox.AddFlags(uid, MessageFlags.Seen, true);
         }
-        public void Login()
+
+        public async Task Login(Context ca)
         {
-            try{
-                Log.Info(TAG,"LOGIN GMAIL");
-                if (client == null) client = new ImapClient();
+           
+            try
+            {
+                using (var client = new ImapClient())
+                {
                     client.ServerCertificateValidationCallback = (s, c, ch, e) => true;
-                    client.Connect("imap.gmail.com", 993,SecureSocketOptions.SslOnConnect);               
+                    client.Connect("imap.gmail.com", 993, SecureSocketOptions.SslOnConnect);
+
                     // disable OAuth2 authentication unless you are actually using an access_token
                     client.AuthenticationMechanisms.Remove("XOAUTH2");
 
-                client.Authenticate(usr, pwd);
+                    client.Authenticate("user@gmail.com", "password");
 
-                                    
-                                    
+                    // do stuff...
+
+                    client.Disconnect(true);
+                }
+               
+
+
+
+
 
             }
-            catch (Exception e){
-                Log.Error(TAG, "Login err "+e.ToString());
+            catch (Exception e)
+            {
+                Log.Error(TAG, "Login err " + e.ToString());
             }
+           
         }
+
+       
 
         public List<Model.IMessengeData> SyncInbox()
         {
@@ -80,7 +112,7 @@ namespace FreeHand
             }
             else {
                 Log.Info(TAG,"Sync mail not run, not connect to server try login");
-                Login();
+
             }
             return lstInbox;
         }
@@ -94,5 +126,6 @@ namespace FreeHand
             if (client == null) return false;
             return client.IsConnected;
         }
+
     }
 }

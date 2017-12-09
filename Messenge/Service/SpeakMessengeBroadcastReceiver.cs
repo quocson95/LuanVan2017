@@ -145,6 +145,7 @@ namespace FreeHand.Messenge.Service
 
                 }
             }
+            else _config.smsConfig.StateSMS = Config.STATE_SMS.DONE;
         }
 
         private async Task StateReadlyReply()

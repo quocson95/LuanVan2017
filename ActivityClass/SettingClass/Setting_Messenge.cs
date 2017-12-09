@@ -57,10 +57,9 @@ namespace FreeHand.ActivityClass.SettingClass
         {
             /*
              * SMS
-             */ 
+             */
+            RestoreStateSwSMS();
             _tvContentSMSReply.Text = _cfg.smsConfig.CustomContetnReply;
-
-
             _swEnable_sms.Checked = _cfg.smsConfig.Enable;
         }
 
@@ -92,16 +91,16 @@ namespace FreeHand.ActivityClass.SettingClass
             };
 
             //Speak Name
-            _swAllowSpeakNameSMS.CheckedChange += CheckedChange;
+            _swAllowSpeakNameSMS.CheckedChange += CheckedChangeHandle;
 
             //Speak Number
-            _swAllowSpeakNumberSMS.CheckedChange += CheckedChange;
+            _swAllowSpeakNumberSMS.CheckedChange += CheckedChangeHandle;
 
             //Speak Content
-            _swAllowSpeakContentSMS.CheckedChange += CheckedChange;
+            _swAllowSpeakContentSMS.CheckedChange += CheckedChangeHandle;
 
             //Auto Reply
-            _swAllowAutoReplySMS.CheckedChange += CheckedChange;
+            _swAllowAutoReplySMS.CheckedChange += CheckedChangeHandle;
 
             _customSMSReply.Click += delegate {
                 Intent intent = new Intent(this, typeof(Custom_Reply_Messenge));
@@ -123,7 +122,7 @@ namespace FreeHand.ActivityClass.SettingClass
                 }
             }
         }
-        private void CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
+        private void CheckedChangeHandle(object sender, CompoundButton.CheckedChangeEventArgs e)
         {
             Switch sw = (Switch)sender;
             if (sw.Equals(_swAllowSpeakNameSMS))
@@ -171,11 +170,13 @@ namespace FreeHand.ActivityClass.SettingClass
         }
 
 
-        protected override void OnDestroy()
+        protected override void OnStop()
         {
-            Log.Info(TAG,"Destroy");
-            base.OnDestroy();
+            Log.Info(TAG,"OnStop");
+            if (_swEnable_sms.Checked) _cfg.smsConfig.Backup();
             _cfg.SaveSMSConfig();
+            base.OnStop();
+
         }
     }
 }

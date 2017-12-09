@@ -50,8 +50,7 @@
             android:layout_marginRight="20dp"
             android:text="Enable Service"
             android:textColor="@drawable/label_switch"
-            android:textSize="18dp"
-            android:checked="true" />
+            android:textSize="18dp" />
         <View
             android:layout_below="@id/sw_enable_messenge"
             android:layout_width="match_parent"

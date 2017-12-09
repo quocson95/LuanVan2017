@@ -16,36 +16,41 @@ namespace FreeHand
     [Activity(Label = "PhoneSettingActivity")]
     public class PhoneSettingActivity : Activity
     {
-        private static readonly string TAG = "PhoneSettingActivity";
-        private Switch _swEnable, _swAutoAcceptCall, _swSmartAlert, _swAutoReply;
-        private SeekBar _skTimeAcceptCall;
-        private TextView _labelTimeAcceptCall, _contentPhoneReply;
-        private int _timeAcceptCall;
-        private Config _config;
-        private Android.Graphics.Color color_text_disale, color_text_enable;
+         static readonly string TAG = "PhoneSettingActivity";
+         Switch _swEnable, _swAutoAcceptCall, _swSmartAlert, _swAutoReply, _swRejectCall;
+         SeekBar _skTimeAcceptCall;
+         TextView _labelTimeAcceptCall, _contentPhoneReply, _labelAcceptCall, _labelContentReply;
+         int _timeAcceptCall;
+         Config _config;
+         Android.Graphics.Color color_text_disale, color_text_enable,color_black;
 
+        delegate void Del();
+        Del DbackUp;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Phone_Layout);
             _config = Config.Instance();
+            DbackUp += _config.phoneConfig.Backup;
             InitUI();
-            SetListenerUI();
-            InitData();
+           
+
             // Create your application here
         }
 
-        private void InitData()
-        {
-            _config.phoneConfig.Restore();
-            _swEnable.Checked = _config.phoneConfig.Enable;
+         void InitData()
+        {            
             _contentPhoneReply.Text = _config.phoneConfig.ContentReply;
+            _labelTimeAcceptCall.Text = _config.phoneConfig.TimeAutoAcceptCall.ToString() + "s";
+            _skTimeAcceptCall.Progress = _config.phoneConfig.TimeAutoAcceptCall * 10 / 3;
+            _swEnable.Checked = _config.phoneConfig.Enable;
         }
 
-        private void InitUI()
+         void InitUI()
         {
             color_text_disale = new Android.Graphics.Color(185, 185, 185);
             color_text_enable = new Android.Graphics.Color(125, 199, 192);
+            color_black = new Android.Graphics.Color(0, 0, 0);
 
             _swEnable = (Switch)FindViewById(Resource.Id.sw_enable);
             _swAutoAcceptCall = (Switch)FindViewById(Resource.Id.sw_auto_accept_call);
@@ -53,36 +58,28 @@ namespace FreeHand
             _skTimeAcceptCall = (SeekBar)FindViewById(Resource.Id.sk_time_auto_accept_call);
             _labelTimeAcceptCall = (TextView)FindViewById(Resource.Id.label_time_auto_accept_call);
             _swAutoReply = FindViewById<Switch>(Resource.Id.auto_reply_when_miss_call);
-            _contentPhoneReply = FindViewById<TextView>(Resource.Id.content_custom_phone_reply);
-
-            _swEnable.Checked = _config.phoneConfig.Enable;
-            _swSmartAlert.Checked = _config.phoneConfig.SmartAlert;
-            _swAutoAcceptCall.Checked = _config.phoneConfig.AllowAutoAcceptCall;
-            _timeAcceptCall = _config.phoneConfig.TimeAutoAcceptCall;
-            _labelTimeAcceptCall.Text = _timeAcceptCall.ToString() + "s";
-            _skTimeAcceptCall.Progress = _timeAcceptCall * 10 / 3;
+            _contentPhoneReply = FindViewById<TextView>(Resource.Id.content_phone_reply);
+            _labelAcceptCall = FindViewById<TextView>(Resource.Id.label_auto_accept_call);
+            _swRejectCall = FindViewById<Switch>(Resource.Id.auto_reject_call);
+            _labelContentReply = FindViewById<TextView>(Resource.Id.lable_content_phone_reply);
+            //_swEnable.Checked = _config.phoneConfig.Enable;
+            //_swSmartAlert.Checked = _config.phoneConfig.SmartAlert;
+            //_swAutoAcceptCall.Checked = _config.phoneConfig.AllowAutoAcceptCall;
+            //_timeAcceptCall = _config.phoneConfig.TimeAutoAcceptCall;
+            //_labelTimeAcceptCall.Text = _timeAcceptCall.ToString() + "s";
+            //_skTimeAcceptCall.Progress = _timeAcceptCall * 10 / 3;
+            SetListenerUI();
+            InitData();
 
         }
 
-        private void SetListenerUI()
+         void SetListenerUI()
         {
-            _swEnable.CheckedChange += CheckedChange;         
-            //    _config.phoneConfig.Enable = _swEnable.Checked;
-            //    if (_swEnable.Checked)
-            //    {                    
-            //        _config.phoneConfig.Restore();
-            //        RestoreStateSwPhone();
-            //    }
-            //    else 
-            //    {      
-            //        _config.phoneConfig.Backup();
-            //        DisableAllServiceSMS();
-            //    }
-            //};
+            _swEnable.CheckedChange += CheckedChangeHandle;
 
-            _swSmartAlert.CheckedChange += CheckedChange;
+            _swSmartAlert.CheckedChange += CheckedChangeHandle;
 
-            _swAutoAcceptCall.CheckedChange += CheckedChange;
+            _swAutoAcceptCall.CheckedChange += CheckedChangeHandle;
 
             _skTimeAcceptCall.ProgressChanged += (object sender, SeekBar.ProgressChangedEventArgs e) => {                            
                     _timeAcceptCall = e.Progress * 3 / 10;
@@ -90,91 +87,135 @@ namespace FreeHand
                     _labelTimeAcceptCall.Text = _timeAcceptCall.ToString() + "s";
                     _config.phoneConfig.TimeAutoAcceptCall = _timeAcceptCall;
             };    
-            _swAutoReply.CheckedChange += CheckedChange;
+            _swAutoReply.CheckedChange += CheckedChangeHandle;
+            _swRejectCall.CheckedChange += CheckedChangeHandle;
         }
 
-        private void DisableAllServicePhone()
+        void DisableAllServicePhone()
         {
-            _config.phoneConfig.Backup();
+            DbackUp -= _config.phoneConfig.Backup;
             _swAutoReply.Checked = false;
             _swSmartAlert.Checked = false;
             _swAutoAcceptCall.Checked = false;
+            _swRejectCall.Checked = false;
+            DbackUp += _config.phoneConfig.Backup;
 
         }
 
-        private void RestoreStateSwPhone()
-        {
-            _config.phoneConfig.Restore();
+         void RestoreStateSwPhone()
+        {                        
             _swAutoReply.Checked = _config.phoneConfig.AutoReply;
             _swSmartAlert.Checked = _config.phoneConfig.SmartAlert;
             _swAutoAcceptCall.Checked = _config.phoneConfig.AllowAutoAcceptCall;
+            _swRejectCall.Checked = _config.phoneConfig.AutoRejectCall;
 
         }
 
 
-        private void CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
+         void CheckedChangeHandle(object sender, CompoundButton.CheckedChangeEventArgs e)
         {                        
             Switch sw = (Switch)sender;
-            if (sw.Equals(_swAutoReply))
+            if (sw.Equals(_swEnable))
+                HandleSwEnable(e.IsChecked);
+            else
             {
-                _config.phoneConfig.AutoReply = _swAutoReply.Checked;
-                if (e.IsChecked)
-                {
-                    _contentPhoneReply.Click += ActionCustomContentReply;
-                    _contentPhoneReply.SetTextColor(color_text_enable);
-                }
-                else
-                {
-                    _contentPhoneReply.Click -= ActionCustomContentReply;
-                    _contentPhoneReply.SetTextColor(color_text_disale);
-                }
-            }
-            else if (sw.Equals(_swSmartAlert))
-            {
-                _config.phoneConfig.SmartAlert = _swSmartAlert.Checked;
-            }
-            else if (sw.Equals(_swAutoAcceptCall))
-            {
-                _config.phoneConfig.AllowAutoAcceptCall = _swAutoAcceptCall.Checked;
-            }
-            else if (sw.Equals(_swEnable))
-            {
+                _swEnable.CheckedChange -= CheckedChangeHandle;
+                _swEnable.Checked = _swAutoReply.Checked || _swSmartAlert.Checked || _swAutoAcceptCall.Checked || _swRejectCall.Checked;
                 _config.phoneConfig.Enable = _swEnable.Checked;
-            }
-            CheckAllSw(sw);
+                _swEnable.CheckedChange += CheckedChangeHandle;
 
-        }
-
-        private void CheckAllSw(Switch sender)
-        {
-            bool result = _swAutoReply.Checked || _swSmartAlert.Checked || _swAutoAcceptCall.Checked;
-
-            if (sender.Equals(_swEnable))
-            {
-                if (_swEnable.Checked)
-                    RestoreStateSwPhone();                
-                else 
-                    DisableAllServicePhone();
-            }
-            else 
-            {
-                _swEnable.CheckedChange -= CheckedChange;
-                _swEnable.Checked = result;
-                _swEnable.CheckedChange += CheckedChange;
+                if (sw.Equals(_swAutoReply))
+                {
+                    HandleSwAutoReply(e.IsChecked);
+                }
+                else if (sw.Equals(_swSmartAlert))
+                {
+                    _config.phoneConfig.SmartAlert = e.IsChecked;
+                }
+                else if (sw.Equals(_swAutoAcceptCall))
+                {
+                    HandleSwAutoAccepCall(e.IsChecked);
+                }
+                else if (sw.Equals(_swRejectCall))
+                {
+                    HandleSwRejectCall(e.IsChecked);
+                }
+                if (DbackUp != null) DbackUp();
             }
            
 
         }
 
+        private void HandleSwRejectCall(bool isChecked)
+        {
+            _config.phoneConfig.AutoRejectCall = isChecked;
+            UpdateUIColorReply();
+        }
 
-        private void ActionCustomContentReply(object sender, EventArgs e)
+        void HandleSwEnable(bool isChecked)
+        {
+            _config.phoneConfig.Enable = isChecked;
+            if (isChecked)
+            {
+                _config.phoneConfig.Restore();
+                RestoreStateSwPhone();
+            }
+            else
+            {
+                _config.phoneConfig.Backup();
+                DisableAllServicePhone();
+            }
+                
+        }
+
+        void HandleSwAutoAccepCall(bool isChecked)
+        {
+            _config.phoneConfig.AllowAutoAcceptCall = isChecked;
+            if (isChecked)
+            {
+                _labelAcceptCall.SetTextColor(color_text_enable);
+                _labelTimeAcceptCall.SetTextColor(color_text_enable);
+            }
+            else
+            {
+                _labelAcceptCall.SetTextColor(color_text_disale);
+                _labelTimeAcceptCall.SetTextColor(color_text_disale);
+            }
+        }
+
+        void HandleSwAutoReply(bool isChecked)
+        {
+            _config.phoneConfig.AutoReply = isChecked;
+            UpdateUIColorReply();
+        }
+
+        private void UpdateUIColorReply()
+        {
+            if (_swAutoReply.Checked || _swRejectCall.Checked)
+            {
+                _contentPhoneReply.Click += ActionCustomContentReply;
+                _labelContentReply.Click += ActionCustomContentReply;
+                _contentPhoneReply.SetTextColor(color_black);
+                _labelContentReply.SetTextColor(color_text_enable);
+            }
+            else
+            {
+                _contentPhoneReply.Click -= ActionCustomContentReply;
+                _labelContentReply.Click -= ActionCustomContentReply;
+                _contentPhoneReply.SetTextColor(color_text_disale);
+                _labelContentReply.SetTextColor(color_text_disale);
+
+            }
+        }
+
+        void ActionCustomContentReply(object sender, EventArgs e)
         {
             
         }
         protected override void OnStop()
         {
             Log.Info(TAG, "OnStop");
-            _config.Save();
+            _config.SavePhoneConfig();
             base.OnStop();
         }
     }

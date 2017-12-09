@@ -1,142 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:padding="10dp">
-<!--Cirle top-->
-    <include
-        layout="@layout/template_circle_top"
-        android:id="@+id/circle_top" />
-<!--Label-->
-    <TextView
-        android:id="@+id/label_phone"
-        android:layout_below="@id/circle_top"
-        android:layout_width="150dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="5dp"
-        android:gravity="center|left"
-        android:text="Phone"
-        android:textColor="@color/main_background"
-        android:textSize="22dp"
-        android:drawableLeft="@drawable/phone_ico" />
-<!--  Enable Service  -->
-    <Switch
-        android:id="@+id/sw_enable"
-        android:layout_below="@id/label_phone"
+    android:orientation="vertical"
+    android:minWidth="25px"
+    android:minHeight="25px"
+    android:background="@android:color/white">
+<!--  Icon Master  -->
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginLeft="20dp"
-        android:textColor="@drawable/label_switch"
-        android:text="Enable"
-        android:textSize="20dp" />
-    <View
-        android:layout_below="@id/sw_enable"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="20dp"
-        android:background="#f0f0f0" />
-    <Switch
-        android:id="@+id/sw_auto_accept_call"
-        android:layout_below="@id/sw_enable"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginLeft="20dp"
-        android:textColor="@drawable/label_switch"
-        android:text="Auto Accept Call"
-        android:textSize="20dp" />
-    <View
-        android:layout_below="@id/sw_auto_accept_call"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="20dp"
-        android:background="#f0f0f0" />
-    <TextView
-        android:id="@+id/lable_auto_accept_call"
-        android:layout_below="@id/sw_auto_accept_call"
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="20dp"
-        android:textColor="@drawable/label_switch"
-        android:text="Time Wait Before Accept Call"
-        android:gravity="center|left"
-        android:textSize="20dp" />
-    <TextView
-        android:id="@+id/label_time_auto_accept_call"
-        android:layout_below="@id/sw_auto_accept_call"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginLeft="20dp"
-        android:textColor="@drawable/label_switch"
-        android:text="30s"
-        android:gravity="center|right"
-        android:textSize="20dp"
-        android:layout_alignParentEnd="true" />
-    <SeekBar
-        android:id="@+id/sk_time_auto_accept_call"
-        android:layout_below="@id/label_time_auto_accept_call"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="10dp"
-        android:background="@android:color/white"
-        android:layout_alignParentRight="true" />
-    <View
-        android:layout_below="@id/sk_time_auto_accept_call"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="20dp"
-        android:background="#f0f0f0" />
-    <Switch
-        android:id="@+id/sw_smartAlert"
-        android:layout_below="@id/sk_time_auto_accept_call"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginLeft="20dp"
-        android:textColor="@drawable/label_switch"
-        android:text="Smart Alert"
-        android:textSize="20dp"
-        android:checked="true" />
-    <View
-        android:layout_below="@id/sw_smartAlert"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="20dp"
-        android:background="#f0f0f0" />
-    <Switch
-        android:id="@+id/auto_reply_when_miss_call"
-        android:layout_below="@id/sw_smartAlert"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginLeft="20dp"
-        android:textColor="@drawable/label_switch"
-        android:text="Send SMS when miss call"
-        android:textSize="20dp"
-        android:checked="true" />
-<!--Custom SMS Reply-->
-    <TextView
-        android:id="@+id/content_custom_phone_reply"
-        android:layout_below="@+id/auto_reply_when_miss_call"
-        android:layout_width="match_parent"
-        android:layout_height="18dp"
-        android:textSize="16dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="20dp"
-        android:gravity="center|left"
-        android:singleLine="true"
-        android:text="This is custom reply"
-        android:textColor="@drawable/label_switch" />
-    <View
-        android:layout_below="@id/content_custom_phone_reply"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="20dp"
-        android:background="#f0f0f0" />
-</RelativeLayout>
+        android:layout_height="wrap_content">
+    <!--Cirle top-->
+        <include
+            layout="@layout/template_circle_top"
+            android:id="@+id/circle_top" />
+    <!--Label-->
+        <TextView
+            android:id="@+id/label_phone"
+            android:layout_below="@id/circle_top"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:gravity="center|left"
+            android:text="Phone"
+            android:textColor="@color/main_background"
+            android:textSize="22dp"
+            android:drawableLeft="@drawable/phone_ico" />
+    <!--  Enable Service  -->
+        <Switch
+            android:id="@+id/sw_enable"
+            android:layout_below="@id/label_phone"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@drawable/label_switch"
+            android:text="Enable"
+            android:textSize="20dp" />
+        <View
+            android:layout_below="@id/sw_enable"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="20dp"
+            android:background="#f0f0f0" />
+        <Switch
+            android:id="@+id/sw_auto_accept_call"
+            android:layout_below="@id/sw_enable"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@drawable/label_switch"
+            android:text="Auto Accept Call"
+            android:textSize="20dp" />
+        <View
+            android:layout_below="@id/sw_auto_accept_call"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="20dp"
+            android:background="#f0f0f0" />
+        <TextView
+            android:id="@+id/label_auto_accept_call"
+            android:layout_below="@id/sw_auto_accept_call"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@drawable/label_switch"
+            android:text="Time Wait Before Accept Call"
+            android:gravity="center|left"
+            android:textSize="20dp" />
+        <TextView
+            android:id="@+id/label_time_auto_accept_call"
+            android:layout_below="@id/sw_auto_accept_call"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@drawable/label_switch"
+            android:text="30s"
+            android:gravity="center|right"
+            android:textSize="20dp"
+            android:layout_alignParentEnd="true" />
+        <SeekBar
+            android:id="@+id/sk_time_auto_accept_call"
+            android:layout_below="@id/label_time_auto_accept_call"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:background="@android:color/white"
+            android:layout_alignParentRight="true" />
+        <View
+            android:layout_below="@id/sk_time_auto_accept_call"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="20dp"
+            android:background="#f0f0f0" />
+        <Switch
+            android:id="@+id/sw_smartAlert"
+            android:layout_below="@id/sk_time_auto_accept_call"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@drawable/label_switch"
+            android:text="Smart Alert"
+            android:textSize="20dp" />
+        <View
+            android:layout_below="@id/sw_smartAlert"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="20dp"
+            android:background="#f0f0f0" />
+        <Switch
+            android:id="@+id/auto_reply_when_miss_call"
+            android:layout_below="@id/sw_smartAlert"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@drawable/label_switch"
+            android:text="Send SMS when miss call"
+            android:textSize="20dp" />
+        <View
+            android:layout_below="@id/auto_reply_when_miss_call"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="20dp"
+            android:background="#f0f0f0" />
+        <Switch
+            android:id="@+id/auto_reject_call"
+            android:layout_below="@id/auto_reply_when_miss_call"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@drawable/label_switch"
+            android:text="Auto Reject Call"
+            android:textSize="20dp" />
+        <View
+            android:layout_below="@id/auto_reject_call"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="20dp"
+            android:background="#f0f0f0" />
+    <!--    Content Reply-->
+        <TextView
+            android:id="@+id/lable_content_phone_reply"
+            android:layout_below="@+id/auto_reject_call"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textSize="18dp"
+            android:layout_marginLeft="20dp"
+            android:gravity="center|left"
+            android:text="Content Reply"
+            android:textColor="@drawable/label_switch" />
+        <TextView
+            android:id="@+id/content_phone_reply"
+            android:layout_below="@+id/lable_content_phone_reply"
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:textSize="16dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center|left"
+            android:singleLine="true"
+            android:text="This is custom reply"
+            android:textColor="@drawable/label_switch" />
+    </RelativeLayout>
+</ScrollView>

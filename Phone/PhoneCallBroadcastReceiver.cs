@@ -12,6 +12,7 @@ using Android.Media;
 using Android.Util;
 using Android.Telephony;
 using DeviceMotion.Plugin;
+using Android.Runtime;
 
 namespace FreeHand.Phone
 {
@@ -79,25 +80,27 @@ namespace FreeHand.Phone
                 // check the current state
                 if (state == TelephonyManager.ExtraStateRinging)
                 {                    
-                    Log.Info(TAG, "Phone ExtraStateRinging");                    ;
-                    _config.AudioManage.RingerMode = RingerMode.Vibrate;
+                    //Log.Info(TAG, "Phone ExtraStateRinging");                    ;
+                    //_config.AudioManage.RingerMode = RingerMode.Vibrate;
 
-                    // read the incoming call telephone number...
-                    _telephone = intent.GetStringExtra(TelephonyManager.ExtraIncomingNumber);
-                    if (string.IsNullOrEmpty(_telephone))
-                        _telephone = string.Empty;
-                    Log.Info(TAG, "Incoming Numer " + _telephone);
-                    if (_config.GetPermissionRun(Config.PERMISSION_RUN.PHONE))
-                    {             
-                          _config.phoneConfig.IsHandlePhoneRunnig = true;
-                          PhoneCallHanler();
-                    }
+                    //// read the incoming call telephone number...
+                    //_telephone = intent.GetStringExtra(TelephonyManager.ExtraIncomingNumber);
+                    //if (string.IsNullOrEmpty(_telephone))
+                    //    _telephone = string.Empty;
+                    //Log.Info(TAG, "Incoming Numer " + _telephone);
+                    //if (_config.GetPermissionRun(Config.PERMISSION_RUN.PHONE))
+                    //{             
+                    //      _config.phoneConfig.IsHandlePhoneRunnig = true;
+                    //      PhoneCallHanler();
+                    //}
+                    EndCall(context);
                 }
                 else if (state == TelephonyManager.ExtraStateOffhook)
                 {
                     // incoming call answer
                     acceptCall = true;
                     Log.Info(TAG, "Phone ExtraStateOffhook");
+
                 }
                 else if (state == TelephonyManager.ExtraStateIdle)
                 {
@@ -115,6 +118,25 @@ namespace FreeHand.Phone
                     // incoming call end
                 }
             }
+        }
+
+        private void EndCall(Context context)
+        {
+            var manager = (TelephonyManager)context.GetSystemService(Context.TelephonyService);
+            IntPtr TelephonyManager_getITelephony = JNIEnv.GetMethodID(
+                manager.Class.Handle,
+                "getITelephony",
+                "()Lcom/android/internal/telephony/ITelephony;");
+            IntPtr telephony = JNIEnv.CallObjectMethod(manager.Handle, TelephonyManager_getITelephony);
+            IntPtr ITelephony_class = JNIEnv.GetObjectClass(telephony);
+            IntPtr ITelephony_endCall = JNIEnv.GetMethodID(
+                ITelephony_class,
+                "endCall",
+                "()Z");
+            JNIEnv.CallBooleanMethod(telephony, ITelephony_endCall);
+            JNIEnv.DeleteLocalRef(telephony);
+            JNIEnv.DeleteLocalRef(ITelephony_class);
+
         }
 
 

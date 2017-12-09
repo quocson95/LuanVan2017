@@ -34,27 +34,58 @@ namespace FreeHand
 
         public readonly string NOT_FOUND = "NOT_FOUND";
         public class PhoneConfig
-        {            
-            private bool smartAlert;
-            private bool enable;
-            private bool allowAutoAcceptCall;
-            public bool IsHandlePhoneRunnig { get; set; }
-            private int timeAutoAcceptCall;
-            public int MissedCall { set; get; }
+        {         
+            //Seting User
+            public bool IsHandlePhoneRunnig { get; set; }           
+            public int MissedCall { get; set; }
+            public bool SmartAlert { get; set ; }
+            public bool Enable { get; set; }
+            public bool AllowAutoAcceptCall { get; set; }
+            public int TimeAutoAcceptCall { get; set; }
+            public bool AutoReply { get; set; }
+            public string ContentReply { get; set; }
+            //Backup
+            public bool PrevIsHandlePhoneRunnig { get; set; }
+            public int PrevMissedCall { get; set; }
+            public bool PrevSmartAlert { get; set; }
+            public bool PrevEnable { get; set; }
+            public bool PrevAllowAutoAcceptCall { get; set; }
+            public int PrevTimeAutoAcceptCall { get; set; }
+            public bool PrevAutoReply { get; set; }
+            public string PrevContentReply { get; set; }
+
 
             public PhoneConfig()
             {
-                smartAlert = false;
-                enable = false;
-                allowAutoAcceptCall = false;
-                timeAutoAcceptCall = 0;
+                SmartAlert = false;
+                Enable = false;
+                AllowAutoAcceptCall = false;
+                AutoReply = false;
+                ContentReply = "Sample";
+                TimeAutoAcceptCall = 0;
                 MissedCall = 0;
+                Backup();
             }
 
-            public bool SmartAlert { get => smartAlert; set => smartAlert = value; }
-            public bool Enable { get => enable; set => enable = value; }
-            public bool AllowAutoAcceptCall { get => allowAutoAcceptCall; set => allowAutoAcceptCall = value; }
-            public int TimeAutoAcceptCall { get => timeAutoAcceptCall; set => timeAutoAcceptCall = value; }
+            public void Backup()
+            {                
+                PrevSmartAlert = SmartAlert;
+                PrevEnable = Enable;
+                PrevAllowAutoAcceptCall = AllowAutoAcceptCall;
+                PrevTimeAutoAcceptCall = TimeAutoAcceptCall;
+                PrevAutoReply = AutoReply;
+                PrevContentReply = ContentReply;
+            }
+
+            public void Restore()
+            {              
+                SmartAlert = PrevSmartAlert;
+                Enable = PrevEnable;
+                AllowAutoAcceptCall = PrevAllowAutoAcceptCall;
+                TimeAutoAcceptCall = PrevTimeAutoAcceptCall;
+                AutoReply = PrevAutoReply;
+                ContentReply = PrevContentReply;
+            }
         }
 
         public class SMSConfig
@@ -81,6 +112,8 @@ namespace FreeHand
                 StateSMS = STATE_SMS.IDLE;
                 MessengeBackUp = null;
                 IsHandleSMSRunnig = false;
+
+                Backup();
             }
 
             public void Clean()

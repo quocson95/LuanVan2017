@@ -12,7 +12,7 @@
 <!--Label-->
     <TextView
         android:id="@+id/label_phone"
-        android:layout_below="@+id/circle_top"
+        android:layout_below="@id/circle_top"
         android:layout_width="150dp"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
@@ -25,7 +25,7 @@
 <!--  Enable Service  -->
     <Switch
         android:id="@+id/sw_enable"
-        android:layout_below="@+id/label_phone"
+        android:layout_below="@id/label_phone"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="20dp"
@@ -41,7 +41,7 @@
         android:background="#f0f0f0" />
     <Switch
         android:id="@+id/sw_auto_accept_call"
-        android:layout_below="@+id/sw_enable"
+        android:layout_below="@id/sw_enable"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="20dp"
@@ -57,7 +57,7 @@
         android:background="#f0f0f0" />
     <TextView
         android:id="@+id/lable_auto_accept_call"
-        android:layout_below="@+id/sw_auto_accept_call"
+        android:layout_below="@id/sw_auto_accept_call"
         android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_marginLeft="20dp"
@@ -67,7 +67,7 @@
         android:textSize="20dp" />
     <TextView
         android:id="@+id/label_time_auto_accept_call"
-        android:layout_below="@+id/sw_auto_accept_call"
+        android:layout_below="@id/sw_auto_accept_call"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginLeft="20dp"
@@ -78,7 +78,7 @@
         android:layout_alignParentEnd="true" />
     <SeekBar
         android:id="@+id/sk_time_auto_accept_call"
-        android:layout_below="@+id/label_time_auto_accept_call"
+        android:layout_below="@id/label_time_auto_accept_call"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="20dp"
@@ -94,15 +94,46 @@
         android:background="#f0f0f0" />
     <Switch
         android:id="@+id/sw_smartAlert"
-        android:layout_below="@+id/sk_time_auto_accept_call"
+        android:layout_below="@id/sk_time_auto_accept_call"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="20dp"
         android:textColor="@drawable/label_switch"
         android:text="Smart Alert"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:checked="true" />
     <View
         android:layout_below="@id/sw_smartAlert"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="20dp"
+        android:background="#f0f0f0" />
+    <Switch
+        android:id="@+id/auto_reply_when_miss_call"
+        android:layout_below="@id/sw_smartAlert"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:textColor="@drawable/label_switch"
+        android:text="Send SMS when miss call"
+        android:textSize="20dp"
+        android:checked="true" />
+<!--Custom SMS Reply-->
+    <TextView
+        android:id="@+id/content_custom_phone_reply"
+        android:layout_below="@+id/auto_reply_when_miss_call"
+        android:layout_width="match_parent"
+        android:layout_height="18dp"
+        android:textSize="16dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center|left"
+        android:singleLine="true"
+        android:text="This is custom reply"
+        android:textColor="@drawable/label_switch" />
+    <View
+        android:layout_below="@id/content_custom_phone_reply"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginLeft="15dp"

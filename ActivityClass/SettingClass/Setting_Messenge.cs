@@ -18,7 +18,7 @@ namespace FreeHand.ActivityClass.SettingClass
         private TextView _customSMSReply, _customMailReply;
         private TextView _tvContentSMSReply, _tvContentMailReply;
         private Config _cfg;
-        private Android.Graphics.Color color_text_disale, color_text_enable,color_content_enable;
+        private Android.Graphics.Color color_sw_disale, color_sw_enable,color_content_enable;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -31,8 +31,8 @@ namespace FreeHand.ActivityClass.SettingClass
         private void InitUI()
         {
             //init color
-            color_text_disale = new Android.Graphics.Color(185, 185, 185);
-            color_text_enable = new Android.Graphics.Color(125, 199, 192);
+            color_sw_disale = new Android.Graphics.Color(185, 185, 185);
+            color_sw_enable = new Android.Graphics.Color(125, 199, 192);
             color_content_enable = new Android.Graphics.Color(0, 0, 0);
             //SMS
             _swEnable_sms = FindViewById<Switch>(Resource.Id.sw_enable_messenge);
@@ -62,15 +62,6 @@ namespace FreeHand.ActivityClass.SettingClass
 
 
             _swEnable_sms.Checked = _cfg.smsConfig.Enable;
-            if (_cfg.smsConfig.Enable)
-            {
-                RestoreStateSwSMS();
-            }
-            else DisableAllServiceSMS();
-
-            /*
-             * Mail
-             */
         }
 
         private void RestoreStateSwSMS()
@@ -159,13 +150,13 @@ namespace FreeHand.ActivityClass.SettingClass
             _cfg.smsConfig.AllowAutoReply = isChecked;
             if (isChecked)
             {
-                _customSMSReply.SetTextColor(color_text_enable);
+                _customSMSReply.SetTextColor(color_sw_enable);
                 _tvContentSMSReply.SetTextColor(color_content_enable);
             }
             else
             {
-                _customSMSReply.SetTextColor(color_text_disale);
-                _tvContentSMSReply.SetTextColor(color_text_disale);
+                _customSMSReply.SetTextColor(color_sw_disale);
+                _tvContentSMSReply.SetTextColor(color_sw_disale);
             }
         }
 

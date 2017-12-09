@@ -54,6 +54,7 @@ namespace FreeHand
             };
 
             btnSetting.Click += delegate {
+                //Intent settingIntent = new Intent(this, typeof(Messenge.Mail.MailSetting));
                 Intent settingIntent = new Intent(this, typeof(ActivityClass.SettingClass.SettingActivity));
                 StartActivity(settingIntent);
             };

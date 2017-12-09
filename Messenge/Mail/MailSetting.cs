@@ -14,6 +14,8 @@ using Android.Gms.Plus;
 using Android.Gms.Auth;
 using System.Threading.Tasks;
 using Auth0.SDK;
+using IdentityModel.OidcClient;
+
 namespace FreeHand.Messenge.Mail
 {
     [Activity(Label = "MailSetting")]
@@ -58,7 +60,7 @@ namespace FreeHand.Messenge.Mail
                 .AddConnectionCallbacks(this)
                 .AddOnConnectionFailedListener(this)
                 .AddApi(PlusClass.API)
-                                                  .AddScope(new Scope("https://mail.google.com/"))
+                .AddScope(new Scope("https://mail.google.com/"))
                 .Build();
         }
 
@@ -71,13 +73,7 @@ namespace FreeHand.Messenge.Mail
                 if (person != null)
                     name = person.DisplayName;
                 
-                var a = PlusClass.AccountApi.GetAccountName(mGoogleApiClient);
-                Task configWork = new Task(() =>
-                {
-                    b = GoogleAuthUtil.GetToken(this, PlusClass.AccountApi.GetAccountName(mGoogleApiClient), "oauth2:https://www.googleapis.com/auth/gmail.compose");
-                });
-                configWork.Start();
-
+                var a = PlusClass.AccountApi.GetAccountName(mGoogleApiClient);               
             }
 
         }
@@ -101,22 +97,7 @@ namespace FreeHand.Messenge.Mail
             outState.PutBoolean(KEY_SHOULD_RESOLVE, mIsResolving);
         }
 
-        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
-        {
-            base.OnActivityResult(requestCode, resultCode, data);
-            Log.Debug(TAG, "onActivityResult:" + requestCode + ":" + resultCode + ":" + data);
-
-            if (requestCode == RC_SIGN_IN)
-            {
-                if (resultCode != Result.Ok)
-                {
-                    mShouldResolve = false;
-                }
-
-                mIsResolving = false;
-                mGoogleApiClient.Connect();
-            }
-        }
+       
 
         public void OnConnected(Bundle connectionHint)
         {
@@ -196,13 +177,15 @@ namespace FreeHand.Messenge.Mail
             switch (v.Id)
             {
                 case Resource.Id.btn_login:
-                    mShouldResolve = true;
-                    //mGoogleApiClient.Connect();
+                    //mShouldResolve = true;
+                    ////mGoogleApiClient.Connect();
 
-                    auth0 = new Auth0Client(
-                        "sondq.auth0.com",
-                        "OL6_d7S_Cgx04ep-47WsV7C29ZkDnZ2W");
-                    var user = await auth0.LoginAsync(this, "google-oauth2");
+                    //auth0 = new Auth0Client(
+                    //    "sondq.auth0.com",
+                    //    "OL6_d7S_Cgx04ep-47WsV7C29ZkDnZ2W");
+                    //var user = await auth0.LoginAsync(this, "google-oauth2");
+
+
                     break;
             }
             //    case Resource.Id.sign_out_button:

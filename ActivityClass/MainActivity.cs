@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Android.Telephony;
 using Android.Support.V7.App;
 using Android.Media;
+using Calligraphy;
 
 namespace FreeHand
 {
@@ -22,13 +23,19 @@ namespace FreeHand
         private bool APP_RUNNIG;
         Intent MessengeServiceToStart,PhoneCallServiceToStart;
         Intent startMainServiceIntent, stopMainServiceInstant;
-        TextToSpeechLib _tts;
+        TTSLib _tts;
         private Config _config;       
         private static readonly string TAG = typeof(MainActivity).FullName;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             Log.Info(TAG, "OnCreate: initializing ");
             base.OnCreate(savedInstanceState);
+
+            CalligraphyConfig.InitDefault(new CalligraphyConfig.Builder()
+                                         .SetDefaultFontPath("Fonts/HELR45W.ttf")
+                                         .SetFontAttrId(Resource.Attribute.fontPath)
+                                         .Build());
+
             SetContentView(Resource.Layout.Main_layout);
             RequestPermission();
             LoadConfig();
@@ -55,8 +62,9 @@ namespace FreeHand
 
             btnSetting.Click += delegate {
                 //Intent settingIntent = new Intent(this, typeof(Messenge.Mail.MailSetting));
-                Intent settingIntent = new Intent(this, typeof(ActivityClass.SettingClass.SettingActivity));
-                StartActivity(settingIntent);
+                //Intent settingIntent = new Intent(this, typeof(ActivityClass.SettingClass.BlockNumberActivity));
+                Intent intent = new Intent(this, typeof(ActivityClass.SettingClass.SettingActivity));
+                StartActivity(intent);
             };
         }
 
@@ -158,6 +166,11 @@ namespace FreeHand
             //{
             //    await tts.SetLang(new Java.Util.Locale(ttsConfig.lang));
             //}
-        }                   
+        }    
+
+        protected override void AttachBaseContext(Android.Content.Context @base)
+        {
+            base.AttachBaseContext(CalligraphyContextWrapper.Wrap(@base));
+        }
     }
 }

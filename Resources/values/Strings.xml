@@ -6,4 +6,6 @@
 	<string name="SAVE_APP_RUNNING_STATUS">SAVE_APP_RUNNING_STATUS</string> 
 	<string name="start_app">ON</string>
 	<string name="stop_app">OFF</string>
+    <string name="termandconditions">All copyright, trade marks, design rights, patents and other intellectual property rights (registered and unregistered) in and on Bach Khoa University and application content belong to the Bach Khoa University and/or third parties (which may include you or other users.) The Bach Khoa University reserves all of its rights in application Content. Nothing in the Terms grants you a right or license to use any trade mark, design right or copyright owned or controlled by the Bach Khoa University or any other third party except as expressly provided in the Terms.</string>
+    <string name="privacy">By installing this applications, you agreed to the terms and conditions</string>
 </resources>

@@ -13,7 +13,6 @@ namespace FreeHand.Model
     {
         private static MessengeQueue instance;
         private Queue _queueMessenge;
-        private List<string> _phoneBook = new List<string>();
         private Activity _activity;
         public static MessengeQueue GetInstance(Activity act = null){
             if (instance == null) instance = new MessengeQueue(act);
@@ -34,7 +33,7 @@ namespace FreeHand.Model
             _queueMessenge.Enqueue(mess);
         }
 
-        public void EnqueueMessengeListQueue(List<IMessengeData> mess)
+        public void EnMessengeListQueue(List<IMessengeData> mess)
         {
             foreach ( var item in mess)
                 _queueMessenge.Enqueue(item);
@@ -56,33 +55,6 @@ namespace FreeHand.Model
         public int Count(){
             return _queueMessenge.Count;
         }
-		public string GetNameFromPhoneNumber(string number)
-		{
-			String selection = ContactsContract.CommonDataKinds.Contactables.InterfaceConsts.HasPhoneNumber + " = " + 1;
-			var uri = ContactsContract.CommonDataKinds.Phone.ContentUri;
-			string[] projection = {
-				ContactsContract.Contacts.InterfaceConsts.Id,
-				ContactsContract.Contacts.InterfaceConsts.DisplayName ,
-				ContactsContract.CommonDataKinds.Phone.Number
-                        //ContactsContract.CommonDataKinds.Phone
-                        
-            };
-			//var cursor = act.Con(uri, projection, null, null, null);
-			//var cursor = ApplicationContext.ContentResolver.Query(uri, projection, null, null, null);
-            using (var cursor = _activity.ContentResolver.Query(ContactsContract.CommonDataKinds.Phone.ContentUri, null, null, null, null))
-				//var loader = new CursorLoader(_activity, uri, projection, null, null, null);
-				//var cursor = (ICursor)loader.LoadInBackground();
-				if (cursor.MoveToFirst())
-				{
-					do
-					{
-						//var Id = cursor.GetLong(cursor.GetColumnIndex(projection[0]));
-						var DisplayName = cursor.GetString(cursor.GetColumnIndex(projection[1]));
-						var Number = cursor.GetString(cursor.GetColumnIndex(projection[2]));
-						if (number == Number) return DisplayName;
-					} while (cursor.MoveToNext());
-				}
-			return null;
-		}
+		
     }
 }

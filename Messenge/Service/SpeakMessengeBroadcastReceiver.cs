@@ -14,7 +14,7 @@ namespace FreeHand.Messenge.Service
     {
         private static readonly string TAG = typeof(SpeakMessengeBroadcastReceiver).FullName;
         private Model.MessengeQueue _messengeQueue;
-        private TextToSpeechLib _ttsLib;
+        private TTSLib _ttsLib;
         private STTLib _stt;
         private Config _config;
         private SpeechRecognizer _speech;
@@ -25,7 +25,7 @@ namespace FreeHand.Messenge.Service
             Log.Info(TAG, "Initializing");
             _messengeQueue = Model.MessengeQueue.GetInstance();
             _config = Config.Instance();
-            _ttsLib = TextToSpeechLib.Instance();
+            _ttsLib = TTSLib.Instance();
             _stt = STTLib.Instance();
         }
 
@@ -61,7 +61,7 @@ namespace FreeHand.Messenge.Service
             int try_listen = 3;
             if (_config.smsConfig.StateSMS != Config.STATE_SMS.IDLE 
                 && _config.smsConfig.StateSMS != Config.STATE_SMS.DONE) {
-                Log.Info(TAG,"   Continuous Speak Messenger");
+                Log.Info(TAG,"Continuous Speak Messenger");
                 await SpeakMsg(" ");
                 await Task.Delay(2000);
                 await SpeakMsg("Continuos Speak Previous Messenger");

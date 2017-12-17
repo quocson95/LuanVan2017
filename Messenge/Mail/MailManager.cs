@@ -51,7 +51,7 @@ namespace FreeHand
         {
             foreach (var item in _listMailAction)
             {
-                _messQueue.EnqueueMessengeListQueue(item.SyncInbox());
+                _messQueue.EnMessengeListQueue(item.SyncInbox());
             }
             if (!_messQueue.Empty())
             {

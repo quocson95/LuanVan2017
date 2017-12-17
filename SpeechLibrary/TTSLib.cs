@@ -12,12 +12,12 @@ using Android.Util;
 namespace FreeHand
 {
     [Activity(Label = "TextToSpeechLib")]
-    public class TextToSpeechLib : Activity, TextToSpeech.IOnInitListener
+    public class TTSLib : Activity, TextToSpeech.IOnInitListener
     {
         private static readonly string TAG = "TextToSpeechLib";		
 		//private string _engineName;
         private static readonly Int16 REQUEST_CODE = 1995, LANG_REQUEST = 2017;
-        private static TextToSpeechLib instance; //Singleton obj
+        private static TTSLib instance; //Singleton obj
         private Config _config;
         private Context _mainContext;
         private Dictionary<string, string> _supportLanguage;
@@ -25,7 +25,7 @@ namespace FreeHand
         private TaskCompletionSource<Java.Lang.Object> _tcs;       		
         private TaskCompletionSource<Java.Lang.Object> _tcs_speak;            
 
-        public TextToSpeechLib()
+        public TTSLib()
         {
             _config = Config.Instance();
             _supportLanguage = null;
@@ -59,9 +59,9 @@ namespace FreeHand
             _textToSpeech.SetSpeechRate(_config.ttsConfig.SeekSpeed);
         }
 
-        public static TextToSpeechLib Instance()
+        public static TTSLib Instance()
         {
-            if (instance == null) instance = new TextToSpeechLib();
+            if (instance == null) instance = new TTSLib();
             return instance;
         }
 
@@ -286,9 +286,9 @@ namespace FreeHand
 
 		public class UtteranceProgressLs : UtteranceProgressListener
 		{
-			TextToSpeechLib _parent;
+			TTSLib _parent;
 
-			public UtteranceProgressLs(TextToSpeechLib p_parent)
+			public UtteranceProgressLs(TTSLib p_parent)
 			{
 				_parent = p_parent;
 			}

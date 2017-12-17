@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="30dp">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:src="@drawable/support" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_below="@id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            android:text="Contact Me"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:gravity="center" />
+        <TextView
+            android:id="@+id/son"
+            android:layout_below="@id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:text="Đặng Quốc Sơn"
+            android:gravity="center"
+            android:textColor="@android:color/black" />
+        <TextView
+            android:id="@+id/sdt_son"
+            android:layout_below="@id/son"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:text="Phone:    0974558367"
+            android:drawableLeft="@drawable/phone_ico"
+            android:gravity="center"
+            android:textColor="@android:color/black" />
+        <TextView
+            android:id="@+id/mail_son"
+            android:layout_below="@id/sdt_son"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:text="Email:\n51303399@hcmut.com.vn"
+            android:drawableLeft="@drawable/email_ico"
+            android:gravity="center"
+            android:textColor="@android:color/black" />
+        <TextView
+            android:id="@+id/an"
+            android:layout_below="@id/mail_son"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Võ Hoàng Ân"
+            android:gravity="center"
+            android:textColor="@android:color/black" />
+        <TextView
+            android:id="@+id/sdt_an"
+            android:layout_below="@id/an"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:text="Phone:    0908790880"
+            android:drawableLeft="@drawable/phone_ico"
+            android:gravity="center"
+            android:textColor="@android:color/black" />
+        <TextView
+            android:id="@+id/mail_an"
+            android:layout_below="@id/sdt_an"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:text="Email:\n51300197@hcmut.edu.vn"
+            android:drawableLeft="@drawable/email_ico"
+            android:gravity="center"
+            android:textColor="@android:color/black" />
+    </RelativeLayout>
+</ScrollView>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Switch
+        android:id="@+id/block_all"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:text="Reject All"
+        android:textColor="@drawable/label_switch"
+        android:textSize="18dp"
+        android:checked="true"
+        android:drawableLeft="@drawable/reject_all"
+        android:visibility="gone" />
+    <Switch
+        android:id="@+id/block_only_blacklist"
+        android:layout_below="@id/block_all"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="Reject From BlackList"
+        android:textColor="@drawable/label_switch"
+        android:textSize="18dp"
+        android:drawableLeft="@drawable/reject_only"
+        android:visibility="gone" />
+    <Button
+        android:id="@+id/select_from_contact"
+        android:layout_below="@id/block_only_blacklist"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Select From Contact"
+        android:backgroundTint="@color/zaloColor"
+        android:background="@drawable/borderbutton" />
+    <Button
+        android:id="@+id/add_number"
+        android:layout_below="@id/select_from_contact"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/borderbutton"
+        android:backgroundTint="@color/zaloColor"
+        android:text="Add Number" />
+    <EditText
+        android:id="@+id/input_numer"
+        android:layout_below="@id/select_from_contact"
+        android:layout_toEndOf="@id/add_number"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        android:maxLines="1"
+        android:maxLength="13"
+        android:text="012"
+        android:background="@drawable/edittextstyle"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textColor="@color/zaloColor"
+        android:phoneNumber="true" />
+    <TextView
+        android:id="@+id/input_warning"
+        android:layout_toRightOf="@id/add_number"
+        android:layout_below="@id/input_numer"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="25dp"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="14dp"
+        android:text="Phone Number is not valid" />
+<!--<ListView
+        android:id="@+id/listBlack"
+        android:layout_below="@id/input_warning"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="0.0dp" /-->
+    <View
+        android:layout_below="@id/input_warning"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:background="#f0f0f0" />
+    <TextView
+        android:id="@+id/listBlack"
+        android:layout_below="@id/input_warning"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="0.0dp"
+        android:layout_marginLeft="25dp"
+        android:text="0974558367"
+        android:textSize="18dp"
+        android:textColor="@android:color/black" />
+</RelativeLayout>

@@ -17,13 +17,13 @@ namespace FreeHand.Phone
         string querySorter = String.Format("{0} desc limit 3", CallLog.Calls.Date);
         private DeviceMotionImplementation sensor;
         private string _lastValueX;
-        private TextToSpeechLib _tts;
+        private TTSLib _tts;
         private Config _config;
         public ScreenStateBroadcastReceiver()       
         {            
             _lastValueX = null;
             sensor = new DeviceMotionImplementation();
-            _tts = TextToSpeechLib.Instance();
+            _tts = TTSLib.Instance();
             _config = Config.Instance();
         }
 
@@ -68,34 +68,34 @@ namespace FreeHand.Phone
             return result;
         }
 
-        private void StartMonitorSensor(Context context)
+        private async void StartMonitorSensor(Context context)
         {            
             sensor.Start(MotionSensorType.Accelerometer,MotionSensorDelay.Default);
-            sensor.SensorValueChanged += (s, a)  =>
+            sensor.SensorValueChanged += async (s, a) =>
                 {
                     Console.WriteLine("A: {0},{1},{2}", ((MotionVector)a.Value).X, ((MotionVector)a.Value).Y, ((MotionVector)a.Value).Z);
-                    if (CheckDeviceMotion((MotionVector)a.Value))
-                    {                        
+                    if (DectectDeviceMotion((MotionVector)a.Value))
+                    {
                         Log.Info(TAG, "Device Motion");
                         sensor.Stop(MotionSensorType.Accelerometer);
                         var v = CrossVibrate.Current;
                         if (v.CanVibrate) v.Vibration(); //Default 500ms
-                        
+
                         var powerManager = (PowerManager)context.GetSystemService(Context.PowerService);
                         var wakeLock = powerManager.NewWakeLock(WakeLockFlags.ScreenDim | WakeLockFlags.AcquireCausesWakeup, "StackOverflow");
-                        wakeLock.Acquire();                        
+                        wakeLock.Acquire();
                         wakeLock.Release();
 
-                    if(_config.GetPermissionRun(Config.PERMISSION_RUN.NOTIFY_MISS_CALL))
-                        _tts.SpeakMessenger("You have missed call");
-                        
+                        if (_config.GetPermissionRun(Config.PERMISSION_RUN.NOTIFY_MISS_CALL))
+                            await _tts.SpeakMessenger("You have missed call");
+
                     }
-                    
+
                 };
 
         }
 
-        private bool CheckDeviceMotion(MotionVector x)
+        private bool DectectDeviceMotion(MotionVector x)
         {
             bool isMotion;
             string value;

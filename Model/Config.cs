@@ -40,52 +40,48 @@ namespace FreeHand
             public int MissedCall { get; set; }
             public bool SmartAlert { get; set ; }
             public bool Enable { get; set; }
-            public bool AllowAutoAcceptCall { get; set; }
-            public int TimeAutoAcceptCall { get; set; }
             public bool AutoReply { get; set; }
             public string ContentReply { get; set; }
             public bool AutoRejectCall { get; set; }
+
+            public IList<string> BlackList { get; set; }
+            public bool BlockAll { get; set; }
+            public bool BlockInList { get; set; }
             //Backup           
-            public bool PrevSmartAlert { get; set; }          
-            public bool PrevAllowAutoAcceptCall { get; set; }
-            public int PrevTimeAutoAcceptCall { get; set; }
+            public bool PrevSmartAlert { get; set; }                     
             public bool PrevAutoReply { get; set; }
-            public string PrevContentReply { get; set; }
             public bool PrevAutoRejectCall { get; set; }
 
 
             public PhoneConfig()
             {
                 SmartAlert = false;
-                Enable = false;
-                AllowAutoAcceptCall = false;
+                Enable = false;               
                 AutoReply = false;
                 AutoRejectCall = false;
+
+                BlockAll = false;
+                BlockInList = false;
+
                 ContentReply = "Sample";
-                TimeAutoAcceptCall = 0;
                 MissedCall = 0;
                 Backup();
+                BlackList = new List<string>();
             }
 
             public void Backup()
             {           
                 Log.Info(TAG,"Phone BackUp");
                 PrevSmartAlert = SmartAlert;
-                PrevAllowAutoAcceptCall = AllowAutoAcceptCall;
-                PrevTimeAutoAcceptCall = TimeAutoAcceptCall;
-                PrevAutoReply = AutoReply;
-                PrevContentReply = ContentReply;
+                PrevAutoReply = AutoReply;               
                 PrevAutoRejectCall = AutoRejectCall;
             }
 
             public void Restore()
             {
                 Log.Info(TAG, "Phone Restore");        
-                SmartAlert = PrevSmartAlert;
-                AllowAutoAcceptCall = PrevAllowAutoAcceptCall;
-                TimeAutoAcceptCall = PrevTimeAutoAcceptCall;
+                SmartAlert = PrevSmartAlert;               
                 AutoReply = PrevAutoReply;
-                ContentReply = PrevContentReply;
                 AutoRejectCall = PrevAutoRejectCall;
             }
         }
@@ -181,7 +177,6 @@ namespace FreeHand
         public PhoneConfig phoneConfig;
         public SMSConfig smsConfig;
         public TTSConfig ttsConfig;
-        private Model.MessengeQueue messengeQueue;
         public bool UpdateConfig { get => _updateConfig; set => _updateConfig = value; }
         public bool WriteConfig { get => _writeConfig; set => _writeConfig = value; }
 
@@ -220,8 +215,6 @@ namespace FreeHand
             smsConfig.Clean();
 
             phoneConfig.IsHandlePhoneRunnig = false;
-
-
 
         }
 
@@ -287,20 +280,10 @@ namespace FreeHand
         public void SaveSMSConfig()
         {
             Log.Info(TAG, "Save SMS Config");
-            var prefs = Application.Context.GetSharedPreferences("SMS", FileCreationMode.Private);
+            var prefs = Application.Context.GetSharedPreferences("FreeHand", FileCreationMode.Private);
             var prefEditor = prefs.Edit();
-            prefEditor.PutBoolean("Enable",smsConfig.Enable);
-            prefEditor.PutBoolean("AllowSpeakName",smsConfig.AllowSpeakName);
-            prefEditor.PutBoolean("AllowSpeakNumber",smsConfig.AllowSpeakNumber);
-            prefEditor.PutBoolean("AllowSpeakContent",smsConfig.AllowSpeakContent);
-            prefEditor.PutBoolean("AllowAutoReply",smsConfig.AllowAutoReply);
-            prefEditor.PutString("CustomContetnReply",smsConfig.CustomContetnReply);
-
-            //Previous State
-            prefEditor.PutBoolean("PrevAllowSpeakName", smsConfig.PrevAllowSpeakName);
-            prefEditor.PutBoolean("PrevAllowSpeakNumber", smsConfig.PrevAllowSpeakNumber);
-            prefEditor.PutBoolean("PrevAllowSpeakContent", smsConfig.PrevAllowSpeakContent);
-            prefEditor.PutBoolean("PrevAllowAutoReply", smsConfig.PrevAllowAutoReply);
+            string value = JsonConvert.SerializeObject(smsConfig);
+            prefEditor.PutString("SMSConfig", value);
             prefEditor.Commit();
         }
         public void SavePhoneConfig()
@@ -308,24 +291,8 @@ namespace FreeHand
             Log.Info(TAG, "Save Phone Config");
             var prefs = Application.Context.GetSharedPreferences("FreeHand", FileCreationMode.Private);
             var prefEditor = prefs.Edit();
-            //prefEditor.PutBoolean("Enable", phoneConfig.Enable);
-            //prefEditor.PutBoolean("AllowAutoAcceptCall", phoneConfig.AllowAutoAcceptCall);
-            //prefEditor.PutBoolean("SmartAlert", phoneConfig.SmartAlert);
-            //prefEditor.PutInt("TimeAutoAcceptCall", phoneConfig.TimeAutoAcceptCall);
-            //prefEditor.PutBoolean("AutoReply",phoneConfig.AutoReply);
-            //prefEditor.PutString("ContentReply",phoneConfig.ContentReply);
             string value = JsonConvert.SerializeObject(phoneConfig);
             prefEditor.PutString("PhoneConfig", value);
-
-            //Backup
-    //    public bool PrevIsHandlePhoneRunnig { get; set; }
-        //public int PrevMissedCall { get; set; }
-        //public bool PrevSmartAlert { get; set; }
-        //public bool PrevEnable { get; set; }
-        //public bool PrevAllowAutoAcceptCall { get; set; }
-        //public int PrevTimeAutoAcceptCall { get; set; }
-        //public bool PrevAutoReply { get; set; }
-        //public string PrevContentReply { get; set; }
             prefEditor.Commit();
         }
 
@@ -367,26 +334,13 @@ namespace FreeHand
 
         private void LoadSMSConfig()
         {
-        //    public bool Enable { set; get; }
-        //public bool AllowSpeakName { set; get; }
-        //public bool AllowSpeakNumber { set; get; }
-        //public bool AllowSpeakContent { set; get; }
-        //public bool AllowAutoReply { set; get; }
-        //public string CustomContetnReply { set; get; }
             Log.Info(TAG, "Load SMS Config");
-            var prefs = Application.Context.GetSharedPreferences("SMS", FileCreationMode.Private);
-            smsConfig.Enable = prefs.GetBoolean("Enable", false);
-            smsConfig.AllowSpeakName = prefs.GetBoolean("AllowSpeakName", false);
-            smsConfig.AllowSpeakNumber = prefs.GetBoolean("AllowSpeakNumber", false);
-            smsConfig.AllowSpeakContent = prefs.GetBoolean("AllowSpeakContent", false);
-            smsConfig.AllowAutoReply = prefs.GetBoolean("AllowAutoReply", false);
-            smsConfig.CustomContetnReply = prefs.GetString("CustomContetnReply", "");
-
-            //Previous State
-            smsConfig.PrevAllowSpeakName = prefs.GetBoolean("PrevAllowSpeakName", false);
-            smsConfig.PrevAllowSpeakNumber = prefs.GetBoolean("PrevAllowSpeakNumber", false);
-            smsConfig.PrevAllowSpeakContent = prefs.GetBoolean("PrevAllowSpeakContent", false);
-            smsConfig.PrevAllowAutoReply = prefs.GetBoolean("PrevAllowAutoReply", false);
+            var prefs = Application.Context.GetSharedPreferences("FreeHand", FileCreationMode.Private);
+            string value = prefs.GetString("SMSConfig", NOT_FOUND);
+            if (!value.Equals(NOT_FOUND))
+            {
+                smsConfig = JsonConvert.DeserializeObject<SMSConfig>(value);
+            }
         }
 
         private void LoadPhoneConfig()
@@ -398,12 +352,7 @@ namespace FreeHand
             {
                 phoneConfig = JsonConvert.DeserializeObject<PhoneConfig>(value);
             }
-            //phoneConfig.Enable = prefs.GetBoolean("Enable", false);
-            //phoneConfig.AllowAutoAcceptCall = prefs.GetBoolean("AllowAutoAcceptCall", false);
-            //phoneConfig.SmartAlert = prefs.GetBoolean("SmartAlert", false);
-            //phoneConfig.TimeAutoAcceptCall = prefs.GetInt("TimeAutoAcceptCall", 10);
-            //phoneConfig.AutoReply = prefs.GetBoolean("AutoReply", false);
-            //phoneConfig.ContentReply = prefs.GetString("ContentReply", "Sample phone reply");
+           
         }
 
         void LoadSpeechConfig()
@@ -426,7 +375,7 @@ namespace FreeHand
             ttsConfig.SeekSpeed = prefs.GetFloat("TTSConfig.SeekSpeed", 1);
             string valueDefault;
             valueDefault = prefs.GetString("TTSConfig.ListEngineName", NOT_FOUND);
-            TextToSpeechLib tts = TextToSpeechLib.Instance();
+            TTSLib tts = TTSLib.Instance();
             if (valueDefault.Equals(NOT_FOUND))
             {
                 ttsConfig.ListEngineName = await tts.GetEngines(Application.Context);

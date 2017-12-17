@@ -18,7 +18,7 @@
             foo:layout_widthPercent="100%"
             foo:layout_heightPercent="20%"
             android:textSize="48dp"
-            fontPath="Fonts/HELR45W.ttf" />
+            fontPath="Fonts/Pacifico.ttf" />
         <Button
             android:id="@+id/btn_run"
             android:layout_below="@+id/name_app"

@@ -13,7 +13,7 @@ using Android.Widget;
 
 namespace FreeHand.ActivityClass.SettingClass
 {
-    [Activity(Label = "ManageInternetAccountActivity")]
+    [Activity(Label = "ManageInternetAccountActivity", Theme = "@style/MyTheme.Mrkeys")]
     public class ManageInternetAccountActivity : Activity
     {
         Button _btnAddAccount;
@@ -32,11 +32,11 @@ namespace FreeHand.ActivityClass.SettingClass
             listView = FindViewById<ListView>(Resource.Id.ListViewAccount);
             var items = new List<string>();
             items.Add("first");
-            items.Add("first");
-            items.Add("first");
-            items.Add("first");
-            items.Add("first");
-            items.Add("first");items.Add("first");items.Add("first");items.Add("first");items.Add("first");items.Add("first");items.Add("first");
+            //items.Add("first");
+            //items.Add("first");
+            //items.Add("first");
+            //items.Add("first");
+            //items.Add("first");items.Add("first");items.Add("first");items.Add("first");items.Add("first");items.Add("first");items.Add("first");
             listView.Adapter = new Messenge.Mail.ListAccountAdapter(this, items);
             SetListenerUI();
         }

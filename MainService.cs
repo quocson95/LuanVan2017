@@ -14,8 +14,8 @@ namespace FreeHand
     {
         private bool isStart;
         static readonly string TAG = typeof(MainService).FullName;
-        Messenge.Service.MessengeManage _messMng;
-        Phone.PhoneCallService _phoneMng;
+        Messenge.Service.MessageService _messService;
+        Phone.PhoneCallService _phoneService;
         Handler handler;
         Action runnable;
 
@@ -50,8 +50,8 @@ namespace FreeHand
                     Log.Info(TAG, "OnStartCommand: The Main service is starting.");
                     RegisterForegroundService();
                     handler.PostDelayed(runnable, Model.Constants.DELAY_BETWEEN_LOG_MESSAGES);
-                    StartMessenegeManage();
-                    StartPhoneManage();
+                    StartMessenegeService();
+                    StartPhoneService();
                     isStart = true;
 
                 }
@@ -61,8 +61,8 @@ namespace FreeHand
                 //Stop Service
                 Log.Info(TAG, "OnStartCommand: The Main service is stopped.");
                 handler.RemoveCallbacks(runnable);
-                StopMessengeManage();
-                StopPhoneManage();
+                StopMessengeService();
+                StopPhoneService();
                 StopForeground(true);
                 StopSelf();
 
@@ -75,33 +75,33 @@ namespace FreeHand
         }
 
 
-        void StartMessenegeManage()
+        void StartMessenegeService()
         {
-            if (_messMng == null)
-                _messMng = new Messenge.Service.MessengeManage();
-            _messMng.Start();
+            if (_messService == null)
+                _messService = new Messenge.Service.MessageService();
+            _messService.Start();
         }
 
-        void StopMessengeManage()
+        void StopMessengeService()
         {
-            if (_messMng != null)
+            if (_messService != null)
             {
-                _messMng.Stop();
+                _messService.Stop();
             }    
         }
 
-        void StartPhoneManage()
+        void StartPhoneService()
         {
-            if (_phoneMng == null)
-                _phoneMng = new Phone.PhoneCallService();
-            _phoneMng.Start();
+            if (_phoneService == null)
+                _phoneService = new Phone.PhoneCallService();
+            _phoneService.Start();
         }
 
-        void StopPhoneManage()
+        void StopPhoneService()
         {
-            if (_phoneMng != null)
+            if (_phoneService != null)
             {
-                _phoneMng.Stop();
+                _phoneService.Stop();
             }
         }
 
@@ -114,7 +114,7 @@ namespace FreeHand
             var notificationManager = (NotificationManager)GetSystemService(NotificationService);
             notificationManager.Cancel(Model.Constants.SERVICE_RUNNING_NOTIFICATION_ID);                     
             isStart = false;
-            _messMng.Destroy();
+            _messService.Destroy();
             base.OnDestroy();
         }
 

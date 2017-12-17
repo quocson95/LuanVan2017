@@ -3,8 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
-    android:background="@android:color/white">
+    android:padding="5dp">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -56,7 +55,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="15dp"
             android:gravity="center|left"
-            android:text="Messenge"
+            android:text="Message"
             android:textColor="@drawable/color_text_press"
             android:textSize="18dp"
             android:drawableLeft="@drawable/messenge_ico"
@@ -136,7 +135,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="15dp"
             android:gravity="center|left"
-            android:text="Term &amp; Condition"
+            android:text="Terms &amp; Conditions"
             android:textColor="@drawable/color_text_press"
             android:textSize="18dp"
             android:drawableLeft="@drawable/term_ico"

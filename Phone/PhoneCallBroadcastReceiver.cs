@@ -17,22 +17,18 @@ using Android.Runtime;
 namespace FreeHand.Phone
 {
     [BroadcastReceiver(Enabled = true, Exported = false)]
-    public class PhoneCallBroadcastReceiver : BroadcastReceiver,IRecognitionListener
+    public class PhoneCallBroadcastReceiver : BroadcastReceiver
     {
         private static readonly string TAG = "PhoneCallBroadcastReceiver";
        
         private Config _config;
-        TextToSpeechLib _tts;
-        SpeechRecognizer _speech;
+        TTSLib _tts;
         string _telephone,_answer;
-        STTLib _stt;
-        TaskCompletionSource<Java.Lang.Object> _tcs;    
         public PhoneCallBroadcastReceiver()        
         {
             Log.Info(TAG, "Initializing");           
             _config = Config.Instance();
-            _tts = TextToSpeechLib.Instance();
-            _stt = STTLib.Instance();       
+            _tts = TTSLib.Instance();
         }
 
         private async Task PhoneCallHanler()
@@ -48,26 +44,14 @@ namespace FreeHand.Phone
             await Task.Delay(500);
             await _tts.SpeakMessenger(nameCaller);
 
-            Intent buttonDown = new Intent(Intent.ActionMediaButton);
-            buttonDown.PutExtra(Intent.ExtraKeyEvent, new KeyEvent(KeyEventActions.Up, Keycode.Headsethook));
-            Application.Context.SendOrderedBroadcast(buttonDown, Android.Manifest.Permission.CallPrivileged);
+            //Intent buttonDown = new Intent(Intent.ActionMediaButton);
+            //buttonDown.PutExtra(Intent.ExtraKeyEvent, new KeyEvent(KeyEventActions.Up, Keycode.Headsethook));
+            //Application.Context.SendOrderedBroadcast(buttonDown, Android.Manifest.Permission.CallPrivileged);
         }
 
-        private async Task<int> listenRequest()
-        {
-            
-            _speech = SpeechRecognizer.CreateSpeechRecognizer(Application.Context);
-            _speech.SetRecognitionListener(this);
-            _tcs = new TaskCompletionSource<Java.Lang.Object>();
-            try
-            {
-                _speech.StartListening(_stt.IntentSTT());
-            }
-            catch (Exception e) { }
-            return (int)await _tcs.Task;
-        }
+      
         public override void OnReceive(Context context, Intent intent)
-        {
+        {            
             bool acceptCall;
             acceptCall = false;
             Log.Info(TAG, "OnReceive");
@@ -76,24 +60,18 @@ namespace FreeHand.Phone
             {
                 // get the incoming call state
                 string state = intent.GetStringExtra(TelephonyManager.ExtraState);
-
                 // check the current state
                 if (state == TelephonyManager.ExtraStateRinging)
                 {                    
-                    //Log.Info(TAG, "Phone ExtraStateRinging");                    ;
-                    //_config.AudioManage.RingerMode = RingerMode.Vibrate;
+                    Log.Info(TAG, "Phone ExtraStateRinging");
+                    _telephone = intent.GetStringExtra(TelephonyManager.ExtraIncomingNumber);
+                    Log.Info(TAG, "Incoming Numer " + _telephone);
 
-                    //// read the incoming call telephone number...
-                    //_telephone = intent.GetStringExtra(TelephonyManager.ExtraIncomingNumber);
-                    //if (string.IsNullOrEmpty(_telephone))
-                    //    _telephone = string.Empty;
-                    //Log.Info(TAG, "Incoming Numer " + _telephone);
-                    //if (_config.GetPermissionRun(Config.PERMISSION_RUN.PHONE))
-                    //{             
-                    //      _config.phoneConfig.IsHandlePhoneRunnig = true;
-                    //      PhoneCallHanler();
-                    //}
-                    EndCall(context);
+                    if (_config.phoneConfig.AutoRejectCall)
+                        RejectCall(_telephone, context);
+
+                    else
+                        WaitAccepCall(_telephone);                   
                 }
                 else if (state == TelephonyManager.ExtraStateOffhook)
                 {
@@ -120,8 +98,39 @@ namespace FreeHand.Phone
             }
         }
 
+        private async void WaitAccepCall(string telephone)
+        {
+            if (_config.GetPermissionRun(Config.PERMISSION_RUN.PHONE))
+            {             
+                  _config.phoneConfig.IsHandlePhoneRunnig = true;
+                  await PhoneCallHanler();
+            }
+        }
+
+        private void RejectCall(string telephone,Context context)
+        {
+            if (CheckInBlackList(telephone))
+            {
+                EndCall(context);
+                SendReply(telephone);
+            }
+        }
+
+        private void SendReply(string telephone)
+        {
+            SmsManager.Default.SendTextMessage(telephone, null, _config.phoneConfig.ContentReply, null, null);
+        }
+
+        private bool CheckInBlackList(string telephone)
+        {
+            //Check number not in black list
+            //TODO ADD black list for phone. sms
+            return true;
+        }
+
         private void EndCall(Context context)
         {
+            Log.Info(TAG,"End call");
             var manager = (TelephonyManager)context.GetSystemService(Context.TelephonyService);
             IntPtr TelephonyManager_getITelephony = JNIEnv.GetMethodID(
                 manager.Class.Handle,
@@ -137,62 +146,7 @@ namespace FreeHand.Phone
             JNIEnv.DeleteLocalRef(telephony);
             JNIEnv.DeleteLocalRef(ITelephony_class);
 
-        }
 
-
-
-        //Speech Interface Implement
-        public void OnBeginningOfSpeech()
-        {
-            Log.Info(TAG, "onBeginningOfSpeech");
-        }
-
-        public void OnBufferReceived(Byte[] buffer)
-        {
-            Log.Info(TAG, "onBufferReceived: " + buffer);
-        }
-
-        public void OnEndOfSpeech()
-        {
-            Log.Info(TAG, "onEndOfSpeech");
-        }
-
-        public void OnError(SpeechRecognizerError err)
-        {
-            Log.Debug(TAG, "FAILED " + err.ToString());
-            _tcs.TrySetResult(-1);
-
-
-        }
-
-        public void OnEvent(Int32 flag, Bundle bundle)
-        {
-            Log.Info(TAG, "onEvent");
-        }
-
-        public void OnPartialResults(Bundle bundle)
-        {
-            Log.Info(TAG, "onPartialResults");
-        }
-
-        public void OnReadyForSpeech(Bundle bundel)
-        {
-            Log.Info(TAG, "onReadyForSpeech");
-        }
-
-        public void OnResults(Bundle bundle)
-        {
-            IList<string> result = bundle.GetStringArrayList(SpeechRecognizer.ResultsRecognition);
-            Log.Info(TAG, "onResults ");
-            _answer = result[0];
-            _tcs.SetResult(0);
-
-        }
-
-        public void OnRmsChanged(Single single)
-        {
-            Log.Info(TAG, "onRmsChanged: " + single);
-            //progressBarControl();
 
         }
     }

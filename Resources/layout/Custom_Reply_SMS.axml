@@ -5,8 +5,7 @@
     android:orientation="vertical"
     android:minWidth="25px"
     android:minHeight="25px"
-    android:padding="10dp"
-    android:background="@android:color/white">
+    android:padding="10dp">
     <EditText
         android:id="@+id/textArea_content_sms_auto_reply"
         android:minWidth="100dp"

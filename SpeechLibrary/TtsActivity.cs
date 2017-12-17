@@ -127,7 +127,7 @@ namespace FreeHand
 		}
 
         async Task StartTTS(string text){
-            TextToSpeechLib tts = TextToSpeechLib.Instance();
+            TTSLib tts = TTSLib.Instance();
             //text = "Hello";
             text = "Và tôi cầm lấy đóm, vo viên một điếu. Tôi rít một hơi xong, thông điếu\nrồi mới đặt vào lòng lão. Lão bỏ thuốc, nhưng chưa hút vội. Lão cầm lấy\nđóm, gạt tàn, và bảo :\n- Có lẽ tôi bán con chó đấy, ông giáo ạ";
             if (!string.IsNullOrEmpty(text)){

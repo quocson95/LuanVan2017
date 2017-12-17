@@ -6,20 +6,20 @@ using Android.Util;
 
 namespace FreeHand.Messenge.Service
 {    
-    public class MessengeManage
+    public class MessageService
     {
-        private static readonly string TAG = typeof(MessengeManage).FullName;
+        private static readonly string TAG = typeof(MessageService).FullName;
         private SMSBroadcastReceiver _smsReceiver;
         private SpeakMessengeBroadcastReceiver _speakReceicer;
-        private Config _cfg;
+        //private Config _cfg;
         //private MailManager mailMng;
         bool isStart;
 
-        public MessengeManage()
+        public MessageService()
         {
             Log.Info(TAG,"Initializing");
             isStart = false;
-            _cfg = Config.Instance();
+            //_cfg = Config.Instance();
             _smsReceiver = new SMSBroadcastReceiver();
             _speakReceicer = new SpeakMessengeBroadcastReceiver();
         }

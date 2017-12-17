@@ -11,8 +11,19 @@ namespace FreeHand.Model
         public const string ACTION_STOP = "FreeHand.action.ACTION_STOP";
 
         //Request Code
-        public const int Code_Setting_Messenge_SMS = 20000;
-        public const int Code_Setting_Messenge_MAIL = 20001;
+        public const int CODE_SETTING_CONTENT_REPLY_SMS = 20000;
+        public const int CODE_BLOCK_SMS_NUMBER = 20001;
+
+        public const int CODE_SETTING_CONTENT_REPLY_MAIL = 30000;
+
+        public const int CODE_PICK_CONTACT = 4000;
+
+        public enum TYPE {
+            SMS,
+            PHONE,
+            MAIL
+        }
+
 
     }
 }

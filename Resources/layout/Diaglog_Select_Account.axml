@@ -3,8 +3,7 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="30dp"
-    android:background="@android:color/white">
+    android:padding="30dp">
 <!--<TextView
         android:padding="10dp"
         android:text="Sign in with Goole !"
@@ -61,5 +60,6 @@
         android:gravity="center"
         android:background="@drawable/button_zalo"
         android:drawableLeft="@drawable/zaloimage"
-        android:textAllCaps="false" />
+        android:textAllCaps="false"
+        android:visibility="gone" />
 </RelativeLayout>

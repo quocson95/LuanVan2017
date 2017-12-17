@@ -15,7 +15,7 @@ using Calligraphy;
 
 namespace FreeHand.ActivityClass.SettingClass
 {
-    [Activity(Label = "SettingActivity", Theme = "@android:style/Theme.NoTitleBar")]
+    [Activity(Label = "SettingActivity", Theme = "@style/MyTheme.Mrkeys")]
     public class SettingActivity : Activity
     {
         private static readonly string TAG = "TestActivity";
@@ -85,6 +85,37 @@ namespace FreeHand.ActivityClass.SettingClass
                 Intent intent = new Intent(this, typeof(ManageInternetAccountActivity));
                 StartActivity(intent);
             };
+
+            _tvAbout.Click += ActionInfo;
+            _tvTerm.Click += ActionInfo;
+            _tvPolicy.Click += ActionInfo;
+            _tvContact.Click += ActionInfo;
+        }
+
+        void ActionInfo(object sender, EventArgs e)
+        {
+            TextView v = (TextView)sender;
+            FragmentTransaction transaction = FragmentManager.BeginTransaction();
+            int layout = 0;
+            if (v.Equals(_tvAbout)){
+                layout = Resource.Layout.about_layout;
+            }
+            else if (v.Equals(_tvTerm))
+            {
+                layout = Resource.Layout.terms_layout;
+            }
+            else if (v.Equals(_tvPolicy))
+            {
+                layout = Resource.Layout.privacy_layout;
+            }
+            else if (v.Equals(_tvContact))
+            {
+                layout = Resource.Layout.contact_layout;
+            }
+
+
+            DialogInfomation dialog = new DialogInfomation(layout);
+            dialog.Show(transaction, "Diaglog");
         }
 
         protected override void AttachBaseContext(Android.Content.Context @base)

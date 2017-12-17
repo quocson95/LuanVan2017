@@ -15,6 +15,11 @@ using Android.Gms.Auth;
 using System.Threading.Tasks;
 using Auth0.SDK;
 using IdentityModel.OidcClient;
+using Xamarin.Auth;
+using Google.Apis.Auth.OAuth2;
+using System.IO;
+using System.Threading;
+using Google.Apis.Util.Store;
 
 namespace FreeHand.Messenge.Mail
 {
@@ -174,38 +179,7 @@ namespace FreeHand.Messenge.Mail
 
         async void View.IOnClickListener.OnClick(View v)
         {
-            switch (v.Id)
-            {
-                case Resource.Id.btn_login:
-                    //mShouldResolve = true;
-                    ////mGoogleApiClient.Connect();
-
-                    //auth0 = new Auth0Client(
-                    //    "sondq.auth0.com",
-                    //    "OL6_d7S_Cgx04ep-47WsV7C29ZkDnZ2W");
-                    //var user = await auth0.LoginAsync(this, "google-oauth2");
-
-
-                    break;
-            }
-            //    case Resource.Id.sign_out_button:
-            //        if (mGoogleApiClient.IsConnected)
-            //        {
-            //            PlusClass.AccountApi.ClearDefaultAccount(mGoogleApiClient);
-            //            mGoogleApiClient.Disconnect();
-            //        }
-            //        UpdateUI(false);
-            //        break;
-            //    case Resource.Id.disconnect_button:
-            //        if (mGoogleApiClient.IsConnected)
-            //        {
-            //            PlusClass.AccountApi.ClearDefaultAccount(mGoogleApiClient);
-            //            await PlusClass.AccountApi.RevokeAccessAndDisconnect(mGoogleApiClient);
-            //            mGoogleApiClient.Disconnect();
-            //        }
-            //        UpdateUI(false);
-            //        break;
-            //}
+           
         }
     }
 

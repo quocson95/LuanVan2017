@@ -11,11 +11,11 @@ using Calligraphy;
 
 namespace FreeHand
 {
-    [Activity(Label = "Setting_Speech",Theme = "@style/Theme.AppCompat.Light.NoActionBar")]
+    [Activity(Label = "Setting_Speech", Theme = "@style/MyTheme.Mrkeys")]
     public class Setting_Speech : Activity
     {
         private static readonly string TAG = "Setting_Speech";
-        private TextToSpeechLib _tts;
+        private TTSLib _tts;
         private STTLib _stt;
         private Config _config;      
         private Spinner _spin_enigne_master, _spin_lang_speak,_spin_lang_listen;
@@ -29,13 +29,14 @@ namespace FreeHand
         {
             base.OnCreate(savedInstanceState);
 
-            //Load Font
             CalligraphyConfig.InitDefault(new CalligraphyConfig.Builder()
-            .SetDefaultFontPath("Fonts/HELR45W.ttf")
-            .SetFontAttrId(Resource.Attribute.fontPath)
-            .Build());
+                                          .SetDefaultFontPath("Fonts/HELR45W.ttf")
+                                          .SetFontAttrId(Resource.Attribute.fontPath)
+                                          .Build());
+
             SetContentView(Resource.Layout.Setting_Speech_Layout);
-            _tts = TextToSpeechLib.Instance();
+            
+            _tts = TTSLib.Instance();
             _stt = STTLib.Instance();
             _config = Config.Instance();
             // Create your application here
@@ -229,6 +230,11 @@ namespace FreeHand
             Log.Info(TAG, "OnStop");
             _config.Save();
             base.OnStop();
+        }
+
+        protected override void AttachBaseContext(Android.Content.Context @base)
+        {
+            base.AttachBaseContext(CalligraphyContextWrapper.Wrap(@base));
         }
 
     }

@@ -31,7 +31,7 @@ namespace FreeHand
         static string ApplicationName = "Gmail API .NET Quickstart";
 
         public delegate void MarkSeenAction(MailKit.UniqueId uid);
-        private MarkSeenAction markSeenAction;
+        private MarkSeenAction  markSeenAction ;
         public GmailAction(string usr,string pwd)
         {
             this.usr = usr;

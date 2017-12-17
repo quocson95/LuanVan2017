@@ -132,18 +132,6 @@
     <Reference Include="Xamarin.GooglePlayServices.Plus">
       <HintPath>packages\Xamarin.GooglePlayServices.Plus.29.0.0.2\lib\MonoAndroid41\Xamarin.GooglePlayServices.Plus.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Apis">
-      <HintPath>packages\Google.Apis.1.30.0\lib\net45\Google.Apis.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.Apis.Auth">
-      <HintPath>packages\Google.Apis.Auth.1.30.0\lib\netstandard1.3\Google.Apis.Auth.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.Apis.Auth.PlatformServices">
-      <HintPath>packages\Google.Apis.Auth.1.30.0\lib\netstandard1.3\Google.Apis.Auth.PlatformServices.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.Apis.Core">
-      <HintPath>packages\Google.Apis.Core.1.30.0\lib\netstandard1.3\Google.Apis.Core.dll</HintPath>
-    </Reference>
     <Reference Include="Google.Apis.Gmail.v1">
       <HintPath>packages\Google.Apis.Gmail.v1.1.30.0.1034\lib\netstandard1.3\Google.Apis.Gmail.v1.dll</HintPath>
     </Reference>
@@ -193,6 +181,21 @@
     <Reference Include="IdentityModel.OidcClient">
       <HintPath>packages\IdentityModel.OidcClient.2.3.0\lib\netstandard2.0\IdentityModel.OidcClient.dll</HintPath>
     </Reference>
+    <Reference Include="Google.Apis.Core">
+      <HintPath>packages\Google.Apis.Core.1.31.1\lib\netstandard1.3\Google.Apis.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis">
+      <HintPath>packages\Google.Apis.1.31.1\lib\netstandard1.3\Google.Apis.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Auth">
+      <HintPath>packages\Google.Apis.Auth.1.31.1\lib\netstandard1.3\Google.Apis.Auth.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Auth.PlatformServices">
+      <HintPath>packages\Google.Apis.Auth.1.31.1\lib\netstandard1.3\Google.Apis.Auth.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.CustomTabs">
+      <HintPath>packages\Xamarin.Android.Support.CustomTabs.23.4.0.1\lib\MonoAndroid403\Xamarin.Android.Support.CustomTabs.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -204,12 +207,12 @@
     <Compile Include="Messenge\Mail\IMailAction.cs" />
     <Compile Include="Messenge\Mail\MailManager.cs" />
     <Compile Include="SpeechLibrary\STTLib.cs" />
-    <Compile Include="SpeechLibrary\TextToSpeechLib.cs" />
+    <Compile Include="SpeechLibrary\TTSLib.cs" />
     <Compile Include="SpeechLibrary\TtsActivity.cs" />
     <Compile Include="Messenge\SMS\SMSData.cs" />
     <Compile Include="Messenge\IMessengeData.cs" />
     <Compile Include="Messenge\MessengeQueue.cs" />
-    <Compile Include="Messenge\Service\MessengeManage.cs" />
+    <Compile Include="Messenge\Service\MessageService.cs" />
     <Compile Include="Messenge\Service\SMSBroadcastReceiver.cs" />
     <Compile Include="Messenge\Service\SpeakMessengeBroadcastReceiver.cs" />
     <Compile Include="Phone\PhoneCallBroadcastReceiver.cs" />
@@ -235,6 +238,9 @@
     <Compile Include="ActivityClass\SettingClass\DialogAccount.cs" />
     <Compile Include="Messenge\Mail\ListAccountAdapter.cs" />
     <Compile Include="Messenge\Mail\Gmail\WebViewActi.cs" />
+    <Compile Include="ActivityClass\SettingClass\BlockNumberActivity.cs" />
+    <Compile Include="ActivityClass\SettingClass\DialogInfomation.cs" />
+    <Compile Include="ActivityClass\SettingClass\InfomationActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -378,6 +384,47 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\test_ico.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\voice_ico.png" />
     <AndroidResource Include="Resources\drawable\EditTextStyle.xml" />
+    <AndroidResource Include="Resources\layout\BlockNumberLayout.axml" />
+    <AndroidResource Include="Resources\layout\SMSBlockLayout.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\right_arrow.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\right_arrow.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\right_arrow.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\right_arrow.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\right_arrow.png" />
+    <AndroidResource Include="Resources\drawable\bku.png" />
+    <AndroidResource Include="Resources\drawable\bk1.png" />
+    <AndroidResource Include="Resources\drawable\blur.jpg" />
+    <AndroidResource Include="Resources\values\theme.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\reject_all.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\reject_only.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\reject_all.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\reject_only.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\reject_all.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\reject_only.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\reject_all.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\reject_only.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\reject_all.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\reject_only.png" />
+    <AndroidResource Include="Resources\layout\about_layout.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\copy_right.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\copy_right.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\copy_right.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\copy_right.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\copy_right.png" />
+    <AndroidResource Include="Resources\layout\terms_layout.axml" />
+    <AndroidResource Include="Resources\layout\privacy_layout.axml" />
+    <AndroidResource Include="Resources\layout\contact_layout.axml" />
+    <AndroidResource Include="Resources\drawable\support.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\circle.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\subtract.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\circle.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\subtract.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\circle.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\subtract.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\circle.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\subtract.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\circle.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\subtract.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

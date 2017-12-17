@@ -1,42 +1,42 @@
 ﻿using System;
 using Android.Telephony.Gsm;
-using Android.Content;
+
 namespace FreeHand.Model
 {
     public class SMSData : IMessengeData
     {
-        private string _smsContent { get; set;}
-        private string _smsNumber { get; set; }
-        private string _smsNameSender { get; set;}
+        private string _content { get; set;}
+        private string _number { get; set; }
+        private string _nameSender { get; set;}
         private string _type;
         public SMSData(string number,string content)
         {
-            _smsContent = content;
-            _smsNumber = number;
+            _content = content;
+            _number = number;
             _type = "SMS";
             //_smsNameSender = name; 
             //TODO
             //need function get name from contact
         }
         public void SetNameSender(string name){
-            _smsNameSender = name;
+            _nameSender = name;
         }
 
         public string GetMessengeContent()
         {
-            return _smsContent;
+            return _content;
         }
         public string GetNameSender()
         {
-            return _smsNameSender;
+            return _nameSender;
         }
         public string GetAddrSender()
         {
-            return _smsNumber;
+            return _number;
         }
         public string Reply(string msg)
         {			
-            SmsManager.Default.SendTextMessage(_smsNumber, null,msg, null, null);			
+            SmsManager.Default.SendTextMessage(_number, null,msg, null, null);			
             return "";
         }
 

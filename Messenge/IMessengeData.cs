@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace FreeHand.Model
+﻿namespace FreeHand.Model
 {
     public interface IMessengeData
     {

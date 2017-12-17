@@ -13,7 +13,7 @@ using Android.Widget;
 
 namespace FreeHand.ActivityClass.SettingClass
 {
-    [Activity(Label = "Custom_Reply_SMS",Theme = "@android:style/Theme.NoTitleBar")]
+    [Activity(Label = "Custom_Reply_SMS", Theme = "@style/MyTheme.Mrkeys")]
     public class Custom_Reply_Messenge : Activity
     {
         string[] items;
@@ -39,7 +39,7 @@ namespace FreeHand.ActivityClass.SettingClass
 
             OK.Click += delegate
             {
-                callBackIntent.PutExtra("sms_reply_ok", editText.Text);
+                callBackIntent.PutExtra("content_reply_ok", editText.Text);
                 SetResult(Result.Ok, callBackIntent);
                 Finish();
             };
@@ -62,6 +62,9 @@ namespace FreeHand.ActivityClass.SettingClass
                     break;
                 case "mail":
                     //TODO
+                    break;
+                case "phone":
+                    editText.Text = _cfg.phoneConfig.ContentReply;
                     break;
             }
         }

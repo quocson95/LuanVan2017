@@ -36,7 +36,8 @@
             android:layout_marginLeft="20dp"
             android:textColor="@drawable/label_switch"
             android:text="Enable"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:checked="false" />
         <View
             android:layout_below="@id/sw_enable"
             android:layout_width="match_parent"
@@ -44,7 +45,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="20dp"
             android:background="#f0f0f0" />
-        <Switch
+    <!-- <Switch
             android:id="@+id/sw_auto_accept_call"
             android:layout_below="@id/sw_enable"
             android:layout_width="match_parent"
@@ -96,15 +97,15 @@
             android:layout_height="1dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="20dp"
-            android:background="#f0f0f0" />
+            android:background="#f0f0f0" />-->
         <Switch
             android:id="@+id/sw_smartAlert"
-            android:layout_below="@id/sk_time_auto_accept_call"
+            android:layout_below="@id/sw_enable"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
             android:textColor="@drawable/label_switch"
-            android:text="Smart Alert"
+            android:text="Speak Miss Call"
             android:textSize="20dp" />
         <View
             android:layout_below="@id/sw_smartAlert"
@@ -129,26 +130,10 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="20dp"
             android:background="#f0f0f0" />
-        <Switch
-            android:id="@+id/auto_reject_call"
-            android:layout_below="@id/auto_reply_when_miss_call"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:textColor="@drawable/label_switch"
-            android:text="Auto Reject Call"
-            android:textSize="20dp" />
-        <View
-            android:layout_below="@id/auto_reject_call"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="20dp"
-            android:background="#f0f0f0" />
     <!--    Content Reply-->
         <TextView
             android:id="@+id/lable_content_phone_reply"
-            android:layout_below="@+id/auto_reject_call"
+            android:layout_below="@+id/auto_reply_when_miss_call"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:textSize="18dp"
@@ -168,5 +153,26 @@
             android:singleLine="true"
             android:text="This is custom reply"
             android:textColor="@drawable/label_switch" />
+    <!--        Block Phone-->
+        <View
+            android:layout_below="@id/content_phone_reply"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:background="#f0f0f0" />
+        <TextView
+            android:id="@+id/decline_call"
+            android:layout_below="@+id/content_phone_reply"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textColor="@drawable/label_switch"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center|left"
+            android:text="Decline Call"
+            android:textSize="18dp"
+            android:drawableRight="@drawable/right_arrow" />
     </RelativeLayout>
 </ScrollView>

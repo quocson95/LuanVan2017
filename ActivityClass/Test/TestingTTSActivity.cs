@@ -17,7 +17,7 @@ namespace FreeHand
         private Button btn_getInstance, btn_getEngines, btn_getVoices, btn_Speak;
         private Spinner spn_engines, spn_lang;
         private EditText txt_input;
-        private TextToSpeechLib ttsLib;
+        private TTSLib ttsLib;
         private IList<TextToSpeech.EngineInfo> _listEngines;
         private TextToSpeech.EngineInfo _selectEngine;
 		private List<string> _listLang;
@@ -28,10 +28,10 @@ namespace FreeHand
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Layout_Speech_Setting);
             SetBehavior();
-            ttsLib = TextToSpeechLib.Instance();
+            ttsLib = TTSLib.Instance();
             _listLang = new List<string> { };
             btn_getInstance.Click += delegate {
-                ttsLib = TextToSpeechLib.Instance();
+                ttsLib = TTSLib.Instance();
             };
 
             btn_getEngines.Click += async delegate {

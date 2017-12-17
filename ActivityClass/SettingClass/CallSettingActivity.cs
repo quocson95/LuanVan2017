@@ -13,7 +13,7 @@ using Android.Widget;
 
 namespace FreeHand
 {
-    [Activity(Label = "CallSettingActivity")]
+    [Activity(Label = "CallSettingActivity", Theme = "@style/MyTheme.Mrkeys")]
     public class CallSettingActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)

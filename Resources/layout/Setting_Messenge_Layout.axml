@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:minWidth="25px"
-    android:minHeight="25px"
-    android:background="@android:color/white">
+    android:minHeight="25px">
 <!--  Icon Master  -->
     <RelativeLayout
         android:layout_width="match_parent"
@@ -66,7 +65,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:text="Allow Speak Name's Sender"
+            android:text="Allow Speak Sender's Name"
             android:textColor="@drawable/label_switch"
             android:textSize="18dp" />
         <View
@@ -84,7 +83,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:text="Allow Speak Number's Sender"
+            android:text="Allow Speak Sender's Number"
             android:textColor="@drawable/label_switch"
             android:textSize="18dp" />
         <View
@@ -102,7 +101,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:text="Allow Speak Content Messenege"
+            android:text="Allow Speak Message Content"
             android:textColor="@drawable/label_switch"
             android:textSize="18dp" />
         <View
@@ -139,7 +138,7 @@
             android:textSize="18dp"
             android:layout_marginLeft="20dp"
             android:gravity="center|left"
-            android:text="Custom SMS Reply"
+            android:text="Content SMS Reply"
             android:textColor="@drawable/label_switch" />
         <TextView
             android:id="@+id/tv_content_custom_reply"
@@ -153,11 +152,31 @@
             android:singleLine="true"
             android:text="This is custom reply"
             android:textColor="@drawable/label_switch" />
+        <View
+            android:layout_below="@id/tv_content_custom_reply"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="#f0f0f0" />
+        <TextView
+            android:id="@+id/block_sms"
+            android:layout_below="@+id/tv_content_custom_reply"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center|left"
+            android:text="Block SMS"
+            android:textSize="18dp"
+            android:drawableRight="@drawable/right_arrow" />
     <!--   Mail Setting     -->
     <!--Label-->
         <TextView
             android:id="@+id/label_mail"
-            android:layout_below="@+id/tv_content_custom_reply"
+            android:layout_below="@+id/block_sms"
             android:layout_width="150dp"
             android:layout_height="45dp"
             android:layout_marginTop="20dp"

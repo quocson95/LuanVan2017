@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:foo="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/material_grey_100">
+        <TextView
+            foo:layout_widthPercent="100%"
+            foo:layout_heightPercent="5%"
+            android:id="@+id/space_1" />
+        <Button
+            android:id="@+id/circle_top"
+            android:layout_below="@+id/space_1"
+            android:background="@drawable/circle_shape"
+            android:text="FH"
+            android:textSize="64dp"
+            android:textColor="@color/main_background"
+            android:layout_gravity="center_horizontal"
+            foo:layout_heightPercent="25%"
+            foo:layout_aspectRatio="100%"
+            fontPath="Fonts/Pacifico.ttf"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true" />
+        <TextView
+            android:id="@+id/title_top"
+            android:layout_below="@+id/circle_top"
+            foo:layout_widthPercent="100%"
+            foo:layout_heightPercent="15%"
+            android:text="Speech"
+            fontPath="Fonts/HELR45W.ttf"
+            android:textColor="@color/main_background"
+            android:textSize="36dp"
+            android:gravity="center" />
+        <android.support.percent.PercentFrameLayout
+            android:id="@+id/layout_one"
+            android:layout_below="@+id/title_top"
+            foo:layout_widthPercent="100%"
+            foo:layout_heightPercent="8%"
+            android:background="@color/material_grey_100"
+            android:minWidth="25px"
+            android:minHeight="25px">
+            <Button
+                android:id="@+id/item_1"
+                foo:layout_widthPercent="40%"
+                foo:layout_heightPercent="100%"
+                android:text="    Engine"
+                android:gravity="left|center"
+                android:textColor="@drawable/color_text_press"
+                android:textSize="18dp"
+                android:background="@color/material_grey_100"
+                fontPath="Fonts/Montserrat_Regular.otf"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <Spinner
+                android:id="@+id/spinner_engine"
+                foo:layout_widthPercent="60%"
+                foo:layout_heightPercent="100%"
+                android:textSize="16dp"
+                android:layout_gravity="right"
+                android:background="@color/material_grey_100" />
+        </android.support.percent.PercentFrameLayout>
+        <android.support.percent.PercentFrameLayout
+            android:id="@+id/layout_two"
+            android:layout_below="@+id/layout_one"
+            foo:layout_widthPercent="100%"
+            foo:layout_heightPercent="8%"
+            android:background="@color/material_grey_100"
+            android:minWidth="25px"
+            android:minHeight="25px">
+            <Button
+                android:id="@+id/item_2"
+                foo:layout_widthPercent="40%"
+                foo:layout_heightPercent="100%"
+                android:text="    Language"
+                android:gravity="left|center"
+                android:textColor="@drawable/color_text_press"
+                android:textSize="18dp"
+                android:background="@color/material_grey_100"
+                fontPath="Fonts/Montserrat_Regular.otf"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <Spinner
+                android:id="@+id/spinner_lang"
+                foo:layout_widthPercent="60%"
+                foo:layout_heightPercent="100%"
+                android:textSize="16dp"
+                android:layout_gravity="right"
+                android:background="@color/material_grey_100" />
+        </android.support.percent.PercentFrameLayout>
+        <Button
+            android:id="@+id/item_3"
+            android:layout_below="@+id/layout_two"
+            foo:layout_widthPercent="100%"
+            foo:layout_heightPercent="8%"
+            android:text="    Voice Tune"
+            android:gravity="left|center"
+            android:textColor="@drawable/color_text_press"
+            android:textSize="18dp"
+            android:drawableRight="@drawable/button"
+            android:background="@color/material_grey_100"
+            fontPath="Fonts/Montserrat_Regular.otf"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center|bottom" />
+        <Button
+            android:id="@+id/item_4"
+            android:layout_below="@+id/item_3"
+            foo:layout_widthPercent="100%"
+            foo:layout_heightPercent="8%"
+            android:text="    OK"
+            android:gravity="left|center"
+            android:textColor="@drawable/color_text_press"
+            android:textSize="18dp"
+            android:drawableRight="@drawable/button"
+            android:background="@color/material_grey_100"
+            fontPath="Fonts/Montserrat_Regular.otf"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center|bottom" />
+    </android.support.percent.PercentRelativeLayout>
+</LinearLayout>

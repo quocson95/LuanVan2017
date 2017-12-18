@@ -16,6 +16,7 @@ namespace FreeHand
         static readonly string TAG = typeof(MainService).FullName;
         Messenge.Service.MessageService _messService;
         Phone.PhoneCallService _phoneService;
+        Config _cfg;
         Handler handler;
         Action runnable;
 
@@ -25,7 +26,7 @@ namespace FreeHand
             Log.Info(TAG, "OnCreate: the service is initializing.");
             isStart = false;
             handler = new Handler();
-
+            _cfg = Config.Instance();
             // This Action is only for demonstration purposes.
             runnable = new Action(() =>
             {                           
@@ -37,43 +38,95 @@ namespace FreeHand
         public override StartCommandResult OnStartCommand(Android.Content.Intent intent, StartCommandFlags flags, int startId)
         {
             // start your service logic here
-            if (intent.Action.Equals(Model.Constants.ACTION_START))
+            string action = intent.Action;
+            if (action != null)
             {
-                //Start Service 
-                if (isStart)
+                switch (action)
                 {
-                    Log.Info(TAG, "OnStartCommand: The Main service is already running. ");
+                    //MainService
+                    case Model.Constants.ACTION_START_MAIN_SERVICE:
+                        StartMainService();
+                        break;
+                    case Model.Constants.ACTION_STOP_MAINSERVICE:
+                        StopMainService();
+                        break;
 
-                }
-                else 
-                {
-                    Log.Info(TAG, "OnStartCommand: The Main service is starting.");
-                    RegisterForegroundService();
-                    handler.PostDelayed(runnable, Model.Constants.DELAY_BETWEEN_LOG_MESSAGES);
-                    StartMessenegeService();
-                    StartPhoneService();
-                    isStart = true;
+                    //Message Service
+                    case Model.Constants.ACTION_START_MESSAGE_SERVICE:
+                        if (isStart) StartMessenegeService();
+                        break;
+                    case Model.Constants.ACTION_STOP_MESSAGE_SERVICE:
+                        if (isStart) StopMessengeService();
+                        break;
 
+                    //SMS Service
+                    case Model.Constants.ACTION_START_SMS_SERVICE:
+                        if (isStart) _messService.RegisterSMSReceiver();
+                        break;
+                    case Model.Constants.ACTION_STOP_SMS_SERVICE:
+                        if (isStart) _messService.UnregisterSMSReceiver();
+                        break;
+
+
+                    //Phone Service
+                    case Model.Constants.ACTION_START_PHONE_SERVICE:
+                        if (isStart) StartPhoneService();
+                        break;
+                    case Model.Constants.ACTION_STOP_PHONE_SERVICE:
+                        if (isStart) StopPhoneService();
+                        break;
+
+                    //Smart Alert Phone
+                    case Model.Constants.ACTION_START_PHONE_SMART_ALERT:
+                        if (isStart && _phoneService != null)
+                            if (_phoneService.IsStart()) _phoneService.StartMonitorScreen();
+                        break;
+                    case Model.Constants.ACTION_STOP_PHONE_SMART_ALERT:
+                        if (isStart && _phoneService != null)
+                            if (_phoneService.IsStart()) _phoneService.StopMonitorScreen();
+                        break;
+
+                    default:
+                        break;
                 }
             }
-            else if (intent.Action.Equals(Model.Constants.ACTION_STOP))
-            {
-                //Stop Service
-                Log.Info(TAG, "OnStartCommand: The Main service is stopped.");
-                handler.RemoveCallbacks(runnable);
-                StopMessengeService();
-                StopPhoneService();
-                StopForeground(true);
-                StopSelf();
-
-                isStart = false;
-            }
-                
-
             // Return the correct StartCommandResult for the type of service you are building
             return StartCommandResult.Sticky;
         }
 
+        private void StopMainService()
+        {
+            //Stop Service
+            isStart = false;
+            Log.Info(TAG, "OnStartCommand: The Main service is stopped.");
+            handler.RemoveCallbacks(runnable);
+            StopMessengeService();
+            StopPhoneService();
+            StopForeground(true);
+            StopSelf();
+        }
+
+        private void StartMainService()
+        {
+            //Start Service 
+            if (isStart)
+            {
+                Log.Info(TAG, "OnStartCommand: The Main service is already running. ");
+
+            }
+            else
+            {
+                isStart = true;
+                Log.Info(TAG, "OnStartCommand: The Main service is starting.");
+                RegisterForegroundService();
+                //handler.PostDelayed(runnable, Model.Constants.DELAY_BETWEEN_LOG_MESSAGES);
+                StartMessenegeService();
+                if (_cfg.phoneConfig.Enable) 
+                    StartPhoneService();
+               
+
+            }
+        }
 
         void StartMessenegeService()
         {
@@ -110,11 +163,15 @@ namespace FreeHand
             // We need to shut things down.           
             Log.Info(TAG, "OnDestroy: The Main started service is shutting down.");
             // Stop the handler.           
-            // Remove the notification from the status bar.
-            var notificationManager = (NotificationManager)GetSystemService(NotificationService);
-            notificationManager.Cancel(Model.Constants.SERVICE_RUNNING_NOTIFICATION_ID);                     
-            isStart = false;
-            _messService.Destroy();
+            // Remove the notification from the status bar.                       
+            if (isStart){                
+                var notificationManager = (NotificationManager)GetSystemService(NotificationService);
+                notificationManager.Cancel(Model.Constants.SERVICE_RUNNING_NOTIFICATION_ID);   
+
+                _messService.Destroy();
+                _phoneService.Destroy();
+            }
+
             base.OnDestroy();
         }
 
@@ -153,5 +210,5 @@ namespace FreeHand
         }
     }
 
-   
+
 }

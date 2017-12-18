@@ -7,6 +7,7 @@ using Android.Media;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using System;
 
 namespace FreeHand
 {
@@ -261,7 +262,16 @@ namespace FreeHand
             SavePhoneConfig();
             SaveSMSConfig();
             SaveSpeechConfig();
+            SaveStateApp();
 
+        }
+
+        private void SaveStateApp()
+        {
+            var prefs = Application.Context.GetSharedPreferences("FreeHand", FileCreationMode.Private);
+            var prefEditor = prefs.Edit();           
+            prefEditor.PutBoolean("StateApp", MainServiceRunning);
+            prefEditor.Commit();
         }
 
         public void Load()
@@ -269,12 +279,19 @@ namespace FreeHand
             Log.Info(TAG, "Load Config");
 
             //Task configWork = new Task(() => { 
-                LoadPhoneConfig();
-                LoadSMSConfig();
-                LoadSpeechConfig(); 
+            LoadPhoneConfig();
+            LoadSMSConfig();
+            LoadSpeechConfig();
+            LoadStateApp();
             //});
             //configWork.Start();
 
+        }
+
+        private void LoadStateApp()
+        {
+            var prefs = Application.Context.GetSharedPreferences("FreeHand", FileCreationMode.Private);
+            MainServiceRunning = prefs.GetBoolean("StateApp", false);
         }
 
         public void SaveSMSConfig()

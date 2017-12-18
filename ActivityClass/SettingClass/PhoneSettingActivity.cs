@@ -103,11 +103,9 @@ namespace FreeHand.ActivityClass.SettingClass
             if (sw.Equals(_swEnable))
                 HandleSwEnable(e.IsChecked);
             else
-            {
-                _swEnable.CheckedChange -= CheckedChangeHandle;
+            {               
                 _swEnable.Checked = _swAutoReply.Checked || _swSmartAlert.Checked;//|| _swAutoAcceptCall.Checked ;
                 _config.phoneConfig.Enable = _swEnable.Checked;
-                _swEnable.CheckedChange += CheckedChangeHandle;
 
                 if (sw.Equals(_swAutoReply))
                 {
@@ -115,7 +113,7 @@ namespace FreeHand.ActivityClass.SettingClass
                 }
                 else if (sw.Equals(_swSmartAlert))
                 {
-                    _config.phoneConfig.SmartAlert = e.IsChecked;
+                    HandleSwSmartAlert(e.IsChecked);
                 }               
                
                 if (DbackUp != null) DbackUp();
@@ -123,18 +121,34 @@ namespace FreeHand.ActivityClass.SettingClass
            
 
         }
-               
+
+        private void HandleSwSmartAlert(bool isChecked)
+        {
+            _config.phoneConfig.SmartAlert = isChecked;
+
+            if (isChecked)
+                Model.Commom.StartSmartAlert();            
+            else
+                Model.Commom.StopSmartAlert();
+        }
+
         void HandleSwEnable(bool isChecked)
         {
             _config.phoneConfig.Enable = isChecked;
             if (isChecked)
             {
-                _config.phoneConfig.Restore();
-                RestoreStateSwPhone();
-                _declineCall.SetTextColor(color_black);
+                Model.Commom.StartPhoneSerive();
+                _declineCall.SetTextColor(color_black);               
+                bool check = _swAutoReply.Checked || _swSmartAlert.Checked;
+                if (!check)
+                {
+                    _config.phoneConfig.Restore();
+                    RestoreStateSwPhone();
+                }
             }
             else
             {
+                Model.Commom.StopPhoneService();
                 _config.phoneConfig.Backup();
                 DisableAllServicePhone();
                 _declineCall.SetTextColor(color_grey);

@@ -1,10 +1,12 @@
 ﻿using System;
+using Android.Content;
 using Android.Provider;
 
 namespace FreeHand.Model
 {
     public static class Commom
     {
+
         public static string GetNameFromPhoneNumber(string number)
         {
             Android.Net.Uri uri = Android.Net.Uri.WithAppendedPath(Android.Provider.ContactsContract.PhoneLookup.ContentFilterUri, Android.Net.Uri.Encode(number));
@@ -16,7 +18,7 @@ namespace FreeHand.Model
             var cursor = Android.App.Application.Context.ContentResolver.Query(uri, projection, null, null, null);
 
             if (cursor != null)
-            {                
+            {
                 if (cursor.MoveToFirst())
                 {
                     contactName = cursor.GetString(0);
@@ -45,6 +47,78 @@ namespace FreeHand.Model
                 cursor.Close();
             }
             return phone;
+        }
+
+        public static void StartMainService()
+        {
+            Intent intent = new Intent(Android.App.Application.Context, typeof(MainService));
+            intent.SetAction(Constants.ACTION_START_MAIN_SERVICE);
+            Android.App.Application.Context.StartService(intent);
+        }
+
+        public static void StopMainService()
+        {
+            Intent intent = new Intent(Android.App.Application.Context, typeof(MainService));
+            intent.SetAction(Constants.ACTION_STOP_MAINSERVICE);
+            Android.App.Application.Context.StartService(intent);
+        }
+
+        public static void StartMessageService()
+        {
+            Intent intent = new Intent(Android.App.Application.Context, typeof(MainService));
+            intent.SetAction(Constants.ACTION_START_MESSAGE_SERVICE);
+            Android.App.Application.Context.StartService(intent);
+
+        }
+
+        public static void StopMessageService()
+        {
+            Intent intent = new Intent(Android.App.Application.Context, typeof(MainService));
+            intent.SetAction(Constants.ACTION_STOP_MESSAGE_SERVICE);
+            Android.App.Application.Context.StartService(intent);
+
+        }
+
+        public static void StartSMSService()
+        {
+            Intent intent = new Intent(Android.App.Application.Context, typeof(MainService));
+            intent.SetAction(Constants.ACTION_START_SMS_SERVICE);
+            Android.App.Application.Context.StartService(intent);
+        }
+
+        public static void StopSMSService()
+        {
+            Intent intent = new Intent(Android.App.Application.Context, typeof(MainService));
+            intent.SetAction(Constants.ACTION_STOP_SMS_SERVICE);
+            Android.App.Application.Context.StartService(intent);
+        }
+
+        public static void StartPhoneSerive()
+        {
+            Intent intent = new Intent(Android.App.Application.Context, typeof(MainService));
+            intent.SetAction(Constants.ACTION_START_PHONE_SERVICE);
+            Android.App.Application.Context.StartService(intent);
+        }
+
+        public static void StopPhoneService()
+        {
+            Intent intent = new Intent(Android.App.Application.Context, typeof(MainService));
+            intent.SetAction(Constants.ACTION_STOP_PHONE_SERVICE);
+            Android.App.Application.Context.StartService(intent);
+        }
+
+        public static void StartSmartAlert()
+        {
+            Intent intent = new Intent(Android.App.Application.Context, typeof(MainService));
+            intent.SetAction(Constants.ACTION_START_PHONE_SMART_ALERT);
+            Android.App.Application.Context.StartService(intent);
+        }
+
+        public static void StopSmartAlert()
+        {
+            Intent intent = new Intent(Android.App.Application.Context, typeof(MainService));
+            intent.SetAction(Constants.ACTION_STOP_PHONE_SMART_ALERT);
+            Android.App.Application.Context.StartService(intent);
         }
     }
 }

@@ -136,14 +136,12 @@ namespace FreeHand.ActivityClass.SettingClass
                 HandleSwEnable(e.IsChecked);
             }
             else
-            {
-                _swEnable_sms.CheckedChange -= CheckedChangeHandle;
+            {              
                 _swEnable_sms.Checked = _swAllowAutoReplySMS.Checked ||
                     _swAllowSpeakNameSMS.Checked ||
                     _swAllowSpeakNumberSMS.Checked ||
                     _swAllowSpeakContentSMS.Checked;
-                _cfg.smsConfig.Enable = _swEnable_sms.Checked;
-                _swEnable_sms.CheckedChange += CheckedChangeHandle;
+                _cfg.smsConfig.Enable = _swEnable_sms.Checked;           
 
                 if (sw.Equals(_swAllowSpeakNameSMS))
                 {
@@ -161,6 +159,8 @@ namespace FreeHand.ActivityClass.SettingClass
                 {
                     HandleSWAutoReplySMS(e.IsChecked);
                 }
+
+                if (DbackUp != null) DbackUp();
             }
         }
 
@@ -168,13 +168,23 @@ namespace FreeHand.ActivityClass.SettingClass
         {
             _cfg.smsConfig.Enable = isChecked;
             if (isChecked)
-            {
-                _cfg.smsConfig.Restore();
-                RestoreStateSwSMS();
+            {           
                 _blockSMS.SetTextColor(color_black);
+                Model.Commom.StartSMSService();
+                bool check = _swAllowAutoReplySMS.Checked ||
+                    _swAllowSpeakNameSMS.Checked ||
+                    _swAllowSpeakNumberSMS.Checked ||
+                    _swAllowSpeakContentSMS.Checked;
+                if (!check)
+                {
+                    _cfg.smsConfig.Restore();
+                    RestoreStateSwSMS();
+                }
+
             }
             else
             {
+                Model.Commom.StopSMSService();
                 _cfg.smsConfig.Backup();
                 _blockSMS.SetTextColor(color_grey);
                 DisableAllServiceSMS();
@@ -198,11 +208,12 @@ namespace FreeHand.ActivityClass.SettingClass
 
         private void DisableAllServiceSMS()
         {
-            _cfg.smsConfig.Backup();
+            DbackUp -= _cfg.smsConfig.Backup;
             _swAllowSpeakNameSMS.Checked = false;
             _swAllowSpeakNumberSMS.Checked = false;
             _swAllowSpeakContentSMS.Checked = false;
             _swAllowAutoReplySMS.Checked = false;
+            DbackUp += _cfg.smsConfig.Backup;
             
         }
 

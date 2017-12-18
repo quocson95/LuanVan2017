@@ -11,37 +11,54 @@ namespace FreeHand.Messenge.Service
         private static readonly string TAG = typeof(MessageService).FullName;
         private SMSBroadcastReceiver _smsReceiver;
         private SpeakMessengeBroadcastReceiver _speakReceicer;
-        //private Config _cfg;
+        private Config _cfg;
         //private MailManager mailMng;
         bool isStart;
-
+        bool registerSMS;
         public MessageService()
         {
             Log.Info(TAG,"Initializing");
             isStart = false;
-            //_cfg = Config.Instance();
+            registerSMS = false;
+            _cfg = Config.Instance();
             _smsReceiver = new SMSBroadcastReceiver();
             _speakReceicer = new SpeakMessengeBroadcastReceiver();
         }
+
         public void Start()
         {
             if (isStart)
                 Log.Info(TAG, "Start : MessengeManage already start");
             else
-            {
-                // start your service logic here
-
+            {                
                 Log.Info(TAG, "Start : Register MessengeManage");
-                Application.Context.RegisterReceiver(this._smsReceiver, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
+                if (_cfg.smsConfig.Enable) RegisterSMSReceiver();
                 Application.Context.RegisterReceiver(this._speakReceicer, new IntentFilter("FreeHand.QueueMessenge.Invoke"));
-                isStart = true;
-                //Start Email Manage;
-                //Log.Info(TAG,"Start MailManager");
-                //mailMng = MailManager.Instance();
-                //mailMng.Context = Application.Context;
-                //mailMng.StartAutoCheckMail();
+                isStart = true;               
             }
                        
+        }
+
+        public void RegisterSMSReceiver()
+        {
+            if (!registerSMS)
+            {
+                Log.Info(TAG, "Register SMS Receiver");
+                registerSMS = true;
+                Application.Context.RegisterReceiver(this._smsReceiver, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
+            }
+            else
+                Log.Info(TAG, "SMS Receiver Already Register");
+        }
+
+        public void UnregisterSMSReceiver()
+        {            
+            if (registerSMS)
+            {
+                Log.Info(TAG, "Unregister SMS Receiver");
+                Application.Context.UnregisterReceiver(_smsReceiver);
+                registerSMS = false;
+            }
         }
 
         public void Stop(){
@@ -49,9 +66,8 @@ namespace FreeHand.Messenge.Service
             {
                 Log.Info(TAG, "Stop : MessengeManage ");
                 _speakReceicer.Stop();           
-                Application.Context.UnregisterReceiver(_smsReceiver);
-                Application.Context.UnregisterReceiver(_speakReceicer);
-                //mailMng.EnableAutoCheck = false;
+                UnregisterSMSReceiver();
+                Application.Context.UnregisterReceiver(_speakReceicer);              
             }
             else
                 Log.Info(TAG, "Stop : MessengeManage is not running");
@@ -60,6 +76,7 @@ namespace FreeHand.Messenge.Service
 
         public void Destroy()
         {
+            Log.Info(TAG, "Destroy ");
             _smsReceiver.Dispose();
             _speakReceicer.Dispose();
         }

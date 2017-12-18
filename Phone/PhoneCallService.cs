@@ -16,39 +16,76 @@ namespace FreeHand.Phone
         private static readonly string TAG = typeof(PhoneCallService).FullName;
         private PhoneCallBroadcastReceiver phoneCallReceiver;
         private ScreenStateBroadcastReceiver mScreenStateReceiver;
-        private Config config;       
+        IntentFilter screenStateFilter;
+        private Config _cfg;
+        bool monitorScreen;
+        bool isStart;
         public PhoneCallService()
         {
-            config = Config.Instance();
+            Log.Info(TAG, "Initializing");
+            monitorScreen = false;
+            isStart = false;
+            screenStateFilter = new IntentFilter();
+            screenStateFilter.AddAction(Intent.ActionScreenOff);
+            screenStateFilter.AddAction(Intent.ActionScreenOn);
+
+            _cfg = Config.Instance();
             phoneCallReceiver = new PhoneCallBroadcastReceiver();
             mScreenStateReceiver = new ScreenStateBroadcastReceiver();
 
         }
         public void Start()
         {
+            isStart = true;
             // start your service logic here
+            Log.Info(TAG, "Start: Register PhoneCallBroadcastReceiver ");
+
             Application.Context.RegisterReceiver(this.phoneCallReceiver, new IntentFilter("android.intent.action.PHONE_STATE"));
-            MonitorScreen();
+            if (_cfg.phoneConfig.SmartAlert) StartMonitorScreen();
             // Return the correct StartCommandResult for the type of service you are building           
         }
 
-        private void MonitorScreen()
+        public void StartMonitorScreen()
         {
-            IntentFilter screenStateFilter = new IntentFilter();
-            screenStateFilter.AddAction(Intent.ActionScreenOff);
-            screenStateFilter.AddAction(Intent.ActionScreenOn);
-            Application.Context.RegisterReceiver(mScreenStateReceiver, screenStateFilter);
+            if (!monitorScreen)
+            {
+                Log.Info(TAG, "Start Monitor Screen ");
+                monitorScreen = true;
+                Application.Context.RegisterReceiver(mScreenStateReceiver, screenStateFilter);
+            }
+            else
+                Log.Info(TAG, "Monitor Screen Already Start");
         }
-      
+
+        public void StopMonitorScreen()
+        {
+            
+            if (monitorScreen)
+            {
+                Log.Info(TAG, "Stop Monitor Screen ");
+                Application.Context.UnregisterReceiver(this.mScreenStateReceiver);
+                monitorScreen = false;
+            }
+        }
+
         public void Stop()
         {
-            Log.Info(TAG, "Stop");           
+            isStart = false;
+            Log.Info(TAG, "Stop"); 
+            Log.Info(TAG, "UnRegister PhoneCallBroadcastReceiver ");
             Application.Context.UnregisterReceiver(this.phoneCallReceiver);
-            Application.Context.UnregisterReceiver(this.mScreenStateReceiver);
+            StopMonitorScreen();
+        }
+
+        public bool IsStart(){
+            return isStart;
+        }
+
+        public void Destroy()
+        {
+            Log.Info(TAG, "Destroy ");
             phoneCallReceiver.Dispose();
             mScreenStateReceiver.Dispose();
-
-            
         }
               
     }

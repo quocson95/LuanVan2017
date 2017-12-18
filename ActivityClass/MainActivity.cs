@@ -19,13 +19,11 @@ namespace FreeHand
 {
     [Activity(Label = "MainActivity", Theme = "@android:style/Theme.DeviceDefault")]
     public class MainActivity : Activity
-    {
-        private bool APP_RUNNIG;
-        Intent MessengeServiceToStart,PhoneCallServiceToStart;
-        Intent startMainServiceIntent, stopMainServiceInstant;
-        TTSLib _tts;
+    {                            
+        Button btnRun;
         private Config _config;       
         private static readonly string TAG = typeof(MainActivity).FullName;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             Log.Info(TAG, "OnCreate: initializing ");
@@ -37,27 +35,31 @@ namespace FreeHand
                                          .Build());
 
             SetContentView(Resource.Layout.Main_layout);
+
             RequestPermission();
             LoadConfig();
-
-            if (savedInstanceState == null)
-            {
-                APP_RUNNIG = false;
-            }
-            //_tts = TextToSpeechLib.Instance();
-            //_tts.SetMainContext(this);
-            //StartReadConfig();
-            //MessengeServiceToStart = new Intent(this, typeof(MessengeService));
-            //PhoneCallServiceToStart = new Intent(this, typeof(Phone.PhoneCallService));
-            //Log.Info(TAG, "Start service Messenge.");            
             InitUiListener();
+            InitData();
         }
+
+        private void InitData()
+        {
+            if (_config.MainServiceRunning)
+            {
+                Start();
+            }
+            else
+            {
+                Stop();
+            }
+        }
+
         private void InitUiListener()
         {
-            Button btnRun = FindViewById<Button>(Resource.Id.btn_run);
+            btnRun = FindViewById<Button>(Resource.Id.btn_run);
             Button btnSetting = FindViewById<Button>(Resource.Id.btn_setting);
             btnRun.Click +=  delegate {
-                 RunClick(btnRun);
+                 RunClick();
             };
 
             btnSetting.Click += delegate {
@@ -68,31 +70,30 @@ namespace FreeHand
             };
         }
 
-        private void RunClick(Button btn)
+        private void RunClick()
         {
             if (!_config.MainServiceRunning)
-            {      
-                btn.SetText(Resource.String.start_app);
-                //Toast.MakeText(this, "Application Started", ToastLength.Long).Show();
-                //APP_RUNNIG = true;
-                startMainServiceIntent = new Intent(this, typeof(MainService));
-                startMainServiceIntent.SetAction(Model.Constants.ACTION_START);
-                StartService(startMainServiceIntent);
-                _config.MainServiceRunning = true;
-                //await StartApplication();
+            {
+                Start();             
             }
             else
             {
-                btn.SetText(Resource.String.stop_app);
-                //Toast.MakeText(this, "Application Stop", ToastLength.Long).Show();
-                //APP_RUNNIG = false;
-                stopMainServiceInstant = new Intent(this, typeof(MainService));
-                stopMainServiceInstant.SetAction(Model.Constants.ACTION_STOP);
-                StartService(stopMainServiceInstant);
-                //StopService(stopMainServiceInstant);
-                _config.MainServiceRunning = false;
-                //await StopApplication();
+                Stop();
             }
+        }
+
+        private void Stop()
+        {
+            btnRun.SetText(Resource.String.stop_app);
+            Model.Commom.StopMainService();
+            _config.MainServiceRunning = false;
+        }
+
+        private void Start()
+        {
+            btnRun.SetText(Resource.String.start_app);
+            Model.Commom.StartMainService();
+            _config.MainServiceRunning = true;
         }
 
         private void LoadConfig()
@@ -100,6 +101,7 @@ namespace FreeHand
             _config = Config.Instance();
             _config.Load();
         }
+
         protected override void OnResume()
         {
             //Listen for SMS
@@ -131,42 +133,10 @@ namespace FreeHand
             //Intent checkPermissionIntent = new Intent(this, typeof(CheckPermission));
             //StartActivityForResult(checkPermissionIntent,CHECK_PERMISSION);
         }
-        async Task StartApplication()
-        {
-            Log.Info(TAG, "StartApplication");
 
-            await StartInitTTS();
-            _config.AudioManage = (AudioManager)GetSystemService(Context.AudioService);
-            TelephonyManager tm = (TelephonyManager)this.GetSystemService(Context.TelephonyService);
-            StartService(MessengeServiceToStart);
-            StartService(PhoneCallServiceToStart);
-        }
 
-        void StopApplication()
-        {
-            Log.Info(TAG, "StopApplication");
-            StopService(MessengeServiceToStart);
-            StopService(PhoneCallServiceToStart);
-            _config.Clean();
-            _tts.Stop();
 
-        }
-
-        void StartReadConfig()
-        {
-            _config = Config.Instance();
-            //_config.Read(this);
-            _config.Load();
-        }
-        async Task StartInitTTS()
-        {                        
-            await _tts.GetTTS();
-
-            //if (string.IsNullOrEmpty(ttsConfig.lang))
-            //{
-            //    await tts.SetLang(new Java.Util.Locale(ttsConfig.lang));
-            //}
-        }    
+          
 
         protected override void AttachBaseContext(Android.Content.Context @base)
         {

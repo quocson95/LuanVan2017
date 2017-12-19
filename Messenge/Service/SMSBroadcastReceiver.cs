@@ -40,8 +40,7 @@ namespace FreeHand.Messenge.Service
 
                 var pdus = bundle.Get("pdus");
                 var castedPdus = JNIEnv.GetArray<Java.Lang.Object>(pdus.Handle);
-                var msgs = new SmsMessage[castedPdus.Length];
-                String sender = null;
+                var msgs = new SmsMessage[castedPdus.Length];              
 
                 for (var i = 0; i < msgs.Length; i++)
                 {
@@ -49,21 +48,24 @@ namespace FreeHand.Messenge.Service
                     JNIEnv.CopyArray(castedPdus[i].Handle, bytes);
 
                     msgs[i] = SmsMessage.CreateFromPdu(bytes);
-                    if (sender == null)
-                        sender = msgs[i].OriginatingAddress;                   
+                  
                     Model.IMessengeData _smsData = new Model.SMSData(msgs[i].OriginatingAddress, msgs[i].MessageBody);
                     string nameSender = Model.Commom.GetNameFromPhoneNumber(_smsData.GetAddrSender());
                     Log.Info(TAG, "Name Sender " + nameSender);
 
-                    _smsData.SetNameSender(nameSender);                    
-                    _messengeQueue.EnqueueMessengeQueue(_smsData);
+                    _smsData.SetNameSender(string.IsNullOrEmpty(nameSender)?"Unknow":nameSender);
+                    if (!NumberInBlockList(msgs[i].OriginatingAddress))
+                    {
+                        _messengeQueue.EnqueueMessengeQueue(_smsData);
+                        Log.Info(TAG, "Num Messenger: " + _messengeQueue.Count().ToString());
 
-                    Log.Info(TAG,"Num Messenger: "+ _messengeQueue.Count().ToString());
+                        //Send Broadcast for handle new messenge in queue
+                        var speakSMSIntent = new Intent("FreeHand.QueueMessenge.Invoke");
+                        context.SendBroadcast(speakSMSIntent);
+                    }
+                    else
+                        Log.Info(TAG, "Block SMS From " + msgs[i].OriginatingAddress);                    
                 }
-
-                //Send Broadcast for handle new messenge in queue
-                var speakSMSIntent = new Intent("FreeHand.QueueMessenge.Invoke");               
-                context.SendBroadcast(speakSMSIntent);
             }
             catch (Exception ex)
             {               
@@ -71,6 +73,15 @@ namespace FreeHand.Messenge.Service
             }
         }
 
+        private bool NumberInBlockList(string originatingAddress)
+        {
+            foreach(var item in _config.smsConfig.BlockList)
+            {
+                if (PhoneNumberUtils.Compare(originatingAddress,item.Item1 ))
+                    return true;
+            }
+            return false;
+        }
     }
 }
     

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -7,21 +8,23 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Newtonsoft.Json;
-using static Android.Provider.Contacts;
 
 namespace FreeHand.ActivityClass.SettingClass
 {
     [Activity(Label = "BlockNumberActivity", Theme = "@style/MyTheme.Mrkeys")]
     public class BlockNumberActivity : Activity
-    {      
-
+    {
         readonly string TAG = typeof(BlockNumberActivity).FullName;
         Switch _blockAll, _blockInList;
         Button _selectFromContact, _addNumber;
         EditText _inputNumber;
-        TextView _warning;
+        TextView _warning, _clean;
+        ListView _lstView;
+        ListPhoneDetailAdapter lstAdapter;
         Config _cfg;
+        Toast toast;
         private Model.Constants.TYPE _type;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -41,6 +44,19 @@ namespace FreeHand.ActivityClass.SettingClass
             _blockAll.Checked = _cfg.phoneConfig.BlockAll;
             _blockInList.Checked = _cfg.phoneConfig.BlockInList;
             _inputNumber.TextChanged += InputTextChange;
+            switch (_type)
+            {
+                case Model.Constants.TYPE.SMS:
+                    lstAdapter = new ListPhoneDetailAdapter(this, _cfg.smsConfig.BlockList);
+                    _lstView.Adapter = lstAdapter;
+                    break;
+                case Model.Constants.TYPE.PHONE:
+                    lstAdapter = new ListPhoneDetailAdapter(this, _cfg.phoneConfig.BlackList);
+                    _lstView.Adapter = lstAdapter;
+                    break;
+                case Model.Constants.TYPE.MAIL:
+                    break;
+            }
         }
 
         void InitUI()
@@ -48,11 +64,14 @@ namespace FreeHand.ActivityClass.SettingClass
 
             _inputNumber = FindViewById<EditText>(Resource.Id.input_numer);
             _warning = FindViewById<TextView>(Resource.Id.input_warning);
+            _clean = FindViewById<TextView>(Resource.Id.clean);
             _selectFromContact = FindViewById<Button>(Resource.Id.select_from_contact);
             _addNumber = FindViewById<Button>(Resource.Id.add_number);
             _blockAll = FindViewById<Switch>(Resource.Id.block_all);
             _blockInList = FindViewById<Switch>(Resource.Id.block_only_blacklist);
+            _lstView = FindViewById<ListView>(Resource.Id.listView);
 
+            _warning.Visibility = ViewStates.Invisible;
             switch (_type)
             {
                 case Model.Constants.TYPE.SMS:
@@ -62,10 +81,10 @@ namespace FreeHand.ActivityClass.SettingClass
                     _blockInList.Visibility = ViewStates.Visible;
                     break;
                 case Model.Constants.TYPE.MAIL:
-                    
-            default:
+
+                default:
                     break;
-            }           
+            }
         }
 
         void SetListenerUI()
@@ -74,14 +93,59 @@ namespace FreeHand.ActivityClass.SettingClass
             _blockInList.CheckedChange += CheckedChangeHandle;
 
             _selectFromContact.Click += SelectFromContact;
-            _addNumber.Click += AddNumber;
+            _addNumber.Click += _addNumber_Click;
+            _clean.Click += _clean_Click;
 
+        }
+
+        void _addNumber_Click(object sender, EventArgs e)
+        {
+            if (!_warning.Visibility.Equals(ViewStates.Visible) 
+                && !string.IsNullOrEmpty(_inputNumber.Text))
+            {
+                Tuple<string, string> item;
+                string name = Model.Commom.GetNameFromPhoneNumber(_inputNumber.Text);
+                item = new Tuple<string, string>(_inputNumber.Text, name);
+                switch (_type)
+                {
+                    case Model.Constants.TYPE.SMS:
+                        AddToSMSBlockList(item);
+                        break;
+                    case Model.Constants.TYPE.PHONE:
+                        AddToPhoneBlackList(item);
+                        break;
+                    case Model.Constants.TYPE.MAIL:
+                        break;
+                }
+                _inputNumber.Text = "";
+            }
+            else DisplayToast("Phone Number is invalid");
+
+        }
+
+
+        void _clean_Click(object sender, EventArgs e)
+        {
+            switch (_type)
+            {
+                case Model.Constants.TYPE.SMS:
+                    _cfg.smsConfig.BlockList.Clear();
+                    break;
+                case Model.Constants.TYPE.PHONE:
+                    _cfg.phoneConfig.BlackList.Clear();
+                    break;
+                case Model.Constants.TYPE.MAIL:
+                    break;
+            }
+
+            lstAdapter.NotifyDataSetChanged();
         }
 
         void CheckedChangeHandle(object sender, CompoundButton.CheckedChangeEventArgs e)
         {
             Switch sw = (Switch)sender;
-            if (sw.Equals(_blockAll)){
+            if (sw.Equals(_blockAll))
+            {
                 _cfg.phoneConfig.BlockAll = e.IsChecked;
                 _blockInList.CheckedChange -= CheckedChangeHandle;
                 _blockInList.Checked = false;
@@ -96,6 +160,7 @@ namespace FreeHand.ActivityClass.SettingClass
             }
 
         }
+
         void SelectFromContact(object sender, EventArgs e)
         {
             Intent intent = new Intent(Intent.ActionPick);
@@ -109,7 +174,7 @@ namespace FreeHand.ActivityClass.SettingClass
         {
             base.OnActivityResult(requestCode, resultCode, data);
             if (requestCode.Equals(Model.Constants.CODE_PICK_CONTACT))
-            {                
+            {
                 if (resultCode == Result.Ok)
                 {
                     var cursor = Android.App.Application.Context.ContentResolver.Query(data.Data, null, null, null, null);
@@ -119,41 +184,46 @@ namespace FreeHand.ActivityClass.SettingClass
                         if (cursor.MoveToFirst())
                         {
                             int hasPhoneNumber = cursor.GetInt(cursor.GetColumnIndex(ContactsContract.Contacts.InterfaceConsts.HasPhoneNumber));
+                            string name = cursor.GetString(cursor.GetColumnIndex(ContactsContract.Contacts.InterfaceConsts.DisplayName));
                             if (hasPhoneNumber.Equals(1))
                             {
                                 string id = cursor.GetString(cursor.GetColumnIndex(ContactsContract.Contacts.InterfaceConsts.Id));
-                                AddNumberToList(id);
+                                AddItemToList(id, name);
                             }
                         }
-                        cursor.Close();                       
+                        cursor.Close();
                     }
                 }
             }
         }
 
-        private void AddNumberToList(string id)
+        private void AddItemToList(string id, string name)
         {
-            string a = Model.Commom.GetNumberFromId(id);
-        
-        }
-
-        void AddNumber(object sender, EventArgs e)
-        {
-            string number;
-            number = _inputNumber.Text;
-            if (ValidatePhone(number))
+            string number = Model.Commom.GetNumberFromId(id);
+            if (!string.IsNullOrEmpty(number))
             {
-                _cfg.phoneConfig.BlackList.Add(number);
+                Tuple<string, string> item = new Tuple<string, string>(number, name);
+                switch (_type)
+                {
+                    case Model.Constants.TYPE.SMS:                        
+                        AddToSMSBlockList(item);                     
+                        break;
+                    case Model.Constants.TYPE.PHONE:
+                        AddToPhoneBlackList(item);
+                        break;
+                    case Model.Constants.TYPE.MAIL:
+                        break;
+                }
             }
         }
-
+              
         void InputTextChange(object sender, Android.Text.TextChangedEventArgs e)
         {
             if (ValidatePhone(e.Text.ToString()))
             {
                 _warning.Visibility = ViewStates.Invisible;
             }
-            else 
+            else
             {
                 if (!string.IsNullOrEmpty(e.Text.ToString()))
                     _warning.Visibility = ViewStates.Visible;
@@ -162,15 +232,58 @@ namespace FreeHand.ActivityClass.SettingClass
         }
 
         bool ValidatePhone(string number)
-        {            
+        {
             return Patterns.Phone.Matcher(number).Matches();
         }
 
-        protected override void  OnStop()
+
+        void AddToSMSBlockList(Tuple<string,string> item)
+        {
+            if (_cfg.smsConfig.BlockList.IndexOf(item) == -1)
+            {
+                _cfg.smsConfig.BlockList.Insert(0, item);     
+                lstAdapter.NotifyDataSetChanged();
+                DisplayToast("Add Success");
+            }
+            else
+                DisplayToast("Number has exist in list");
+            
+        }
+
+        private void AddToPhoneBlackList(Tuple<string, string> item)
+        {
+            if (_cfg.phoneConfig.BlackList.IndexOf(item) == -1)
+            {
+                _cfg.phoneConfig.BlackList.Insert(0, item);
+                lstAdapter.NotifyDataSetChanged();
+                DisplayToast("Add Success");
+            }
+            else
+                DisplayToast("Number has exist in list");
+        }
+
+
+        private void DisplayToast(string v)
+        {
+            if (toast != null) toast.Cancel();
+            toast = Toast.MakeText(this, v, ToastLength.Short);
+            toast.Show();
+        }
+
+        protected override void OnStop()
         {
             Log.Info(TAG, "OnStop");
-            _cfg.phoneConfig.AutoReply = _blockAll.Checked || _blockInList.Checked;
-            _cfg.phoneConfig.PrevAutoReply = _cfg.phoneConfig.AutoReply;
+            switch (_type)
+            {
+                case Model.Constants.TYPE.SMS:
+                    _cfg.SaveSMSConfig();
+                    break;
+                case Model.Constants.TYPE.PHONE:
+                    _cfg.SavePhoneConfig();
+                    break;
+                case Model.Constants.TYPE.MAIL:
+                    break;
+            }
             base.OnStop();
         }
 

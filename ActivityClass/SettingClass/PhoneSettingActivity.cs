@@ -76,8 +76,8 @@ namespace FreeHand.ActivityClass.SettingClass
             _swAutoReply.CheckedChange += CheckedChangeHandle;
 
             _declineCall.Click += ActionBlockSMSActivity;
-            _labelContentReply.Click += ActionBlockSMSActivity;
 
+            _labelContentReply.Click += ActionCustomContentReply;
             _contentPhoneReply.Click += ActionCustomContentReply;
         }
 
@@ -186,7 +186,7 @@ namespace FreeHand.ActivityClass.SettingClass
         {
             Intent intent = new Intent(this, typeof(ActivityClass.SettingClass.Custom_Reply_Messenge));
             intent.PutExtra("type", "phone");
-            StartActivityForResult(intent, Model.Constants.CODE_SETTING_CONTENT_REPLY_SMS);
+            StartActivityForResult(intent, Model.Constants.CODE_SETTING_CONTENT_REPLY);
         }
 
         void ActionBlockSMSActivity(object sender, EventArgs e)
@@ -200,7 +200,7 @@ namespace FreeHand.ActivityClass.SettingClass
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
-            if (requestCode.Equals(Model.Constants.CODE_SETTING_CONTENT_REPLY_SMS))
+            if (requestCode.Equals(Model.Constants.CODE_SETTING_CONTENT_REPLY))
             {
                 if (resultCode == Result.Ok)
                 {                   

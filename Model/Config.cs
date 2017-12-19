@@ -42,10 +42,9 @@ namespace FreeHand
             public bool SmartAlert { get; set ; }
             public bool Enable { get; set; }
             public bool AutoReply { get; set; }
-            public string ContentReply { get; set; }
-            public bool AutoRejectCall { get; set; }
+            public string ContentReply { get; set; }           
 
-            public IList<string> BlackList { get; set; }
+            public IList<Tuple<string,string>> BlackList { get; set; }
             public bool BlockAll { get; set; }
             public bool BlockInList { get; set; }
             //Backup           
@@ -58,8 +57,7 @@ namespace FreeHand
             {
                 SmartAlert = false;
                 Enable = false;               
-                AutoReply = false;
-                AutoRejectCall = false;
+                AutoReply = false;               
 
                 BlockAll = false;
                 BlockInList = false;
@@ -67,7 +65,7 @@ namespace FreeHand
                 ContentReply = "Sample";
                 MissedCall = 0;
                 Backup();
-                BlackList = new List<string>();
+                BlackList = new List<Tuple<string, string>>();
             }
 
             public void Backup()
@@ -75,7 +73,6 @@ namespace FreeHand
                 Log.Info(TAG,"Phone BackUp");
                 PrevSmartAlert = SmartAlert;
                 PrevAutoReply = AutoReply;               
-                PrevAutoRejectCall = AutoRejectCall;
             }
 
             public void Restore()
@@ -83,7 +80,6 @@ namespace FreeHand
                 Log.Info(TAG, "Phone Restore");        
                 SmartAlert = PrevSmartAlert;               
                 AutoReply = PrevAutoReply;
-                AutoRejectCall = PrevAutoRejectCall;
             }
         }
 
@@ -104,6 +100,8 @@ namespace FreeHand
             public string CustomContetnReply { set; get; }
 
             //System configure
+
+            public IList<Tuple<string,string>> BlockList { get; set; }
             public bool IsHandleSMSRunnig { get; set; }
             public Model.IMessengeData MessengeBackUp { get; set; }
             public STATE_SMS StateSMS { get; set; }
@@ -111,6 +109,7 @@ namespace FreeHand
                 StateSMS = STATE_SMS.IDLE;
                 MessengeBackUp = null;
                 IsHandleSMSRunnig = false;
+                BlockList = new List<Tuple<string,string>>();
 
                 Backup();
             }
@@ -180,7 +179,6 @@ namespace FreeHand
         public TTSConfig ttsConfig;
         public bool UpdateConfig { get => _updateConfig; set => _updateConfig = value; }
         public bool WriteConfig { get => _writeConfig; set => _writeConfig = value; }
-
         public AudioManager AudioManage { get => audioManage; set => audioManage = value; }
 
         //TTS

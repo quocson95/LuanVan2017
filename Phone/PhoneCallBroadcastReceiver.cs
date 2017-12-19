@@ -33,6 +33,12 @@ namespace FreeHand.Phone
 
         private async Task PhoneCallHanler()
         {
+            if (_config.UpdateConfig)
+            {
+                _config.UpdateConfig = false;
+                await _tts.ReInitTTS();
+            }
+
             string nameCaller;
             nameCaller = Model.Commom.GetNameFromPhoneNumber(_telephone);
 
@@ -65,13 +71,8 @@ namespace FreeHand.Phone
                 {                    
                     Log.Info(TAG, "Phone ExtraStateRinging");
                     _telephone = intent.GetStringExtra(TelephonyManager.ExtraIncomingNumber);
-                    Log.Info(TAG, "Incoming Numer " + _telephone);
-
-                    if (_config.phoneConfig.AutoRejectCall)
-                        RejectCall(_telephone, context);
-
-                    else
-                        WaitAccepCall(_telephone);                   
+                    Log.Info(TAG, "Incoming Numer " + _telephone);                                     
+                    CheckCall(_telephone, context);                                                        
                 }
                 else if (state == TelephonyManager.ExtraStateOffhook)
                 {
@@ -107,13 +108,35 @@ namespace FreeHand.Phone
             }
         }
 
-        private void RejectCall(string telephone,Context context)
+        private async void CheckCall(string telephone,Context context)
         {
-            if (CheckInBlackList(telephone))
-            {
+            if (_config.phoneConfig.BlockAll)
                 EndCall(context);
-                SendReply(telephone);
+            else if (_config.phoneConfig.BlockInList)
+            {
+                bool isBlock = BlockCall(telephone,context);
+                if (!isBlock) await PhoneCallHanler();
             }
+            else 
+                await PhoneCallHanler();
+        }
+
+        private bool BlockCall(string telephone, Context context)
+        {
+            bool inBlackList = false;
+            foreach (var item in _config.phoneConfig.BlackList)
+            {
+                if (PhoneNumberUtils.Compare(telephone,item.Item1))
+                {
+                    inBlackList = true;
+                    break;
+                }
+            }
+
+            if (inBlackList)
+                EndCall(context);
+            
+            return inBlackList;
         }
 
         private void SendReply(string telephone)
@@ -121,12 +144,7 @@ namespace FreeHand.Phone
             SmsManager.Default.SendTextMessage(telephone, null, _config.phoneConfig.ContentReply, null, null);
         }
 
-        private bool CheckInBlackList(string telephone)
-        {
-            //Check number not in black list
-            //TODO ADD black list for phone. sms
-            return true;
-        }
+
 
         private void EndCall(Context context)
         {

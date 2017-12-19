@@ -14,7 +14,7 @@ namespace FreeHand.Model
             String[] projection = new String[] { Android.Provider.ContactsContract.PhoneLookup.InterfaceConsts.DisplayName };
 
             String contactName;
-            contactName = "UNKNOW";
+            contactName = "";
             var cursor = Android.App.Application.Context.ContentResolver.Query(uri, projection, null, null, null);
 
             if (cursor != null)
@@ -30,13 +30,15 @@ namespace FreeHand.Model
 
         public static string GetNumberFromId(string id)
         {
-            Android.Net.Uri uri = Android.Net.Uri.WithAppendedPath(Android.Provider.ContactsContract.PhoneLookup.ContentFilterUri, id);
+            Android.Net.Uri uri = Android.Provider.ContactsContract.CommonDataKinds.Phone.ContentUri;
 
-            String[] projection = new String[] { Android.Provider.ContactsContract.PhoneLookup.InterfaceConsts.Number };
+            string[] projection = new String[] { Android.Provider.ContactsContract.CommonDataKinds.Phone.Number };
 
-            String phone;
+            string selection = "_ID=" + id;
+
+            string phone;
             phone = "";
-            var cursor = Android.App.Application.Context.ContentResolver.Query(uri, projection, null, null, null);
+            var cursor = Android.App.Application.Context.ContentResolver.Query(uri, projection, selection, null, null);
 
             if (cursor != null)
             {
@@ -48,6 +50,10 @@ namespace FreeHand.Model
             }
             return phone;
         }
+
+
+
+
 
         public static void StartMainService()
         {

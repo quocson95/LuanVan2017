@@ -241,6 +241,7 @@
     <Compile Include="ActivityClass\SettingClass\BlockNumberActivity.cs" />
     <Compile Include="ActivityClass\SettingClass\DialogInfomation.cs" />
     <Compile Include="ActivityClass\SettingClass\InfomationActivity.cs" />
+    <Compile Include="ActivityClass\SettingClass\ListPhoneDetailAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -425,6 +426,7 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\subtract.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\circle.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\subtract.png" />
+    <AndroidResource Include="Resources\layout\phone_details_layout.axml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

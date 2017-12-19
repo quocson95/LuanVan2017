@@ -26,7 +26,7 @@ namespace FreeHand.Model
         public const string ACTION_STOP_PHONE_SMART_ALERT = "FreeHand.action.ACTION_STOP_PHONE_SMART_ALERT";
 
         //Request Code
-        public const int CODE_SETTING_CONTENT_REPLY_SMS = 20000;
+        public const int CODE_SETTING_CONTENT_REPLY = 20000;
         public const int CODE_BLOCK_SMS_NUMBER = 20001;
 
         public const int CODE_SETTING_CONTENT_REPLY_MAIL = 30000;

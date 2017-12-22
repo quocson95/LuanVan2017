@@ -24,29 +24,48 @@ namespace FreeHand.Phone
         private Config _config;
         TTSLib _tts;
         string _telephone,_answer;
+        bool _acceptCall;
+        Context _context;
+        Model.ScriptLang _scriptLang;
         public PhoneCallBroadcastReceiver()        
         {
             Log.Info(TAG, "Initializing");           
             _config = Config.Instance();
             _tts = TTSLib.Instance();
+            _scriptLang = Model.ScriptLang.Instance();
         }
 
         private async Task PhoneCallHanler()
-        {
-            if (_config.UpdateConfig)
+        {            
+            if (_config.IsUpdateCfg)
             {
-                _config.UpdateConfig = false;
+                _config.IsUpdateCfg = false;
                 await _tts.ReInitTTS();
             }
 
             string nameCaller;
             nameCaller = Model.Commom.GetNameFromPhoneNumber(_telephone);
-
-            await _tts.SpeakMessenger("You Has New Call From ");
+            if (string.IsNullOrEmpty(nameCaller)){
+                nameCaller = _scriptLang.tts_name_sender_content;
+            }
+            string script;
+            //await _tts.SpeakMessenger("You Has New Call From ");
+            //script = _context.GetString(Resource.String.tts_new_call);
+            await _tts.SpeakMessenger(_scriptLang.tts_new_call);
             await Task.Delay(500);
+
+            //script = _context.GetString(Resource.String.tts_from);
+            //await _tts.SpeakMessenger(script);
+            await _tts.SpeakMessenger(_scriptLang.tts_from);
+            await Task.Delay(500);
+
             await _tts.SpeakMessenger(_telephone);
             await Task.Delay(500);
-            await _tts.SpeakMessenger("Name Caller ");
+
+            //await _tts.SpeakMessenger("Name Caller ");
+            //script = _context.GetString(Resource.String.tts_name_caller);
+            //await _tts.SpeakMessenger(script);
+            await _tts.SpeakMessenger(_scriptLang.tts_name_caller);
             await Task.Delay(500);
             await _tts.SpeakMessenger(nameCaller);
 
@@ -57,9 +76,8 @@ namespace FreeHand.Phone
 
       
         public override void OnReceive(Context context, Intent intent)
-        {            
-            bool acceptCall;
-            acceptCall = false;
+        {
+            _context = context;
             Log.Info(TAG, "OnReceive");
             // ensure there is information
             if (intent.Extras != null)
@@ -68,7 +86,8 @@ namespace FreeHand.Phone
                 string state = intent.GetStringExtra(TelephonyManager.ExtraState);
                 // check the current state
                 if (state == TelephonyManager.ExtraStateRinging)
-                {                    
+                {
+                    _acceptCall = false;
                     Log.Info(TAG, "Phone ExtraStateRinging");
                     _telephone = intent.GetStringExtra(TelephonyManager.ExtraIncomingNumber);
                     Log.Info(TAG, "Incoming Numer " + _telephone);                                     
@@ -77,23 +96,27 @@ namespace FreeHand.Phone
                 else if (state == TelephonyManager.ExtraStateOffhook)
                 {
                     // incoming call answer
-                    acceptCall = true;
+                    _acceptCall = true;
                     Log.Info(TAG, "Phone ExtraStateOffhook");
 
                 }
                 else if (state == TelephonyManager.ExtraStateIdle)
                 {
-                    _config.phoneConfig.IsHandlePhoneRunnig = false;
-                    _config.phoneConfig.MissedCall++;
-                    Log.Info(TAG, "Phone ExtraStateIdle,SMS running "+_config.smsConfig.IsHandleSMSRunnig.ToString()  ); 
-                    if (_config.smsConfig.IsHandleSMSRunnig)
+                    _config.phone.IsHandlePhoneRunnig = false;
+                    _config.phone.MissedCall++;
+                    Log.Info(TAG, "Phone ExtraStateIdle,SMS running "+_config.sms.IsHandleSMSRunnig.ToString()  ); 
+                    if (_config.sms.IsHandleSMSRunnig)
                     {
                         Log.Info(TAG, "Send Speak Broadcast"); 
-                        _config.smsConfig.IsHandleSMSRunnig = false;
+                        _config.sms.IsHandleSMSRunnig = false;
                         var speakSMSIntent = new Intent("FreeHand.QueueMessenge.Invoke");
                         context.SendBroadcast(speakSMSIntent);
                     }                  
 
+                    if (_config.phone.AutoReply && !_acceptCall)
+                    {
+                        Log.Info(TAG,"Send sms inform miss call {0}",_config.phone.ContentReply);
+                    }
                     // incoming call end
                 }
             }
@@ -103,16 +126,16 @@ namespace FreeHand.Phone
         {
             if (_config.GetPermissionRun(Config.PERMISSION_RUN.PHONE))
             {             
-                  _config.phoneConfig.IsHandlePhoneRunnig = true;
+                  _config.phone.IsHandlePhoneRunnig = true;
                   await PhoneCallHanler();
             }
         }
 
         private async void CheckCall(string telephone,Context context)
         {
-            if (_config.phoneConfig.BlockAll)
+            if (_config.phone.BlockAll)
                 EndCall(context);
-            else if (_config.phoneConfig.BlockInList)
+            else if (_config.phone.BlockInList)
             {
                 bool isBlock = BlockCall(telephone,context);
                 if (!isBlock) await PhoneCallHanler();
@@ -124,7 +147,7 @@ namespace FreeHand.Phone
         private bool BlockCall(string telephone, Context context)
         {
             bool inBlackList = false;
-            foreach (var item in _config.phoneConfig.BlackList)
+            foreach (var item in _config.phone.BlackList)
             {
                 if (PhoneNumberUtils.Compare(telephone,item.Item1))
                 {
@@ -141,7 +164,7 @@ namespace FreeHand.Phone
 
         private void SendReply(string telephone)
         {
-            SmsManager.Default.SendTextMessage(telephone, null, _config.phoneConfig.ContentReply, null, null);
+            SmsManager.Default.SendTextMessage(telephone, null, _config.phone.ContentReply, null, null);
         }
 
 

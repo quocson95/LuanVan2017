@@ -17,11 +17,11 @@ using Newtonsoft.Json;
 namespace FreeHand.ActivityClass.SettingClass
 {
     [Activity(Label = "PhoneSettingActivity", Theme = "@style/MyTheme.Mrkeys")]
-    public class PhoneSettingActivity : Activity
+    public class SettingPhone : Activity
     {
          static readonly string TAG = "PhoneSettingActivity";
         Switch _swEnable,  _swSmartAlert, _swAutoReply;         
-        TextView _contentPhoneReply, _labelContentReply, _declineCall;         
+        TextView _contentPhoneReply, _labelContentReply, _declineCall, _labelPhone;         
         Config _config;
         Android.Graphics.Color color_grey, color_black;
 
@@ -40,18 +40,15 @@ namespace FreeHand.ActivityClass.SettingClass
 
 
             _config = Config.Instance();
-            DbackUp += _config.phoneConfig.Backup;
+            DbackUp += _config.phone.Backup;
             InitUI();
+            SetListenerUI();
+            InitData();
            
 
             // Create your application here
         }
-
-         void InitData()
-        {            
-            _contentPhoneReply.Text = _config.phoneConfig.ContentReply;
-            _swEnable.Checked = _config.phoneConfig.Enable;
-        }
+               
 
          void InitUI()
         {
@@ -64,8 +61,7 @@ namespace FreeHand.ActivityClass.SettingClass
             _contentPhoneReply = FindViewById<TextView>(Resource.Id.content_phone_reply);
             _labelContentReply = FindViewById<TextView>(Resource.Id.lable_content_phone_reply);
             _declineCall = FindViewById<TextView>(Resource.Id.decline_call);
-            SetListenerUI();
-            InitData();
+            _labelPhone = FindViewById<TextView>(Resource.Id.label_phone);                      
 
         }
 
@@ -81,19 +77,25 @@ namespace FreeHand.ActivityClass.SettingClass
             _contentPhoneReply.Click += ActionCustomContentReply;
         }
 
+        void InitData()
+        {
+            _contentPhoneReply.Text = _config.phone.ContentReply;
+            _swEnable.Checked = _config.phone.Enable;
+        }
+
         void DisableAllServicePhone()
         {
-            DbackUp -= _config.phoneConfig.Backup;
+            DbackUp -= _config.phone.Backup;
             _swAutoReply.Checked = false;
             _swSmartAlert.Checked = false;
-            DbackUp += _config.phoneConfig.Backup;
+            DbackUp += _config.phone.Backup;
 
         }
 
          void RestoreStateSwPhone()
         {                        
-            _swAutoReply.Checked = _config.phoneConfig.AutoReply;
-            _swSmartAlert.Checked = _config.phoneConfig.SmartAlert;
+            _swAutoReply.Checked = _config.phone.AutoReply;
+            _swSmartAlert.Checked = _config.phone.SmartAlert;
         }
 
 
@@ -105,7 +107,7 @@ namespace FreeHand.ActivityClass.SettingClass
             else
             {               
                 _swEnable.Checked = _swAutoReply.Checked || _swSmartAlert.Checked;//|| _swAutoAcceptCall.Checked ;
-                _config.phoneConfig.Enable = _swEnable.Checked;
+                _config.phone.Enable = _swEnable.Checked;
 
                 if (sw.Equals(_swAutoReply))
                 {
@@ -124,7 +126,7 @@ namespace FreeHand.ActivityClass.SettingClass
 
         private void HandleSwSmartAlert(bool isChecked)
         {
-            _config.phoneConfig.SmartAlert = isChecked;
+            _config.phone.SmartAlert = isChecked;
 
             if (isChecked)
                 Model.Commom.StartSmartAlert();            
@@ -134,7 +136,7 @@ namespace FreeHand.ActivityClass.SettingClass
 
         void HandleSwEnable(bool isChecked)
         {
-            _config.phoneConfig.Enable = isChecked;
+            _config.phone.Enable = isChecked;
             if (isChecked)
             {
                 Model.Commom.StartPhoneSerive();
@@ -142,14 +144,14 @@ namespace FreeHand.ActivityClass.SettingClass
                 bool check = _swAutoReply.Checked || _swSmartAlert.Checked;
                 if (!check)
                 {
-                    _config.phoneConfig.Restore();
+                    _config.phone.Restore();
                     RestoreStateSwPhone();
                 }
             }
             else
             {
                 Model.Commom.StopPhoneService();
-                _config.phoneConfig.Backup();
+                _config.phone.Backup();
                 DisableAllServicePhone();
                 _declineCall.SetTextColor(color_grey);
             }
@@ -159,7 +161,7 @@ namespace FreeHand.ActivityClass.SettingClass
 
         void HandleSwAutoReply(bool isChecked)
         {
-            _config.phoneConfig.AutoReply = isChecked;
+            _config.phone.AutoReply = isChecked;
             UpdateUIColorReply();
         }
 
@@ -204,11 +206,33 @@ namespace FreeHand.ActivityClass.SettingClass
             {
                 if (resultCode == Result.Ok)
                 {                   
-                    _config.phoneConfig.ContentReply = data.GetStringExtra("content_reply_ok");
-                    _contentPhoneReply.Text = _config.phoneConfig.ContentReply;
+                    _config.phone.ContentReply = data.GetStringExtra("content_reply_ok");
+                    _contentPhoneReply.Text = _config.phone.ContentReply;
                 }
             }
         }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+            Log.Info(TAG,"OnResume");
+            SetLanguage();
+        }
+
+        private void SetLanguage()
+        {
+        //    Switch _swEnable,  _swSmartAlert, _swAutoReply;         
+        //TextView _contentPhoneReply, _labelContentReply, _declineCall; 
+            _labelPhone.SetText(Resource.String.label_setting_phone);
+            _swEnable.SetText(Resource.String.label_setting_phone_enable);
+            _swSmartAlert.SetText(Resource.String.label_setting_phone_speakmisscall);
+            _swAutoReply.SetText(Resource.String.label_setting_phone_sendsms);
+            _labelContentReply.SetText(Resource.String.label_setting_phone_contentreply);
+            _declineCall.SetText(Resource.String.label_setting_phone_declinecall);
+
+        }
+
+
         protected override void OnStop()
         {
             Log.Info(TAG, "OnStop");

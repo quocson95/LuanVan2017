@@ -13,12 +13,12 @@
         android:textSize="25dp"
         android:gravity="center" />
     <TextView
-        android:id="@+id/cont_terms"
+        android:id="@+id/cont_privacy"
         android:layout_marginTop="20dp"
         android:layout_below="@id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/privacy"
+        android:text="@string/label_setting_privacy_content"
         android:textColor="@android:color/black"
         android:textSize="18dp" />
 </RelativeLayout>

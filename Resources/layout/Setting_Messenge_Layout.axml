@@ -30,7 +30,7 @@
         <TextView
             android:id="@+id/label_sms"
             android:layout_below="@+id/top"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"
@@ -80,7 +80,8 @@
             android:id="@+id/sw_allow_speak_numsender_sms"
             android:layout_below="@+id/sw_allow_speak_namesender_sms"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
+            android:minHeight="40dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:text="Allow Speak Sender's Number"
@@ -171,13 +172,14 @@
             android:gravity="center|left"
             android:text="Block SMS"
             android:textSize="18dp"
+            android:textColor="#b9b9b9"
             android:drawableRight="@drawable/right_arrow" />
     <!--   Mail Setting     -->
     <!--Label-->
         <TextView
             android:id="@+id/label_mail"
             android:layout_below="@+id/block_sms"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="5dp"

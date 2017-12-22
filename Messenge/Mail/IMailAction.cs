@@ -7,7 +7,7 @@ namespace FreeHand
 {
     public interface IMailAction
     {
-        Task Login(Context c);
+        void Login();
         List<IMessengeData> SyncInbox();
         void Logout();
         bool isLogin();

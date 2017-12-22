@@ -52,7 +52,21 @@ namespace FreeHand.Model
         }
 
 
-
+        public static string GetNumberFromIdNew(string id)
+        {
+            string phone ="";
+            var cursor = Android.App.Application.Context.ContentResolver.Query(ContactsContract.CommonDataKinds.Phone.ContentUri,null,ContactsContract.CommonDataKinds.Phone.InterfaceConsts.ContactId +" =?",
+                                                                                                                                          new string[]{id},null);
+            if (cursor != null)
+            {
+                if (cursor.MoveToFirst())
+                {
+                    phone = cursor.GetString(cursor.GetColumnIndex(ContactsContract.CommonDataKinds.Phone.Number));
+                }
+                cursor.Close();
+            }
+            return phone;
+        }
 
 
         public static void StartMainService()

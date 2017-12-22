@@ -10,7 +10,8 @@
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
+            android:minHeight="30dp"
             android:text="Terms &amp; Conditions"
             android:textColor="@color/zaloColor"
             android:textSize="25dp"
@@ -21,7 +22,7 @@
             android:layout_below="@id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/termandconditions"
+            android:text="@string/label_setting_termandconditions_content"
             android:textColor="@android:color/black"
             android:textSize="16dp" />
     </RelativeLayout>

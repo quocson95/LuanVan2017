@@ -1,24 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using FreeHand.Model;
+
 namespace FreeHand
 {
-    public class Gmail : Model.IMessengeData
+    public class Gmail : IMessengeData
     {
         private List<string> _nameSender;
         private List<string> _addrSender;
-        private string _type;
+        private Model.TYPE_MESSAGE _type;
         private string _content;
-        private MailKit.UniqueId _uids;       
+        private MailKit.UniqueId _uids;
         private FreeHand.GmailAction.MarkSeenAction markSeenAction;
-        public Gmail(MailKit.UniqueId uids,FreeHand.GmailAction.MarkSeenAction m1)
+        public Gmail(MailKit.UniqueId uids, FreeHand.GmailAction.MarkSeenAction m1)
         {
-            _type = "EMA";
+            _type = Model.TYPE_MESSAGE.MAIL;
             _uids = uids;
             markSeenAction = m1;
             _nameSender = new List<string>();
             _addrSender = new List<string>();
         }
 
+        TYPE_MESSAGE IMessengeData.Type() => _type;
 
         public string GetAddrSender()
         {
@@ -52,6 +55,7 @@ namespace FreeHand
             throw new NotImplementedException();
         }
 
+
         public void SetAddrSender(string addr)
         {
             _addrSender.Add(addr);
@@ -67,9 +71,5 @@ namespace FreeHand
             _nameSender.Add(name);
         }
 
-        public string Type()
-        {
-            return _type;
-        }
     }
 }

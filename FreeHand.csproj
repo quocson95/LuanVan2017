@@ -36,6 +36,7 @@
     <WarningLevel>4</WarningLevel>
     <AndroidManagedSymbols>true</AndroidManagedSymbols>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <AndroidCreatePackagePerAbi>true</AndroidCreatePackagePerAbi>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -45,9 +46,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="MaterialSpinner">
-      <HintPath>packages\MaterialSpinner-Xamarin.1.1.1\lib\MonoAndroid\MaterialSpinner.dll</HintPath>
-    </Reference>
     <Reference Include="Mono.Android.Export" />
     <Reference Include="MvvmCross.Calligraphy">
       <HintPath>packages\MvvmCross.Calligraphy.1.0.0\lib\MonoAndroid\MvvmCross.Calligraphy.dll</HintPath>
@@ -97,31 +95,6 @@
     </Reference>
     <Reference Include="Xamarin.GooglePlayServices.Identity">
       <HintPath>packages\Xamarin.GooglePlayServices.Identity.27.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Identity.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Android.Support.Vector.Drawable">
-      <HintPath>packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\lib\MonoAndroid403\Xamarin.Android.Support.Vector.Drawable.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Android.Support.v7.RecyclerView">
-      <HintPath>packages\Xamarin.Android.Support.v7.RecyclerView.23.4.0.1\lib\MonoAndroid403\Xamarin.Android.Support.v7.RecyclerView.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Xamarin.Android.Support.v7.AppCompat">
-      <HintPath>packages\Xamarin.Android.Support.v7.AppCompat.23.4.0.1\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Xamarin.Android.Support.v4">
-      <HintPath>packages\Xamarin.Android.Support.v4.23.4.0.1\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Xamarin.Android.Support.Percent">
-      <HintPath>packages\Xamarin.Android.Support.Percent.23.4.0.1\lib\MonoAndroid403\Xamarin.Android.Support.Percent.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Android.Support.Design">
-      <HintPath>packages\Xamarin.Android.Support.Design.23.4.0.1\lib\MonoAndroid43\Xamarin.Android.Support.Design.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Xamarin.Android.Support.Animated.Vector.Drawable">
-      <HintPath>packages\Xamarin.Android.Support.Animated.Vector.Drawable.23.4.0.1\lib\MonoAndroid403\Xamarin.Android.Support.Animated.Vector.Drawable.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.GooglePlayServices.Basement">
       <HintPath>packages\Xamarin.GooglePlayServices.Basement.29.0.0.2\lib\MonoAndroid41\Xamarin.GooglePlayServices.Basement.dll</HintPath>
@@ -193,8 +166,32 @@
     <Reference Include="Google.Apis.Auth.PlatformServices">
       <HintPath>packages\Google.Apis.Auth.1.31.1\lib\netstandard1.3\Google.Apis.Auth.PlatformServices.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.Android.Support.v4">
+      <HintPath>packages\Xamarin.Android.Support.v4.23.4.0.1\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
+    </Reference>
     <Reference Include="Xamarin.Android.Support.CustomTabs">
       <HintPath>packages\Xamarin.Android.Support.CustomTabs.23.4.0.1\lib\MonoAndroid403\Xamarin.Android.Support.CustomTabs.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.Percent">
+      <HintPath>packages\Xamarin.Android.Support.Percent.23.4.0.1\lib\MonoAndroid403\Xamarin.Android.Support.Percent.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.GridLayout">
+      <HintPath>packages\Xamarin.Android.Support.v7.GridLayout.23.4.0.1\lib\MonoAndroid403\Xamarin.Android.Support.v7.GridLayout.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.RecyclerView">
+      <HintPath>packages\Xamarin.Android.Support.v7.RecyclerView.23.4.0.1\lib\MonoAndroid403\Xamarin.Android.Support.v7.RecyclerView.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.Vector.Drawable">
+      <HintPath>packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\lib\MonoAndroid403\Xamarin.Android.Support.Vector.Drawable.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.Animated.Vector.Drawable">
+      <HintPath>packages\Xamarin.Android.Support.Animated.Vector.Drawable.23.4.0.1\lib\MonoAndroid403\Xamarin.Android.Support.Animated.Vector.Drawable.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.AppCompat">
+      <HintPath>packages\Xamarin.Android.Support.v7.AppCompat.23.4.0.1\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.Design">
+      <HintPath>packages\Xamarin.Android.Support.Design.23.4.0.1\lib\MonoAndroid43\Xamarin.Android.Support.Design.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -205,7 +202,6 @@
     <Compile Include="Messenge\Mail\GmailAction.cs" />
     <Compile Include="Messenge\Mail\MailSetting.cs" />
     <Compile Include="Messenge\Mail\IMailAction.cs" />
-    <Compile Include="Messenge\Mail\MailManager.cs" />
     <Compile Include="SpeechLibrary\STTLib.cs" />
     <Compile Include="SpeechLibrary\TTSLib.cs" />
     <Compile Include="SpeechLibrary\TtsActivity.cs" />
@@ -217,31 +213,37 @@
     <Compile Include="Messenge\Service\SpeakMessengeBroadcastReceiver.cs" />
     <Compile Include="Phone\PhoneCallBroadcastReceiver.cs" />
     <Compile Include="Phone\PhoneCallService.cs" />
-    <Compile Include="ActivityClass\CheckPermission.cs" />
     <Compile Include="ActivityClass\MainActivity.cs" />
     <Compile Include="ActivityClass\SplashActivity.cs" />
     <Compile Include="ActivityClass\Test\Test_STT_Activity.cs" />
     <Compile Include="ActivityClass\Test\TestingTTSActivity.cs" />
-    <Compile Include="ActivityClass\SettingClass\Setting_Speech.cs" />
-    <Compile Include="ActivityClass\SettingClass\SettingActivity.cs" />
+    <Compile Include="ActivityClass\SettingClass\SettingSpeech.cs" />
+    <Compile Include="ActivityClass\SettingClass\Setting.cs" />
     <Compile Include="ActivityClass\Test\SpeechRecognizingActivity.cs" />
     <Compile Include="ActivityClass\SettingClass\CallSettingActivity.cs" />
     <Compile Include="ActivityClass\Test\EmptyActivity.cs" />
-    <Compile Include="ActivityClass\SettingClass\PhoneSettingActivity.cs" />
+    <Compile Include="ActivityClass\SettingClass\SettingPhone.cs" />
     <Compile Include="Phone\ScreenStateBroadcastReceiver.cs" />
-    <Compile Include="ActivityClass\SettingClass\Setting_Messenge.cs" />
+    <Compile Include="ActivityClass\SettingClass\SettingMessenge.cs" />
     <Compile Include="ActivityClass\SettingClass\Custom_Reply_Messenge.cs" />
     <Compile Include="MainService.cs" />
     <Compile Include="Model\Constants.cs" />
     <Compile Include="Model\Commom.cs" />
-    <Compile Include="ActivityClass\SettingClass\ManageInternetAccountActivity.cs" />
+    <Compile Include="ActivityClass\SettingClass\SettingAccount.cs" />
     <Compile Include="ActivityClass\SettingClass\DialogAccount.cs" />
     <Compile Include="Messenge\Mail\ListAccountAdapter.cs" />
     <Compile Include="Messenge\Mail\Gmail\WebViewActi.cs" />
     <Compile Include="ActivityClass\SettingClass\BlockNumberActivity.cs" />
     <Compile Include="ActivityClass\SettingClass\DialogInfomation.cs" />
-    <Compile Include="ActivityClass\SettingClass\InfomationActivity.cs" />
     <Compile Include="ActivityClass\SettingClass\ListPhoneDetailAdapter.cs" />
+    <Compile Include="ActivityClass\SettingClass\DialogEditPhoneDetail.cs" />
+    <Compile Include="Messenge\Mail\MailActivity.cs" />
+    <Compile Include="Messenge\Mail\MailSerivce.cs" />
+    <Compile Include="ActivityClass\SettingClass\AddGmailAccountActivity.cs" />
+    <Compile Include="SpeechLibrary\STTActivity.cs" />
+    <Compile Include="Model\LocaleHelper.cs" />
+    <Compile Include="ActivityClass\SettingClass\SettingOption.cs" />
+    <Compile Include="Model\ScriptLang.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -283,7 +285,6 @@
     <AndroidResource Include="Resources\drawable\main_circle_press.xml" />
     <AndroidResource Include="Resources\drawable\forward_default.png" />
     <AndroidResource Include="Resources\drawable\forward_press.png" />
-    <AndroidResource Include="Resources\layout\Speech.axml" />
     <AndroidResource Include="Resources\layout\popup.xml" />
     <AndroidResource Include="Resources\drawable\circle_shape_blue.xml" />
     <AndroidResource Include="Resources\drawable\main_text_circle_press..xml" />
@@ -427,6 +428,13 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\circle.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\subtract.png" />
     <AndroidResource Include="Resources\layout\phone_details_layout.axml" />
+    <AndroidResource Include="Resources\layout\pop_up_menu.axml" />
+    <AndroidResource Include="Resources\layout\dialog_phone_detail.axml" />
+    <AndroidResource Include="Resources\layout\gmail_login_layout.axml" />
+    <AndroidResource Include="Resources\drawable\gmail.png" />
+    <AndroidResource Include="Resources\layout\Test_STTLayout.axml" />
+    <AndroidResource Include="Resources\values-vi\Strings.xml" />
+    <AndroidResource Include="Resources\layout\setting_option_layout.axml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
@@ -441,6 +449,7 @@
     <Folder Include="ActivityClass\SettingClass\" />
     <Folder Include="Messenge\Mail\Gmail\" />
     <Folder Include="Resources\anim\" />
+    <Folder Include="Resources\values-vi\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\config.js" />
@@ -470,6 +479,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
-  <Import Project="packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
   <Import Project="packages\Xamarin.GooglePlayServices.Basement.29.0.0.2\build\Xamarin.GooglePlayServices.Basement.targets" Condition="Exists('packages\Xamarin.GooglePlayServices.Basement.29.0.0.2\build\Xamarin.GooglePlayServices.Basement.targets')" />
+  <Import Project="packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
 </Project>

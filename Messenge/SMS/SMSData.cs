@@ -8,12 +8,13 @@ namespace FreeHand.Model
         private string _content { get; set;}
         private string _number { get; set; }
         private string _nameSender { get; set;}
-        private string _type;
+        private TYPE_MESSAGE _type;
+
         public SMSData(string number,string content)
         {
             _content = content;
             _number = number;
-            _type = "SMS";
+            _type = TYPE_MESSAGE.SMS;
             //_smsNameSender = name; 
             //TODO
             //need function get name from contact
@@ -35,8 +36,11 @@ namespace FreeHand.Model
             return _number;
         }
         public string Reply(string msg)
-        {			
-            SmsManager.Default.SendTextMessage(_number, null,msg, null, null);			
+        {
+            if (!string.IsNullOrEmpty(msg))
+                SmsManager.Default.SendTextMessage(_number, null, msg, null, null);
+            else
+                Console.WriteLine("message reply is null or empty");
             return "";
         }
 
@@ -55,9 +59,10 @@ namespace FreeHand.Model
             throw new NotImplementedException();
         }
 
-        public string Type()
+        public TYPE_MESSAGE Type()
         {
             return _type;
         }
+               
     }
 }

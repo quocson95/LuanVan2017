@@ -75,7 +75,7 @@ namespace FreeHand.Messenge.Service
 
         private bool NumberInBlockList(string originatingAddress)
         {
-            foreach(var item in _config.smsConfig.BlockList)
+            foreach(var item in _config.sms.BlockList)
             {
                 if (PhoneNumberUtils.Compare(originatingAddress,item.Item1 ))
                     return true;

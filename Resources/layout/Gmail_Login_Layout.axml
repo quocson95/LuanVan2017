@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:padding="30dp">
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/gmail"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true" />
+    <TextView
+        android:id="@+id/title"
+        android:layout_below="@id/image"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Login Gmail"
+        android:textColor="@color/zaloColor"
+        android:textSize="32dp"
+        android:gravity="center" />
+    <TextView
+        android:id="@+id/warning"
+        android:layout_below="@id/title"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:textColor="@android:color/holo_red_light"
+        android:text="Email is invalid"
+        android:visibility="invisible" />
+    <EditText
+        android:id="@+id/user"
+        android:layout_below="@id/warning"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="Email"
+        android:textSize="16dp"
+        android:padding="10dp"
+        android:textColor="@android:color/black"
+        android:background="@drawable/edittextstyle"
+        android:text="a@a"
+        android:inputType="textEmailAddress" />
+    <EditText
+        android:id="@+id/pwd"
+        android:layout_below="@id/user"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="15dp"
+        android:hint="Password"
+        android:textSize="16dp"
+        android:padding="10dp"
+        android:textColor="@android:color/black"
+        android:background="@drawable/edittextstyle"
+        android:password="true"
+        android:text="111"
+        android:inputType="textPassword" />
+    <Button
+        android:id="@+id/login"
+        android:layout_below="@id/pwd"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:text="Login"
+        android:background="@drawable/borderbutton"
+        android:backgroundTint="@color/zaloColor" />
+</RelativeLayout>

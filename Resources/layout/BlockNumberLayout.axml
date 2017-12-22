@@ -37,6 +37,8 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
         android:text="Select From Contact"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
         android:backgroundTint="@color/zaloColor"
         android:background="@drawable/borderbutton" />
     <Button
@@ -47,6 +49,8 @@
         android:layout_marginTop="15dp"
         android:layout_marginLeft="20dp"
         android:background="@drawable/borderbutton"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
         android:backgroundTint="@color/zaloColor"
         android:text="Add Number" />
     <EditText
@@ -99,5 +103,7 @@
         android:layout_below="@id/clean"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:divider="@null"
+        android:dividerHeight="0dp" />
 </RelativeLayout>

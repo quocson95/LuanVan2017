@@ -16,6 +16,7 @@ namespace FreeHand
         static readonly string TAG = typeof(MainService).FullName;
         Messenge.Service.MessageService _messService;
         Phone.PhoneCallService _phoneService;
+        Messenge.Mail.MailSerivce _mailService;
         Config _cfg;
         Handler handler;
         Action runnable;
@@ -121,7 +122,7 @@ namespace FreeHand
                 RegisterForegroundService();
                 //handler.PostDelayed(runnable, Model.Constants.DELAY_BETWEEN_LOG_MESSAGES);
                 StartMessenegeService();
-                if (_cfg.phoneConfig.Enable) 
+                if (_cfg.phone.Enable) 
                     StartPhoneService();
                
 

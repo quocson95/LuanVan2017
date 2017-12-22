@@ -1,11 +1,112 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="hello">Hello World, Click Me!</string>
-	<string name="app_name">Free Hand</string>
-	<string name="notification_text">Notify</string>
-	<string name="SAVE_APP_RUNNING_STATUS">SAVE_APP_RUNNING_STATUS</string> 
-	<string name="start_app">ON</string>
-	<string name="stop_app">OFF</string>
-    <string name="termandconditions">All copyright, trade marks, design rights, patents and other intellectual property rights (registered and unregistered) in and on Bach Khoa University and application content belong to the Bach Khoa University and/or third parties (which may include you or other users.) The Bach Khoa University reserves all of its rights in application Content. Nothing in the Terms grants you a right or license to use any trade mark, design right or copyright owned or controlled by the Bach Khoa University or any other third party except as expressly provided in the Terms.</string>
-    <string name="privacy">By installing this applications, you agreed to the terms and conditions</string>
+    <string name="hello">Hello World, Click Me!</string>
+    <string name="app_name">Free Hand</string>
+    <string name="notification_text">Notify</string>
+    <string name="SAVE_APP_RUNNING_STATUS">SAVE_APP_RUNNING_STATUS</string> 
+
+    <!-- Using for Main Activity -->
+    <string name="start_app">ON</string>
+    <string name="stop_app">OFF</string>
+    <string name="label_setting">Setting</string>
+
+    <!-- using for main Setting -->
+    <string name="label_setting_speech">Speech</string>
+    <string name="label_setting_message">Message</string>
+    <string name="label_setting_phone">Phone</string>
+    <string name="label_setting_account">Account</string>
+    <string name="label_setting_option">Option</string>
+    <string name="label_setting_about">About</string>
+    <string name="label_setting_termsandconditions">Terms &quot; Conditions</string>
+    <string name="label_setting_privacypolicy">Privacy Policy</string>
+    <string name="label_setting_contact">Contact</string>     
+        
+    <!-- Using for Speech Setting -->
+    <string name="label_setting_speech_voicespeak">Voice Speak</string>
+    <string name="label_setting_speech_voicespeak_engine">Engine</string>
+    <string name="label_setting_speech_voicespeak_language">Language</string>
+    <string name="label_setting_speech_voicespeak_speed">Speed</string>
+    <string name="label_setting_speech_voicespeak_spitch">Pitch</string>
+    
+    <string name="label_setting_speech_listenvoice">Listen Voice</string>
+    <string name="label_setting_speech_listenvoice_language">Language</string>
+
+    <string name="label_setting_speech_testvoice">Test Voice</string>
+    <string name="label_setting_speech_testvoice_speak">Speak</string>
+
+    <!-- Using for Message Setting -->
+    <string name="label_setting_message_sms">SMS</string>
+    <string name="label_setting_message_sms_enable">Enable</string>
+    <string name="label_setting_message_sms_speakname">Allow Speak Sender Name</string>
+    <string name="label_setting_message_sms_speaknumber">Allow Speak Sender Number</string>
+    <string name="label_setting_message_sms_speakcontent">Allow Speak Message Content</string>
+    <string name="label_setting_message_sms_autoreply">Allow Auto Reply</string>
+    <string name="label_setting_message_sms_contentsmsreply">Content SMS Reply</string>
+    <string name="label_setting_message_sms_blocksms">Block SMS</string>
+
+    <string name="label_setting_message_email">Email</string>
+    <string name="label_setting_message_email_enable">Enable</string>
+    <string name="label_setting_message_email_autoreply">Allow Auto Reply</string>
+    <string name="label_setting_message_email_contentmailreply">Content Mail Reply</string>
+    
+
+    <!-- Using for Phone Setting -->    
+    <string name="label_setting_phone_enable">Enable Service</string>
+    <string name="label_setting_phone_speakmisscall">Speak Miss Call</string>
+    <string name="label_setting_phone_sendsms">Send SMS when miss call</string>
+    <string name="label_setting_phone_contentreply">Content Reply</string>
+    <string name="label_setting_phone_declinecall">Decline Call</string>
+
+    <string name="label_setting_phone_rejectall">Reject All</string>
+    <string name="label_setting_phone_rejectfromlist">Reject From BlackList</string>
+
+    <!-- Using for Account Setting -->    
+    <string name="label_setting_account_addaccount">Add Account</string>
+
+    <!-- Using for Option Setting -->    
+    <string name="label_setting_option_lang">Language</string>
+    
+    <!-- Using for About Setting -->   
+    <string name="label_setting_about_version">Version</string>
+    <string name="label_setting_about_copyright">Copyright</string>
+
+     <!-- Using for Term and Conditions Setting -->   
+    <string name="label_setting_termandconditions_content">All copyright, trade marks, design rights, patents and other intellectual property rights (registered and unregistered) in and on Bach Khoa University and application content belong to the Bach Khoa University and/or third parties (which may include you or other users.) The Bach Khoa University reserves all of its rights in application Content. Nothing in the Terms grants you a right or license to use any trade mark, design right or copyright owned or controlled by the Bach Khoa University or any other third party except as expressly provided in the Terms.</string>
+
+    
+    <!-- Using for Privacy Policy Setting -->   
+    <string name="label_setting_privacy_content">By installing this applications, you agreed to the terms and conditions</string>
+
+    <!-- Using for Contact Setting -->   
+    <string name="label_setting_contact_label">Contact Me</string> 
+    <string name="label_setting_contact_phone">Phone</string> 
+    
+    <!-- general -->
+    <string name="label_general_selectfromcontact">Select From Contact</string>
+    <string name="label_general_addnumber">Add Number</string>
+    <string name="label_general_warning">Phone Number is invalid</string>
+    <string name="label_general_ok">OK</string>
+    <string name="label_general_cancel">Cancel</string>
+    
+<!--Script for TTS-->
+    <string name="tts_continous_speak_prev_mess">Continuos Speak Previous Messenger</string>
+    <string name="tts_can_not_hear_voice">I can not hear you, please try again</string>
+    <string name="tts_do_you_want_rep">Do you want reply</string>
+    <string name="tts_content_mess">Content of Messenge</string>
+    <string name="tts_name_sender">Name of Sender</string>
+    <string name="tts_you_get_new_mess">You get a new message</string>
+    <string name="tts_from">From</string>
+    <string name="tts_ask_for_reply">Please speak your reply after sound beep</string>
+    
+    <!-- Script for SST -->
+    <string name="tts_new_call">You has new call from</string>
+    <string name="tts_name_caller">Name of caller</string>
+
+<!--Using for Reply template message-->
+    <string name="item1">I am late,I will be there at </string>
+    <string name="item2">I am in meeting, call me after </string>
+    <string name="item3">I am busy right now,I will call you after </string>
+    <string name="item4">See you at </string>
+    <string name="item5">I am driving, call me later </string>
+    
 </resources>

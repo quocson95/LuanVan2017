@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!-- Using for Main Activity -->
+    <string name="start_app">Bật</string>
+    <string name="stop_app">Tắt</string>
+    <string name="label_setting">Cài đặt</string>
+
+    <!-- using for main Setting -->
+    <string name="label_setting_speech">Giọng nói</string>
+    <string name="label_setting_message">Tin nhắn</string>
+    <string name="label_setting_phone">Điện thoại</string>
+    <string name="label_setting_account">Tài khoản</string>
+    <string name="label_setting_option">Tuỳ chọn</string>
+    <string name="label_setting_about">Về chúng tôi</string>
+    <string name="label_setting_termsandconditions">Điều khoản và điều kiện</string>
+    <string name="label_setting_privacypolicy">Chính sách bảo mật</string>
+    <string name="label_setting_contact">Thông tin liên hệ</string>     
+        
+    <!-- Using for Speech Setting -->
+    <string name="label_setting_speech_voicespeak">Giọng nói</string>
+    <string name="label_setting_speech_voicespeak_engine">Bộ ngôn ngữ</string>
+    <string name="label_setting_speech_voicespeak_language">Ngôn ngữ</string>
+    <string name="label_setting_speech_voicespeak_speed">Tốc độ đọc</string>
+    <string name="label_setting_speech_voicespeak_spitch">Độ cao</string>
+    
+    <string name="label_setting_speech_listenvoice">Ngôn ngữ lắng nghe</string>
+    <string name="label_setting_speech_listenvoice_language">Ngôn ngữ</string>
+
+    <string name="label_setting_speech_testvoice">Kiểm tra giọng nói</string>
+    <string name="label_setting_speech_testvoice_speak">Nói</string>
+
+    <!-- Using for Message Setting -->
+    <string name="label_setting_message_sms">Tin nhắn SMS</string>
+    <string name="label_setting_message_sms_enable">Kích hoạt</string>
+    <string name="label_setting_message_sms_speakname">Cho phép đọc tên người gửi</string>
+    <string name="label_setting_message_sms_speaknumber">Cho phép đọc số điện thoại người gửi</string>
+    <string name="label_setting_message_sms_speakcontent">Cho phép đọc nội dung tin nhắn</string>
+    <string name="label_setting_message_sms_autoreply">Cho phép tự động trả lời </string>
+    <string name="label_setting_message_sms_contentsmsreply">Nội dung tin nhắn tự động</string>
+    <string name="label_setting_message_sms_blocksms">Chặn tin nhắn</string>
+
+    <string name="label_setting_message_email">Thư điện tử</string>
+    <string name="label_setting_message_email_enable">Kích hoạt</string>
+    <string name="label_setting_message_email_autoreply">Cho phép tự động trả lời</string>
+    <string name="label_setting_message_email_contentmailreply">Nội dung email tự động</string>
+
+    <!-- Using for Phone Setting -->    
+    <string name="label_setting_phone_enable">Kích hoạt</string>
+    <string name="label_setting_phone_speakmisscall">Đọc cuộc gọi bị nhỡ</string>
+    <string name="label_setting_phone_sendsms">Gửi tin nhắn khi cuộc gọi bị nhỡ</string>
+    <string name="label_setting_phone_contentreply">Nội dung tin nhắn</string>
+    <string name="label_setting_phone_declinecall">Từ chối cuộc gọi</string>
+
+    <string name="label_setting_phone_rejectall">Từ chối tất cả</string>
+    <string name="label_setting_phone_rejectfromlist">Từ chối trong danh sách chặn</string>
+
+    <!-- Using for Account Setting -->    
+    <string name="label_setting_account_addaccount">Thêm tài khoản</string>
+
+
+    <!-- Using for Option Setting -->    
+    <string name="label_setting_option_lang">Ngôn ngữ</string>
+    
+    <!-- Using for About Setting -->   
+    <string name="label_setting_about_version">Phiên bản</string>
+    <string name="label_setting_about_copyright">Thông tin bản quyền</string>
+
+     <!-- Using for Term and Conditions Setting -->   
+    <string name="label_setting_termandconditions_content">All copyright, trade marks, design rights, patents and other intellectual property rights (registered and unregistered) in and on Bach Khoa University and application content belong to the Bach Khoa University and/or third parties (which may include you or other users.) The Bach Khoa University reserves all of its rights in application Content. Nothing in the Terms grants you a right or license to use any trade mark, design right or copyright owned or controlled by the Bach Khoa University or any other third party except as expressly provided in the Terms.</string>
+
+    
+    <!-- Using for Privacy Policy Setting -->   
+    <string name="label_setting_privacy_content">By installing this applications, you agreed to the terms and conditions</string>
+
+    <!-- Using for Contact Setting -->   
+    <string name="label_setting_contact_label">Liên hệ với tôi</string> 
+    <string name="label_setting_contact_phone">SĐT</string> 
+    
+    <!-- general -->
+    <string name="label_general_selectfromcontact">Chọn từ danh bạ</string>
+    <string name="label_general_addnumber">Thêm</string>
+     <string name="label_general_warning">Số điện thoại không đúng</string>
+    <string name="label_general_ok">Xác nhận</string>
+    <string name="label_general_cancel">Huỷ</string>
+    
+     <!--Script for TTS-->
+    <string name="tts_continous_speak_prev_mess">Tiếp tục với tin nhắn trước đó</string>
+    <string name="tts_can_not_hear_voice">Tôi không thể nghe được giọng bạn, vui lòng thử lại</string>
+    <string name="tts_do_you_want_rep">Bạn có muốn trả lời tin nhắn này hay không</string>
+    <string name="tts_content_mess">Nội dung tin nhắn</string>
+    <string name="tts_name_sender">Tên người gửi</string>
+    <string name="tts_you_get_new_mess">Bạn nhận được một tin nhắn mới</string>
+    <string name="tts_from">Từ</string>
+    <string name="tts_ask_for_reply">Vui lòng đọc nôi dung trả lời sau tiếng bíp</string>
+
+   <!--Using for Reply template message-->
+    <string name="item1">Tôi sẽ tới trễ,Tôi sẽ có mặt tại đó lúc </string>
+    <string name="item2">Tôi đang họp, gọi lại cho tôi sau </string>
+    <string name="item3">Hiện tại tôi đang rất bận, tôi sẽ gọi lại cho bạn sau </string>
+    <string name="item4">Gặp mặt lúc </string>
+    <string name="item5">Tôi đang lái xe. Gọi lai sau </string>
+</resources>

@@ -11,19 +11,18 @@ using Newtonsoft.Json;
 namespace FreeHand.ActivityClass.SettingClass
 {
     [Activity(Label = "Setting_Messenge",Theme = "@style/MyTheme.Mrkeys")]
-    public class Setting_Messenge : Activity
+    public class SettingMessenge : Activity
     {
-        private readonly string TAG = typeof(Setting_Messenge).FullName;
+        private readonly string TAG = typeof(SettingMessenge).FullName;
         private Switch _swEnable_sms, _swEnable_mail;
         private Switch _swAllowSpeakNameSMS, _swAllowSpeakNumberSMS, _swAllowSpeakContentSMS, _swAllowAutoReplySMS;
         private Switch _swAllowAutoReplyMail;
-        private TextView _customSMSReply, _customMailReply;
-        private TextView _tvContentSMSReply, _tvContentMailReply, _blockSMS;
+        private TextView _customSMSReply, _customMailReply, _labelMail;
+        private TextView _tvContentSMSReply, _tvContentMailReply, _blockSMS,_labelSMS;
         private Config _cfg;
         private Android.Graphics.Color color_grey, color_black;
         delegate void Del();
         Del DbackUp;
-
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);                      
@@ -35,7 +34,7 @@ namespace FreeHand.ActivityClass.SettingClass
 
             SetContentView(Resource.Layout.Setting_Messenge_Layout);
             _cfg = Config.Instance();
-            DbackUp += _cfg.smsConfig.Backup;
+            DbackUp += _cfg.sms.Backup;
             InitUI();
             InitListenerUI();
             InitDataUI();
@@ -57,12 +56,13 @@ namespace FreeHand.ActivityClass.SettingClass
             _customSMSReply = FindViewById<TextView>(Resource.Id.tv_custom_sms_reply);
             _tvContentSMSReply = FindViewById<TextView>(Resource.Id.tv_content_custom_reply);
             _blockSMS = FindViewById<TextView>(Resource.Id.block_sms);
+            _labelSMS = FindViewById<TextView>(Resource.Id.label_sms);
 
             //Mail
             _swEnable_mail = FindViewById<Switch>(Resource.Id.sw_enable_mail);
             _swAllowAutoReplyMail = FindViewById<Switch>(Resource.Id.sw_allow_reply_mail);
             _tvContentMailReply = FindViewById<TextView>(Resource.Id.tv_custom_mail_reply);
-
+            _labelMail = FindViewById<TextView>(Resource.Id.label_mail);
         }
 
         private void InitDataUI()
@@ -70,13 +70,13 @@ namespace FreeHand.ActivityClass.SettingClass
             /*
              * SMS
              */           
-            _tvContentSMSReply.Text = _cfg.smsConfig.CustomContetnReply;
-            _swEnable_sms.Checked = _cfg.smsConfig.Enable;
+            _tvContentSMSReply.Text = _cfg.sms.CustomContetnReply;
+            _swEnable_sms.Checked = _cfg.sms.Enable;
         }
 
         private void RestoreStateSwSMS()
         {
-            var smsCfg = _cfg.smsConfig;
+            var smsCfg = _cfg.sms;
             _swAllowSpeakNameSMS.Checked = smsCfg.AllowSpeakName;
             _swAllowSpeakNumberSMS.Checked = smsCfg.AllowSpeakNumber;
             _swAllowSpeakContentSMS.Checked = smsCfg.AllowSpeakContent;
@@ -122,8 +122,8 @@ namespace FreeHand.ActivityClass.SettingClass
             {
                 if(resultCode == Result.Ok)
                 {
-                    _cfg.smsConfig.CustomContetnReply = data.GetStringExtra("content_reply_ok");
-                    _tvContentSMSReply.Text = _cfg.smsConfig.CustomContetnReply;
+                    _cfg.sms.CustomContetnReply = data.GetStringExtra("content_reply_ok");
+                    _tvContentSMSReply.Text = _cfg.sms.CustomContetnReply;
                 }
             }
         }
@@ -141,19 +141,19 @@ namespace FreeHand.ActivityClass.SettingClass
                     _swAllowSpeakNameSMS.Checked ||
                     _swAllowSpeakNumberSMS.Checked ||
                     _swAllowSpeakContentSMS.Checked;
-                _cfg.smsConfig.Enable = _swEnable_sms.Checked;           
+                _cfg.sms.Enable = _swEnable_sms.Checked;           
 
                 if (sw.Equals(_swAllowSpeakNameSMS))
                 {
-                    _cfg.smsConfig.AllowSpeakName = e.IsChecked;
+                    _cfg.sms.AllowSpeakName = e.IsChecked;
                 }
                 else if (sw.Equals(_swAllowSpeakNumberSMS))
                 {
-                    _cfg.smsConfig.AllowSpeakNumber = e.IsChecked;
+                    _cfg.sms.AllowSpeakNumber = e.IsChecked;
                 }
                 else if (sw.Equals(_swAllowSpeakContentSMS))
                 {
-                    _cfg.smsConfig.AllowSpeakContent = e.IsChecked;
+                    _cfg.sms.AllowSpeakContent = e.IsChecked;
                 }
                 else if (sw.Equals(_swAllowAutoReplySMS))
                 {
@@ -166,7 +166,7 @@ namespace FreeHand.ActivityClass.SettingClass
 
         private void HandleSwEnable(bool isChecked)
         {
-            _cfg.smsConfig.Enable = isChecked;
+            _cfg.sms.Enable = isChecked;
             if (isChecked)
             {           
                 _blockSMS.SetTextColor(color_black);
@@ -177,7 +177,7 @@ namespace FreeHand.ActivityClass.SettingClass
                     _swAllowSpeakContentSMS.Checked;
                 if (!check)
                 {
-                    _cfg.smsConfig.Restore();
+                    _cfg.sms.Restore();
                     RestoreStateSwSMS();
                 }
 
@@ -185,7 +185,7 @@ namespace FreeHand.ActivityClass.SettingClass
             else
             {
                 Model.Commom.StopSMSService();
-                _cfg.smsConfig.Backup();
+                _cfg.sms.Backup();
                 _blockSMS.SetTextColor(color_grey);
                 DisableAllServiceSMS();
             }
@@ -193,7 +193,7 @@ namespace FreeHand.ActivityClass.SettingClass
 
         private void HandleSWAutoReplySMS(bool isChecked)
         {
-            _cfg.smsConfig.AllowAutoReply = isChecked;
+            _cfg.sms.AllowAutoReply = isChecked;
             if (isChecked)
             {
                 _customSMSReply.SetTextColor(color_black);
@@ -208,12 +208,12 @@ namespace FreeHand.ActivityClass.SettingClass
 
         private void DisableAllServiceSMS()
         {
-            DbackUp -= _cfg.smsConfig.Backup;
+            DbackUp -= _cfg.sms.Backup;
             _swAllowSpeakNameSMS.Checked = false;
             _swAllowSpeakNumberSMS.Checked = false;
             _swAllowSpeakContentSMS.Checked = false;
             _swAllowAutoReplySMS.Checked = false;
-            DbackUp += _cfg.smsConfig.Backup;
+            DbackUp += _cfg.sms.Backup;
             
         }
 
@@ -224,19 +224,51 @@ namespace FreeHand.ActivityClass.SettingClass
             StartActivityForResult(intent, Model.Constants.CODE_SETTING_CONTENT_REPLY);
         }
 
+        protected override void OnResume()
+        {
+            base.OnResume();
+            SetLanguage();
+        }
+
+        private void SetLanguage()
+        {
+            //private TextView _tvContentSMSReply, _tvContentMailReply, _blockSMS, _labelSMS;
+        //    private Switch _swEnable_sms, _swEnable_mail;
+        //private Switch _swAllowSpeakNameSMS, _swAllowSpeakNumberSMS, _swAllowSpeakContentSMS, _swAllowAutoReplySMS;
+        //private Switch _swAllowAutoReplyMail;
+            _labelSMS.SetText(Resource.String.label_setting_message_sms);
+            _swEnable_sms.SetText(Resource.String.label_setting_message_sms_enable);
+            _swAllowAutoReplySMS.SetText(Resource.String.label_setting_message_sms_autoreply);
+            _swAllowSpeakNameSMS.SetText(Resource.String.label_setting_message_sms_speakname);
+            _swAllowSpeakNumberSMS.SetText(Resource.String.label_setting_message_sms_speaknumber);
+            _swAllowSpeakContentSMS.SetText(Resource.String.label_setting_message_sms_speakcontent);
+            _customSMSReply.SetText(Resource.String.label_setting_message_sms_contentsmsreply);
+            _blockSMS.SetText(Resource.String.label_setting_message_sms_blocksms);
+
+            //Mail
+            _labelMail.SetText(Resource.String.label_setting_message_email);
+            _swEnable_mail.SetText(Resource.String.label_setting_message_email_enable);
+            _swAllowAutoReplyMail.SetText(Resource.String.label_setting_message_email_autoreply);
+
+        }
+
         protected override void OnStop()
         {
             Log.Info(TAG,"OnStop");
-            if (_swEnable_sms.Checked) _cfg.smsConfig.Backup();
+            if (_swEnable_sms.Checked) _cfg.sms.Backup();
             _cfg.SaveSMSConfig();
             base.OnStop();
 
         }
+       
 
-        protected override void AttachBaseContext(Android.Content.Context @base)
+        protected override void AttachBaseContext(Context @base)
         {
-            base.AttachBaseContext(CalligraphyContextWrapper.Wrap(@base));
+            Context c = Model.LocaleHelper.onAttach(@base);
+            base.AttachBaseContext(CalligraphyContextWrapper.Wrap(c));
         }
 
+       
+               
     }
 }

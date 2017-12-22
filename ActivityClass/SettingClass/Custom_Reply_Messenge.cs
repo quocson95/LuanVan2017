@@ -22,8 +22,10 @@ namespace FreeHand.ActivityClass.SettingClass
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.Custom_Reply_SMS);       
-            items = new string[] { "Vegetables", "Fruits", "Flower Buds", "Legumes", "Bulbs", "Tubers","Lalalang","This is good day to die","Lengend never die" };
+            SetContentView(Resource.Layout.Custom_Reply_SMS);
+
+            InitItem();
+
             var listView = FindViewById<ListView>(Resource.Id.ListView);
             listView.Adapter = new ArrayAdapter<String>(this, Resource.Layout.listText, items);
             listView.ItemClick += OnListItemClick;
@@ -35,7 +37,7 @@ namespace FreeHand.ActivityClass.SettingClass
             Button OK = FindViewById<Button>(Resource.Id.btn_ok);
             Button Cancel = FindViewById<Button>(Resource.Id.btn_cancel);
 
-            Intent callBackIntent = new Intent(this, typeof(Setting_Messenge));
+            Intent callBackIntent = new Intent(this, typeof(SettingMessenge));
 
             OK.Click += delegate
             {
@@ -53,18 +55,29 @@ namespace FreeHand.ActivityClass.SettingClass
             // Create your application here
         }
 
+        private void InitItem()
+        {
+            items = new string[5]{
+                this.GetString(Resource.String.item1),
+                this.GetString(Resource.String.item2),
+                this.GetString(Resource.String.item3),
+                this.GetString(Resource.String.item4),
+                this.GetString(Resource.String.item5)
+            };         
+        }
+
         private void SetDataEditText(string type)
         {
             switch(type)
             {
                 case "sms":
-                    editText.Text = _cfg.smsConfig.CustomContetnReply;
+                    editText.Text = _cfg.sms.CustomContetnReply;
                     break;
                 case "mail":
                     //TODO
                     break;
                 case "phone":
-                    editText.Text = _cfg.phoneConfig.ContentReply;
+                    editText.Text = _cfg.phone.ContentReply;
                     break;
             }
         }

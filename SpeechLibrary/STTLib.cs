@@ -45,8 +45,8 @@ namespace FreeHand
         {
             Intent intent = new Intent(RecognizerIntent.ActionRecognizeSpeech);
             intent.PutExtra(RecognizerIntent.ExtraLanguageModel, RecognizerIntent.LanguageModelFreeForm);
-            // intent a message on the modal dialog
-            _intentSTT.PutExtra(RecognizerIntent.ExtraPrompt, "title");
+            // put a message on the modal dialog
+            intent.PutExtra(RecognizerIntent.ExtraPrompt, "title");
 
             // if there is more then 1.5s of silence, consider the speech over
             intent.PutExtra(RecognizerIntent.ExtraSpeechInputCompleteSilenceLengthMillis, 5000);
@@ -58,9 +58,8 @@ namespace FreeHand
             // voiceIntent.PutExtra(RecognizerIntent.ExtraLanguage, Java.Util.Locale.German);
             // if you wish it to recognise the default Locale language and German
             // if you do use another locale, regional dialects may not be recognised very well
-            Java.Util.Locale locale = new Java.Util.Locale(lang);
-            Log.Info(TAG, "lang intent " + lang);
-            intent.PutExtra(RecognizerIntent.ExtraLanguage, locale);
+            Log.Info(TAG, "lang select " + lang);
+            intent.PutExtra(RecognizerIntent.ExtraLanguage,lang );
             return intent;
         }
         public static STTLib Instance()
@@ -73,7 +72,7 @@ namespace FreeHand
             return _intentSTT;
         }
 
-        public async Task<IList<String>> GetLanguageSupport(Context _context)
+        async Task<IList<String>> GetLanguageSupport(Context _context)
         {
             if (_supportLanguage == null)
             {
@@ -114,7 +113,7 @@ namespace FreeHand
         {
             string langCode;
             Locale locale;
-            langCode = cultureInfo.TwoLetterISOLanguageName;
+            langCode = cultureInfo.IetfLanguageTag;
             if (!_supportLanguageAsDisplayLanguage.ContainsKey(langCode))
             {
                 locale = new Locale(langCode);

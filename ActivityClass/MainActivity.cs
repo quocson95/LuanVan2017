@@ -1,26 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
-
 using Android.Content;
-using Android.Widget;
 using Android.OS;
 using Android.Util;
-using System.Threading.Tasks;
-using Android.Telephony;
-using Android.Support.V7.App;
-using Android.Media;
+using Android.Widget;
 using Calligraphy;
-
 namespace FreeHand
 {
-    [Activity(Label = "MainActivity", Theme = "@android:style/Theme.DeviceDefault")]
+    [Activity(Label = "MainActivity")]
     public class MainActivity : Activity
     {                            
         Button btnRun;
+        TextView btnSetting;
         private Config _config;       
         private static readonly string TAG = typeof(MainActivity).FullName;
 
@@ -36,15 +27,16 @@ namespace FreeHand
 
             SetContentView(Resource.Layout.Main_layout);
 
-            RequestPermission();
+            //RequestPermission();
             LoadConfig();
             InitUiListener();
             InitData();
         }
+               
 
         private void InitData()
         {
-            if (_config.MainServiceRunning)
+            if (_config.IsMainServiceRunning)
             {
                 Start();
             }
@@ -57,43 +49,40 @@ namespace FreeHand
         private void InitUiListener()
         {
             btnRun = FindViewById<Button>(Resource.Id.btn_run);
-            Button btnSetting = FindViewById<Button>(Resource.Id.btn_setting);
+            btnSetting = FindViewById<TextView>(Resource.Id.btn_setting);
             btnRun.Click +=  delegate {
                  RunClick();
             };
 
-            btnSetting.Click += delegate {
-                //Intent settingIntent = new Intent(this, typeof(Messenge.Mail.MailSetting));
-                //Intent settingIntent = new Intent(this, typeof(ActivityClass.SettingClass.BlockNumberActivity));
-                Intent intent = new Intent(this, typeof(ActivityClass.SettingClass.SettingActivity));
+            btnSetting.Click += delegate {               
+                Intent intent = new Intent(this, typeof(ActivityClass.SettingClass.Setting));
+                //Intent intent = new Intent(this, typeof(Messenge.Mail.MailActivity));
+                //Intent intent = new Intent(this, typeof(ActivityClass.SettingClass.AddGmailAccountActivity));
+                //Intent intent = new Intent(this, typeof(SpeechLibrary.STTActivity));
                 StartActivity(intent);
             };
         }
 
         private void RunClick()
         {
-            if (!_config.MainServiceRunning)
-            {
-                Start();             
-            }
+            if (!_config.IsMainServiceRunning)
+                Start();
             else
-            {
-                Stop();
-            }
+                Stop();            
         }
 
         private void Stop()
         {
             btnRun.SetText(Resource.String.stop_app);
             Model.Commom.StopMainService();
-            _config.MainServiceRunning = false;
+            _config.IsMainServiceRunning = false;
         }
 
         private void Start()
         {
             btnRun.SetText(Resource.String.start_app);
             Model.Commom.StartMainService();
-            _config.MainServiceRunning = true;
+            _config.IsMainServiceRunning = true;
         }
 
         private void LoadConfig()
@@ -104,21 +93,13 @@ namespace FreeHand
 
         protected override void OnResume()
         {
-            //Listen for SMS
-            //smsReceiver = new SMSBroadcastReceiver(this,this);
-            //this.RegisterReceiver(this.smsReceiver, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
-            //--------//
             base.OnResume();
-            Log.Debug(TAG, "OnResume");
-
-            //RegisterReceiver(this.smsReceiver, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
+            SetLanguage();        
+            Log.Debug(TAG, "OnResume");                   
         }
         protected override void OnPause()
         {
-
-            //UnregisterReceiver(smsReceiver);
-            Log.Debug(TAG, "OnPause");
-            // Code omitted for clarity
+            Log.Debug(TAG, "OnPause");           
             base.OnPause();
         }
 
@@ -129,18 +110,26 @@ namespace FreeHand
             base.OnStop();
         }
         void RequestPermission()
-        {
-            //Intent checkPermissionIntent = new Intent(this, typeof(CheckPermission));
-            //StartActivityForResult(checkPermissionIntent,CHECK_PERMISSION);
+        {          
         }
 
-
-
-          
-
-        protected override void AttachBaseContext(Android.Content.Context @base)
+        void SetLanguage()
         {
-            base.AttachBaseContext(CalligraphyContextWrapper.Wrap(@base));
+            btnSetting.SetText(Resource.String.label_setting);
+            if (_config.IsMainServiceRunning){
+                btnRun.SetText(Resource.String.start_app);
+            }
+            else 
+                btnRun.SetText(Resource.String.stop_app);
         }
+
+        //Font
+        protected override void AttachBaseContext(Context @base)
+        {
+            Context c = Model.LocaleHelper.onAttach(@base);
+            base.AttachBaseContext(CalligraphyContextWrapper.Wrap(c));
+        }
+       
+      
     }
 }

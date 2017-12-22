@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="@android:color/white">
     <TextView
         android:id="@+id/number"
         android:layout_width="match_parent"
@@ -19,6 +20,5 @@
         android:layout_marginLeft="10dp"
         android:gravity="center|left"
         android:textColor="@drawable/color_text_press"
-        android:textSize="16dp"
-        android:layout_marginBottom="10dp" />
+        android:textSize="16dp" />
 </LinearLayout>

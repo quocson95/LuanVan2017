@@ -42,9 +42,12 @@ namespace FreeHand.ActivityClass.SettingClass
             var contactName = view.FindViewById<TextView>(Resource.Id.name);
 
             contactNumber.Text = item.Item1;
-            contactName.Text = item.Item2;           
+            contactName.Text = item.Item2;     
+           
             return view;
         }
+
+
 
         public void Update(IList<Tuple<string,string>> items)
         {

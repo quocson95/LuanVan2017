@@ -21,111 +21,123 @@ using MailKit.Search;
 using MailKit.Security;
 
 namespace FreeHand
-{    
+{
     public class GmailAction : IMailAction
     {
-        private static readonly string TAG = "GmailAction";
+        private static readonly string TAG = typeof(GmailAction).FullName;
         private ImapClient client;
         private string usr, pwd;
-        static string[] Scopes = { GmailService.Scope.GmailReadonly };
-        static string ApplicationName = "Gmail API .NET Quickstart";
-
+        string _type = "Gmail";
         public delegate void MarkSeenAction(MailKit.UniqueId uid);
-        private MarkSeenAction  markSeenAction ;
-        public GmailAction(string usr,string pwd)
+        private MarkSeenAction markSeenAction;
+        public GmailAction(string usr, string pwd)
         {
             this.usr = usr;
             this.pwd = pwd;
             markSeenAction = MarkSeen;
+            client = new ImapClient();
         }
 
-        private void MarkSeen(MailKit.UniqueId uid){
+        private void MarkSeen(MailKit.UniqueId uid)
+        {
             var inbox = client.Inbox;
             inbox.AddFlags(uid, MessageFlags.Seen, true);
         }
 
-        public async Task Login(Context ca)
+        public string GetType()
         {
-           
+            return _type;
+        }
+        public void Login()
+        {
+            Log.Info(TAG, "Login");
             try
             {
-                using (var client = new ImapClient())
-                {
-                    client.ServerCertificateValidationCallback = (s, c, ch, e) => true;
-                    client.Connect("imap.gmail.com", 993, SecureSocketOptions.SslOnConnect);
+                client.ServerCertificateValidationCallback = (s, c, ch, e) => true;
+                client.Connect("imap.gmail.com", 993, SecureSocketOptions.Auto);
 
-                    // disable OAuth2 authentication unless you are actually using an access_token
-                    client.AuthenticationMechanisms.Remove("XOAUTH2");
+                // disable OAuth2 authentication unless you are actually using an access_token
+                //client.AuthenticationMechanisms.Remove("XOAUTH2");
 
-                    client.Authenticate("user@gmail.com", "password");
+                client.Authenticate(usr, pwd);
 
-                    // do stuff...
+                var folder = client.Inbox;
 
-                    client.Disconnect(true);
-                }
-               
-
-
-
-
-
+                folder.Status(StatusItems.Count | StatusItems.Unread);
+                int total = folder.Count;
+                int unread = folder.Unread;
+                // do stuff...
+                Console.WriteLine("total  {0} \nunread {1}", total, unread);
             }
             catch (Exception e)
             {
-                Log.Error(TAG, "Login err " + e.ToString());
+                Log.Error(TAG, "Login err " + e);
             }
-           
+
         }
 
-       
 
-        public List<Model.IMessengeData> SyncInbox()
+
+        public List<IMessengeData> SyncInbox()
         {
-            Log.Info(TAG, "Sync Inbox GMAIL");
-            List<Model.IMessengeData> lstInbox = new List<Model.IMessengeData>();
-            if (client.IsConnected)
+            Log.Info(TAG, "SyncInbox");
+
+            List<IMessengeData> lstInbox = new List<IMessengeData>();
+            if (isLogin())
             {
                 var inbox = client.Inbox;
                 inbox.Open(FolderAccess.ReadWrite);
                 Console.WriteLine("Total messages: {0}", inbox.Count);
                 Console.WriteLine("Recent messages: {0}", inbox.Recent);
-                //for (int i = 0; i < inbox.Count; i++)
-                //{
-                //    var message = inbox.GetMessage(i);
-                //    Console.WriteLine("Subject: {0}", message.Subject);
-                //}
-                //Get unread mess
+
                 foreach (var uid in inbox.Search(SearchQuery.NotSeen))
                 {
-                    Model.IMessengeData mailData = new Gmail(uid,markSeenAction);
+                    IMessengeData mailData = new Gmail(uid, markSeenAction);
                     var message = inbox.GetMessage(uid);
                     Console.WriteLine("Subject: {0}", message.Subject);
                     foreach (var mailbox in message.From.Mailboxes)
                     {
                         mailData.SetNameSender(mailbox.Name);
                         mailData.SetAddrSender(mailbox.Address);
-                    }                    
-                    //mailData.SetNameSender(message.Sender.Name);
+                    }
+
                     mailData.SetMessengeContent(message.Subject);
                     lstInbox.Add(mailData);
                 }
             }
-            else {
-                Log.Info(TAG,"Sync mail not run, not connect to server try login");
-
+            else
+            {
+                Log.Info(TAG, "Sync mail not run, not connect to server try login");
             }
+
             return lstInbox;
         }
 
-        public void Logout(){
-            client.Disconnect(true);
+        public void Logout()
+        {
+            if (isLogin())
+            {
+                Log.Info(TAG, "Logout");
+                client.Disconnect(true);
+            }
+            else
+                Log.Info(TAG, "Client is not login, can't disconnect");
         }
 
         public bool isLogin()
         {
-            if (client == null) return false;
-            return client.IsConnected;
+            bool result = false;
+            try
+            {
+                if (client == null) result = false;
+                else if (!client.IsAuthenticated) result = false;
+                else result = client.IsConnected;
+            }
+            catch (Exception e)
+            {
+                Log.Error(TAG, e.ToString());
+            }
+            return result;
         }
-
     }
 }

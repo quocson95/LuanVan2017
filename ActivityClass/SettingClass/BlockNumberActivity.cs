@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 namespace FreeHand.ActivityClass.SettingClass
 {
     [Activity(Label = "BlockNumberActivity", Theme = "@style/MyTheme.Mrkeys")]
-    public class BlockNumberActivity : Activity
+    public class BlockNumberActivity : Activity, EditDialogListener
     {
         readonly string TAG = typeof(BlockNumberActivity).FullName;
         Switch _blockAll, _blockInList;
@@ -20,7 +20,7 @@ namespace FreeHand.ActivityClass.SettingClass
         EditText _inputNumber;
         TextView _warning, _clean;
         ListView _lstView;
-        ListPhoneDetailAdapter lstAdapter;
+        ListPhoneDetailAdapter _lstAdapter;
         Config _cfg;
         Toast toast;
         private Model.Constants.TYPE _type;
@@ -28,7 +28,12 @@ namespace FreeHand.ActivityClass.SettingClass
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            // Create your application here
+
+            Calligraphy.CalligraphyConfig.InitDefault(new Calligraphy.CalligraphyConfig.Builder()
+                                          .SetDefaultFontPath("Fonts/HELR45W.ttf")
+                                          .SetFontAttrId(Resource.Attribute.fontPath)
+                                          .Build());
+
             SetContentView(Resource.Layout.BlockNumberLayout);
             _cfg = Config.Instance();
             string type = Intent.GetStringExtra("type");
@@ -41,18 +46,18 @@ namespace FreeHand.ActivityClass.SettingClass
 
         private void InitData()
         {
-            _blockAll.Checked = _cfg.phoneConfig.BlockAll;
-            _blockInList.Checked = _cfg.phoneConfig.BlockInList;
+            _blockAll.Checked = _cfg.phone.BlockAll;
+            _blockInList.Checked = _cfg.phone.BlockInList;
             _inputNumber.TextChanged += InputTextChange;
             switch (_type)
             {
                 case Model.Constants.TYPE.SMS:
-                    lstAdapter = new ListPhoneDetailAdapter(this, _cfg.smsConfig.BlockList);
-                    _lstView.Adapter = lstAdapter;
+                    _lstAdapter = new ListPhoneDetailAdapter(this, _cfg.sms.BlockList);
+                    _lstView.Adapter = _lstAdapter;
                     break;
                 case Model.Constants.TYPE.PHONE:
-                    lstAdapter = new ListPhoneDetailAdapter(this, _cfg.phoneConfig.BlackList);
-                    _lstView.Adapter = lstAdapter;
+                    _lstAdapter = new ListPhoneDetailAdapter(this, _cfg.phone.BlackList);
+                    _lstView.Adapter = _lstAdapter;
                     break;
                 case Model.Constants.TYPE.MAIL:
                     break;
@@ -96,16 +101,18 @@ namespace FreeHand.ActivityClass.SettingClass
             _addNumber.Click += _addNumber_Click;
             _clean.Click += _clean_Click;
 
+            _lstView.ItemClick += _lstView_ItemClick;
+
         }
 
         void _addNumber_Click(object sender, EventArgs e)
         {
-            if (!_warning.Visibility.Equals(ViewStates.Visible) 
-                && !string.IsNullOrEmpty(_inputNumber.Text))
+            string phone = _inputNumber.Text;
+            if (ValidatePhone(phone))
             {
                 Tuple<string, string> item;
-                string name = Model.Commom.GetNameFromPhoneNumber(_inputNumber.Text);
-                item = new Tuple<string, string>(_inputNumber.Text, name);
+                string name = Model.Commom.GetNameFromPhoneNumber(phone);
+                item = new Tuple<string, string>(phone, name);
                 switch (_type)
                 {
                     case Model.Constants.TYPE.SMS:
@@ -129,16 +136,79 @@ namespace FreeHand.ActivityClass.SettingClass
             switch (_type)
             {
                 case Model.Constants.TYPE.SMS:
-                    _cfg.smsConfig.BlockList.Clear();
+                    _cfg.sms.BlockList.Clear();
                     break;
                 case Model.Constants.TYPE.PHONE:
-                    _cfg.phoneConfig.BlackList.Clear();
+                    _cfg.phone.BlackList.Clear();
                     break;
                 case Model.Constants.TYPE.MAIL:
                     break;
             }
 
-            lstAdapter.NotifyDataSetChanged();
+            _lstAdapter.NotifyDataSetChanged();
+        }
+
+        void _lstView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        {
+            PopupMenu menu = new PopupMenu(this, e.View);
+            menu.Inflate(Resource.Layout.pop_up_menu);
+
+            menu.MenuItemClick += (s1, arg1) => {             
+                Console.WriteLine("{0} selected", arg1.Item.TitleFormatted);
+                string title = arg1.Item.TitleFormatted.ToString();
+                if (title.Equals("Edit"))
+                {
+                    FragmentTransaction transaction = FragmentManager.BeginTransaction();
+                    DialogEditPhoneDetail dialog = new DialogEditPhoneDetail(_type, _lstAdapter[(int)e.Id], (int)e.Id);
+                    dialog.Show(transaction, "Diaglog");
+                }
+                else 
+                {
+                    DeleteItemInList((int)e.Id);
+                }
+
+            };
+
+            // Android 4 now has the DismissEvent
+            menu.DismissEvent += (s2, arg2) => {
+                Console.WriteLine("menu dismissed");
+            };
+
+            menu.Show();
+
+        }
+
+        public void updateResult(Tuple<string, string> item, int id)
+        {
+            switch (_type)
+            {
+                case Model.Constants.TYPE.SMS:
+                    UpdateSMSlist(item, id);
+                    break;
+                case Model.Constants.TYPE.PHONE:
+                    UpdatePhoneList(item, id);
+                    break;
+                case Model.Constants.TYPE.MAIL:
+                    break;
+            }
+        }
+
+        private void DeleteItemInList(int id)
+        {
+            switch (_type)
+            {
+                case Model.Constants.TYPE.SMS:
+                    _cfg.sms.BlockList.RemoveAt(id);
+                    break;
+                case Model.Constants.TYPE.PHONE:
+                    _cfg.phone.BlackList.RemoveAt(id);
+                    break;
+                case Model.Constants.TYPE.MAIL:
+                    break;
+            }
+            DisplayToast("Delete Phone Number Success");
+            _lstAdapter.NotifyDataSetChanged();
+
         }
 
         void CheckedChangeHandle(object sender, CompoundButton.CheckedChangeEventArgs e)
@@ -146,14 +216,14 @@ namespace FreeHand.ActivityClass.SettingClass
             Switch sw = (Switch)sender;
             if (sw.Equals(_blockAll))
             {
-                _cfg.phoneConfig.BlockAll = e.IsChecked;
+                _cfg.phone.BlockAll = e.IsChecked;
                 _blockInList.CheckedChange -= CheckedChangeHandle;
                 _blockInList.Checked = false;
                 _blockInList.CheckedChange += CheckedChangeHandle;
             }
             else if (sw.Equals(_blockInList))
             {
-                _cfg.phoneConfig.BlockInList = e.IsChecked;
+                _cfg.phone.BlockInList = e.IsChecked;
                 _blockAll.CheckedChange -= CheckedChangeHandle;
                 _blockAll.Checked = false;
                 _blockAll.CheckedChange += CheckedChangeHandle;
@@ -167,7 +237,6 @@ namespace FreeHand.ActivityClass.SettingClass
             intent.SetType(ContactsContract.Contacts.ContentType);
             StartActivityForResult(intent, Model.Constants.CODE_PICK_CONTACT);
         }
-
 
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
@@ -199,7 +268,7 @@ namespace FreeHand.ActivityClass.SettingClass
 
         private void AddItemToList(string id, string name)
         {
-            string number = Model.Commom.GetNumberFromId(id);
+            string number = Model.Commom.GetNumberFromIdNew(id);
             if (!string.IsNullOrEmpty(number))
             {
                 Tuple<string, string> item = new Tuple<string, string>(number, name);
@@ -239,10 +308,10 @@ namespace FreeHand.ActivityClass.SettingClass
 
         void AddToSMSBlockList(Tuple<string,string> item)
         {
-            if (_cfg.smsConfig.BlockList.IndexOf(item) == -1)
+            if (_cfg.sms.BlockList.IndexOf(item) == -1)
             {
-                _cfg.smsConfig.BlockList.Insert(0, item);     
-                lstAdapter.NotifyDataSetChanged();
+                _cfg.sms.BlockList.Insert(0, item);     
+                _lstAdapter.NotifyDataSetChanged();
                 DisplayToast("Add Success");
             }
             else
@@ -252,10 +321,10 @@ namespace FreeHand.ActivityClass.SettingClass
 
         private void AddToPhoneBlackList(Tuple<string, string> item)
         {
-            if (_cfg.phoneConfig.BlackList.IndexOf(item) == -1)
+            if (_cfg.phone.BlackList.IndexOf(item) == -1)
             {
-                _cfg.phoneConfig.BlackList.Insert(0, item);
-                lstAdapter.NotifyDataSetChanged();
+                _cfg.phone.BlackList.Insert(0, item);
+                _lstAdapter.NotifyDataSetChanged();
                 DisplayToast("Add Success");
             }
             else
@@ -285,6 +354,68 @@ namespace FreeHand.ActivityClass.SettingClass
                     break;
             }
             base.OnStop();
+        }
+
+       
+
+        private void UpdateSMSlist(Tuple<string, string> item, int id)
+        {
+            if (_cfg.sms.BlockList.IndexOf(item) == -1)
+            {
+                _cfg.sms.BlockList.RemoveAt(id);
+                _cfg.sms.BlockList.Insert(id, item);
+                _lstAdapter.NotifyDataSetChanged();
+                DisplayToast("Update Phone Number Success");
+            }
+            else
+                DisplayToast("Phone Number alredy exist");
+        }
+
+
+        private void UpdatePhoneList(Tuple<string, string> item, int id)
+        {
+            if (_cfg.phone.BlackList.IndexOf(item) == -1)
+            {
+                _cfg.phone.BlackList.RemoveAt(id);
+                _cfg.phone.BlackList.Insert(id, item);
+                _lstAdapter.NotifyDataSetChanged();
+                DisplayToast("Update Phone Number Success");
+            }
+            else
+                DisplayToast("Phone Number alredy exist");
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+            Log.Info(TAG,"Onresume");
+            Setlangugage();
+
+        }
+
+        private void Setlangugage()
+        {
+            _addNumber.SetText(Resource.String.label_general_addnumber);
+            _selectFromContact.SetText(Resource.String.label_general_selectfromcontact);
+            switch (_type)
+            {
+                case Model.Constants.TYPE.SMS:
+                    _warning.SetText(Resource.String.label_general_warning);                    
+                    break;
+                case Model.Constants.TYPE.PHONE:
+                    _warning.SetText(Resource.String.label_general_warning);
+                    _blockAll.SetText(Resource.String.label_setting_phone_rejectall);
+                    _blockInList.SetText(Resource.String.label_setting_phone_rejectfromlist);
+                    break;
+                case Model.Constants.TYPE.MAIL:
+                    break;
+            }
+        }
+
+        protected override void AttachBaseContext(Context @base)
+        {
+            Context c = Model.LocaleHelper.onAttach(@base);
+            base.AttachBaseContext(Calligraphy.CalligraphyContextWrapper.Wrap(c));
         }
 
     }

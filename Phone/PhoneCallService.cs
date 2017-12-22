@@ -36,13 +36,19 @@ namespace FreeHand.Phone
         }
         public void Start()
         {
-            isStart = true;
-            // start your service logic here
-            Log.Info(TAG, "Start: Register PhoneCallBroadcastReceiver ");
+            if (!isStart)
+            {
 
-            Application.Context.RegisterReceiver(this.phoneCallReceiver, new IntentFilter("android.intent.action.PHONE_STATE"));
-            if (_cfg.phoneConfig.SmartAlert) StartMonitorScreen();
-            // Return the correct StartCommandResult for the type of service you are building           
+                isStart = true;
+                // start your service logic here
+                Log.Info(TAG, "Start: Register PhoneCallBroadcastReceiver ");
+
+                Application.Context.RegisterReceiver(this.phoneCallReceiver, new IntentFilter("android.intent.action.PHONE_STATE"));
+                if (_cfg.phone.SmartAlert) StartMonitorScreen();
+                // Return the correct StartCommandResult for the type of service you are building           
+            }
+            else
+                Log.Info(TAG, "Service has already start");
         }
 
         public void StartMonitorScreen()
@@ -59,22 +65,29 @@ namespace FreeHand.Phone
 
         public void StopMonitorScreen()
         {
-            
+
             if (monitorScreen)
             {
                 Log.Info(TAG, "Stop Monitor Screen ");
                 Application.Context.UnregisterReceiver(this.mScreenStateReceiver);
                 monitorScreen = false;
             }
+            else
+                Log.Info(TAG,"Monitor Screen has not start, can't stop");
         }
 
         public void Stop()
         {
-            isStart = false;
-            Log.Info(TAG, "Stop"); 
-            Log.Info(TAG, "UnRegister PhoneCallBroadcastReceiver ");
-            Application.Context.UnregisterReceiver(this.phoneCallReceiver);
-            StopMonitorScreen();
+            if (isStart)
+            {
+                isStart = false;
+                Log.Info(TAG, "Stop");
+                Log.Info(TAG, "UnRegister PhoneCallBroadcastReceiver ");
+                Application.Context.UnregisterReceiver(this.phoneCallReceiver);
+                StopMonitorScreen();
+            }
+            else
+                Log.Info(TAG, "Service is not start, can't stop");
         }
 
         public bool IsStart(){

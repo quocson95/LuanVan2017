@@ -22,7 +22,7 @@ namespace FreeHand.ActivityClass.SettingClass
         private Config _cfg;
         private Android.Graphics.Color color_grey, color_black;
         delegate void Del();
-        Del DbackUp;
+        Del DbackUpSMS, DbackUpMail;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);                      
@@ -34,7 +34,8 @@ namespace FreeHand.ActivityClass.SettingClass
 
             SetContentView(Resource.Layout.Setting_Messenge_Layout);
             _cfg = Config.Instance();
-            DbackUp += _cfg.sms.Backup;
+            DbackUpSMS += _cfg.sms.Backup;
+            DbackUpMail += _cfg.mail.Backup;
             InitUI();
             InitListenerUI();
             InitDataUI();
@@ -63,6 +64,7 @@ namespace FreeHand.ActivityClass.SettingClass
             _swAllowAutoReplyMail = FindViewById<Switch>(Resource.Id.sw_allow_reply_mail);
             _tvContentMailReply = FindViewById<TextView>(Resource.Id.tv_custom_mail_reply);
             _labelMail = FindViewById<TextView>(Resource.Id.label_mail);
+            _customMailReply = FindViewById<TextView>(Resource.Id.tv_content_mail_custom_reply);
         }
 
         private void InitDataUI()
@@ -72,6 +74,7 @@ namespace FreeHand.ActivityClass.SettingClass
              */           
             _tvContentSMSReply.Text = _cfg.sms.CustomContetnReply;
             _swEnable_sms.Checked = _cfg.sms.Enable;
+            _swEnable_mail.Checked = _cfg.mail.Enable;
         }
 
         private void RestoreStateSwSMS()
@@ -89,19 +92,19 @@ namespace FreeHand.ActivityClass.SettingClass
              * SMS
              */
             //Enable
-            _swEnable_sms.CheckedChange += CheckedChangeHandle;
+            _swEnable_sms.CheckedChange += CheckedChangeHandleSMS;
 
             //Speak Name
-            _swAllowSpeakNameSMS.CheckedChange += CheckedChangeHandle;
+            _swAllowSpeakNameSMS.CheckedChange += CheckedChangeHandleSMS;
 
             //Speak Number
-            _swAllowSpeakNumberSMS.CheckedChange += CheckedChangeHandle;
+            _swAllowSpeakNumberSMS.CheckedChange += CheckedChangeHandleSMS;
 
             //Speak Content
-            _swAllowSpeakContentSMS.CheckedChange += CheckedChangeHandle;
+            _swAllowSpeakContentSMS.CheckedChange += CheckedChangeHandleSMS;
 
             //Auto Reply
-            _swAllowAutoReplySMS.CheckedChange += CheckedChangeHandle;
+            _swAllowAutoReplySMS.CheckedChange += CheckedChangeHandleSMS;
 
             _customSMSReply.Click += ActionCustomContentReply;
             _tvContentSMSReply.Click += ActionCustomContentReply;
@@ -110,6 +113,20 @@ namespace FreeHand.ActivityClass.SettingClass
                 Intent intent = new Intent(this, typeof(BlockNumberActivity));
                 string type = JsonConvert.SerializeObject(Model.Constants.TYPE.SMS);
                 intent.PutExtra("type",type);
+                StartActivity(intent);
+            };
+
+            /*
+             * MAIL
+             */
+
+            _swEnable_mail.CheckedChange += CheckedChangeHandleMail;
+            _swAllowAutoReplyMail.CheckedChange += CheckedChangeHandleMail;
+
+            _tvContentMailReply.Click += delegate {
+                Intent intent = new Intent(this, typeof(BlockNumberActivity));
+                string type = JsonConvert.SerializeObject(Model.Constants.TYPE.MAIL);
+                intent.PutExtra("type", type);
                 StartActivity(intent);
             };
         }
@@ -127,7 +144,7 @@ namespace FreeHand.ActivityClass.SettingClass
                 }
             }
         }
-        private void CheckedChangeHandle(object sender, CompoundButton.CheckedChangeEventArgs e)
+        private void CheckedChangeHandleSMS(object sender, CompoundButton.CheckedChangeEventArgs e)
         {
             Switch sw = (Switch)sender;
 
@@ -136,12 +153,21 @@ namespace FreeHand.ActivityClass.SettingClass
                 HandleSwEnable(e.IsChecked);
             }
             else
-            {              
-                _swEnable_sms.Checked = _swAllowAutoReplySMS.Checked ||
-                    _swAllowSpeakNameSMS.Checked ||
-                    _swAllowSpeakNumberSMS.Checked ||
-                    _swAllowSpeakContentSMS.Checked;
-                _cfg.sms.Enable = _swEnable_sms.Checked;           
+            {         
+                if (e.IsChecked && !_swEnable_sms.Checked)
+                {
+                    _swEnable_sms.Checked = true;
+                    _cfg.sms.Enable = true;
+                }
+               //bool tmp = _swAllowAutoReplySMS.Checked ||
+                //    _swAllowSpeakNameSMS.Checked ||
+                //    _swAllowSpeakNumberSMS.Checked ||
+                //    _swAllowSpeakContentSMS.Checked;
+                //if (tmp && !_swEnable_sms.Checked)
+                //{
+                //    _swEnable_sms.Checked = tmp;
+                //    _cfg.sms.Enable = _swEnable_sms.Checked;
+                //}
 
                 if (sw.Equals(_swAllowSpeakNameSMS))
                 {
@@ -160,8 +186,73 @@ namespace FreeHand.ActivityClass.SettingClass
                     HandleSWAutoReplySMS(e.IsChecked);
                 }
 
-                if (DbackUp != null) DbackUp();
+                DbackUpSMS?.Invoke();
             }
+        }
+
+        void CheckedChangeHandleMail(object sender, CompoundButton.CheckedChangeEventArgs e)
+        {
+            Switch sw = (Switch)sender;
+            if (sw.Equals(_swEnable_mail))
+            {
+                HandleSwEnableMail(e.IsChecked);
+            }
+            else 
+            {
+                if (e.IsChecked && !_swEnable_mail.Checked)
+                {
+                    _swEnable_mail.Checked = true;
+                    _cfg.mail.Enable = true;
+                }
+
+                if (sw.Equals(_swAllowAutoReplyMail))
+                {
+                    _cfg.mail.AutoReply = e.IsChecked;
+                }
+
+                DbackUpMail?.Invoke();
+            }
+
+        }
+
+        private void HandleSwEnableMail(bool isChecked)
+        {
+            _cfg.mail.Enable = isChecked;
+            if (isChecked)
+            {
+                Model.Commom.StartMailSerive();
+                _customMailReply.SetTextColor(color_black);
+                _tvContentMailReply.SetTextColor(color_black);
+                bool check = _swAllowAutoReplyMail.Checked;
+                if (!check)
+                {
+                    _cfg.mail.Restore();
+                    RestoreStateSwMail();
+                }
+            }
+            else 
+            {
+                Model.Commom.StopMailService();
+                _customMailReply.SetTextColor(color_grey);
+                _tvContentMailReply.SetTextColor(color_grey);
+                _cfg.mail.Backup();
+                DisableAllServiceMail();
+
+            }
+        }
+
+        private void DisableAllServiceMail()
+        {
+            DbackUpMail -= _cfg.mail.Backup;
+            _swAllowAutoReplyMail.Checked = false;
+            DbackUpMail += _cfg.mail.Backup;
+        }
+
+        private void RestoreStateSwMail()
+        {
+            var mailCfg = _cfg.mail;
+            _swAllowAutoReplyMail.Checked = mailCfg.AutoReply;
+
         }
 
         private void HandleSwEnable(bool isChecked)
@@ -208,12 +299,12 @@ namespace FreeHand.ActivityClass.SettingClass
 
         private void DisableAllServiceSMS()
         {
-            DbackUp -= _cfg.sms.Backup;
+            DbackUpSMS -= _cfg.sms.Backup;
             _swAllowSpeakNameSMS.Checked = false;
             _swAllowSpeakNumberSMS.Checked = false;
             _swAllowSpeakContentSMS.Checked = false;
             _swAllowAutoReplySMS.Checked = false;
-            DbackUp += _cfg.sms.Backup;
+            DbackUpSMS += _cfg.sms.Backup;
             
         }
 
@@ -257,6 +348,7 @@ namespace FreeHand.ActivityClass.SettingClass
             Log.Info(TAG,"OnStop");
             if (_swEnable_sms.Checked) _cfg.sms.Backup();
             _cfg.SaveSMSConfig();
+            _cfg.SavMailConfig();
             base.OnStop();
 
         }

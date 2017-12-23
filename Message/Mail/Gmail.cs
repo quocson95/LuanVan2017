@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using FreeHand.Model;
 
-namespace FreeHand
+namespace FreeHand.Message.Mail
 {
     public class Gmail : IMessengeData
     {
@@ -11,8 +11,8 @@ namespace FreeHand
         private Model.TYPE_MESSAGE _type;
         private string _content;
         private MailKit.UniqueId _uids;
-        private FreeHand.GmailAction.MarkSeenAction markSeenAction;
-        public Gmail(MailKit.UniqueId uids, FreeHand.GmailAction.MarkSeenAction m1)
+        private GmailAction.MarkSeenAction markSeenAction;
+        public Gmail(MailKit.UniqueId uids, GmailAction.MarkSeenAction m1)
         {
             _type = Model.TYPE_MESSAGE.MAIL;
             _uids = uids;

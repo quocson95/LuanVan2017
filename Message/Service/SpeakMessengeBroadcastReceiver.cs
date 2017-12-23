@@ -7,7 +7,7 @@ using Android.Speech;
 using Android.Util;
 using FreeHand.Model;
 
-namespace FreeHand.Messenge.Service
+namespace FreeHand.Message.Service
 {
     [BroadcastReceiver(Enabled = true, Exported = false)]
     public class SpeakMessengeBroadcastReceiver : BroadcastReceiver, IRecognitionListener

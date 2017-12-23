@@ -235,5 +235,17 @@
             android:gravity="center|left"
             android:text="Custom Mail Reply"
             android:textColor="@drawable/label_switch" />
+        <TextView
+            android:id="@+id/tv_content_mail_custom_reply"
+            android:layout_below="@+id/tv_custom_mail_reply"
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:textSize="16dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center|left"
+            android:singleLine="true"
+            android:text="This is custom reply"
+            android:textColor="@drawable/label_switch" />
     </RelativeLayout>
 </ScrollView>

@@ -21,7 +21,7 @@ using System.IO;
 using System.Threading;
 using Google.Apis.Util.Store;
 
-namespace FreeHand.Messenge.Mail
+namespace FreeHand.Message.Mail
 {
     [Activity(Label = "MailSetting")]
     public class MailSetting : Activity, View.IOnClickListener,

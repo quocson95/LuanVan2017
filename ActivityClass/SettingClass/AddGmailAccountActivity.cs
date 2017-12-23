@@ -1,8 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Android.App;
+using Android.Content;
 using Android.OS;
 using Android.Util;
 using Android.Widget;
+using FreeHand.Message.Mail;
 
 namespace FreeHand.ActivityClass.SettingClass
 {
@@ -21,8 +24,6 @@ namespace FreeHand.ActivityClass.SettingClass
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.gmail_login_layout);
 
-            _cfg = Config.Instance();
-
             // Create your application here
             _login = FindViewById<Button>(Resource.Id.login);
             _user = FindViewById<EditText>(Resource.Id.user);
@@ -38,23 +39,26 @@ namespace FreeHand.ActivityClass.SettingClass
         {
             string usr = _user.Text;
             if (string.IsNullOrEmpty(usr) || isValidEmail(usr)){
-                IMailAction gmail = new GmailAction(_user.Text, _pwd.Text);
-                _progressDialog = new ProgressDialog(this);
-                _progressDialog.Indeterminate = true;
-                _progressDialog.SetProgressStyle(ProgressDialogStyle.Spinner);
-                _progressDialog.SetMessage("Login...");
-                _progressDialog.SetCancelable(false);
-                RunOnUiThread(delegate
+                GmailAction gmail = new GmailAction(_user.Text, _pwd.Text);
+                ShowProgress();
+                Task.Run(() =>
                 {
-                    _progressDialog.Show();
-                });
+                    gmail.Login();
+                    _progressDialog.Cancel();
+                    if (gmail.isLogin())
+                    {         
+                        gmail.SetActive(true);
+                        Intent myIntent = new Intent(this, typeof(SettingAccount));                      
+                        myIntent.PutExtra("usr", gmail.GetNameLogin());
+                        myIntent.PutExtra("pwd", gmail.GetPwd());
+                        SetResult(Result.Ok, myIntent);
+                        Finish();
+                    }
+                    else
+                    {
 
-
-                gmail.Login();
-                if (gmail.isLogin()){
-                    _cfg.mail.LstMail.Add(gmail);
-                }
-                _progressDialog.Cancel();
+                    }
+                });               
             }
             else 
             {
@@ -65,6 +69,17 @@ namespace FreeHand.ActivityClass.SettingClass
                 Log.Info(TAG, "Email is invalid");
 
             }
+        }
+
+        private void ShowProgress()
+        {
+            _progressDialog = new ProgressDialog(this);
+            _progressDialog.Indeterminate = true;
+            _progressDialog.SetProgressStyle(ProgressDialogStyle.Spinner);
+            _progressDialog.SetMessage("Login...");
+            _progressDialog.SetCancelable(false);
+            _progressDialog.Show();
+               
         }
 
         void _user_TextChanged(object sender, Android.Text.TextChangedEventArgs e)

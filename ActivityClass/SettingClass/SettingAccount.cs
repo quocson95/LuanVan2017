@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Util;
 using Android.Widget;
+using FreeHand.Message.Mail;
 
 namespace FreeHand.ActivityClass.SettingClass
 {
@@ -13,6 +15,10 @@ namespace FreeHand.ActivityClass.SettingClass
         static readonly string TAG = typeof(SettingAccount).FullName;
         Button _btnAddAccount;
         ListView listView;
+        Toast toast;
+        Config _cfg;
+        ListAccountAdapter lstViewAdapter;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -23,6 +29,8 @@ namespace FreeHand.ActivityClass.SettingClass
                                           .Build());
             
             SetContentView(Resource.Layout.Setting_Email_Layout);
+
+            _cfg = Config.Instance();
             InitUI();
             // Create your application here
         }
@@ -30,10 +38,9 @@ namespace FreeHand.ActivityClass.SettingClass
         private void InitUI()
         {
             _btnAddAccount = FindViewById<Button>(Resource.Id.btn_add_account);
-            listView = FindViewById<ListView>(Resource.Id.ListViewAccount);
-            var items = new List<string>();
-            items.Add("first");
-            listView.Adapter = new Messenge.Mail.ListAccountAdapter(this, items);
+            listView = FindViewById<ListView>(Resource.Id.ListViewAccount);           
+            lstViewAdapter = new ListAccountAdapter(this, _cfg.account.LstMail);
+            listView.Adapter = lstViewAdapter;
             SetListenerUI();
         }
 
@@ -70,8 +77,42 @@ namespace FreeHand.ActivityClass.SettingClass
         {
             if (method.Equals("google")){
                 Intent intent = new Intent(this, typeof(AddGmailAccountActivity));
-                StartActivity(intent);
+                StartActivityForResult(intent,Model.Constants.CODE_ADD_ACCOUNT_GOOGLE);
             }
+        }
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            if (requestCode.Equals(Model.Constants.CODE_ADD_ACCOUNT_GOOGLE))
+            {
+                if (resultCode.Equals(Result.Ok))
+                {
+                    string usr = data.GetStringExtra("usr");
+                    string pwd = data.GetStringExtra("pwd");
+                    Tuple<string, string> item = new Tuple<string, string>(usr, pwd);
+                    _cfg.mail.lstAccount.Add(item);
+                    IMailAction account = new GmailAction(usr, pwd);
+                    _cfg.account.LstMail.Add(account);
+                    lstViewAdapter.NotifyDataSetChanged();
+                    DisplayToast("Add account success");
+                }
+                else
+                    DisplayToast("Has occur error");
+            }
+        }
+
+        private void DisplayToast(string v)
+        {
+            if (toast != null) toast.Cancel();
+            toast = Toast.MakeText(this, v, ToastLength.Short);
+            toast.Show();
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            Log.Info(TAG,"OnDestroy");
         }
     }
 }

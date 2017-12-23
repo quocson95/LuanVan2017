@@ -5,7 +5,7 @@ using Android.Runtime;
 using Android.Telephony;
 using Android.Util;
 
-namespace FreeHand.Messenge.Service
+namespace FreeHand.Message.Service
 {
     [BroadcastReceiver(Enabled = true, Exported = false)]
     //[IntentFilter(new string[] { "android.provider.Telephony.SMS_RECEIVED" })]

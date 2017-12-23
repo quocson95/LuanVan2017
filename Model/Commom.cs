@@ -79,7 +79,7 @@ namespace FreeHand.Model
         public static void StopMainService()
         {
             Intent intent = new Intent(Android.App.Application.Context, typeof(MainService));
-            intent.SetAction(Constants.ACTION_STOP_MAINSERVICE);
+            intent.SetAction(Constants.ACTION_STOP_MAIN_SERVICE);
             Android.App.Application.Context.StartService(intent);
         }
 
@@ -138,6 +138,24 @@ namespace FreeHand.Model
         {
             Intent intent = new Intent(Android.App.Application.Context, typeof(MainService));
             intent.SetAction(Constants.ACTION_STOP_PHONE_SMART_ALERT);
+            Android.App.Application.Context.StartService(intent);
+        }
+
+        /* 
+         * Mail Service
+         */
+        public static void StartMailSerive()
+        {
+            Intent intent = new Intent(Android.App.Application.Context, typeof(MainService));
+            intent.SetAction(Constants.ACTION_START_MAIL_SERVICE);
+            Android.App.Application.Context.StartService(intent);
+        }
+
+
+        public static void StopMailService()
+        {
+            Intent intent = new Intent(Android.App.Application.Context, typeof(MainService));
+            intent.SetAction(Constants.ACTION_STOP_MAIL_SERVICE);
             Android.App.Application.Context.StartService(intent);
         }
     }

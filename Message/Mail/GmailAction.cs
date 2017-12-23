@@ -20,7 +20,7 @@ using Google.Apis.Gmail.v1;
 using MailKit.Search;
 using MailKit.Security;
 
-namespace FreeHand
+namespace FreeHand.Message.Mail
 {
     public class GmailAction : IMailAction
     {
@@ -28,6 +28,7 @@ namespace FreeHand
         private ImapClient client;
         private string usr, pwd;
         string _type = "Gmail";
+        bool isActive;
         public delegate void MarkSeenAction(MailKit.UniqueId uid);
         private MarkSeenAction markSeenAction;
         public GmailAction(string usr, string pwd)
@@ -35,6 +36,7 @@ namespace FreeHand
             this.usr = usr;
             this.pwd = pwd;
             markSeenAction = MarkSeen;
+            isActive = false;
             client = new ImapClient();
         }
 
@@ -138,6 +140,23 @@ namespace FreeHand
                 Log.Error(TAG, e.ToString());
             }
             return result;
+        }
+
+        public string GetNameLogin()
+        {
+            return usr;
+        }
+
+        public bool GetActive()
+        {
+            return isActive;
+        }
+
+        public bool SetActive(bool active) => this.isActive = active;
+
+        public string GetPwd()
+        {
+            return pwd;
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+using FreeHand.Message.Mail;
 
 namespace FreeHand
 {
@@ -185,23 +186,61 @@ namespace FreeHand
 
         }
 
+        public class Account
+        {
+            public IList<IMailAction> LstMail { get; set; }
+            public Account()
+            {
+                LstMail = new List<IMailAction>();
+            }
+
+            public void Restore(IList<Tuple<string, string>> list)
+            {
+                Task.Run(() =>
+                {
+                    LstMail.Clear();
+                    foreach (var item in list)
+                    {
+                        IMailAction gmail = new GmailAction(item.Item1, item.Item2);
+                        LstMail.Add(gmail);
+                    }
+                });
+            }
+        }
+
         /*
          * Mail Config
          * Save all Speech data configure of user         
          */
         public class Mail
         {
-            public IList<IMailAction> LstMail { get; set; }
+            public IList<Tuple<string, string>> lstAccount;
+            public bool Enable { get; set; }
+            public bool AutoReply { get; set; }
+            public string ContentReply { get; set; }
+
+            public bool PrevAutoReply {get;set;}
 
             public Mail()
             {
-                LstMail = new List<IMailAction>();
+                lstAccount = new List<Tuple<string, string>>();
+                Enable = false;
+                AutoReply = false;
+                ContentReply = "";
+
+                Backup();
             }
 
-            public IList<IMailAction> GetListMailAction()
+            public void Backup()
             {
-                return LstMail;
+                PrevAutoReply = AutoReply;
             }
+
+            public void Restore()
+            {
+                AutoReply = PrevAutoReply;
+            }
+                       
         }
 
 
@@ -214,6 +253,7 @@ namespace FreeHand
         public Phone phone;
         public SMS sms;
         public Speech speech;
+        public Account account;
         public Mail mail;
         public bool IsUpdateCfg { get; set; }
 
@@ -226,6 +266,7 @@ namespace FreeHand
             sms = new SMS();
             speech = new Speech();
             mail = new Mail();
+            account = new Account();
         }
 
         public static Config Instance()
@@ -290,10 +331,13 @@ namespace FreeHand
             Log.Info(TAG, "Save Config");
             SavePhoneConfig();
             SaveSMSConfig();
+            SavMailConfig();
             SaveSpeechConfig();
             SaveStateApp();
 
         }
+
+       
 
         private void SaveStateApp()
         {
@@ -310,12 +354,14 @@ namespace FreeHand
             //Task configWork = new Task(() => { 
             LoadPhoneConfig();
             LoadSMSConfig();
+            LoadMailConfig();
             LoadSpeechConfig();
             LoadStateApp();
             //});
             //configWork.Start();
 
         }
+
 
         private void LoadStateApp()
         {
@@ -332,6 +378,17 @@ namespace FreeHand
             prefEditor.PutString("SMSConfig", value);
             prefEditor.Commit();
         }
+
+        public void SavMailConfig()
+        {
+            Log.Info(TAG, "Save Mail Config");
+            var prefs = Application.Context.GetSharedPreferences("FreeHand", FileCreationMode.Private);
+            var prefEditor = prefs.Edit();
+            string value = JsonConvert.SerializeObject(mail);
+            prefEditor.PutString("MailConfig", value);
+            prefEditor.Commit();
+        }
+
         public void SavePhoneConfig()
         {
             Log.Info(TAG, "Save Phone Config");
@@ -388,6 +445,20 @@ namespace FreeHand
                 sms = JsonConvert.DeserializeObject<SMS>(value);
             }
         }
+
+
+        private void LoadMailConfig()
+        {
+            Log.Info(TAG, "Load Mail Config");
+            var prefs = Application.Context.GetSharedPreferences("FreeHand", FileCreationMode.Private);
+            string value = prefs.GetString("MailConfig", NOT_FOUND);
+            if (!value.Equals(NOT_FOUND))
+            {
+                mail = JsonConvert.DeserializeObject<Mail>(value);
+                account.Restore(mail.lstAccount);
+            }
+        }
+
 
         private void LoadPhoneConfig()
         {

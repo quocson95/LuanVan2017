@@ -33,7 +33,7 @@ namespace FreeHand.Model
             _queueMessenge.Enqueue(mess);
         }
 
-        public void EnMessengeListQueue(List<IMessengeData> mess)
+        public void EnMessengeListQueue(IList<IMessengeData> mess)
         {
             foreach ( var item in mess)
                 _queueMessenge.Enqueue(item);

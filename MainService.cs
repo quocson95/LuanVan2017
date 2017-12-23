@@ -14,9 +14,9 @@ namespace FreeHand
     {
         private bool isStart;
         static readonly string TAG = typeof(MainService).FullName;
-        Messenge.Service.MessageService _messService;
+        Message.Service.MessageService _messService;
         Phone.PhoneCallService _phoneService;
-        Messenge.Mail.MailSerivce _mailService;
+        Message.Mail.MailSerivce _mailService;
         Config _cfg;
         Handler handler;
         Action runnable;
@@ -48,7 +48,7 @@ namespace FreeHand
                     case Model.Constants.ACTION_START_MAIN_SERVICE:
                         StartMainService();
                         break;
-                    case Model.Constants.ACTION_STOP_MAINSERVICE:
+                    case Model.Constants.ACTION_STOP_MAIN_SERVICE:
                         StopMainService();
                         break;
 
@@ -86,13 +86,32 @@ namespace FreeHand
                         if (isStart && _phoneService != null)
                             if (_phoneService.IsStart()) _phoneService.StopMonitorScreen();
                         break;
-
+                    case Model.Constants.ACTION_START_MAIL_SERVICE:
+                        if (isStart) StartMailService();
+                        break;
+                    case Model.Constants.ACTION_STOP_MAIL_SERVICE:
+                        if (isStart) StopMailService();
+                        break;
                     default:
                         break;
                 }
             }
             // Return the correct StartCommandResult for the type of service you are building
             return StartCommandResult.Sticky;
+        }
+
+        private void StopMailService()
+        {
+
+            if ( _mailService != null)
+                _mailService.Stop();
+        }
+
+        private void StartMailService()
+        {
+            if (_mailService == null)
+                _mailService = new Message.Mail.MailSerivce(this);
+            _mailService.Start();
         }
 
         private void StopMainService()
@@ -132,7 +151,7 @@ namespace FreeHand
         void StartMessenegeService()
         {
             if (_messService == null)
-                _messService = new Messenge.Service.MessageService();
+                _messService = new Message.Service.MessageService();
             _messService.Start();
         }
 
@@ -165,13 +184,19 @@ namespace FreeHand
             Log.Info(TAG, "OnDestroy: The Main started service is shutting down.");
             // Stop the handler.           
             // Remove the notification from the status bar.                       
-            if (isStart){                
+            //if (isStart){                
                 var notificationManager = (NotificationManager)GetSystemService(NotificationService);
                 notificationManager.Cancel(Model.Constants.SERVICE_RUNNING_NOTIFICATION_ID);   
 
+            if (_messService != null)
                 _messService.Destroy();
+            
+            if (_phoneService != null)
                 _phoneService.Destroy();
-            }
+            
+            if (_mailService != null)
+                _mailService.Destroy();
+            //}
 
             base.OnDestroy();
         }

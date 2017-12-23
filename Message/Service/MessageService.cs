@@ -4,7 +4,7 @@ using Android.Content;
 using Android.OS;
 using Android.Util;
 
-namespace FreeHand.Messenge.Service
+namespace FreeHand.Message.Service
 {    
     public class MessageService
     {
@@ -73,7 +73,7 @@ namespace FreeHand.Messenge.Service
                 Log.Info(TAG, "Stop : MessengeManage is not running");
             isStart = false;
         }
-
+                
         public void Destroy()
         {
             Log.Info(TAG, "Destroy ");

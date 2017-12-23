@@ -3,18 +3,18 @@ using Android.App;
 using Android.Views;
 using Android.Widget;
 
-namespace FreeHand.Messenge.Mail
+namespace FreeHand.Message.Mail
 {    
-    public class ListAccountAdapter : BaseAdapter<string>
+    public class ListAccountAdapter : BaseAdapter<IMailAction>
     {
-        List<string> items;
+        IList<IMailAction> items;
         Activity context;
-        public ListAccountAdapter(Activity context, List<string> items): base()
+        public ListAccountAdapter(Activity context, IList<IMailAction> items): base()
         {
                    this.context = context;
                    this.items = items;
         }
-        public override string this[int position] 
+        public override IMailAction this[int position] 
         {
             get { return items[position]; }
         }

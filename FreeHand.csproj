@@ -198,19 +198,19 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Config.cs" />
-    <Compile Include="Messenge\Mail\Gmail.cs" />
-    <Compile Include="Messenge\Mail\GmailAction.cs" />
-    <Compile Include="Messenge\Mail\MailSetting.cs" />
-    <Compile Include="Messenge\Mail\IMailAction.cs" />
+    <Compile Include="Message\Mail\Gmail.cs" />
+    <Compile Include="Message\Mail\GmailAction.cs" />
+    <Compile Include="Message\Mail\MailSetting.cs" />
+    <Compile Include="Message\Mail\IMailAction.cs" />
     <Compile Include="SpeechLibrary\STTLib.cs" />
     <Compile Include="SpeechLibrary\TTSLib.cs" />
     <Compile Include="SpeechLibrary\TtsActivity.cs" />
-    <Compile Include="Messenge\SMS\SMSData.cs" />
-    <Compile Include="Messenge\IMessengeData.cs" />
-    <Compile Include="Messenge\MessengeQueue.cs" />
-    <Compile Include="Messenge\Service\MessageService.cs" />
-    <Compile Include="Messenge\Service\SMSBroadcastReceiver.cs" />
-    <Compile Include="Messenge\Service\SpeakMessengeBroadcastReceiver.cs" />
+    <Compile Include="Message\SMS\SMSData.cs" />
+    <Compile Include="Message\IMessengeData.cs" />
+    <Compile Include="Message\MessengeQueue.cs" />
+    <Compile Include="Message\Service\MessageService.cs" />
+    <Compile Include="Message\Service\SMSBroadcastReceiver.cs" />
+    <Compile Include="Message\Service\SpeakMessengeBroadcastReceiver.cs" />
     <Compile Include="Phone\PhoneCallBroadcastReceiver.cs" />
     <Compile Include="Phone\PhoneCallService.cs" />
     <Compile Include="ActivityClass\MainActivity.cs" />
@@ -231,19 +231,19 @@
     <Compile Include="Model\Commom.cs" />
     <Compile Include="ActivityClass\SettingClass\SettingAccount.cs" />
     <Compile Include="ActivityClass\SettingClass\DialogAccount.cs" />
-    <Compile Include="Messenge\Mail\ListAccountAdapter.cs" />
-    <Compile Include="Messenge\Mail\Gmail\WebViewActi.cs" />
+    <Compile Include="Message\Mail\ListAccountAdapter.cs" />
     <Compile Include="ActivityClass\SettingClass\BlockNumberActivity.cs" />
     <Compile Include="ActivityClass\SettingClass\DialogInfomation.cs" />
     <Compile Include="ActivityClass\SettingClass\ListPhoneDetailAdapter.cs" />
     <Compile Include="ActivityClass\SettingClass\DialogEditPhoneDetail.cs" />
-    <Compile Include="Messenge\Mail\MailActivity.cs" />
-    <Compile Include="Messenge\Mail\MailSerivce.cs" />
+    <Compile Include="Message\Mail\MailActivity.cs" />
+    <Compile Include="Message\Mail\MailSerivce.cs" />
     <Compile Include="ActivityClass\SettingClass\AddGmailAccountActivity.cs" />
     <Compile Include="SpeechLibrary\STTActivity.cs" />
     <Compile Include="Model\LocaleHelper.cs" />
     <Compile Include="ActivityClass\SettingClass\SettingOption.cs" />
     <Compile Include="Model\ScriptLang.cs" />
+    <Compile Include="Message\Mail\MailData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -439,15 +439,14 @@
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
     <Folder Include="Model\" />
-    <Folder Include="Messenge\" />
-    <Folder Include="Messenge\SMS\" />
-    <Folder Include="Messenge\Mail\" />
+    <Folder Include="Message\" />
+    <Folder Include="Message\SMS\" />
+    <Folder Include="Message\Mail\" />
     <Folder Include="SpeechLibrary\" />
-    <Folder Include="Messenge\Service\" />
+    <Folder Include="Message\Service\" />
     <Folder Include="Phone\" />
     <Folder Include="ActivityClass\" />
     <Folder Include="ActivityClass\SettingClass\" />
-    <Folder Include="Messenge\Mail\Gmail\" />
     <Folder Include="Resources\anim\" />
     <Folder Include="Resources\values-vi\" />
   </ItemGroup>

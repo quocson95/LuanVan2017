@@ -90,9 +90,13 @@
     <string name="tts_content_mess">Nội dung tin nhắn</string>
     <string name="tts_name_sender">Tên người gửi</string>
     <string name="tts_you_get_new_mess">Bạn nhận được một tin nhắn mới</string>
+    <string name="tts_you_get_new_mail">You get a new email</string>
     <string name="tts_from">Từ</string>
     <string name="tts_ask_for_reply">Vui lòng đọc nôi dung trả lời sau tiếng bíp</string>
 
+    <!--  Using for monitor screen   -->
+    <string name="you_have_miss_call">Bạn có n cuộc gọi nhỡ</string>
+    
    <!--Using for Reply template message-->
     <string name="item1">Tôi sẽ tới trễ,Tôi sẽ có mặt tại đó lúc </string>
     <string name="item2">Tôi đang họp, gọi lại cho tôi sau </string>

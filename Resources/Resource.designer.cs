@@ -2510,11 +2510,11 @@ namespace FreeHand
 			// aapt resource value: 0x7f0a00e4
 			public const int btn_add_account = 2131362020;
 			
-			// aapt resource value: 0x7f0a0110
-			public const int btn_cancel = 2131362064;
+			// aapt resource value: 0x7f0a0113
+			public const int btn_cancel = 2131362067;
 			
-			// aapt resource value: 0x7f0a00f6
-			public const int btn_engine_master = 2131362038;
+			// aapt resource value: 0x7f0a00f9
+			public const int btn_engine_master = 2131362041;
 			
 			// aapt resource value: 0x7f0a00a8
 			public const int btn_getEngines = 2131361960;
@@ -2525,20 +2525,20 @@ namespace FreeHand
 			// aapt resource value: 0x7f0a00a9
 			public const int btn_getVoices = 2131361961;
 			
-			// aapt resource value: 0x7f0a0107
-			public const int btn_ins = 2131362055;
+			// aapt resource value: 0x7f0a010a
+			public const int btn_ins = 2131362058;
 			
-			// aapt resource value: 0x7f0a0108
-			public const int btn_lis = 2131362056;
+			// aapt resource value: 0x7f0a010b
+			public const int btn_lis = 2131362059;
 			
 			// aapt resource value: 0x7f0a00b9
 			public const int btn_login = 2131361977;
 			
-			// aapt resource value: 0x7f0a010f
-			public const int btn_ok = 2131362063;
+			// aapt resource value: 0x7f0a0112
+			public const int btn_ok = 2131362066;
 			
-			// aapt resource value: 0x7f0a010a
-			public const int btn_power = 2131362058;
+			// aapt resource value: 0x7f0a010d
+			public const int btn_power = 2131362061;
 			
 			// aapt resource value: 0x7f0a00bb
 			public const int btn_print = 2131361979;
@@ -2561,14 +2561,14 @@ namespace FreeHand
 			// aapt resource value: 0x7f0a00a4
 			public const int button1 = 2131361956;
 			
-			// aapt resource value: 0x7f0a0113
-			public const int button2 = 2131362067;
+			// aapt resource value: 0x7f0a0116
+			public const int button2 = 2131362070;
 			
 			// aapt resource value: 0x7f0a0053
 			public const int buttonPanel = 2131361875;
 			
-			// aapt resource value: 0x7f0a010e
-			public const int call_setting = 2131362062;
+			// aapt resource value: 0x7f0a0111
+			public const int call_setting = 2131362065;
 			
 			// aapt resource value: 0x7f0a000b
 			public const int calligraphy_tag_id = 2131361803;
@@ -2612,8 +2612,8 @@ namespace FreeHand
 			// aapt resource value: 0x7f0a00d9
 			public const int cont_privacy = 2131362009;
 			
-			// aapt resource value: 0x7f0a0111
-			public const int cont_terms = 2131362065;
+			// aapt resource value: 0x7f0a0114
+			public const int cont_terms = 2131362068;
 			
 			// aapt resource value: 0x7f0a0079
 			public const int cont_version = 2131361913;
@@ -2738,8 +2738,8 @@ namespace FreeHand
 			// aapt resource value: 0x7f0a004e
 			public const int image = 2131361870;
 			
-			// aapt resource value: 0x7f0a010c
-			public const int imageView1 = 2131362060;
+			// aapt resource value: 0x7f0a010f
+			public const int imageView1 = 2131362063;
 			
 			// aapt resource value: 0x7f0a00b4
 			public const int img_avatar = 2131361972;
@@ -2756,11 +2756,11 @@ namespace FreeHand
 			// aapt resource value: 0x7f0a0000
 			public const int item_touch_helper_previous_elevation = 2131361792;
 			
-			// aapt resource value: 0x7f0a00f8
-			public const int label_lang_voicespeak = 2131362040;
+			// aapt resource value: 0x7f0a00fb
+			public const int label_lang_voicespeak = 2131362043;
 			
-			// aapt resource value: 0x7f0a0101
-			public const int label_listen_lang = 2131362049;
+			// aapt resource value: 0x7f0a0104
+			public const int label_listen_lang = 2131362052;
 			
 			// aapt resource value: 0x7f0a00ee
 			public const int label_mail = 2131362030;
@@ -2768,23 +2768,23 @@ namespace FreeHand
 			// aapt resource value: 0x7f0a00ce
 			public const int label_phone = 2131361998;
 			
-			// aapt resource value: 0x7f0a00fd
-			public const int label_pitch = 2131362045;
+			// aapt resource value: 0x7f0a0100
+			public const int label_pitch = 2131362048;
 			
-			// aapt resource value: 0x7f0a00f3
-			public const int label_select_lang = 2131362035;
+			// aapt resource value: 0x7f0a00f6
+			public const int label_select_lang = 2131362038;
 			
 			// aapt resource value: 0x7f0a00e5
 			public const int label_sms = 2131362021;
 			
-			// aapt resource value: 0x7f0a00fa
-			public const int label_speed = 2131362042;
+			// aapt resource value: 0x7f0a00fd
+			public const int label_speed = 2131362045;
 			
 			// aapt resource value: 0x7f0a00d2
 			public const int lable_content_phone_reply = 2131362002;
 			
-			// aapt resource value: 0x7f0a0112
-			public const int lang = 2131362066;
+			// aapt resource value: 0x7f0a0115
+			public const int lang = 2131362069;
 			
 			// aapt resource value: 0x7f0a0025
 			public const int left = 2131361829;
@@ -2801,8 +2801,8 @@ namespace FreeHand
 			// aapt resource value: 0x7f0a00b3
 			public const int linearLayout1 = 2131361971;
 			
-			// aapt resource value: 0x7f0a0106
-			public const int listBlack = 2131362054;
+			// aapt resource value: 0x7f0a0109
+			public const int listBlack = 2131362057;
 			
 			// aapt resource value: 0x7f0a00d7
 			public const int listMenuItemView1 = 2131362007;
@@ -2816,8 +2816,8 @@ namespace FreeHand
 			// aapt resource value: 0x7f0a0050
 			public const int list_item = 2131361872;
 			
-			// aapt resource value: 0x7f0a0100
-			public const int listen_setting = 2131362048;
+			// aapt resource value: 0x7f0a0103
+			public const int listen_setting = 2131362051;
 			
 			// aapt resource value: 0x7f0a00a0
 			public const int login = 2131361952;
@@ -2975,11 +2975,11 @@ namespace FreeHand
 			// aapt resource value: 0x7f0a0076
 			public const int search_voice_btn = 2131361910;
 			
-			// aapt resource value: 0x7f0a00ff
-			public const int seek_pitch = 2131362047;
+			// aapt resource value: 0x7f0a0102
+			public const int seek_pitch = 2131362050;
 			
-			// aapt resource value: 0x7f0a00fc
-			public const int seek_speed = 2131362044;
+			// aapt resource value: 0x7f0a00ff
+			public const int seek_speed = 2131362047;
 			
 			// aapt resource value: 0x7f0a0077
 			public const int select_dialog_listview = 2131361911;
@@ -2987,8 +2987,8 @@ namespace FreeHand
 			// aapt resource value: 0x7f0a0080
 			public const int select_from_contact = 2131361920;
 			
-			// aapt resource value: 0x7f0a00f4
-			public const int select_lang = 2131362036;
+			// aapt resource value: 0x7f0a00f7
+			public const int select_lang = 2131362039;
 			
 			// aapt resource value: 0x7f0a0062
 			public const int shortcut = 2131361890;
@@ -3002,8 +3002,8 @@ namespace FreeHand
 			// aapt resource value: 0x7f0a0030
 			public const int showTitle = 2131361840;
 			
-			// aapt resource value: 0x7f0a010d
-			public const int sms_setting = 2131362061;
+			// aapt resource value: 0x7f0a0110
+			public const int sms_setting = 2131362064;
 			
 			// aapt resource value: 0x7f0a008f
 			public const int snackbar_action = 2131361935;
@@ -3020,8 +3020,8 @@ namespace FreeHand
 			// aapt resource value: 0x7f0a0054
 			public const int spacer = 2131361876;
 			
-			// aapt resource value: 0x7f0a00f5
-			public const int speak_setting = 2131362037;
+			// aapt resource value: 0x7f0a00f8
+			public const int speak_setting = 2131362040;
 			
 			// aapt resource value: 0x7f0a00da
 			public const int speech_setting = 2131362010;
@@ -3032,14 +3032,14 @@ namespace FreeHand
 			// aapt resource value: 0x7f0a00d8
 			public const int spinner1 = 2131362008;
 			
-			// aapt resource value: 0x7f0a00f7
-			public const int spinner_engine_master = 2131362039;
+			// aapt resource value: 0x7f0a00fa
+			public const int spinner_engine_master = 2131362042;
 			
-			// aapt resource value: 0x7f0a0102
-			public const int spinner_listen_lang = 2131362050;
+			// aapt resource value: 0x7f0a0105
+			public const int spinner_listen_lang = 2131362053;
 			
-			// aapt resource value: 0x7f0a00f9
-			public const int spinner_speak_lang = 2131362041;
+			// aapt resource value: 0x7f0a00fc
+			public const int spinner_speak_lang = 2131362044;
 			
 			// aapt resource value: 0x7f0a0008
 			public const int split_action_bar = 2131361800;
@@ -3065,8 +3065,8 @@ namespace FreeHand
 			// aapt resource value: 0x7f0a0027
 			public const int start = 2131361831;
 			
-			// aapt resource value: 0x7f0a010b
-			public const int status = 2131362059;
+			// aapt resource value: 0x7f0a010e
+			public const int status = 2131362062;
 			
 			// aapt resource value: 0x7f0a00c1
 			public const int status_bar_latest_event_content = 2131361985;
@@ -3077,14 +3077,23 @@ namespace FreeHand
 			// aapt resource value: 0x7f0a00b7
 			public const int sw_active = 2131361975;
 			
-			// aapt resource value: 0x7f0a00f0
-			public const int sw_allow_reply_mail = 2131362032;
+			// aapt resource value: 0x7f0a00f3
+			public const int sw_allow_reply_mail = 2131362035;
 			
 			// aapt resource value: 0x7f0a00ea
 			public const int sw_allow_reply_sms = 2131362026;
 			
+			// aapt resource value: 0x7f0a00f1
+			public const int sw_allow_speak_addr_sender_mail = 2131362033;
+			
+			// aapt resource value: 0x7f0a00f2
+			public const int sw_allow_speak_content_mail = 2131362034;
+			
 			// aapt resource value: 0x7f0a00e9
 			public const int sw_allow_speak_content_sms = 2131362025;
+			
+			// aapt resource value: 0x7f0a00f0
+			public const int sw_allow_speak_name_sender_mail = 2131362032;
 			
 			// aapt resource value: 0x7f0a00e7
 			public const int sw_allow_speak_namesender_sms = 2131362023;
@@ -3110,14 +3119,14 @@ namespace FreeHand
 			// aapt resource value: 0x7f0a00e0
 			public const int term_setting = 2131362016;
 			
-			// aapt resource value: 0x7f0a0104
-			public const int test_btn_txt = 2131362052;
+			// aapt resource value: 0x7f0a0107
+			public const int test_btn_txt = 2131362055;
 			
-			// aapt resource value: 0x7f0a0103
-			public const int test_setting = 2131362051;
+			// aapt resource value: 0x7f0a0106
+			public const int test_setting = 2131362054;
 			
-			// aapt resource value: 0x7f0a0105
-			public const int test_txt_input = 2131362053;
+			// aapt resource value: 0x7f0a0108
+			public const int test_txt_input = 2131362056;
 			
 			// aapt resource value: 0x7f0a00c9
 			public const int text = 2131361993;
@@ -3158,11 +3167,11 @@ namespace FreeHand
 			// aapt resource value: 0x7f0a00ec
 			public const int tv_content_custom_reply = 2131362028;
 			
-			// aapt resource value: 0x7f0a00f2
-			public const int tv_content_mail_custom_reply = 2131362034;
+			// aapt resource value: 0x7f0a00f5
+			public const int tv_content_mail_custom_reply = 2131362037;
 			
-			// aapt resource value: 0x7f0a00f1
-			public const int tv_custom_mail_reply = 2131362033;
+			// aapt resource value: 0x7f0a00f4
+			public const int tv_custom_mail_reply = 2131362036;
 			
 			// aapt resource value: 0x7f0a00eb
 			public const int tv_custom_sms_reply = 2131362027;
@@ -3173,8 +3182,8 @@ namespace FreeHand
 			// aapt resource value: 0x7f0a00b2
 			public const int txt_input = 2131361970;
 			
-			// aapt resource value: 0x7f0a0109
-			public const int txt_view = 2131362057;
+			// aapt resource value: 0x7f0a010c
+			public const int txt_view = 2131362060;
 			
 			// aapt resource value: 0x7f0a0009
 			public const int up = 2131361801;
@@ -3188,11 +3197,11 @@ namespace FreeHand
 			// aapt resource value: 0x7f0a00b8
 			public const int user_name = 2131361976;
 			
-			// aapt resource value: 0x7f0a00fe
-			public const int value_pitch = 2131362046;
+			// aapt resource value: 0x7f0a0101
+			public const int value_pitch = 2131362049;
 			
-			// aapt resource value: 0x7f0a00fb
-			public const int value_speed = 2131362043;
+			// aapt resource value: 0x7f0a00fe
+			public const int value_speed = 2131362046;
 			
 			// aapt resource value: 0x7f0a0078
 			public const int version = 2131361912;
@@ -3206,8 +3215,8 @@ namespace FreeHand
 			// aapt resource value: 0x7f0a009d
 			public const int warning = 2131361949;
 			
-			// aapt resource value: 0x7f0a0114
-			public const int webView1 = 2131362068;
+			// aapt resource value: 0x7f0a0117
+			public const int webView1 = 2131362071;
 			
 			// aapt resource value: 0x7f0a0013
 			public const int wide = 2131361811;
@@ -3714,20 +3723,20 @@ namespace FreeHand
 			// aapt resource value: 0x7f060037
 			public const int hello = 2131099703;
 			
-			// aapt resource value: 0x7f06007a
-			public const int item1 = 2131099770;
-			
-			// aapt resource value: 0x7f06007b
-			public const int item2 = 2131099771;
-			
 			// aapt resource value: 0x7f06007c
-			public const int item3 = 2131099772;
+			public const int item1 = 2131099772;
 			
 			// aapt resource value: 0x7f06007d
-			public const int item4 = 2131099773;
+			public const int item2 = 2131099773;
 			
 			// aapt resource value: 0x7f06007e
-			public const int item5 = 2131099774;
+			public const int item3 = 2131099774;
+			
+			// aapt resource value: 0x7f06007f
+			public const int item4 = 2131099775;
+			
+			// aapt resource value: 0x7f060080
+			public const int item5 = 2131099776;
 			
 			// aapt resource value: 0x7f06006c
 			public const int label_general_addnumber = 2131099756;
@@ -3897,8 +3906,8 @@ namespace FreeHand
 			// aapt resource value: 0x7f06003c
 			public const int stop_app = 2131099708;
 			
-			// aapt resource value: 0x7f060077
-			public const int tts_ask_for_reply = 2131099767;
+			// aapt resource value: 0x7f060078
+			public const int tts_ask_for_reply = 2131099768;
 			
 			// aapt resource value: 0x7f060071
 			public const int tts_can_not_hear_voice = 2131099761;
@@ -3912,20 +3921,26 @@ namespace FreeHand
 			// aapt resource value: 0x7f060072
 			public const int tts_do_you_want_rep = 2131099762;
 			
-			// aapt resource value: 0x7f060076
-			public const int tts_from = 2131099766;
+			// aapt resource value: 0x7f060077
+			public const int tts_from = 2131099767;
 			
-			// aapt resource value: 0x7f060079
-			public const int tts_name_caller = 2131099769;
+			// aapt resource value: 0x7f06007a
+			public const int tts_name_caller = 2131099770;
 			
 			// aapt resource value: 0x7f060074
 			public const int tts_name_sender = 2131099764;
 			
-			// aapt resource value: 0x7f060078
-			public const int tts_new_call = 2131099768;
+			// aapt resource value: 0x7f060079
+			public const int tts_new_call = 2131099769;
+			
+			// aapt resource value: 0x7f060076
+			public const int tts_you_get_new_mail = 2131099766;
 			
 			// aapt resource value: 0x7f060075
 			public const int tts_you_get_new_mess = 2131099765;
+			
+			// aapt resource value: 0x7f06007b
+			public const int you_have_miss_call = 2131099771;
 			
 			static String()
 			{

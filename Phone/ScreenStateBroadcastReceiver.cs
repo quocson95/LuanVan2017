@@ -6,6 +6,7 @@ using DeviceMotion.Plugin;
 using DeviceMotion.Plugin.Abstractions;
 using Plugin.Vibrate;
 using Android.OS;
+using System.Text;
 
 namespace FreeHand.Phone
 {
@@ -73,22 +74,31 @@ namespace FreeHand.Phone
             sensor.Start(MotionSensorType.Accelerometer,MotionSensorDelay.Default);
             sensor.SensorValueChanged += async (s, a) =>
                 {
-                    Console.WriteLine("A: {0},{1},{2}", ((MotionVector)a.Value).X, ((MotionVector)a.Value).Y, ((MotionVector)a.Value).Z);
-                    if (DectectDeviceMotion((MotionVector)a.Value))
+                    switch (a.SensorType)
                     {
-                        Log.Info(TAG, "Device Motion");
-                        sensor.Stop(MotionSensorType.Accelerometer);
-                        var v = CrossVibrate.Current;
-                        if (v.CanVibrate) v.Vibration(); //Default 500ms
+                        case MotionSensorType.Accelerometer:
+                            Console.WriteLine("A: {0},{1},{2}", ((MotionVector)a.Value).X, ((MotionVector)a.Value).Y, ((MotionVector)a.Value).Z);
+                            if (DectectDeviceMotion((MotionVector)a.Value))
+                            {
+                                Log.Info(TAG, "Device Motion");
+                                sensor.Stop(MotionSensorType.Accelerometer);
+                                var v = CrossVibrate.Current;
+                                if (v.CanVibrate) v.Vibration(); //Default 500ms
 
-                        var powerManager = (PowerManager)context.GetSystemService(Context.PowerService);
-                        var wakeLock = powerManager.NewWakeLock(WakeLockFlags.ScreenDim | WakeLockFlags.AcquireCausesWakeup, "StackOverflow");
-                        wakeLock.Acquire();
-                        wakeLock.Release();
+                                var powerManager = (PowerManager)context.GetSystemService(Context.PowerService);
+                                var wakeLock = powerManager.NewWakeLock(WakeLockFlags.ScreenDim | WakeLockFlags.AcquireCausesWakeup, "Mrkeys");
+                                wakeLock.Acquire();
+                                wakeLock.Release();
 
-                        if (_config.GetPermissionRun(Config.PERMISSION_RUN.NOTIFY_MISS_CALL))
-                            await _tts.SpeakMessenger("You have missed call");
+                                if (_config.GetPermissionRun(Config.PERMISSION_RUN.NOTIFY_MISS_CALL))
+                                {
+                                    StringBuilder builder = new StringBuilder(context.GetString(Resource.String.you_have_miss_call));
+                                    builder.Replace("n", "1"); // Replaces 'an' with 'the'.
+                                    await _tts.SpeakMessenger("You have miss call");
+                                }
 
+                            }
+                            break;
                     }
 
                 };

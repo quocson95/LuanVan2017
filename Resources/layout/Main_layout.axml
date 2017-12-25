@@ -18,8 +18,8 @@
     <Button
         android:id="@+id/btn_run"
         android:layout_below="@id/name_app"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:background="@drawable/main_circle_press"
         android:text="@string/stop_app"
         android:textSize="64dp"

@@ -63,6 +63,9 @@ namespace FreeHand.Message.Service
             Model.IMessengeData messengeData = null;
 
             int try_listen = 3;
+
+            messengeData = GetMessege(_config.sms.StateSMS);
+
             if (_config.sms.StateSMS != Config.STATE_SMS.IDLE
                 && _config.sms.StateSMS != Config.STATE_SMS.DONE)
             {
@@ -71,7 +74,20 @@ namespace FreeHand.Message.Service
                 //await SpeakMsg(Resource.String.tts_continous_speak_prev_mess);
                 await SpeakMsg(_scripLang.tts_continous_speak_prev_mess);
             }
-            messengeData = GetMessege(_config.sms.StateSMS);
+            else {
+                //await SpeakMsg("you get a new message ");
+                //await SpeakMsg(Resource.String.tts_you_get_new_mess);
+                switch (messengeData.Type())
+                {
+                    case TYPE_MESSAGE.SMS:
+                        await SpeakMsg(_scripLang.tts_you_get_new_mess);
+                        break;
+                    case TYPE_MESSAGE.MAIL:
+                        await SpeakMsg(_scripLang.tts_you_get_new_mail);
+                        break;
+                }
+
+            }
 
             while (!EmptyMessenge() &&
                    _config.GetPermissionRun(Config.PERMISSION_RUN.MESSENGE) && !stop)
@@ -113,7 +129,6 @@ namespace FreeHand.Message.Service
                         _config.sms.StateSMS = Config.STATE_SMS.DONE;
                         break;
                     case Config.STATE_SMS.DONE:
-
                         messengeData = GetMessege(Config.STATE_SMS.DONE);
                         if (messengeData != null)
                             _config.sms.StateSMS = Config.STATE_SMS.IDLE;
@@ -153,17 +168,36 @@ namespace FreeHand.Message.Service
 
         private async Task StateReadlyReply(IMessengeData messengeData)
         {
-            if (!_config.sms.AllowAutoReply)
-            {                
-                //await SpeakMsg( Resource.String.tts_do_you_want_rep);
-                await SpeakMsg(_scripLang.tts_ask_for_reply);
-                _config.sms.StateSMS = Config.STATE_SMS.LISTENT_REQUEST_ANSWER;
-            }
-            else
+            switch (messengeData.Type())
             {
-                AutoReply(messengeData);
-                _config.sms.StateSMS = Config.STATE_SMS.DONE;
+                case TYPE_MESSAGE.SMS:
+                    if (!_config.sms.AllowAutoReply)
+                    {
+                        //await SpeakMsg( Resource.String.tts_do_you_want_rep);
+                        await SpeakMsg(_scripLang.tts_ask_for_reply);
+                        _config.sms.StateSMS = Config.STATE_SMS.LISTENT_REQUEST_ANSWER;
+                    }
+                    else
+                    {
+                        AutoReply(messengeData);
+                        _config.sms.StateSMS = Config.STATE_SMS.DONE;
+                    }
+                    break;
+                case TYPE_MESSAGE.MAIL:
+                    if (!_config.mail.AutoReply)
+                    {
+                        //await SpeakMsg( Resource.String.tts_do_you_want_rep);
+                        await SpeakMsg(_scripLang.tts_ask_for_reply);
+                        _config.sms.StateSMS = Config.STATE_SMS.LISTENT_REQUEST_ANSWER;
+                    }
+                    else
+                    {
+                        AutoReply(messengeData);
+                        _config.sms.StateSMS = Config.STATE_SMS.DONE;
+                    }
+                    break;
             }
+
 
         }
 
@@ -186,12 +220,23 @@ namespace FreeHand.Message.Service
 
         //StateSpeakContent
         private async Task StateSpeakContent(IMessengeData messengeData)
-        {
-            if (_config.sms.AllowSpeakContent)
-            {                
-                //await SpeakMsg(Resource.String.tts_content_mess);
-                await SpeakMsg(_scripLang.tts_content_mess);
-                await SpeakMsg(messengeData.GetMessengeContent());
+        {            
+            switch (messengeData.Type())
+            {
+                case TYPE_MESSAGE.SMS:
+                    if (_config.sms.AllowSpeakContent)
+                    {
+                        await SpeakMsg(_scripLang.tts_content_mess);
+                        await SpeakMsg(messengeData.GetMessengeContent());
+                    }
+                    break;
+                case TYPE_MESSAGE.MAIL:
+                    if (_config.mail.AllowSpeakContent)
+                    {
+                        await SpeakMsg(_scripLang.tts_subject_mail);
+                        await SpeakMsg(messengeData.GetMessengeContent());
+                    }
+                    break;
             }
             _config.sms.StateSMS = Config.STATE_SMS.READY_REPLY;
         }
@@ -199,31 +244,60 @@ namespace FreeHand.Message.Service
         //StateSpeakName
         private async Task StateSpeakName(IMessengeData messengeData)
         {
-            if (_config.sms.AllowSpeakName)
+            switch (messengeData.Type())
             {
-                //await SpeakMsg("Name Sender ");
-                //await SpeakMsg(Resource.String.tts_name_sender);
-                await SpeakMsg(_scripLang.tts_name_sender);
-                if (messengeData.GetNameSender().Equals("Unknow"))
-                    await SpeakMsg(_scripLang.tts_name_sender_content);
-                else await SpeakMsg(messengeData.GetNameSender());
+                case TYPE_MESSAGE.SMS:
+                    if (_config.sms.AllowSpeakName)
+                    {
+                        //await SpeakMsg("Name Sender ");
+                        //await SpeakMsg(Resource.String.tts_name_sender);
+                        await SpeakMsg(_scripLang.tts_name_sender);
+                        if (messengeData.GetNameSender().Equals("Unknow"))
+                            await SpeakMsg(_scripLang.tts_name_sender_content);
+                        else await SpeakMsg(messengeData.GetNameSender());
+                    }
+                    break;
+                case TYPE_MESSAGE.MAIL:
+                    if (_config.mail.AllowSpeakName)
+                    {
+                        //await SpeakMsg("Name Sender ");
+                        //await SpeakMsg(Resource.String.tts_name_sender);
+                        await SpeakMsg(_scripLang.tts_name_sender);
+                        if (messengeData.GetNameSender().Equals("Unknow"))
+                            await SpeakMsg(_scripLang.tts_name_sender_content);
+                        else await SpeakMsg(messengeData.GetNameSender());
+                    }
+                    break;
             }
+
             _config.sms.StateSMS = Config.STATE_SMS.SPEAK_CONTENT;
         }
 
         //StateSpeakNumber
         private async Task StateSpeakNumber(IMessengeData messengeData)
         {
-            if (_config.sms.AllowSpeakNumber)
+            switch (messengeData.Type())
             {
-                //await SpeakMsg("you get a new message ");
-                //await SpeakMsg(Resource.String.tts_you_get_new_mess);
-                await SpeakMsg(_scripLang.tts_you_get_new_mess);
-                //await SpeakMsg("From ");
-                //await SpeakMsg(Resource.String.tts_from);
-                await SpeakMsg(_scripLang.tts_from);
-                await SpeakMsg(messengeData.GetAddrSender());
+                case TYPE_MESSAGE.SMS:
+                    if (_config.sms.AllowSpeakNumber)
+                    {
+                        //await SpeakMsg("From ");
+                        //await SpeakMsg(Resource.String.tts_from);
+                        await SpeakMsg(_scripLang.tts_from);
+                        await SpeakMsg(messengeData.GetAddrSender());
+                    }
+                    break;
+                case TYPE_MESSAGE.MAIL:
+                    if (_config.mail.AllowSpeakAddr)
+                    {
+                        //await SpeakMsg("From ");
+                        //await SpeakMsg(Resource.String.tts_from);
+                        await SpeakMsg(_scripLang.tts_from);
+                        await SpeakMsg(messengeData.GetAddrSender());
+                    }
+                    break;
             }
+
             _config.sms.StateSMS = Config.STATE_SMS.SPEAK_NAME_SENDER;
         }
 

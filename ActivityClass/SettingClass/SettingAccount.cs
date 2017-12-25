@@ -88,18 +88,30 @@ namespace FreeHand.ActivityClass.SettingClass
             {
                 if (resultCode.Equals(Result.Ok))
                 {
-                    string usr = data.GetStringExtra("usr");
-                    string pwd = data.GetStringExtra("pwd");
-                    Tuple<string, string> item = new Tuple<string, string>(usr, pwd);
-                    _cfg.mail.lstAccount.Add(item);
-                    IMailAction account = new GmailAction(usr, pwd);
-                    _cfg.account.LstMail.Add(account);
-                    lstViewAdapter.NotifyDataSetChanged();
-                    DisplayToast("Add account success");
+                    if (AddAccount(data))
+                        DisplayToast("Add account success");
+                    else 
+                        DisplayToast("Account already exist");
                 }
                 else
                     DisplayToast("Has occur error");
             }
+        }
+
+        private bool AddAccount(Intent data)
+        {
+            string usr = data.GetStringExtra("usr");
+            string pwd = data.GetStringExtra("pwd");
+            Tuple<string, string> item = new Tuple<string, string>(usr, pwd);
+            if (_cfg.mail.lstAccount.IndexOf(item) != -1)
+            {
+                _cfg.mail.lstAccount.Add(item);
+                IMailAction account = new GmailAction(usr, pwd);
+                _cfg.account.LstMail.Add(account);
+                lstViewAdapter.NotifyDataSetChanged();
+                return true;
+            }
+            else return false;
         }
 
         private void DisplayToast(string v)
@@ -113,6 +125,7 @@ namespace FreeHand.ActivityClass.SettingClass
         {
             base.OnDestroy();
             Log.Info(TAG,"OnDestroy");
+            _cfg.SaveMailConfig();
         }
     }
 }

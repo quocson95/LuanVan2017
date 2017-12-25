@@ -26,6 +26,7 @@ namespace FreeHand.Phone
         string _telephone,_answer;
         bool _acceptCall;
         Context _context;
+        RingerMode _stateRingMode;
         Model.ScriptLang _scriptLang;
         public PhoneCallBroadcastReceiver()        
         {
@@ -36,7 +37,8 @@ namespace FreeHand.Phone
         }
 
         private async Task PhoneCallHanler()
-        {            
+        {
+            SetSilentRingMode();
             if (_config.IsUpdateCfg)
             {
                 _config.IsUpdateCfg = false;
@@ -74,7 +76,22 @@ namespace FreeHand.Phone
             //Application.Context.SendOrderedBroadcast(buttonDown, Android.Manifest.Permission.CallPrivileged);
         }
 
-      
+        private void SetSilentRingMode()
+        {
+            AudioManager am;
+            am = (AudioManager)Application.Context.GetSystemService(Context.AudioService);
+            _stateRingMode = am.RingerMode;
+            am.RingerMode = RingerMode.Silent;
+        }
+
+        private void RestoreRingMode()
+        {
+            AudioManager am;
+            am = (AudioManager)Application.Context.GetSystemService(Context.AudioService);
+            am.RingerMode = _stateRingMode;
+        }
+
+
         public override void OnReceive(Context context, Intent intent)
         {
             _context = context;
@@ -97,11 +114,13 @@ namespace FreeHand.Phone
                 {
                     // incoming call answer
                     _acceptCall = true;
+
                     Log.Info(TAG, "Phone ExtraStateOffhook");
 
                 }
                 else if (state == TelephonyManager.ExtraStateIdle)
                 {
+                    RestoreRingMode();
                     _config.phone.IsHandlePhoneRunnig = false;
                     _config.phone.MissedCall++;
                     Log.Info(TAG, "Phone ExtraStateIdle,SMS running "+_config.sms.IsHandleSMSRunnig.ToString()  ); 
@@ -121,6 +140,8 @@ namespace FreeHand.Phone
                 }
             }
         }
+
+      
 
         private async void WaitAccepCall(string telephone)
         {

@@ -218,8 +218,14 @@ namespace FreeHand
             public bool Enable { get; set; }
             public bool AutoReply { get; set; }
             public string ContentReply { get; set; }
+            public bool AllowSpeakAddr { get; set; }
+            public bool AllowSpeakName { get; set; }
+            public bool AllowSpeakContent { get; set; }
 
             public bool PrevAutoReply {get;set;}
+            public bool PrevAllowSpeakAddr { get; set; }
+            public bool PrevAllowSpeakName { get; set; }
+            public bool PrevAllowSpeakContent { get; set; }
 
             public Mail()
             {
@@ -227,18 +233,26 @@ namespace FreeHand
                 Enable = false;
                 AutoReply = false;
                 ContentReply = "";
-
+                AllowSpeakAddr = false;
+                AllowSpeakName = false;
+                AllowSpeakContent = false;
                 Backup();
             }
 
             public void Backup()
             {
                 PrevAutoReply = AutoReply;
+                PrevAllowSpeakAddr = AllowSpeakAddr;
+                PrevAllowSpeakName = AllowSpeakName;
+                PrevAllowSpeakContent = AllowSpeakContent;
             }
 
             public void Restore()
             {
                 AutoReply = PrevAutoReply;
+                AllowSpeakAddr = PrevAllowSpeakAddr;
+                AllowSpeakName = PrevAllowSpeakName;
+                AllowSpeakContent = PrevAllowSpeakContent;
             }
                        
         }
@@ -331,7 +345,7 @@ namespace FreeHand
             Log.Info(TAG, "Save Config");
             SavePhoneConfig();
             SaveSMSConfig();
-            SavMailConfig();
+            SaveMailConfig();
             SaveSpeechConfig();
             SaveStateApp();
 
@@ -379,7 +393,7 @@ namespace FreeHand
             prefEditor.Commit();
         }
 
-        public void SavMailConfig()
+        public void SaveMailConfig()
         {
             Log.Info(TAG, "Save Mail Config");
             var prefs = Application.Context.GetSharedPreferences("FreeHand", FileCreationMode.Private);

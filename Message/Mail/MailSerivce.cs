@@ -29,7 +29,7 @@ namespace FreeHand.Message.Mail
 
             runnable = new Action(() =>
             {
-                Log.Debug(TAG, "Sync Mail");
+                Log.Debug(TAG, "runnable sync mail");
                 Task.Run(() =>
                 {
                     SyncMail();
@@ -81,6 +81,7 @@ namespace FreeHand.Message.Mail
 
         public void SyncMail()
         {
+            Log.Debug(TAG, "Start Sync Mail");
             IList<IMailAction> _lstMail =  _cfg.account.LstMail;
             foreach (var item in _lstMail )
             {

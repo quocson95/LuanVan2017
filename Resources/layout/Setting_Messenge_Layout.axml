@@ -206,10 +206,64 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="#f0f0f0" />
+    <!--     Allow Speak Name of Sender   -->
+        <Switch
+            android:id="@+id/sw_allow_speak_name_sender_mail"
+            android:layout_below="@+id/sw_enable_mail"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Allow Speak Sender's Name"
+            android:textColor="@drawable/label_switch"
+            android:textSize="18dp" />
+        <View
+            android:layout_below="@id/sw_allow_speak_name_sender_mail"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#f0f0f0" />
+    <!--Allow Speak Address of Sender-->
+        <Switch
+            android:id="@+id/sw_allow_speak_addr_sender_mail"
+            android:layout_below="@+id/sw_allow_speak_name_sender_mail"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Allow Speak Sender's Address"
+            android:textColor="@drawable/label_switch"
+            android:textSize="18dp" />
+        <View
+            android:layout_below="@id/sw_allow_speak_addr_sender_mail"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#f0f0f0" />
+    <!--     Allow Speak Content of mail   -->
+        <Switch
+            android:id="@+id/sw_allow_speak_content_mail"
+            android:layout_below="@+id/sw_allow_speak_addr_sender_mail"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Allow Speak Content Mail"
+            android:textColor="@drawable/label_switch"
+            android:textSize="18dp" />
+        <View
+            android:layout_below="@id/sw_allow_speak_content_mail"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#f0f0f0" />
     <!--  Alllow Auto Reply SMM      -->
         <Switch
             android:id="@+id/sw_allow_reply_mail"
-            android:layout_below="@+id/sw_enable_mail"
+            android:layout_below="@+id/sw_allow_speak_content_mail"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"

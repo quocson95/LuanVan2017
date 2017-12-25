@@ -16,9 +16,11 @@ namespace FreeHand.ActivityClass.SettingClass
         private readonly string TAG = typeof(SettingMessenge).FullName;
         private Switch _swEnable_sms, _swEnable_mail;
         private Switch _swAllowSpeakNameSMS, _swAllowSpeakNumberSMS, _swAllowSpeakContentSMS, _swAllowAutoReplySMS;
-        private Switch _swAllowAutoReplyMail;
-        private TextView _customSMSReply, _customMailReply, _labelMail;
-        private TextView _tvContentSMSReply, _tvContentMailReply, _blockSMS,_labelSMS;
+        private Switch _swAllowAutoReplyMail,_swAllowSpeakAddrMail, _swAllowSpeakNameMail, _swAllowSpeakContentMail;
+
+        private TextView _customSMSReply, _tvContentMailReply, _labelMail;
+        private TextView _tvContentSMSReply, _customMailReply, _blockSMS,_labelSMS;
+
         private Config _cfg;
         private Android.Graphics.Color color_grey, color_black;
         delegate void Del();
@@ -62,9 +64,12 @@ namespace FreeHand.ActivityClass.SettingClass
             //Mail
             _swEnable_mail = FindViewById<Switch>(Resource.Id.sw_enable_mail);
             _swAllowAutoReplyMail = FindViewById<Switch>(Resource.Id.sw_allow_reply_mail);
-            _tvContentMailReply = FindViewById<TextView>(Resource.Id.tv_custom_mail_reply);
+            _swAllowSpeakAddrMail = FindViewById<Switch>(Resource.Id.sw_allow_speak_addr_sender_mail);
+            _swAllowSpeakNameMail = FindViewById<Switch>(Resource.Id.sw_allow_speak_name_sender_mail);
+            _swAllowSpeakContentMail = FindViewById<Switch>(Resource.Id.sw_allow_speak_content_mail);
+            _customMailReply = FindViewById<TextView>(Resource.Id.tv_custom_mail_reply);
             _labelMail = FindViewById<TextView>(Resource.Id.label_mail);
-            _customMailReply = FindViewById<TextView>(Resource.Id.tv_content_mail_custom_reply);
+            _tvContentMailReply = FindViewById<TextView>(Resource.Id.tv_content_mail_custom_reply);
         }
 
         private void InitDataUI()
@@ -92,45 +97,15 @@ namespace FreeHand.ActivityClass.SettingClass
              * SMS
              */
             //Enable
-            _swEnable_sms.CheckedChange += CheckedChangeHandleSMS;
-
-            //Speak Name
-            _swAllowSpeakNameSMS.CheckedChange += CheckedChangeHandleSMS;
-
-            //Speak Number
-            _swAllowSpeakNumberSMS.CheckedChange += CheckedChangeHandleSMS;
-
-            //Speak Content
-            _swAllowSpeakContentSMS.CheckedChange += CheckedChangeHandleSMS;
-
-            //Auto Reply
-            _swAllowAutoReplySMS.CheckedChange += CheckedChangeHandleSMS;
-
-            _customSMSReply.Click += ActionCustomContentReply;
-            _tvContentSMSReply.Click += ActionCustomContentReply;
-
-            _blockSMS.Click += delegate {
-                Intent intent = new Intent(this, typeof(BlockNumberActivity));
-                string type = JsonConvert.SerializeObject(Model.Constants.TYPE.SMS);
-                intent.PutExtra("type",type);
-                StartActivity(intent);
-            };
+            InitListenerSMS();
+            InitListenerMail();
 
             /*
              * MAIL
              */
 
-            _swEnable_mail.CheckedChange += CheckedChangeHandleMail;
-            _swAllowAutoReplyMail.CheckedChange += CheckedChangeHandleMail;
-
-            _tvContentMailReply.Click += delegate {
-                Intent intent = new Intent(this, typeof(BlockNumberActivity));
-                string type = JsonConvert.SerializeObject(Model.Constants.TYPE.MAIL);
-                intent.PutExtra("type", type);
-                StartActivity(intent);
-            };
+           
         }
-
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
@@ -198,7 +173,8 @@ namespace FreeHand.ActivityClass.SettingClass
                 HandleSwEnableMail(e.IsChecked);
             }
             else 
-            {
+            {                
+
                 if (e.IsChecked && !_swEnable_mail.Checked)
                 {
                     _swEnable_mail.Checked = true;
@@ -208,6 +184,18 @@ namespace FreeHand.ActivityClass.SettingClass
                 if (sw.Equals(_swAllowAutoReplyMail))
                 {
                     _cfg.mail.AutoReply = e.IsChecked;
+                }
+                else if (sw.Equals(_swAllowSpeakAddrMail))
+                {
+                    _cfg.mail.AllowSpeakAddr = e.IsChecked;
+                }
+                else if (sw.Equals(_swAllowSpeakNameMail))
+                {
+                    _cfg.mail.AllowSpeakName = e.IsChecked;
+                }
+                else if (sw.Equals(_swAllowSpeakContentMail))
+                {
+                    _cfg.mail.AllowSpeakContent = e.IsChecked;
                 }
 
                 DbackUpMail?.Invoke();
@@ -221,9 +209,12 @@ namespace FreeHand.ActivityClass.SettingClass
             if (isChecked)
             {
                 Model.Commom.StartMailSerive();
-                _customMailReply.SetTextColor(color_black);
                 _tvContentMailReply.SetTextColor(color_black);
-                bool check = _swAllowAutoReplyMail.Checked;
+                _customMailReply.SetTextColor(color_black);
+                bool check = _swAllowAutoReplyMail.Checked ||
+                              _swAllowSpeakAddrMail.Checked ||
+                              _swAllowSpeakNameMail.Checked ||
+                              _swAllowSpeakContentMail.Checked;                              
                 if (!check)
                 {
                     _cfg.mail.Restore();
@@ -233,8 +224,8 @@ namespace FreeHand.ActivityClass.SettingClass
             else 
             {
                 Model.Commom.StopMailService();
-                _customMailReply.SetTextColor(color_grey);
                 _tvContentMailReply.SetTextColor(color_grey);
+                _customMailReply.SetTextColor(color_grey);
                 _cfg.mail.Backup();
                 DisableAllServiceMail();
 
@@ -245,6 +236,9 @@ namespace FreeHand.ActivityClass.SettingClass
         {
             DbackUpMail -= _cfg.mail.Backup;
             _swAllowAutoReplyMail.Checked = false;
+            _swAllowSpeakAddrMail.Checked = false;
+            _swAllowSpeakNameMail.Checked = false;
+            _swAllowSpeakContentMail.Checked = false;
             DbackUpMail += _cfg.mail.Backup;
         }
 
@@ -252,6 +246,9 @@ namespace FreeHand.ActivityClass.SettingClass
         {
             var mailCfg = _cfg.mail;
             _swAllowAutoReplyMail.Checked = mailCfg.AutoReply;
+            _swAllowSpeakAddrMail.Checked = mailCfg.AllowSpeakAddr;
+            _swAllowSpeakNameMail.Checked = mailCfg.AllowSpeakName;
+            _swAllowSpeakContentMail.Checked = mailCfg.AllowSpeakContent;
 
         }
 
@@ -308,6 +305,50 @@ namespace FreeHand.ActivityClass.SettingClass
             
         }
 
+        private void InitListenerSMS()
+        {
+            _swEnable_sms.CheckedChange += CheckedChangeHandleSMS;
+
+            //Speak Name
+            _swAllowSpeakNameSMS.CheckedChange += CheckedChangeHandleSMS;
+
+            //Speak Number
+            _swAllowSpeakNumberSMS.CheckedChange += CheckedChangeHandleSMS;
+
+            //Speak Content
+            _swAllowSpeakContentSMS.CheckedChange += CheckedChangeHandleSMS;
+
+            //Auto Reply
+            _swAllowAutoReplySMS.CheckedChange += CheckedChangeHandleSMS;
+
+            _customSMSReply.Click += ActionCustomContentReply;
+            _tvContentSMSReply.Click += ActionCustomContentReply;
+
+            _blockSMS.Click += delegate {
+                Intent intent = new Intent(this, typeof(BlockNumberActivity));
+                string type = JsonConvert.SerializeObject(Model.Constants.TYPE.SMS);
+                intent.PutExtra("type", type);
+                StartActivity(intent);
+            };
+        }
+
+
+        private void InitListenerMail()
+        {
+            _swEnable_mail.CheckedChange += CheckedChangeHandleMail;
+            _swAllowAutoReplyMail.CheckedChange += CheckedChangeHandleMail;
+            _swAllowSpeakAddrMail.CheckedChange += CheckedChangeHandleMail;
+            _swAllowSpeakNameMail.CheckedChange += CheckedChangeHandleMail;
+            _swAllowSpeakContentMail.CheckedChange += CheckedChangeHandleMail;
+
+            _customMailReply.Click += delegate {
+                Intent intent = new Intent(this, typeof(Custom_Reply_Messenge));
+                string type = JsonConvert.SerializeObject(Model.Constants.TYPE.MAIL);
+                intent.PutExtra("type", type);
+                StartActivity(intent);
+            };
+        }
+
         void ActionCustomContentReply(object sender, EventArgs e)
         {
             Intent intent = new Intent(this, typeof(Custom_Reply_Messenge));
@@ -348,7 +389,7 @@ namespace FreeHand.ActivityClass.SettingClass
             Log.Info(TAG,"OnStop");
             if (_swEnable_sms.Checked) _cfg.sms.Backup();
             _cfg.SaveSMSConfig();
-            _cfg.SavMailConfig();
+            _cfg.SaveMailConfig();
             base.OnStop();
 
         }

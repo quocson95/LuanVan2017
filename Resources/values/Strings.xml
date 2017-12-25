@@ -95,6 +95,7 @@
     <string name="tts_content_mess">Content of Messenge</string>
     <string name="tts_name_sender">Name of Sender</string>
     <string name="tts_you_get_new_mess">You get a new message</string>
+    <string name="tts_you_get_new_mail">You get a new email</string>
     <string name="tts_from">From</string>
     <string name="tts_ask_for_reply">Please speak your reply after sound beep</string>
     
@@ -102,6 +103,10 @@
     <string name="tts_new_call">You has new call from</string>
     <string name="tts_name_caller">Name of caller</string>
 
+
+<!--  Using for monitor screen   -->
+    <string name="you_have_miss_call">You have n miss call</string>
+    
 <!--Using for Reply template message-->
     <string name="item1">I am late,I will be there at </string>
     <string name="item2">I am in meeting, call me after </string>

@@ -114,7 +114,7 @@ namespace FreeHand
 
             public IList<Tuple<string, string>> BlockList { get; set; }
             public bool IsHandleSMSRunnig { get; set; }
-            public Model.IMessengeData MessengeBackUp { get; set; }
+            public object MessengeBackUp { get; set; }
             public STATE_SMS StateSMS { get; set; }
             public SMS()
             {
@@ -129,10 +129,11 @@ namespace FreeHand
             public void Clean()
             {
                 IsHandleSMSRunnig = false;
-                MessengeBackUp = null;
-                StateSMS = STATE_SMS.IDLE;
+                //MessengeBackUp = null;
                 Model.MessengeQueue messengeQueue = Model.MessengeQueue.GetInstance();
-                messengeQueue.Clear();
+                messengeQueue.CleanSMS();
+                StateSMS = STATE_SMS.IDLE;
+
             }
 
             public void Backup()
@@ -254,6 +255,12 @@ namespace FreeHand
                 AllowSpeakName = PrevAllowSpeakName;
                 AllowSpeakContent = PrevAllowSpeakContent;
             }
+
+            public void Clean()
+            {
+                Model.MessengeQueue _messQueue = Model.MessengeQueue.GetInstance();
+                _messQueue.CleanMail();
+            }
                        
         }
 
@@ -297,8 +304,8 @@ namespace FreeHand
          */
         public void Clean()
         {
-            sms.Clean();
-
+            Model.MessengeQueue _messQueue = Model.MessengeQueue.GetInstance();
+            _messQueue.Clear();
             phone.IsHandlePhoneRunnig = false;
 
         }

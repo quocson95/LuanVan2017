@@ -16,7 +16,7 @@ namespace FreeHand.ActivityClass.SettingClass
         private readonly string TAG = typeof(SettingMessenge).FullName;
         private Switch _swEnable_sms, _swEnable_mail;
         private Switch _swAllowSpeakNameSMS, _swAllowSpeakNumberSMS, _swAllowSpeakContentSMS, _swAllowAutoReplySMS;
-        private Switch _swAllowAutoReplyMail,_swAllowSpeakAddrMail, _swAllowSpeakNameMail, _swAllowSpeakContentMail;
+        private Switch _swAllowAutoReplyMail,_swAllowSpeakAddrMail, _swAllowSpeakNameMail, _swAllowSpeakSubjectMail;
 
         private TextView _customSMSReply, _tvContentMailReply, _labelMail;
         private TextView _tvContentSMSReply, _customMailReply, _blockSMS,_labelSMS;
@@ -66,7 +66,7 @@ namespace FreeHand.ActivityClass.SettingClass
             _swAllowAutoReplyMail = FindViewById<Switch>(Resource.Id.sw_allow_reply_mail);
             _swAllowSpeakAddrMail = FindViewById<Switch>(Resource.Id.sw_allow_speak_addr_sender_mail);
             _swAllowSpeakNameMail = FindViewById<Switch>(Resource.Id.sw_allow_speak_name_sender_mail);
-            _swAllowSpeakContentMail = FindViewById<Switch>(Resource.Id.sw_allow_speak_content_mail);
+            _swAllowSpeakSubjectMail = FindViewById<Switch>(Resource.Id.sw_allow_speak_content_mail);
             _customMailReply = FindViewById<TextView>(Resource.Id.tv_custom_mail_reply);
             _labelMail = FindViewById<TextView>(Resource.Id.label_mail);
             _tvContentMailReply = FindViewById<TextView>(Resource.Id.tv_content_mail_custom_reply);
@@ -193,7 +193,7 @@ namespace FreeHand.ActivityClass.SettingClass
                 {
                     _cfg.mail.AllowSpeakName = e.IsChecked;
                 }
-                else if (sw.Equals(_swAllowSpeakContentMail))
+                else if (sw.Equals(_swAllowSpeakSubjectMail))
                 {
                     _cfg.mail.AllowSpeakContent = e.IsChecked;
                 }
@@ -214,7 +214,7 @@ namespace FreeHand.ActivityClass.SettingClass
                 bool check = _swAllowAutoReplyMail.Checked ||
                               _swAllowSpeakAddrMail.Checked ||
                               _swAllowSpeakNameMail.Checked ||
-                              _swAllowSpeakContentMail.Checked;                              
+                              _swAllowSpeakSubjectMail.Checked;                              
                 if (!check)
                 {
                     _cfg.mail.Restore();
@@ -238,7 +238,7 @@ namespace FreeHand.ActivityClass.SettingClass
             _swAllowAutoReplyMail.Checked = false;
             _swAllowSpeakAddrMail.Checked = false;
             _swAllowSpeakNameMail.Checked = false;
-            _swAllowSpeakContentMail.Checked = false;
+            _swAllowSpeakSubjectMail.Checked = false;
             DbackUpMail += _cfg.mail.Backup;
         }
 
@@ -248,7 +248,7 @@ namespace FreeHand.ActivityClass.SettingClass
             _swAllowAutoReplyMail.Checked = mailCfg.AutoReply;
             _swAllowSpeakAddrMail.Checked = mailCfg.AllowSpeakAddr;
             _swAllowSpeakNameMail.Checked = mailCfg.AllowSpeakName;
-            _swAllowSpeakContentMail.Checked = mailCfg.AllowSpeakContent;
+            _swAllowSpeakSubjectMail.Checked = mailCfg.AllowSpeakContent;
 
         }
 
@@ -339,7 +339,7 @@ namespace FreeHand.ActivityClass.SettingClass
             _swAllowAutoReplyMail.CheckedChange += CheckedChangeHandleMail;
             _swAllowSpeakAddrMail.CheckedChange += CheckedChangeHandleMail;
             _swAllowSpeakNameMail.CheckedChange += CheckedChangeHandleMail;
-            _swAllowSpeakContentMail.CheckedChange += CheckedChangeHandleMail;
+            _swAllowSpeakSubjectMail.CheckedChange += CheckedChangeHandleMail;
 
             _customMailReply.Click += delegate {
                 Intent intent = new Intent(this, typeof(Custom_Reply_Messenge));
@@ -363,11 +363,7 @@ namespace FreeHand.ActivityClass.SettingClass
         }
 
         private void SetLanguage()
-        {
-            //private TextView _tvContentSMSReply, _tvContentMailReply, _blockSMS, _labelSMS;
-        //    private Switch _swEnable_sms, _swEnable_mail;
-        //private Switch _swAllowSpeakNameSMS, _swAllowSpeakNumberSMS, _swAllowSpeakContentSMS, _swAllowAutoReplySMS;
-        //private Switch _swAllowAutoReplyMail;
+        {            
             _labelSMS.SetText(Resource.String.label_setting_message_sms);
             _swEnable_sms.SetText(Resource.String.label_setting_message_sms_enable);
             _swAllowAutoReplySMS.SetText(Resource.String.label_setting_message_sms_autoreply);
@@ -381,6 +377,10 @@ namespace FreeHand.ActivityClass.SettingClass
             _labelMail.SetText(Resource.String.label_setting_message_email);
             _swEnable_mail.SetText(Resource.String.label_setting_message_email_enable);
             _swAllowAutoReplyMail.SetText(Resource.String.label_setting_message_email_autoreply);
+            _swAllowSpeakAddrMail.SetText(Resource.String.label_setting_message_email_speakaddr);
+            _swAllowSpeakNameMail.SetText(Resource.String.label_setting_message_email_speakname);
+            _swAllowSpeakSubjectMail.SetText(Resource.String.label_setting_message_email_speaksubject);
+            _customMailReply.SetText(Resource.String.label_setting_message_sms_contentmailreply);
 
         }
 

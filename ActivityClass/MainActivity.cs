@@ -26,7 +26,7 @@ namespace FreeHand
                                          .Build());
 
             SetContentView(Resource.Layout.Main_layout);
-
+            Xamarin.Auth.Presenters.XamarinAndroid.AuthenticationConfiguration.Init(this, savedInstanceState);
             //RequestPermission();
             LoadConfig();
             InitUiListener();
@@ -55,8 +55,8 @@ namespace FreeHand
             };
 
             btnSetting.Click += delegate {               
-                Intent intent = new Intent(this, typeof(ActivityClass.SettingClass.Setting));
-                //Intent intent = new Intent(this, typeof(Messenge.Mail.MailActivity));
+                //Intent intent = new Intent(this, typeof(ActivityClass.SettingClass.Setting));
+                Intent intent = new Intent(this, typeof(Message.Mail.MailActivity));
                 //Intent intent = new Intent(this, typeof(ActivityClass.SettingClass.AddGmailAccountActivity));
                 //Intent intent = new Intent(this, typeof(SpeechLibrary.STTActivity));
                 StartActivity(intent);

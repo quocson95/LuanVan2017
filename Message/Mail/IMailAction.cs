@@ -15,5 +15,6 @@ namespace FreeHand.Message.Mail
         string GetPwd();
         bool GetActive();
         bool SetActive(bool active);
+        void Reply();
     }
 }

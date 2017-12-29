@@ -34,7 +34,7 @@ namespace FreeHand.Message.Mail
                 {
                     SyncMail();
                     if (_cfg.mail.Enable && isStart)
-                        handler.PostDelayed(runnable, Model.Constants.DELAY_BETWEEN_SYNC_MAIL);
+                        handler.PostDelayed(runnable, Constants.DELAY_BETWEEN_SYNC_MAIL);
                 });
             });
         }
@@ -45,8 +45,7 @@ namespace FreeHand.Message.Mail
             {
                 Log.Info(TAG,"Start Mail Service");
                 isStart = true;
-                handler.Post(runnable);
-                handler.PostDelayed(runnable, Model.Constants.DELAY_BETWEEN_SYNC_MAIL);
+                handler.PostDelayed(runnable, Constants.DELAY_BETWEEN_SYNC_MAIL);
             }
             else 
                 Log.Info(TAG, "Mail Service already start");
@@ -59,6 +58,7 @@ namespace FreeHand.Message.Mail
                 Log.Info(TAG, "Stop Mail Service");
                 isStart = false;
                 handler.RemoveCallbacks(runnable);
+                _cfg.mail.Clean();
             }
             else 
                 Log.Info(TAG, "Mail Service is not start, can't stop");
@@ -70,14 +70,6 @@ namespace FreeHand.Message.Mail
             isStart = false;
             handler.Dispose();
         }
-
-        //public  void AddAccount(IMailAction item){
-        //    item.Login();
-        //    if (item.isLogin())
-        //        _lstMail.Add(item);
-        //    else
-        //        Log.Info(TAG,"Can't add ImailAction, It's not connect");
-        //}
 
         public void SyncMail()
         {

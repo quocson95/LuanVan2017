@@ -1,28 +1,17 @@
 ﻿using System;
 
-using Android.App;
-using Android.Content;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using Android.OS;
-using Android.Gms.Common.Apis;
-using Android.Support.V7.App;
-using Android.Gms.Common;
 using Android.Util;
-using Android.Gms.Plus;
 using MailKit.Net.Imap;
 using FreeHand.Model;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+
 using MailKit;
-using Google.Apis.Gmail.v1;
 using MailKit.Search;
 using MailKit.Security;
 
 namespace FreeHand.Message.Mail
 {
-    public class GmailAction : IMailAction
+    public class GmailAction : Mail.IMailAction
     {
         private static readonly string TAG = typeof(GmailAction).FullName;
         private ImapClient client;
@@ -157,6 +146,28 @@ namespace FreeHand.Message.Mail
         public string GetPwd()
         {
             return pwd;
+        }
+
+        public void Reply()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Login_v2(string email,string token)
+        {
+            
+            using (var client = new ImapClient())
+            {
+                client.Connect("imap.gmail.com", 993, true);
+
+                // use the access token as the password string
+                client.Authenticate(email, token);
+                var folder = client.Inbox;
+                folder.Status(StatusItems.Count | StatusItems.Unread);
+                int total = folder.Count;
+                int unread = folder.Unread;
+                Console.WriteLine("total  {0} \nunread {1}", total, unread);
+            }
         }
     }
 }

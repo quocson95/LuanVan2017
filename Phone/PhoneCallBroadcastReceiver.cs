@@ -1,17 +1,10 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Threading.Tasks;
 using Android.App;
-using Android.OS;
-using Android.Views;
 using Android.Content;
-using Android.Speech;
 using Android.Media;
 using Android.Util;
 using Android.Telephony;
-using DeviceMotion.Plugin;
 using Android.Runtime;
 
 namespace FreeHand.Phone
@@ -19,9 +12,9 @@ namespace FreeHand.Phone
     [BroadcastReceiver(Enabled = true, Exported = false)]
     public class PhoneCallBroadcastReceiver : BroadcastReceiver
     {
-        private static readonly string TAG = "PhoneCallBroadcastReceiver";
+         static readonly string TAG = "PhoneCallBroadcastReceiver";
        
-        private Config _config;
+         Config _config;
         TTSLib _tts;
         string _telephone,_answer;
         bool _acceptCall;
@@ -36,7 +29,7 @@ namespace FreeHand.Phone
             _scriptLang = Model.ScriptLang.Instance();
         }
 
-        private async Task PhoneCallHanler()
+         async Task PhoneCallHanler()
         {
             SetSilentRingMode();
             if (_config.IsUpdateCfg)
@@ -76,7 +69,7 @@ namespace FreeHand.Phone
             //Application.Context.SendOrderedBroadcast(buttonDown, Android.Manifest.Permission.CallPrivileged);
         }
 
-        private void SetSilentRingMode()
+         void SetSilentRingMode()
         {
             AudioManager am;
             am = (AudioManager)Application.Context.GetSystemService(Context.AudioService);
@@ -84,7 +77,7 @@ namespace FreeHand.Phone
             am.RingerMode = RingerMode.Silent;
         }
 
-        private void RestoreRingMode()
+         void RestoreRingMode()
         {
             AudioManager am;
             am = (AudioManager)Application.Context.GetSystemService(Context.AudioService);
@@ -114,7 +107,6 @@ namespace FreeHand.Phone
                 {
                     // incoming call answer
                     _acceptCall = true;
-
                     Log.Info(TAG, "Phone ExtraStateOffhook");
 
                 }
@@ -135,24 +127,14 @@ namespace FreeHand.Phone
                     if (_config.phone.AutoReply && !_acceptCall)
                     {
                         Log.Info(TAG,"Send sms inform miss call {0}",_config.phone.ContentReply);
+                        SendReply(_telephone);
                     }
                     // incoming call end
                 }
             }
-        }
+        }                     
 
-      
-
-        private async void WaitAccepCall(string telephone)
-        {
-            if (_config.GetPermissionRun(Config.PERMISSION_RUN.PHONE))
-            {             
-                  _config.phone.IsHandlePhoneRunnig = true;
-                  await PhoneCallHanler();
-            }
-        }
-
-        private async void CheckCall(string telephone,Context context)
+        async void CheckCall(string telephone,Context context)
         {
             if (_config.phone.BlockAll)
                 EndCall(context);
@@ -165,7 +147,7 @@ namespace FreeHand.Phone
                 await PhoneCallHanler();
         }
 
-        private bool BlockCall(string telephone, Context context)
+        bool BlockCall(string telephone, Context context)
         {
             bool inBlackList = false;
             foreach (var item in _config.phone.BlackList)
@@ -183,14 +165,14 @@ namespace FreeHand.Phone
             return inBlackList;
         }
 
-        private void SendReply(string telephone)
+        void SendReply(string telephone)
         {
             SmsManager.Default.SendTextMessage(telephone, null, _config.phone.ContentReply, null, null);
         }
 
 
 
-        private void EndCall(Context context)
+        void EndCall(Context context)
         {
             Log.Info(TAG,"End call");
             var manager = (TelephonyManager)context.GetSystemService(Context.TelephonyService);

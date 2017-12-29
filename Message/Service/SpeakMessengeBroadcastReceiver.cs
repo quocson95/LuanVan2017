@@ -47,18 +47,20 @@ namespace FreeHand.Message.Service
             stop = true;
             if (_speech != null)
             {
+                _speech.StopListening();
                 _speech.Cancel();
                 _speech.UnregisterFromRuntime();
 
+
             }
             _ttsLib.Stop();
-            _config.sms.Clean();
+            //_config.Clean();
         }
         private async void SMSHandleSpeak(Context context)
         {
             _config.sms.IsHandleSMSRunnig = true;
             stop = false;
-            Log.Info(TAG, "SMS Handle status " + _config.sms.IsHandleSMSRunnig.ToString());
+            Log.Info(TAG, "SMS Handle status {0}  " , _config.sms.IsHandleSMSRunnig.ToString());
 
             Model.IMessengeData messengeData = null;
 
@@ -74,20 +76,6 @@ namespace FreeHand.Message.Service
                 //await SpeakMsg(Resource.String.tts_continous_speak_prev_mess);
                 await SpeakMsg(_scripLang.tts_continous_speak_prev_mess);
             }
-            else {
-                //await SpeakMsg("you get a new message ");
-                //await SpeakMsg(Resource.String.tts_you_get_new_mess);
-                switch (messengeData.Type())
-                {
-                    case TYPE_MESSAGE.SMS:
-                        await SpeakMsg(_scripLang.tts_you_get_new_mess);
-                        break;
-                    case TYPE_MESSAGE.MAIL:
-                        await SpeakMsg(_scripLang.tts_you_get_new_mail);
-                        break;
-                }
-
-            }
 
             while (!EmptyMessenge() &&
                    _config.GetPermissionRun(Config.PERMISSION_RUN.MESSENGE) && !stop)
@@ -99,10 +87,19 @@ namespace FreeHand.Message.Service
                 }
 
 
-                Log.Info(TAG, "Speak Messenge State " + _config.sms.StateSMS);
+                Log.Info(TAG, "Speak Messenge State {0} type mess : {1} " , _config.sms.StateSMS,messengeData.Type().ToString());
                 switch (_config.sms.StateSMS)
                 {
                     case Config.STATE_SMS.IDLE:
+                        switch (messengeData.Type())
+                        {
+                            case TYPE_MESSAGE.SMS:
+                                await SpeakMsg(_scripLang.tts_you_get_new_mess);
+                                break;
+                            case TYPE_MESSAGE.MAIL:
+                                await SpeakMsg(_scripLang.tts_you_get_new_mail);
+                                break;
+                        }
                         _config.sms.StateSMS = Config.STATE_SMS.SPEAK_NUMBER;
                         try_listen = 3;
                         break;
@@ -120,7 +117,7 @@ namespace FreeHand.Message.Service
                         await StateReadlyReply(messengeData);
                         break;
                     case Config.STATE_SMS.LISTENT_REQUEST_ANSWER:
-                        await StateListenRequest(context, try_listen);
+                        await StateListenRequest(context, try_listen,messengeData.Type());
                         try_listen--;
                         break;
                     case Config.STATE_SMS.LISTEN_CONTENT_ANSWER:
@@ -145,15 +142,16 @@ namespace FreeHand.Message.Service
 
         }
 
-        private async Task StateListenRequest(Context context, int try_listen)
+        private async Task StateListenRequest(Context context, int try_listen,Model.TYPE_MESSAGE type)
         {
             if (_config.GetPermissionRun(Config.PERMISSION_RUN.MESSENGE))
             {
                 int status;
                 status = -1;
-                status = await listenRequest(context);
+                status = await listenRequest(context,type);
                 if (status == 0)
                     _config.sms.StateSMS = Config.STATE_SMS.LISTEN_CONTENT_ANSWER;
+                else if (status == -2 ) _config.sms.StateSMS = Config.STATE_SMS.DONE;
                 else if (status != 0 && try_listen > 0)
                 {
                     //await SpeakMsg(Resource.String.tts_can_not_hear_voice);
@@ -306,19 +304,37 @@ namespace FreeHand.Message.Service
             if (_messengeQueue.Empty() && _config.sms.MessengeBackUp == null) return true;
             return false;
         }
-        private async Task<int> listenRequest(Context context)
+        private async Task<int> listenRequest(Context context,Model.TYPE_MESSAGE type)
         {
-            _speech = SpeechRecognizer.CreateSpeechRecognizer(context);
-            _speech.SetRecognitionListener(this);
-            _tcs = new TaskCompletionSource<Java.Lang.Object>();
-            try
+            bool allow;
+            allow = false;
+            switch (type)
             {
-                _speech.StartListening(_stt.IntentSTTCustome(_config.speech.LangSelectBySTT));
+                case TYPE_MESSAGE.SMS:
+                    allow = _config.sms.Enable;
+                    break;
+                case TYPE_MESSAGE.MAIL:
+                    allow = _config.mail.Enable;
+                    break;
             }
-            catch { /* Dont care */}
-            return (int)await _tcs.Task;
+            if (allow)
+            {
+
+
+                _speech = SpeechRecognizer.CreateSpeechRecognizer(context);
+                _speech.SetRecognitionListener(this);
+                _tcs = new TaskCompletionSource<Java.Lang.Object>();
+                try
+                {
+                    _speech.StartListening(_stt.IntentSTTCustome(_config.speech.LangSelectBySTT));
+                }
+                catch { /* Dont care */}
+                return (int)await _tcs.Task;
+            }
+            else return -2;
+
         }
-                      
+
 
         private Model.IMessengeData GetMessege(Config.STATE_SMS state)
         {
@@ -335,7 +351,7 @@ namespace FreeHand.Message.Service
                     _config.sms.MessengeBackUp = result;
                     break;
                 default:
-                    result = _config.sms.MessengeBackUp;
+                    result = (IMessengeData)_config.sms.MessengeBackUp;
                     break;
             }
             return result;

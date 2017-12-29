@@ -7,6 +7,7 @@ using DeviceMotion.Plugin.Abstractions;
 using Plugin.Vibrate;
 using Android.OS;
 using System.Text;
+using System.Collections.Generic;
 
 namespace FreeHand.Phone
 {
@@ -18,6 +19,8 @@ namespace FreeHand.Phone
         string querySorter = String.Format("{0} desc limit 3", CallLog.Calls.Date);
         private DeviceMotionImplementation sensor;
         private string _lastValueX;
+        IList<string> _lastValue;
+        CircularBuffer<string> c;
         private TTSLib _tts;
         private Config _config;
         public ScreenStateBroadcastReceiver()       
@@ -26,6 +29,9 @@ namespace FreeHand.Phone
             sensor = new DeviceMotionImplementation();
             _tts = TTSLib.Instance();
             _config = Config.Instance();
+            c = new CircularBuffer<string>(5);
+
+
         }
 
         public override void OnReceive(Context context, Intent intent)
@@ -110,6 +116,7 @@ namespace FreeHand.Phone
             bool isMotion;
             string value;
             value = x.X.ToString();
+            //c.PopBack();
             isMotion = false;
             if (_lastValueX != null && string.Compare(_lastValueX,value) != 0)
             {

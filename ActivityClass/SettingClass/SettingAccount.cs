@@ -103,7 +103,7 @@ namespace FreeHand.ActivityClass.SettingClass
             string usr = data.GetStringExtra("usr");
             string pwd = data.GetStringExtra("pwd");
             Tuple<string, string> item = new Tuple<string, string>(usr, pwd);
-            if (_cfg.mail.lstAccount.IndexOf(item) != -1)
+            if (_cfg.mail.lstAccount.IndexOf(item) == -1)
             {
                 _cfg.mail.lstAccount.Add(item);
                 IMailAction account = new GmailAction(usr, pwd);

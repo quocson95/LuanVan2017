@@ -43,6 +43,10 @@
     <string name="label_setting_message_email_enable">Kích hoạt</string>
     <string name="label_setting_message_email_autoreply">Cho phép tự động trả lời</string>
     <string name="label_setting_message_email_contentmailreply">Nội dung email tự động</string>
+    <string name="label_setting_message_email_speakaddr">Cho phép đọc địa chỉ email người gửi</string>
+    <string name="label_setting_message_email_speakname">Cho phép đọc tên người gửi</string>
+    <string name="label_setting_message_email_speaksubject">Cho phép đọc tiêu đề email</string>
+    <string name="label_setting_message_sms_contentmailreply">Nội dung tin nhắn tự động</string>
 
     <!-- Using for Phone Setting -->    
     <string name="label_setting_phone_enable">Kích hoạt</string>

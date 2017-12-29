@@ -44,5 +44,9 @@ namespace FreeHand.Model
         }
 
 
+        //Google Service
+        public static string UserInfoUrl = "https://www.googleapis.com/oauth2/v3/userinfo";
+        public static string ScopeMail = "https://mail.google.com/";
+        public static string Scopeuserinfo = "email";
     }
 }

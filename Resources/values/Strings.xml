@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hello">Hello World, Click Me!</string>
-    <string name="app_name">Free Hand</string>
+    <string name="app_name">freehand</string>
     <string name="notification_text">Notify</string>
     <string name="SAVE_APP_RUNNING_STATUS">SAVE_APP_RUNNING_STATUS</string> 
 
@@ -48,7 +48,10 @@
     <string name="label_setting_message_email_enable">Enable</string>
     <string name="label_setting_message_email_autoreply">Allow Auto Reply</string>
     <string name="label_setting_message_email_contentmailreply">Content Mail Reply</string>
-    
+    <string name="label_setting_message_email_speakaddr">Allow Speak Sender Address</string>
+    <string name="label_setting_message_email_speakname">Allow Speak Sender Name</string>
+    <string name="label_setting_message_email_speaksubject">Allow Speak Mail Subject</string>
+    <string name="label_setting_message_sms_contentmailreply">Content Mail Reply</string>
 
     <!-- Using for Phone Setting -->    
     <string name="label_setting_phone_enable">Enable Service</string>

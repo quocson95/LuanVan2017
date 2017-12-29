@@ -58,6 +58,7 @@ namespace FreeHand.Message.Service
                 Log.Info(TAG, "Unregister SMS Receiver");
                 Application.Context.UnregisterReceiver(_smsReceiver);
                 registerSMS = false;
+                _cfg.sms.Clean();
             }
         }
 

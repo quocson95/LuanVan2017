@@ -37,38 +37,38 @@ namespace FreeHand.ActivityClass.SettingClass
 
         void _login_Click(object sender, System.EventArgs e)
         {
-            string usr = _user.Text;
-            if (string.IsNullOrEmpty(usr) || isValidEmail(usr)){
-                GmailAction gmail = new GmailAction(_user.Text, _pwd.Text);
-                ShowProgress();
-                Task.Run(() =>
-                {
-                    gmail.Login();
-                    _progressDialog.Cancel();
-                    if (gmail.isLogin())
-                    {         
-                        gmail.SetActive(true);
-                        Intent myIntent = new Intent(this, typeof(SettingAccount));                      
-                        myIntent.PutExtra("usr", gmail.GetNameLogin());
-                        myIntent.PutExtra("pwd", gmail.GetPwd());
-                        SetResult(Result.Ok, myIntent);
-                        Finish();
-                    }
-                    else
-                    {
+            //string usr = _user.Text;
+            //if (string.IsNullOrEmpty(usr) || isValidEmail(usr)){
+            //    GmailAction gmail = new GmailAction(_user.Text, _pwd.Text);
+            //    ShowProgress();
+            //    Task.Run(() =>
+            //    {
+            //        gmail.Login();
+            //        _progressDialog.Cancel();
+            //        if (gmail.isLogin())
+            //        {         
+            //            gmail.SetActive(true);
+            //            Intent myIntent = new Intent(this, typeof(SettingAccount));                      
+            //            myIntent.PutExtra("usr", gmail.GetNameLogin());
+            //            myIntent.PutExtra("pwd", gmail.GetPwd());
+            //            SetResult(Result.Ok, myIntent);
+            //            Finish();
+            //        }
+            //        else
+            //        {
 
-                    }
-                });               
-            }
-            else 
-            {
-                /* 
-                 * Todo
-                 * Add popup display email invalid here
-                 */
-                Log.Info(TAG, "Email is invalid");
+            //        }
+            //    });               
+            //}
+            //else 
+            //{
+            //    /* 
+            //     * Todo
+            //     * Add popup display email invalid here
+            //     */
+            //    Log.Info(TAG, "Email is invalid");
 
-            }
+            //}
         }
 
         private void ShowProgress()

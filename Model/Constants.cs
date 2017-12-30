@@ -46,7 +46,11 @@ namespace FreeHand.Model
 
         //Google Service
         public static string UserInfoUrl = "https://www.googleapis.com/oauth2/v3/userinfo";
+        public static string AuthorizeUrl = "https://accounts.google.com/o/oauth2/auth";
+        public static string AccessTokenUrl = "https://accounts.google.com/o/oauth2/token";
         public static string ScopeMail = "https://mail.google.com/";
         public static string Scopeuserinfo = "email";
+
+        public static string RefreshToken = "https://www.googleapis.com/oauth2/v4/token";
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Android.App;
 using Android.Content;
@@ -14,11 +15,6 @@ namespace FreeHand.Message.Mail
     public class MailActivity :Activity
     {
         private static string DiscoveryEndpoint = "https://accounts.google.com/.well-known/openid-configuration";
-        private static string ClientId = "896076308445-4l5u94fiaiq46md94st5opev4vrpqcc4.apps.googleusercontent.com";
-        //private static string ClientSecrect = "mdnMeEsStaM3e1j-s2eeCzSp";
-        private static string RedirectUri = "com.googleusercontent.apps.896076308445-4l5u94fiaiq46md94st5opev4vrpqcc4:/oauth2redirect";
-
-        //private static string RedirectUri = "http://localhost";
 
         private static string AuthEndpoint = null; // auth endpoint is discovered
         private static string TokenEndpoint = null; // token endpoint is discovered
@@ -28,10 +24,9 @@ namespace FreeHand.Message.Mail
         readonly string TAG = typeof(MailActivity).FullName;
         const int RC_SIGN_IN = 9001;
         Button login,a;
-        GmailAction gmail = new GmailAction("","");
+        Oauth2.Google google;
         MailSerivce mailService;
         private AuthorizationService authService;
-        //Android.Support.CustomTabs.Chromium.SharedUtilities.CustomTabActivityHelper custom_tab_activity_helper = null;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -40,17 +35,22 @@ namespace FreeHand.Message.Mail
             login = FindViewById<Button>(Resource.Id.btn_login);
             a = FindViewById<Button>(Resource.Id.btn_sync_mail);
 
-            a.Click += delegate {
-                //gmail.Login_v2();
+            login.Click += delegate {
+                google = new Oauth2.Google(this);
+                google.Completed += (sender, e) => {
+                    Console.WriteLine("this is custom");
+                };
+                google.authenticate();
+
+            };
+            a.Click += delegate {              
                 v3();
 
             };
 
-            authService = new AuthorizationService(this);
+            //authService = new AuthorizationService(this);
             store = AccountStore.Create();
-
-            login.Click += Login_Click;
-            //custom_tab_activity_helper = new global::Android.Support.CustomTabs.Chromium.SharedUtilities.CustomTabActivityHelper();
+                     
         }
 
         protected override void OnStart()
@@ -70,8 +70,9 @@ namespace FreeHand.Message.Mail
             return;
         }
         private void v3()
-        {        
-            
+        {
+            string ClientId = this.GetString(Resource.String.client_id_google_service);
+            string RedirectUri = this.GetString(Resource.String.redirect_url_google_service);
             Console.WriteLine("V3-V3");
             OAuth2Authenticator Auth2 = null;
             StringBuilder stringBuilder = new StringBuilder();
@@ -83,9 +84,9 @@ namespace FreeHand.Message.Mail
                     clientId: ClientId,
                     clientSecret: null,
                     scope: stringBuilder.ToString(),
-                    authorizeUrl: new Uri("https://accounts.google.com/o/oauth2/auth"),
+                    authorizeUrl: new Uri(Model.Constants.AuthorizeUrl),
                     redirectUrl: new Uri(RedirectUri),
-                    accessTokenUrl : new Uri("https://accounts.google.com/o/oauth2/token"),
+                    accessTokenUrl : new Uri(Model.Constants.AccessTokenUrl),
                     getUsernameAsync: null,
                                         // Native UI API switch
                                         //      true    - NEW native UI support 
@@ -100,22 +101,22 @@ namespace FreeHand.Message.Mail
             Auth2.Completed += OnAuthCompleted;
             Auth2.Error += OnAuthError;
             Auth2.BrowsingCompleted += Auth_BrowsingCompleted;
-            Intent ui_object = Auth2.GetUI(this);
-            //if (Auth2.IsUsingNativeUI == true)
-            //{
-            //    // Step 2.2 Customizing the UI - Native UI [OPTIONAL]
-            //    // In order to access CustomTabs API 
+            if (Auth2.IsUsingNativeUI == true)
+            {
+                // Step 2.2 Customizing the UI - Native UI [OPTIONAL]
+                // In order to access CustomTabs API 
 
-            //    Xamarin.Auth.CustomTabsConfiguration.AreAnimationsUsed = true;
-            //    Xamarin.Auth.CustomTabsConfiguration.IsShowTitleUsed = false;
-            //    Xamarin.Auth.CustomTabsConfiguration.IsUrlBarHidingUsed = false;
-            //    Xamarin.Auth.CustomTabsConfiguration.IsCloseButtonIconUsed = false;
-            //    Xamarin.Auth.CustomTabsConfiguration.IsActionButtonUsed = false;
-            //    Xamarin.Auth.CustomTabsConfiguration.IsActionBarToolbarIconUsed = false;
-            //    Xamarin.Auth.CustomTabsConfiguration.IsDefaultShareMenuItemUsed = false;
-            //    Xamarin.Auth.CustomTabsConfiguration.MenuItemTitle = null;
-            //    Xamarin.Auth.CustomTabsConfiguration.ToolbarColor = new Android.Graphics.Color(Resource.Color.zaloColor); 
-            //}
+                Xamarin.Auth.CustomTabsConfiguration.AreAnimationsUsed = true;
+                Xamarin.Auth.CustomTabsConfiguration.IsShowTitleUsed = false;
+                Xamarin.Auth.CustomTabsConfiguration.IsUrlBarHidingUsed = false;
+                Xamarin.Auth.CustomTabsConfiguration.IsCloseButtonIconUsed = false;
+                Xamarin.Auth.CustomTabsConfiguration.IsActionButtonUsed = false;
+                Xamarin.Auth.CustomTabsConfiguration.IsActionBarToolbarIconUsed = false;
+                Xamarin.Auth.CustomTabsConfiguration.IsDefaultShareMenuItemUsed = false;
+                Xamarin.Auth.CustomTabsConfiguration.MenuItemTitle = null;
+                //CustomTabsConfiguration.CustomTabsClosingMessage = null;
+                Xamarin.Auth.CustomTabsConfiguration.ToolbarColor = new Android.Graphics.Color(Resource.Color.zaloColor); 
+            }
 
             // Step 3 Present/Launch the Login UI
             //StartActivity(ui_object);
@@ -191,90 +192,20 @@ namespace FreeHand.Message.Mail
                 {
                     store.Delete(account, this.GetString(Resource.String.app_name));
                 }
+
                 account = e.Account;
                 await store.SaveAsync(account, "aa");
                 Console.WriteLine(account.ToString());
-                gmail.Login_v2(user.Email,account.Properties["access_token"]);
+                //gmail.Login_v2(user.Email,account.Properties["access_token"]);
+
+                //Dictionary<string, string> dictionary = new Dictionary<string, string> { { "refresh_token", e.Account.Properties["refresh_token"] }, { "client_id", ClientId}, { "grant_type", "refresh_token" } };
+                //var request2 = new OAuth2Request("POST", new Uri(Model.Constants.RefreshToken), dictionary, e.Account);
+                //var response2 = await request2.GetResponseAsync();
+                //string RefreshToken = await response2.GetResponseTextAsync();
+                //Console.WriteLine(RefreshToken);
+
             }
-        }
-
-        async void Login_Click(object sender, EventArgs e)
-        {         
-            Console.WriteLine("initiating auth...");
-
-            try
-            {
-                AuthorizationServiceConfiguration serviceConfiguration;
-                if (DiscoveryEndpoint != null)
-                {
-                    serviceConfiguration = await AuthorizationServiceConfiguration.FetchFromUrlAsync(
-                        Android.Net.Uri.Parse(DiscoveryEndpoint));
-                }
-                else
-                {
-                    serviceConfiguration = new AuthorizationServiceConfiguration(
-                        Android.Net.Uri.Parse(AuthEndpoint),
-                        Android.Net.Uri.Parse(TokenEndpoint),
-                        Android.Net.Uri.Parse(RegistrationEndpoint));
-                }
-
-                Console.WriteLine("configuration retrieved, proceeding");
-                if (ClientId == null)
-                {
-                    // Do dynamic client registration if no client_id
-                    MakeRegistrationRequest(serviceConfiguration);
-                }
-                else
-                {
-                    MakeAuthRequest(serviceConfiguration, new AuthState());
-                }
-            }
-            catch (AuthorizationException ex)
-            {
-                Console.WriteLine("Failed to retrieve configuration:" + ex);
-            }
-
-        }
-
-        private async void MakeRegistrationRequest(AuthorizationServiceConfiguration serviceConfig)
-        {
-            var registrationRequest = new RegistrationRequest.Builder(serviceConfig, new[] { Android.Net.Uri.Parse(RedirectUri) })
-                .SetTokenEndpointAuthenticationMethod(ClientSecretBasic.Name)
-                .Build();
-
-            Console.WriteLine("Making registration request to " + serviceConfig.RegistrationEndpoint);
-
-            try
-            {
-                var registrationResponse = await authService.PerformRegistrationRequestAsync(registrationRequest);
-                Console.WriteLine("Registration request complete");
-
-                if (registrationResponse != null)
-                {
-                    ClientId = registrationResponse.ClientId;
-                    Console.WriteLine("Registration request complete successfully");
-                    // Continue with the authentication
-                    MakeAuthRequest(registrationResponse.Request.Configuration, new AuthState((registrationResponse)));
-                }
-            }
-            catch (AuthorizationException ex)
-            {
-                Console.WriteLine("Registration request had an error: " + ex);
-            }
-        }
-        private void MakeAuthRequest(AuthorizationServiceConfiguration serviceConfig, AuthState authState)
-        {
-            var authRequest = new AuthorizationRequest.Builder(serviceConfig, ClientId, ResponseTypeValues.Code, Android.Net.Uri.Parse(RedirectUri))
-                                                      .SetScope("https://mail.google.com/")
-                .Build();            
-            Console.WriteLine("Making auth request to " + serviceConfig.AuthorizationEndpoint);
-            authService.PerformAuthorizationRequest(
-                authRequest,
-                TokenActivity.CreatePostAuthorizationIntent(this, authRequest, serviceConfig.DiscoveryDoc, authState),
-                authService.CreateCustomTabsIntentBuilder().Build());            
-        }
-
-
+        }                     
        
     }
 }

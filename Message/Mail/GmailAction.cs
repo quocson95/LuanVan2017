@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using MailKit;
 using MailKit.Search;
 using MailKit.Security;
+using Xamarin.Auth;
 
 namespace FreeHand.Message.Mail
 {
@@ -15,20 +16,20 @@ namespace FreeHand.Message.Mail
     {
         private static readonly string TAG = typeof(GmailAction).FullName;
         private ImapClient client;
-        private string usr, pwd;
         string _type = "Gmail";
         bool isActive;
         public delegate void MarkSeenAction(MailKit.UniqueId uid);
         private MarkSeenAction markSeenAction;
-        public GmailAction(string usr, string pwd)
+
+        Account _account;
+        string _email;
+
+        public GmailAction(string email, Account account )
         {
-            this.usr = usr;
-            this.pwd = pwd;
-            markSeenAction = MarkSeen;
-            isActive = false;
+            _email = email;
+            _account = account;
             client = new ImapClient();
         }
-
         private void MarkSeen(MailKit.UniqueId uid)
         {
             var inbox = client.Inbox;
@@ -44,20 +45,15 @@ namespace FreeHand.Message.Mail
             Log.Info(TAG, "Login");
             try
             {
-                client.ServerCertificateValidationCallback = (s, c, ch, e) => true;
-                client.Connect("imap.gmail.com", 993, SecureSocketOptions.Auto);
+                client.Connect("imap.gmail.com", 993, true);
 
-                // disable OAuth2 authentication unless you are actually using an access_token
-                //client.AuthenticationMechanisms.Remove("XOAUTH2");
-
-                client.Authenticate(usr, pwd);
-
+                // use the access token as the password string
+                client.Authenticate(_email, _account.Properties["access_token"]);
+                client.Inbox.Check();
                 var folder = client.Inbox;
-
                 folder.Status(StatusItems.Count | StatusItems.Unread);
                 int total = folder.Count;
                 int unread = folder.Unread;
-                // do stuff...
                 Console.WriteLine("total  {0} \nunread {1}", total, unread);
             }
             catch (Exception e)
@@ -133,7 +129,7 @@ namespace FreeHand.Message.Mail
 
         public string GetNameLogin()
         {
-            return usr;
+            return _email;
         }
 
         public bool GetActive()
@@ -142,12 +138,7 @@ namespace FreeHand.Message.Mail
         }
 
         public bool SetActive(bool active) => this.isActive = active;
-
-        public string GetPwd()
-        {
-            return pwd;
-        }
-
+               
         public void Reply()
         {
             throw new NotImplementedException();

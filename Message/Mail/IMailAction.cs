@@ -11,8 +11,7 @@ namespace FreeHand.Message.Mail
         List<IMessengeData> SyncInbox();
         void Logout();
         bool isLogin();
-        string GetNameLogin();
-        string GetPwd();
+        string GetNameLogin();      
         bool GetActive();
         bool SetActive(bool active);
         void Reply();

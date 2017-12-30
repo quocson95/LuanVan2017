@@ -4163,188 +4163,191 @@ namespace FreeHand
 			// aapt resource value: 0x7f070025
 			public const int character_counter_pattern = 2131165221;
 			
+			// aapt resource value: 0x7f070031
+			public const int client_id_google_service = 2131165233;
+			
 			// aapt resource value: 0x7f07002d
 			public const int hello = 2131165229;
 			
-			// aapt resource value: 0x7f070076
-			public const int item1 = 2131165302;
-			
-			// aapt resource value: 0x7f070077
-			public const int item2 = 2131165303;
-			
 			// aapt resource value: 0x7f070078
-			public const int item3 = 2131165304;
+			public const int item1 = 2131165304;
 			
 			// aapt resource value: 0x7f070079
-			public const int item4 = 2131165305;
+			public const int item2 = 2131165305;
 			
 			// aapt resource value: 0x7f07007a
-			public const int item5 = 2131165306;
+			public const int item3 = 2131165306;
 			
-			// aapt resource value: 0x7f070066
-			public const int label_general_addnumber = 2131165286;
+			// aapt resource value: 0x7f07007b
+			public const int item4 = 2131165307;
 			
-			// aapt resource value: 0x7f070069
-			public const int label_general_cancel = 2131165289;
+			// aapt resource value: 0x7f07007c
+			public const int item5 = 2131165308;
 			
 			// aapt resource value: 0x7f070068
-			public const int label_general_ok = 2131165288;
+			public const int label_general_addnumber = 2131165288;
 			
-			// aapt resource value: 0x7f070065
-			public const int label_general_selectfromcontact = 2131165285;
+			// aapt resource value: 0x7f07006b
+			public const int label_general_cancel = 2131165291;
+			
+			// aapt resource value: 0x7f07006a
+			public const int label_general_ok = 2131165290;
 			
 			// aapt resource value: 0x7f070067
-			public const int label_general_warning = 2131165287;
+			public const int label_general_selectfromcontact = 2131165287;
 			
-			// aapt resource value: 0x7f070033
-			public const int label_setting = 2131165235;
-			
-			// aapt resource value: 0x7f070039
-			public const int label_setting_about = 2131165241;
-			
-			// aapt resource value: 0x7f070060
-			public const int label_setting_about_copyright = 2131165280;
-			
-			// aapt resource value: 0x7f07005f
-			public const int label_setting_about_version = 2131165279;
-			
-			// aapt resource value: 0x7f070037
-			public const int label_setting_account = 2131165239;
-			
-			// aapt resource value: 0x7f07005d
-			public const int label_setting_account_addaccount = 2131165277;
-			
-			// aapt resource value: 0x7f07003c
-			public const int label_setting_contact = 2131165244;
-			
-			// aapt resource value: 0x7f070063
-			public const int label_setting_contact_label = 2131165283;
-			
-			// aapt resource value: 0x7f070064
-			public const int label_setting_contact_phone = 2131165284;
+			// aapt resource value: 0x7f070069
+			public const int label_general_warning = 2131165289;
 			
 			// aapt resource value: 0x7f070035
-			public const int label_setting_message = 2131165237;
-			
-			// aapt resource value: 0x7f07004e
-			public const int label_setting_message_email = 2131165262;
-			
-			// aapt resource value: 0x7f070050
-			public const int label_setting_message_email_autoreply = 2131165264;
-			
-			// aapt resource value: 0x7f070051
-			public const int label_setting_message_email_contentmailreply = 2131165265;
-			
-			// aapt resource value: 0x7f07004f
-			public const int label_setting_message_email_enable = 2131165263;
-			
-			// aapt resource value: 0x7f070052
-			public const int label_setting_message_email_speakaddr = 2131165266;
-			
-			// aapt resource value: 0x7f070053
-			public const int label_setting_message_email_speakname = 2131165267;
-			
-			// aapt resource value: 0x7f070054
-			public const int label_setting_message_email_speaksubject = 2131165268;
-			
-			// aapt resource value: 0x7f070046
-			public const int label_setting_message_sms = 2131165254;
-			
-			// aapt resource value: 0x7f07004b
-			public const int label_setting_message_sms_autoreply = 2131165259;
-			
-			// aapt resource value: 0x7f07004d
-			public const int label_setting_message_sms_blocksms = 2131165261;
-			
-			// aapt resource value: 0x7f070055
-			public const int label_setting_message_sms_contentmailreply = 2131165269;
-			
-			// aapt resource value: 0x7f07004c
-			public const int label_setting_message_sms_contentsmsreply = 2131165260;
-			
-			// aapt resource value: 0x7f070047
-			public const int label_setting_message_sms_enable = 2131165255;
-			
-			// aapt resource value: 0x7f07004a
-			public const int label_setting_message_sms_speakcontent = 2131165258;
-			
-			// aapt resource value: 0x7f070048
-			public const int label_setting_message_sms_speakname = 2131165256;
-			
-			// aapt resource value: 0x7f070049
-			public const int label_setting_message_sms_speaknumber = 2131165257;
-			
-			// aapt resource value: 0x7f070038
-			public const int label_setting_option = 2131165240;
-			
-			// aapt resource value: 0x7f07005e
-			public const int label_setting_option_lang = 2131165278;
-			
-			// aapt resource value: 0x7f070036
-			public const int label_setting_phone = 2131165238;
-			
-			// aapt resource value: 0x7f070059
-			public const int label_setting_phone_contentreply = 2131165273;
-			
-			// aapt resource value: 0x7f07005a
-			public const int label_setting_phone_declinecall = 2131165274;
-			
-			// aapt resource value: 0x7f070056
-			public const int label_setting_phone_enable = 2131165270;
-			
-			// aapt resource value: 0x7f07005b
-			public const int label_setting_phone_rejectall = 2131165275;
-			
-			// aapt resource value: 0x7f07005c
-			public const int label_setting_phone_rejectfromlist = 2131165276;
-			
-			// aapt resource value: 0x7f070058
-			public const int label_setting_phone_sendsms = 2131165272;
-			
-			// aapt resource value: 0x7f070057
-			public const int label_setting_phone_speakmisscall = 2131165271;
-			
-			// aapt resource value: 0x7f070062
-			public const int label_setting_privacy_content = 2131165282;
+			public const int label_setting = 2131165237;
 			
 			// aapt resource value: 0x7f07003b
-			public const int label_setting_privacypolicy = 2131165243;
+			public const int label_setting_about = 2131165243;
 			
-			// aapt resource value: 0x7f070034
-			public const int label_setting_speech = 2131165236;
-			
-			// aapt resource value: 0x7f070042
-			public const int label_setting_speech_listenvoice = 2131165250;
-			
-			// aapt resource value: 0x7f070043
-			public const int label_setting_speech_listenvoice_language = 2131165251;
-			
-			// aapt resource value: 0x7f070044
-			public const int label_setting_speech_testvoice = 2131165252;
-			
-			// aapt resource value: 0x7f070045
-			public const int label_setting_speech_testvoice_speak = 2131165253;
-			
-			// aapt resource value: 0x7f07003d
-			public const int label_setting_speech_voicespeak = 2131165245;
-			
-			// aapt resource value: 0x7f07003e
-			public const int label_setting_speech_voicespeak_engine = 2131165246;
-			
-			// aapt resource value: 0x7f07003f
-			public const int label_setting_speech_voicespeak_language = 2131165247;
-			
-			// aapt resource value: 0x7f070040
-			public const int label_setting_speech_voicespeak_speed = 2131165248;
-			
-			// aapt resource value: 0x7f070041
-			public const int label_setting_speech_voicespeak_spitch = 2131165249;
+			// aapt resource value: 0x7f070062
+			public const int label_setting_about_copyright = 2131165282;
 			
 			// aapt resource value: 0x7f070061
-			public const int label_setting_termandconditions_content = 2131165281;
+			public const int label_setting_about_version = 2131165281;
+			
+			// aapt resource value: 0x7f070039
+			public const int label_setting_account = 2131165241;
+			
+			// aapt resource value: 0x7f07005f
+			public const int label_setting_account_addaccount = 2131165279;
+			
+			// aapt resource value: 0x7f07003e
+			public const int label_setting_contact = 2131165246;
+			
+			// aapt resource value: 0x7f070065
+			public const int label_setting_contact_label = 2131165285;
+			
+			// aapt resource value: 0x7f070066
+			public const int label_setting_contact_phone = 2131165286;
+			
+			// aapt resource value: 0x7f070037
+			public const int label_setting_message = 2131165239;
+			
+			// aapt resource value: 0x7f070050
+			public const int label_setting_message_email = 2131165264;
+			
+			// aapt resource value: 0x7f070052
+			public const int label_setting_message_email_autoreply = 2131165266;
+			
+			// aapt resource value: 0x7f070053
+			public const int label_setting_message_email_contentmailreply = 2131165267;
+			
+			// aapt resource value: 0x7f070051
+			public const int label_setting_message_email_enable = 2131165265;
+			
+			// aapt resource value: 0x7f070054
+			public const int label_setting_message_email_speakaddr = 2131165268;
+			
+			// aapt resource value: 0x7f070055
+			public const int label_setting_message_email_speakname = 2131165269;
+			
+			// aapt resource value: 0x7f070056
+			public const int label_setting_message_email_speaksubject = 2131165270;
+			
+			// aapt resource value: 0x7f070048
+			public const int label_setting_message_sms = 2131165256;
+			
+			// aapt resource value: 0x7f07004d
+			public const int label_setting_message_sms_autoreply = 2131165261;
+			
+			// aapt resource value: 0x7f07004f
+			public const int label_setting_message_sms_blocksms = 2131165263;
+			
+			// aapt resource value: 0x7f070057
+			public const int label_setting_message_sms_contentmailreply = 2131165271;
+			
+			// aapt resource value: 0x7f07004e
+			public const int label_setting_message_sms_contentsmsreply = 2131165262;
+			
+			// aapt resource value: 0x7f070049
+			public const int label_setting_message_sms_enable = 2131165257;
+			
+			// aapt resource value: 0x7f07004c
+			public const int label_setting_message_sms_speakcontent = 2131165260;
+			
+			// aapt resource value: 0x7f07004a
+			public const int label_setting_message_sms_speakname = 2131165258;
+			
+			// aapt resource value: 0x7f07004b
+			public const int label_setting_message_sms_speaknumber = 2131165259;
 			
 			// aapt resource value: 0x7f07003a
-			public const int label_setting_termsandconditions = 2131165242;
+			public const int label_setting_option = 2131165242;
+			
+			// aapt resource value: 0x7f070060
+			public const int label_setting_option_lang = 2131165280;
+			
+			// aapt resource value: 0x7f070038
+			public const int label_setting_phone = 2131165240;
+			
+			// aapt resource value: 0x7f07005b
+			public const int label_setting_phone_contentreply = 2131165275;
+			
+			// aapt resource value: 0x7f07005c
+			public const int label_setting_phone_declinecall = 2131165276;
+			
+			// aapt resource value: 0x7f070058
+			public const int label_setting_phone_enable = 2131165272;
+			
+			// aapt resource value: 0x7f07005d
+			public const int label_setting_phone_rejectall = 2131165277;
+			
+			// aapt resource value: 0x7f07005e
+			public const int label_setting_phone_rejectfromlist = 2131165278;
+			
+			// aapt resource value: 0x7f07005a
+			public const int label_setting_phone_sendsms = 2131165274;
+			
+			// aapt resource value: 0x7f070059
+			public const int label_setting_phone_speakmisscall = 2131165273;
+			
+			// aapt resource value: 0x7f070064
+			public const int label_setting_privacy_content = 2131165284;
+			
+			// aapt resource value: 0x7f07003d
+			public const int label_setting_privacypolicy = 2131165245;
+			
+			// aapt resource value: 0x7f070036
+			public const int label_setting_speech = 2131165238;
+			
+			// aapt resource value: 0x7f070044
+			public const int label_setting_speech_listenvoice = 2131165252;
+			
+			// aapt resource value: 0x7f070045
+			public const int label_setting_speech_listenvoice_language = 2131165253;
+			
+			// aapt resource value: 0x7f070046
+			public const int label_setting_speech_testvoice = 2131165254;
+			
+			// aapt resource value: 0x7f070047
+			public const int label_setting_speech_testvoice_speak = 2131165255;
+			
+			// aapt resource value: 0x7f07003f
+			public const int label_setting_speech_voicespeak = 2131165247;
+			
+			// aapt resource value: 0x7f070040
+			public const int label_setting_speech_voicespeak_engine = 2131165248;
+			
+			// aapt resource value: 0x7f070041
+			public const int label_setting_speech_voicespeak_language = 2131165249;
+			
+			// aapt resource value: 0x7f070042
+			public const int label_setting_speech_voicespeak_speed = 2131165250;
+			
+			// aapt resource value: 0x7f070043
+			public const int label_setting_speech_voicespeak_spitch = 2131165251;
+			
+			// aapt resource value: 0x7f070063
+			public const int label_setting_termandconditions_content = 2131165283;
+			
+			// aapt resource value: 0x7f07003c
+			public const int label_setting_termsandconditions = 2131165244;
 			
 			// aapt resource value: 0x7f070000
 			public const int library_name = 2131165184;
@@ -4367,56 +4370,59 @@ namespace FreeHand
 			// aapt resource value: 0x7f07002a
 			public const int path_password_strike_through = 2131165226;
 			
+			// aapt resource value: 0x7f070032
+			public const int redirect_url_google_service = 2131165234;
+			
 			// aapt resource value: 0x7f070015
 			public const int search_menu_title = 2131165205;
 			
-			// aapt resource value: 0x7f070031
-			public const int start_app = 2131165233;
+			// aapt resource value: 0x7f070033
+			public const int start_app = 2131165235;
 			
 			// aapt resource value: 0x7f070016
 			public const int status_bar_notification_info_overflow = 2131165206;
 			
-			// aapt resource value: 0x7f070032
-			public const int stop_app = 2131165234;
+			// aapt resource value: 0x7f070034
+			public const int stop_app = 2131165236;
 			
 			// aapt resource value: 0x7f070001
 			public const int title_activity_webview = 2131165185;
 			
-			// aapt resource value: 0x7f070072
-			public const int tts_ask_for_reply = 2131165298;
-			
-			// aapt resource value: 0x7f07006b
-			public const int tts_can_not_hear_voice = 2131165291;
+			// aapt resource value: 0x7f070074
+			public const int tts_ask_for_reply = 2131165300;
 			
 			// aapt resource value: 0x7f07006d
-			public const int tts_content_mess = 2131165293;
-			
-			// aapt resource value: 0x7f07006a
-			public const int tts_continous_speak_prev_mess = 2131165290;
-			
-			// aapt resource value: 0x7f07006c
-			public const int tts_do_you_want_rep = 2131165292;
-			
-			// aapt resource value: 0x7f070071
-			public const int tts_from = 2131165297;
-			
-			// aapt resource value: 0x7f070074
-			public const int tts_name_caller = 2131165300;
-			
-			// aapt resource value: 0x7f07006e
-			public const int tts_name_sender = 2131165294;
-			
-			// aapt resource value: 0x7f070073
-			public const int tts_new_call = 2131165299;
-			
-			// aapt resource value: 0x7f070070
-			public const int tts_you_get_new_mail = 2131165296;
+			public const int tts_can_not_hear_voice = 2131165293;
 			
 			// aapt resource value: 0x7f07006f
-			public const int tts_you_get_new_mess = 2131165295;
+			public const int tts_content_mess = 2131165295;
+			
+			// aapt resource value: 0x7f07006c
+			public const int tts_continous_speak_prev_mess = 2131165292;
+			
+			// aapt resource value: 0x7f07006e
+			public const int tts_do_you_want_rep = 2131165294;
+			
+			// aapt resource value: 0x7f070073
+			public const int tts_from = 2131165299;
+			
+			// aapt resource value: 0x7f070076
+			public const int tts_name_caller = 2131165302;
+			
+			// aapt resource value: 0x7f070070
+			public const int tts_name_sender = 2131165296;
 			
 			// aapt resource value: 0x7f070075
-			public const int you_have_miss_call = 2131165301;
+			public const int tts_new_call = 2131165301;
+			
+			// aapt resource value: 0x7f070072
+			public const int tts_you_get_new_mail = 2131165298;
+			
+			// aapt resource value: 0x7f070071
+			public const int tts_you_get_new_mess = 2131165297;
+			
+			// aapt resource value: 0x7f070077
+			public const int you_have_miss_call = 2131165303;
 			
 			static String()
 			{

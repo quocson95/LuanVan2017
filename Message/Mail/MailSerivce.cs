@@ -74,14 +74,15 @@ namespace FreeHand.Message.Mail
         public void SyncMail()
         {
             Log.Debug(TAG, "Start Sync Mail");
-            IList<IMailAction> _lstMail =  _cfg.account.LstMail;
+            IList<Tuple<User,object>> _lstMail =  _cfg.mail.lstAccount;
             foreach (var item in _lstMail )
             {
-                if (!item.isLogin())
+                IMailAction mail = (IMailAction)item.Item2;
+                if (!mail.isLogin())
                 {
-                    item.Login();
+                    mail.Login();
                 }
-                IList<IMessengeData> inbox = item.SyncInbox();
+                IList<IMessengeData> inbox = mail.SyncInbox();
                 if (inbox.Count > 0)
                 {
                     _messengeQueue.EnMessengeListQueue(inbox);

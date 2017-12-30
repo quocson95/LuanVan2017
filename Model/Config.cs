@@ -187,35 +187,14 @@ namespace FreeHand
 
         }
 
-        public class Account
-        {
-            public IList<IMailAction> LstMail { get; set; }
-            public Account()
-            {
-                LstMail = new List<IMailAction>();
-            }
-
-            public void Restore(IList<Tuple<string, string>> list)
-            {
-                Task.Run(() =>
-                {
-                    LstMail.Clear();
-                    foreach (var item in list)
-                    {
-                        IMailAction gmail = new GmailAction(item.Item1, item.Item2);
-                        LstMail.Add(gmail);
-                    }
-                });
-            }
-        }
 
         /*
          * Mail Config
          * Save all Speech data configure of user         
          */
         public class Mail
-        {
-            public IList<Tuple<string, string>> lstAccount;
+        {            
+            public IList<Tuple<User,object>> lstAccount;
             public bool Enable { get; set; }
             public bool AutoReply { get; set; }
             public string ContentReply { get; set; }
@@ -229,8 +208,8 @@ namespace FreeHand
             public bool PrevAllowSpeakContent { get; set; }
 
             public Mail()
-            {
-                lstAccount = new List<Tuple<string, string>>();
+            {                
+                lstAccount = new List<Tuple<User, object>>();
                 Enable = false;
                 AutoReply = false;
                 ContentReply = "";
@@ -274,7 +253,6 @@ namespace FreeHand
         public Phone phone;
         public SMS sms;
         public Speech speech;
-        public Account account;
         public Mail mail;
         public bool IsUpdateCfg { get; set; }
 
@@ -287,7 +265,6 @@ namespace FreeHand
             sms = new SMS();
             speech = new Speech();
             mail = new Mail();
-            account = new Account();
         }
 
         public static Config Instance()
@@ -476,7 +453,6 @@ namespace FreeHand
             if (!value.Equals(NOT_FOUND))
             {
                 mail = JsonConvert.DeserializeObject<Mail>(value);
-                account.Restore(mail.lstAccount);
             }
         }
 

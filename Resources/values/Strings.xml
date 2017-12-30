@@ -5,6 +5,10 @@
     <string name="notification_text">Notify</string>
     <string name="SAVE_APP_RUNNING_STATUS">SAVE_APP_RUNNING_STATUS</string> 
 
+<!--Google Service-->
+    <string name="client_id_google_service">896076308445-4l5u94fiaiq46md94st5opev4vrpqcc4.apps.googleusercontent.com</string>
+    <string name="redirect_url_google_service">com.googleusercontent.apps.896076308445-4l5u94fiaiq46md94st5opev4vrpqcc4:/oauth2redirect</string>
+    
     <!-- Using for Main Activity -->
     <string name="start_app">ON</string>
     <string name="stop_app">OFF</string>

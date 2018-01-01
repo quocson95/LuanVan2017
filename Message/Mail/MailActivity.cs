@@ -14,9 +14,9 @@ namespace FreeHand.Message.Mail
     public class MailActivity :Activity
     {
         private static string DiscoveryEndpoint = "https://accounts.google.com/.well-known/openid-configuration";
-        private static string ClientId = "896076308445-4l5u94fiaiq46md94st5opev4vrpqcc4.apps.googleusercontent.com";
+        private static string ClientId = "484778695759-bvqmvmdoj6uit61iho1j9j2je8hn5sov.apps.googleusercontent.com";
         //private static string ClientSecrect = "mdnMeEsStaM3e1j-s2eeCzSp";
-        private static string RedirectUri = "com.googleusercontent.apps.896076308445-4l5u94fiaiq46md94st5opev4vrpqcc4:/oauth2redirect";
+        private static string RedirectUri = "com.googleusercontent.apps.484778695759-bvqmvmdoj6uit61iho1j9j2je8hn5sov:/oauth2redirect";
 
         //private static string RedirectUri = "http://localhost";
 
@@ -28,7 +28,7 @@ namespace FreeHand.Message.Mail
         readonly string TAG = typeof(MailActivity).FullName;
         const int RC_SIGN_IN = 9001;
         Button login,a;
-        GmailAction gmail = new GmailAction("","");
+        //GmailAction gmail = new GmailAction("","");
         MailSerivce mailService;
         private AuthorizationService authService;
         //Android.Support.CustomTabs.Chromium.SharedUtilities.CustomTabActivityHelper custom_tab_activity_helper = null;
@@ -42,7 +42,8 @@ namespace FreeHand.Message.Mail
 
             a.Click += delegate {
                 //gmail.Login_v2();
-                v3();
+                //v3();
+                v4();
 
             };
 
@@ -51,6 +52,19 @@ namespace FreeHand.Message.Mail
 
             login.Click += Login_Click;
             //custom_tab_activity_helper = new global::Android.Support.CustomTabs.Chromium.SharedUtilities.CustomTabActivityHelper();
+        }
+
+        private void v4()
+        {
+            Google google = new Google();
+            google.Completed += Google_Completed;
+            google.Authenticate();
+        }
+
+        void Google_Completed(object sender, AuthenticatorCompletedEventArgs e)
+        {
+            GmailAction gmail = new GmailAction("", "");
+            gmail.Login_v2("dangquocson1995@gmail.com",e.Account.Properties["access_token"]);
         }
 
         protected override void OnStart()
@@ -192,8 +206,9 @@ namespace FreeHand.Message.Mail
                     store.Delete(account, this.GetString(Resource.String.app_name));
                 }
                 account = e.Account;
-                await store.SaveAsync(account, "aa");
+                await store.SaveAsync(account, this.GetString(Resource.String.app_name));
                 Console.WriteLine(account.ToString());
+                GmailAction gmail = new GmailAction("", "");
                 gmail.Login_v2(user.Email,account.Properties["access_token"]);
             }
         }

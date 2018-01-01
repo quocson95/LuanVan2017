@@ -86,11 +86,19 @@ namespace FreeHand
                         if (isStart && _phoneService != null)
                             if (_phoneService.IsStart()) _phoneService.StopMonitorScreen();
                         break;
+
+                    //Mail Service
                     case Model.Constants.ACTION_START_MAIL_SERVICE:
                         if (isStart) StartMailService();
                         break;
                     case Model.Constants.ACTION_STOP_MAIL_SERVICE:
                         if (isStart) StopMailService();
+                        break;
+                    case Model.Constants.ACTION_ADD_ACCOUNT_MAIL_SERVICE:
+                        if (isStart) AddMailAccount(intent);
+                        break;
+                    case Model.Constants.ACTION_DEL_ACCOUNT_MAIL_SERVICE:
+                        if (isStart) DelMailAccount(intent);
                         break;
                     default:
                         break;
@@ -98,6 +106,23 @@ namespace FreeHand
             }
             // Return the correct StartCommandResult for the type of service you are building
             return StartCommandResult.Sticky;
+        }
+
+        private void DelMailAccount(Intent intent)
+        {
+            string email = intent.GetStringExtra("email");
+            if (_mailService != null)
+                _mailService.DelMailAccount(email);
+        }
+
+        private void AddMailAccount(Intent intent)
+        {
+            if (_mailService != null)
+            {
+                string email = intent.GetStringExtra("email");
+                string token = intent.GetStringExtra("token");
+                _mailService.AddMailAccount(email, token);
+            }
         }
 
         private void StopMailService()
@@ -122,8 +147,11 @@ namespace FreeHand
             handler.RemoveCallbacks(runnable);
             StopMessengeService();
             StopPhoneService();
+            StopMailService();
             StopForeground(true);
             StopSelf();
+            _cfg.sms.IsHandleSMSRunnig = false;
+            _cfg.phone.IsHandlePhoneRunnig = false;
         }
 
         private void StartMainService()
@@ -141,6 +169,8 @@ namespace FreeHand
                 RegisterForegroundService();
                 //handler.PostDelayed(runnable, Model.Constants.DELAY_BETWEEN_LOG_MESSAGES);
                 StartMessenegeService();
+                if (_cfg.mail.Enable)
+                    StartMailService();
                 if (_cfg.phone.Enable) 
                     StartPhoneService();
                

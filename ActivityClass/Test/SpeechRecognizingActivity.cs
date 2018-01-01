@@ -18,8 +18,7 @@ namespace FreeHand
     public class SpeechRecognizingActivity : Activity, IRecognitionListener
     {
         private static readonly string LOG_TAG = "SpeechRecognizingActivity";
-        private SpeechRecognizer speech;
-        private static SpeechRecognizingActivity _instance;
+        private SpeechRecognizer speech;      
         //bool isRun = false;
         //private TextView txt_view;
         //private ProgressBar processbar;

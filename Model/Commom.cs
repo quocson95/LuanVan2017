@@ -158,5 +158,22 @@ namespace FreeHand.Model
             intent.SetAction(Constants.ACTION_STOP_MAIL_SERVICE);
             Android.App.Application.Context.StartService(intent);
         }
+
+        public static void AddMailAccount(string email, string token)
+        {
+            Intent intent = new Intent(Android.App.Application.Context, typeof(MainService));
+            intent.SetAction(Constants.ACTION_ADD_ACCOUNT_MAIL_SERVICE);
+            intent.PutExtra("email",email);
+            intent.PutExtra("token", token);
+            Android.App.Application.Context.StartService(intent);
+        }
+
+        public static void DelMailAccount(string email)
+        {
+            Intent intent = new Intent(Android.App.Application.Context, typeof(MainService));
+            intent.SetAction(Constants.ACTION_DEL_ACCOUNT_MAIL_SERVICE);
+            intent.PutExtra("email",email);
+            Android.App.Application.Context.StartService(intent);
+        }
     }
 }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System;
 using FreeHand.Message.Mail;
+using Xamarin.Auth;
 
 namespace FreeHand
 {
@@ -187,10 +188,10 @@ namespace FreeHand
 
         }
 
-        public class Account
+        public class Account_TODO_DELETE
         {
             public IList<IMailAction> LstMail { get; set; }
-            public Account()
+            public Account_TODO_DELETE()
             {
                 LstMail = new List<IMailAction>();
             }
@@ -216,6 +217,8 @@ namespace FreeHand
         public class Mail
         {
             public IList<Tuple<string, string>> lstAccount;
+            public IList<Tuple<User, Account>> AccountEmail;
+
             public bool Enable { get; set; }
             public bool AutoReply { get; set; }
             public string ContentReply { get; set; }
@@ -231,6 +234,7 @@ namespace FreeHand
             public Mail()
             {
                 lstAccount = new List<Tuple<string, string>>();
+                AccountEmail = new List<Tuple<User, Account>>();
                 Enable = false;
                 AutoReply = false;
                 ContentReply = "";
@@ -274,7 +278,7 @@ namespace FreeHand
         public Phone phone;
         public SMS sms;
         public Speech speech;
-        public Account account;
+        public Account_TODO_DELETE account;
         public Mail mail;
         public bool IsUpdateCfg { get; set; }
 
@@ -287,7 +291,7 @@ namespace FreeHand
             sms = new SMS();
             speech = new Speech();
             mail = new Mail();
-            account = new Account();
+            account = new Account_TODO_DELETE();
         }
 
         public static Config Instance()

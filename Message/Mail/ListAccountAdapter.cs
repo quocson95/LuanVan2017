@@ -1,22 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Android.App;
 using Android.Views;
 using Android.Widget;
+using Xamarin.Auth;
 
 namespace FreeHand.Message.Mail
 {    
-    public class ListAccountAdapter : BaseAdapter<IMailAction>
+    public class ListAccountAdapter : BaseAdapter<User>
     {
-        IList<IMailAction> items;
+        IList<Tuple<User, Account>> items;
         Activity context;
-        public ListAccountAdapter(Activity context, IList<IMailAction> items): base()
+        public ListAccountAdapter(Activity context, IList<Tuple<User,Account>> items): base()
         {
                    this.context = context;
                    this.items = items;
         }
-        public override IMailAction this[int position] 
+        public override User this[int position] 
         {
-            get { return items[position]; }
+            get { return items[position].Item1; }
         }
 
         public override int Count
@@ -39,9 +41,9 @@ namespace FreeHand.Message.Mail
             TextView nameDisplay = view.FindViewById<TextView>(Resource.Id.nameDisplay);
             Switch swActive = view.FindViewById<Switch>(Resource.Id.sw_active);
 
-            name_login.Text = item.GetNameLogin();
-            nameDisplay.Text = "";
-            swActive.Selected = item.GetActive();
+            name_login.Text = item.Item1.Email;
+            nameDisplay.Text = item.Item1.Name;
+            //swActive.Selected = item.GetActive();
             return view;;
         }
 

@@ -15,15 +15,15 @@ namespace FreeHand.Message.Mail
     {
         private static readonly string TAG = typeof(GmailAction).FullName;
         private ImapClient client;
-        private string usr, pwd;
+        private string email, token;
         string _type = "Gmail";
         bool isActive;
         public delegate void MarkSeenAction(MailKit.UniqueId uid);
         private MarkSeenAction markSeenAction;
-        public GmailAction(string usr, string pwd)
+        public GmailAction(string usr, string token)
         {
-            this.usr = usr;
-            this.pwd = pwd;
+            this.email = usr;
+            this.token = token;
             markSeenAction = MarkSeen;
             isActive = false;
             client = new ImapClient();
@@ -41,29 +41,49 @@ namespace FreeHand.Message.Mail
         }
         public void Login()
         {
-            Log.Info(TAG, "Login");
             try
             {
-                client.ServerCertificateValidationCallback = (s, c, ch, e) => true;
-                client.Connect("imap.gmail.com", 993, SecureSocketOptions.Auto);
+                if (!client.IsConnected)
+                {
+                    client.Connect("imap.gmail.com", 993, true);
+                }
 
-                // disable OAuth2 authentication unless you are actually using an access_token
-                //client.AuthenticationMechanisms.Remove("XOAUTH2");
-
-                client.Authenticate(usr, pwd);
-
+                // use the access token as the password string
+                client.Authenticate(email, token);
                 var folder = client.Inbox;
-
                 folder.Status(StatusItems.Count | StatusItems.Unread);
                 int total = folder.Count;
                 int unread = folder.Unread;
-                // do stuff...
-                Console.WriteLine("total  {0} \nunread {1}", total, unread);
+                Console.WriteLine("total  {0} \nunread {1}", total, unread);               
             }
-            catch (Exception e)
+            catch(Exception e)
             {
-                Log.Error(TAG, "Login err " + e);
+                Log.Debug(TAG,e.Message);
             }
+
+            //Log.Info(TAG, "Login");
+            //try
+            //{
+            //    client.ServerCertificateValidationCallback = (s, c, ch, e) => true;
+            //    client.Connect("imap.gmail.com", 993, SecureSocketOptions.Auto);
+
+            //    // disable OAuth2 authentication unless you are actually using an access_token
+            //    //client.AuthenticationMechanisms.Remove("XOAUTH2");
+
+            //    client.Authenticate(usr, token);
+
+            //    var folder = client.Inbox;
+
+            //    folder.Status(StatusItems.Count | StatusItems.Unread);
+            //    int total = folder.Count;
+            //    int unread = folder.Unread;
+            //    // do stuff...
+            //    Console.WriteLine("total  {0} \nunread {1}", total, unread);
+            //}
+            //catch (Exception e)
+            //{
+            //    Log.Error(TAG, "Login err " + e);
+            //}
 
         }
 
@@ -71,7 +91,7 @@ namespace FreeHand.Message.Mail
 
         public List<IMessengeData> SyncInbox()
         {
-            Log.Info(TAG, "SyncInbox");
+            Log.Info(TAG, "SyncInbox {0}",email);
 
             List<IMessengeData> lstInbox = new List<IMessengeData>();
             if (isLogin())
@@ -133,7 +153,7 @@ namespace FreeHand.Message.Mail
 
         public string GetNameLogin()
         {
-            return usr;
+            return email;
         }
 
         public bool GetActive()
@@ -145,7 +165,7 @@ namespace FreeHand.Message.Mail
 
         public string GetPwd()
         {
-            return pwd;
+            return token;
         }
 
         public void Reply()
@@ -167,6 +187,7 @@ namespace FreeHand.Message.Mail
                 int total = folder.Count;
                 int unread = folder.Unread;
                 Console.WriteLine("total  {0} \nunread {1}", total, unread);
+                client.Disconnect(true);
             }
         }
     }

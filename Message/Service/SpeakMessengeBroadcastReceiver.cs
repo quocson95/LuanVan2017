@@ -61,7 +61,7 @@ namespace FreeHand.Message.Service
             _config.sms.IsHandleSMSRunnig = true;
             stop = false;
             Log.Info(TAG, "SMS Handle status {0}  " , _config.sms.IsHandleSMSRunnig.ToString());
-
+            Log.Debug(TAG, "Queue {0}", _messengeQueue.Count());
             Model.IMessengeData messengeData = null;
 
             int try_listen = 3;

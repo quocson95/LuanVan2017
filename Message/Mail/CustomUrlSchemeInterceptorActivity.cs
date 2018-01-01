@@ -12,7 +12,7 @@ namespace FreeHand.Message.Mail
     [IntentFilter(
         new[] { Intent.ActionView},
         Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
-        DataSchemes = new[] { "com.googleusercontent.apps.896076308445-4l5u94fiaiq46md94st5opev4vrpqcc4" },
+        DataSchemes = new[] { Model.Constants.CallbackUri },
     DataPath = "/oauth2redirect")]
     public class CustomUrlSchemeInterceptorActivity : Activity
     {        

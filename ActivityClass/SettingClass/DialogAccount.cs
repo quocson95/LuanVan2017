@@ -12,8 +12,8 @@ namespace FreeHand.ActivityClass.SettingClass
             var view = inflater.Inflate(Resource.Layout.Diaglog_Select_Account, container, false);
             Android.Widget.Button google = view.FindViewById<Android.Widget.Button>(Resource.Id.google_button);
             google.Click += delegate {
-                LoginMethod activity = (LoginMethod)Activity;
-                activity.updateResult("google");
+                InterfaceDialogCallback activity = (InterfaceDialogCallback)Activity;
+                activity.ICallbackDialog("google");
                 Dismiss();
             };
             return view;
@@ -29,8 +29,8 @@ namespace FreeHand.ActivityClass.SettingClass
         }
     }
 
-    public interface LoginMethod
+    public interface InterfaceDialogCallback
     {
-        void updateResult(string method);
+        void ICallbackDialog(string method);
     }
 }

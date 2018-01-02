@@ -451,6 +451,7 @@
     <AndroidResource Include="Resources\layout\setting_option_layout.axml" />
     <AndroidResource Include="Resources\layout\activity_token.axml" />
     <AndroidResource Include="Resources\drawable\openid_96dp.xml" />
+    <AndroidResource Include="Resources\drawable\circle_imageAvatar.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

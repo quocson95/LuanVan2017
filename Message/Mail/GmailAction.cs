@@ -8,6 +8,11 @@ using System.Collections.Generic;
 using MailKit;
 using MailKit.Search;
 using MailKit.Security;
+using System.Threading.Tasks;
+using MimeKit;
+using System.IO;
+using System.Linq;
+using MailKit.Net.Smtp;
 
 namespace FreeHand.Message.Mail
 {
@@ -20,11 +25,16 @@ namespace FreeHand.Message.Mail
         bool isActive;
         public delegate void MarkSeenAction(MailKit.UniqueId uid);
         private MarkSeenAction markSeenAction;
+
+        public delegate void ReplyAction(string content, IList<string> desAddr,MimeMessage message);
+        private ReplyAction replyAction;
+
         public GmailAction(string usr, string token)
         {
             this.email = usr;
             this.token = token;
             markSeenAction = MarkSeen;
+            replyAction = Reply;
             isActive = false;
             client = new ImapClient();
         }
@@ -89,33 +99,53 @@ namespace FreeHand.Message.Mail
 
 
 
-        public List<IMessengeData> SyncInbox()
+        public async Task<List<IMessengeData>> SyncInbox()
         {
             Log.Info(TAG, "SyncInbox {0}",email);
 
             List<IMessengeData> lstInbox = new List<IMessengeData>();
             if (isLogin())
             {
-                var inbox = client.Inbox;
-                inbox.Open(FolderAccess.ReadWrite);
-                Console.WriteLine("Total messages: {0}", inbox.Count);
-                Console.WriteLine("Recent messages: {0}", inbox.Recent);
-
-                foreach (var uid in inbox.Search(SearchQuery.NotSeen))
+                try
                 {
-                    IMessengeData mailData = new Gmail(uid, markSeenAction);
-                    var message = inbox.GetMessage(uid);
-                    Console.WriteLine("Subject: {0}", message.Subject);
-                    foreach (var mailbox in message.From.Mailboxes)
-                    {
-                        mailData.SetNameSender(mailbox.Name);
-                        mailData.SetAddrSender(mailbox.Address);
-                    }
+                    client.Timeout = 15000;
+                    await client.NoOpAsync();
+                    var inbox = client.Inbox;
+                    await inbox.OpenAsync(FolderAccess.ReadWrite);
+                    //inbox.Opened += (sender, e) => 
+                    //{
+                    //    Console.WriteLine("Total messages 2: {0}", inbox.Count);
+                    //    Console.WriteLine("Recent messages 2: {0}", inbox.Recent);
+                    //};
+                    Console.WriteLine("Total messages: {0}", inbox.Count);
+                    Console.WriteLine("Recent messages: {0}", inbox.Recent);
 
-                    mailData.SetMessengeContent(message.Subject);
-                    lstInbox.Add(mailData);
+                    foreach (var uid in inbox.Search(SearchQuery.NotSeen))
+                    {
+                        
+                        var message = inbox.GetMessage(uid);
+
+                        IMessengeData mailData = new Gmail(message, replyAction);
+                        Console.WriteLine("Subject: {0}", message.Subject);
+                        foreach (var mailbox in message.From.Mailboxes)
+                        {
+                            mailData.SetNameSender(mailbox.Name);
+                            mailData.SetAddrSender(mailbox.Address);
+                        }
+
+                        mailData.SetMessengeContent(message.Subject);
+                        mailData.SetDesAddress(this.email);
+                        inbox.AddFlags(uid, MessageFlags.Seen, true);
+                        lstInbox.Add(mailData);
+                    }
+                    inbox.Close(false);
+                }
+                catch(Exception e)
+                {
+                    Log.Error(TAG,e.Message);
                 }
             }
+
             else
             {
                 Log.Info(TAG, "Sync mail not run, not connect to server try login");
@@ -168,9 +198,83 @@ namespace FreeHand.Message.Mail
             return token;
         }
 
-        public void Reply()
+        public void Reply(string msg, IList<string> _addrDes,MimeMessage message)
         {
-            throw new NotImplementedException();
+            var reply = new MimeMessage();
+            reply.From.Add(new MailboxAddress(email));
+
+            // reply to the sender of the message
+            if (message.ReplyTo.Count > 0)
+            {
+                reply.To.AddRange(message.ReplyTo);
+            }
+            else if (message.From.Count > 0)
+            {
+                reply.To.AddRange(message.From);
+            }
+            else if (message.Sender != null)
+            {
+                reply.To.Add(message.Sender);
+            }
+
+            // include all of the other original recipients - TODO: remove ourselves from these lists
+            //reply.To.AddRange(message.To);
+            //reply.Cc.AddRange(message.Cc);
+
+            // set the reply subject
+            if (!message.Subject.StartsWith("Re:", StringComparison.OrdinalIgnoreCase))
+                reply.Subject = "Re: " + message.Subject;
+            else
+                reply.Subject = message.Subject;
+
+            // construct the In-Reply-To and References headers
+            if (!string.IsNullOrEmpty(message.MessageId))
+            {
+                reply.InReplyTo = message.MessageId;
+                foreach (var id in message.References)
+                    reply.References.Add(id);
+                reply.References.Add(message.MessageId);
+            }
+
+            // quote the original message text
+            using (var quoted = new StringWriter())
+            {
+                var sender = message.Sender ?? message.From.Mailboxes.FirstOrDefault();
+
+                quoted.WriteLine("On {0}, {1} wrote:", message.Date.ToString("f"), !string.IsNullOrEmpty(sender.Name) ? sender.Name : sender.Address);
+                using (var reader = new StringReader(message.TextBody))
+                {
+                    string line;
+
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        quoted.Write(msg);
+                        quoted.WriteLine(line);
+                    }
+                }
+
+                reply.Body = new TextPart("plain")
+                {
+                    Text = quoted.ToString()
+               };
+
+            }
+            using (var client2 = new SmtpClient())
+            {
+                client2.Connect("smtp.gmail.com", 465, SecureSocketOptions.SslOnConnect);
+
+                client2.Authenticate(email, token);
+
+                var options = FormatOptions.Default.Clone();
+
+                if (client2.Capabilities.HasFlag(SmtpCapabilities.UTF8))
+                    options.International = true;
+
+                client2.Send(options, reply);
+
+                client.Disconnect(true);
+            }
+
         }
 
         public void Login_v2(string email,string token)
@@ -190,5 +294,7 @@ namespace FreeHand.Message.Mail
                 client.Disconnect(true);
             }
         }
+
+       
     }
 }

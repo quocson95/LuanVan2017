@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FreeHand.Model;
+using MimeKit;
 
 namespace FreeHand.Message.Mail
 {
@@ -8,15 +9,17 @@ namespace FreeHand.Message.Mail
     {
         private List<string> _nameSender;
         private List<string> _addrSender;
+        private string _desAddress;
         private Model.TYPE_MESSAGE _type;
         private string _content;
-        private MailKit.UniqueId _uids;
+        MimeMessage _message;
         private GmailAction.MarkSeenAction markSeenAction;
-        public Gmail(MailKit.UniqueId uids, GmailAction.MarkSeenAction m1)
+        private GmailAction.ReplyAction _replyAction;
+        public Gmail(MimeMessage message, GmailAction.ReplyAction m1)
         {
             _type = Model.TYPE_MESSAGE.MAIL;
-            _uids = uids;
-            markSeenAction = m1;
+            _replyAction = m1;
+            this._message = message;
             _nameSender = new List<string>();
             _addrSender = new List<string>();
         }
@@ -45,16 +48,19 @@ namespace FreeHand.Message.Mail
             return result;
         }
 
-        public void MarkSeen()
+        public string GetDesAddress()
         {
-            markSeenAction(_uids);
+            return _desAddress;
         }
 
-        public string Reply(string msg)
+        public void MarkSeen()
         {
-            throw new NotImplementedException();
+            
+        }
 
-
+        public void Reply(string msg)
+        {
+            _replyAction(msg, _addrSender,_message);
         }
 
 
@@ -73,5 +79,9 @@ namespace FreeHand.Message.Mail
             _nameSender.Add(name);
         }
 
+        public void SetDesAddress(string des)
+        {
+            _desAddress = des;
+        }
     }
 }

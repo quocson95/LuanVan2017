@@ -32,8 +32,11 @@ namespace FreeHand.Message.Service
             else
             {                
                 Log.Info(TAG, "Start : Register MessengeManage");
-                if (_cfg.sms.Enable) RegisterSMSReceiver();
+                if (_cfg.sms.Enable) 
+                    RegisterSMSReceiver();
                 Application.Context.RegisterReceiver(this._speakReceicer, new IntentFilter("FreeHand.QueueMessenge.Invoke"));
+                _cfg.sms.IsHandleSMSRunnig = false;
+                _cfg.sms.StateSMS = Config.STATE_SMS.IDLE;
                 isStart = true;               
             }
                        

@@ -94,10 +94,12 @@ namespace FreeHand.Message.Service
                         switch (messengeData.Type())
                         {
                             case TYPE_MESSAGE.SMS:
-                                await SpeakMsg(_scripLang.tts_you_get_new_mess);
+                                if (_config.sms.Enable)
+                                    await SpeakMsg(_scripLang.tts_you_get_new_mess);
                                 break;
                             case TYPE_MESSAGE.MAIL:
-                                await SpeakMsg(_scripLang.tts_you_get_new_mail);
+                                if (_config.mail.Enable)
+                                    await SpeakMsg(_scripLang.tts_you_get_new_mail);
                                 break;
                         }
                         _config.sms.StateSMS = Config.STATE_SMS.SPEAK_NUMBER;
@@ -162,6 +164,8 @@ namespace FreeHand.Message.Service
                 else _config.sms.StateSMS = Config.STATE_SMS.DONE;
 
             }
+            else 
+                _config.sms.StateSMS = Config.STATE_SMS.DONE;
         }
 
         private async Task StateReadlyReply(IMessengeData messengeData)
@@ -169,7 +173,7 @@ namespace FreeHand.Message.Service
             switch (messengeData.Type())
             {
                 case TYPE_MESSAGE.SMS:
-                    if (!_config.sms.AllowAutoReply)
+                    if (!_config.sms.AllowAutoReply && _config.sms.Enable)
                     {
                         //await SpeakMsg( Resource.String.tts_do_you_want_rep);
                         await SpeakMsg(_scripLang.tts_ask_for_reply);
@@ -182,7 +186,7 @@ namespace FreeHand.Message.Service
                     }
                     break;
                 case TYPE_MESSAGE.MAIL:
-                    if (!_config.mail.AutoReply)
+                    if (!_config.mail.AutoReply && _config.mail.Enable)
                     {
                         //await SpeakMsg( Resource.String.tts_do_you_want_rep);
                         await SpeakMsg(_scripLang.tts_ask_for_reply);
@@ -205,11 +209,13 @@ namespace FreeHand.Message.Service
             switch (type)
             {
                 case TYPE_MESSAGE.SMS:
-                    Log.Info(TAG, "Auto reply mess {0}", _config.sms.CustomContetnReply);
+                    Log.Info(TAG, "Auto reply mess SMS {0}", _config.sms.CustomContetnReply);
                     messengeData.Reply(_config.sms.CustomContetnReply);
                     break;
                 case TYPE_MESSAGE.MAIL:
                     //TODO Add auto reply for mail
+                    Log.Info(TAG, "Auto reply mess mail {0}", _config.mail.ContentReply);
+                    messengeData.Reply(_config.mail.ContentReply);
                     break;
             }
         }
@@ -222,14 +228,14 @@ namespace FreeHand.Message.Service
             switch (messengeData.Type())
             {
                 case TYPE_MESSAGE.SMS:
-                    if (_config.sms.AllowSpeakContent)
+                    if (_config.sms.AllowSpeakContent && _config.sms.Enable)
                     {
                         await SpeakMsg(_scripLang.tts_content_mess);
                         await SpeakMsg(messengeData.GetMessengeContent());
                     }
                     break;
                 case TYPE_MESSAGE.MAIL:
-                    if (_config.mail.AllowSpeakContent)
+                    if (_config.mail.AllowSpeakContent && _config.mail.Enable)
                     {
                         await SpeakMsg(_scripLang.tts_subject_mail);
                         await SpeakMsg(messengeData.GetMessengeContent());
@@ -245,7 +251,7 @@ namespace FreeHand.Message.Service
             switch (messengeData.Type())
             {
                 case TYPE_MESSAGE.SMS:
-                    if (_config.sms.AllowSpeakName)
+                    if (_config.sms.AllowSpeakName && _config.sms.Enable)
                     {
                         //await SpeakMsg("Name Sender ");
                         //await SpeakMsg(Resource.String.tts_name_sender);
@@ -256,7 +262,7 @@ namespace FreeHand.Message.Service
                     }
                     break;
                 case TYPE_MESSAGE.MAIL:
-                    if (_config.mail.AllowSpeakName)
+                    if (_config.mail.AllowSpeakName && _config.mail.Enable)
                     {
                         //await SpeakMsg("Name Sender ");
                         //await SpeakMsg(Resource.String.tts_name_sender);
@@ -264,6 +270,9 @@ namespace FreeHand.Message.Service
                         if (messengeData.GetNameSender().Equals("Unknow"))
                             await SpeakMsg(_scripLang.tts_name_sender_content);
                         else await SpeakMsg(messengeData.GetNameSender());
+
+                        await SpeakMsg(_scripLang.tts_to);
+                        await SpeakMsg(messengeData.GetDesAddress());
                     }
                     break;
             }
@@ -277,7 +286,7 @@ namespace FreeHand.Message.Service
             switch (messengeData.Type())
             {
                 case TYPE_MESSAGE.SMS:
-                    if (_config.sms.AllowSpeakNumber)
+                    if (_config.sms.AllowSpeakNumber && _config.sms.Enable)
                     {
                         //await SpeakMsg("From ");
                         //await SpeakMsg(Resource.String.tts_from);
@@ -286,7 +295,7 @@ namespace FreeHand.Message.Service
                     }
                     break;
                 case TYPE_MESSAGE.MAIL:
-                    if (_config.mail.AllowSpeakAddr)
+                    if (_config.mail.AllowSpeakAddr && _config.mail.Enable)
                     {
                         //await SpeakMsg("From ");
                         //await SpeakMsg(Resource.String.tts_from);
@@ -351,7 +360,10 @@ namespace FreeHand.Message.Service
                     _config.sms.MessengeBackUp = result;
                     break;
                 default:
-                    result = (IMessengeData)_config.sms.MessengeBackUp;
+                    if (_config.sms.MessengeBackUp != null)
+                        result = (IMessengeData)_config.sms.MessengeBackUp;
+                    else
+                        result = null;
                     break;
             }
             return result;

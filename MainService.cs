@@ -26,14 +26,14 @@ namespace FreeHand
             base.OnCreate();
             Log.Info(TAG, "OnCreate: the service is initializing.");
             isStart = false;
-            handler = new Handler();
+            //handler = new Handler();
             _cfg = Config.Instance();
             // This Action is only for demonstration purposes.
-            runnable = new Action(() =>
-            {                           
-                    Log.Debug(TAG, "Test");
-                    handler.PostDelayed(runnable, Model.Constants.DELAY_BETWEEN_LOG_MESSAGES);
-            });
+            //runnable = new Action(() =>
+            //{                           
+            //        Log.Debug(TAG, "Test");
+            //        handler.PostDelayed(runnable, Model.Constants.DELAY_BETWEEN_LOG_MESSAGES);
+            //});
         }
 
         public override StartCommandResult OnStartCommand(Android.Content.Intent intent, StartCommandFlags flags, int startId)
@@ -144,7 +144,7 @@ namespace FreeHand
             //Stop Service
             isStart = false;
             Log.Info(TAG, "OnStartCommand: The Main service is stopped.");
-            handler.RemoveCallbacks(runnable);
+            //handler.RemoveCallbacks(runnable);
             StopMessengeService();
             StopPhoneService();
             StopMailService();

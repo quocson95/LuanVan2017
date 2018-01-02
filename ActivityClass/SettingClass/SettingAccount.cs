@@ -39,10 +39,10 @@ namespace FreeHand.ActivityClass.SettingClass
             SetContentView(Resource.Layout.Setting_Email_Layout);
 
             _cfg = Config.Instance();           
+            // Create your application here
             InitUI();
             SetListenerUI();
             InitDataUI();
-            // Create your application here
         }
 
         private void InitDataUI()

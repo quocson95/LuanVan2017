@@ -114,8 +114,18 @@ namespace FreeHand.ActivityClass.SettingClass
             {
                 if(resultCode == Result.Ok)
                 {
-                    _cfg.sms.CustomContetnReply = data.GetStringExtra("content_reply_ok");
-                    _tvContentSMSReply.Text = _cfg.sms.CustomContetnReply;
+                    string type = data.GetStringExtra("type");
+                    string content = data.GetStringExtra("content_reply_ok");;
+                    if (type.Equals("sms"))
+                    {
+                        _cfg.sms.CustomContetnReply = content;
+                        _tvContentSMSReply.Text = _cfg.sms.CustomContetnReply;
+                    }
+                    else if (type.Equals("mail"))
+                    {
+                        _cfg.mail.ContentReply = content;
+                        _tvContentMailReply.Text = content;
+                    }
                 }
             }
         }
@@ -343,9 +353,9 @@ namespace FreeHand.ActivityClass.SettingClass
 
             _customMailReply.Click += delegate {
                 Intent intent = new Intent(this, typeof(Custom_Reply_Messenge));
-                string type = JsonConvert.SerializeObject(Model.Constants.TYPE.MAIL);
+                string type = "mail";
                 intent.PutExtra("type", type);
-                StartActivity(intent);
+                StartActivityForResult(intent, Model.Constants.CODE_SETTING_CONTENT_REPLY);
             };
         }
 

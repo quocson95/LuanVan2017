@@ -19,6 +19,7 @@ namespace FreeHand.ActivityClass.SettingClass
         string[] items;
         EditText editText;
         Config _cfg;
+        string _type; 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -31,8 +32,8 @@ namespace FreeHand.ActivityClass.SettingClass
             listView.ItemClick += OnListItemClick;
             editText = FindViewById<EditText>(Resource.Id.textArea_content_sms_auto_reply);
             _cfg = Config.Instance();
-            string type = Intent.GetStringExtra("type");
-            SetDataEditText(type);
+            _type = Intent.GetStringExtra("type");
+            SetDataEditText(_type);
 
             Button OK = FindViewById<Button>(Resource.Id.btn_ok);
             Button Cancel = FindViewById<Button>(Resource.Id.btn_cancel);
@@ -42,6 +43,7 @@ namespace FreeHand.ActivityClass.SettingClass
             OK.Click += delegate
             {
                 callBackIntent.PutExtra("content_reply_ok", editText.Text);
+                callBackIntent.PutExtra("type",_type);
                 SetResult(Result.Ok, callBackIntent);
                 Finish();
             };
@@ -74,6 +76,7 @@ namespace FreeHand.ActivityClass.SettingClass
                     editText.Text = _cfg.sms.CustomContetnReply;
                     break;
                 case "mail":
+                    editText.Text = _cfg.mail.ContentReply;
                     //TODO
                     break;
                 case "phone":

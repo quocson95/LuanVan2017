@@ -2397,26 +2397,26 @@ namespace FreeHand
 			// aapt resource value: 0x7f020055
 			public const int avd_hide_password = 2130837589;
 			
-			// aapt resource value: 0x7f0200ae
-			public const int avd_hide_password_1 = 2130837678;
-			
 			// aapt resource value: 0x7f0200af
-			public const int avd_hide_password_2 = 2130837679;
+			public const int avd_hide_password_1 = 2130837679;
 			
 			// aapt resource value: 0x7f0200b0
-			public const int avd_hide_password_3 = 2130837680;
+			public const int avd_hide_password_2 = 2130837680;
+			
+			// aapt resource value: 0x7f0200b1
+			public const int avd_hide_password_3 = 2130837681;
 			
 			// aapt resource value: 0x7f020056
 			public const int avd_show_password = 2130837590;
 			
-			// aapt resource value: 0x7f0200b1
-			public const int avd_show_password_1 = 2130837681;
-			
 			// aapt resource value: 0x7f0200b2
-			public const int avd_show_password_2 = 2130837682;
+			public const int avd_show_password_1 = 2130837682;
 			
 			// aapt resource value: 0x7f0200b3
-			public const int avd_show_password_3 = 2130837683;
+			public const int avd_show_password_2 = 2130837683;
+			
+			// aapt resource value: 0x7f0200b4
+			public const int avd_show_password_3 = 2130837684;
 			
 			// aapt resource value: 0x7f020057
 			public const int @base = 2130837591;
@@ -2446,238 +2446,241 @@ namespace FreeHand
 			public const int circle = 2130837599;
 			
 			// aapt resource value: 0x7f020060
-			public const int circle_shape = 2130837600;
+			public const int circle_imageAvatar = 2130837600;
 			
 			// aapt resource value: 0x7f020061
-			public const int circle_shape_blue = 2130837601;
+			public const int circle_shape = 2130837601;
 			
 			// aapt resource value: 0x7f020062
-			public const int circle_shape_white = 2130837602;
+			public const int circle_shape_blue = 2130837602;
 			
 			// aapt resource value: 0x7f020063
-			public const int color_text_press = 2130837603;
+			public const int circle_shape_white = 2130837603;
 			
 			// aapt resource value: 0x7f020064
-			public const int contact_ico = 2130837604;
+			public const int color_text_press = 2130837604;
 			
 			// aapt resource value: 0x7f020065
-			public const int copy_right = 2130837605;
-			
-			// aapt resource value: 0x7f0200aa
-			public const int default_background = 2130837674;
+			public const int contact_ico = 2130837605;
 			
 			// aapt resource value: 0x7f020066
-			public const int design_bottom_navigation_item_background = 2130837606;
-			
-			// aapt resource value: 0x7f020067
-			public const int design_fab_background = 2130837607;
-			
-			// aapt resource value: 0x7f020068
-			public const int design_ic_visibility = 2130837608;
-			
-			// aapt resource value: 0x7f020069
-			public const int design_ic_visibility_off = 2130837609;
-			
-			// aapt resource value: 0x7f02006a
-			public const int design_password_eye = 2130837610;
-			
-			// aapt resource value: 0x7f02006b
-			public const int design_snackbar_background = 2130837611;
-			
-			// aapt resource value: 0x7f02006c
-			public const int Download_Clockwise = 2130837612;
-			
-			// aapt resource value: 0x7f02006d
-			public const int EditTextStyle = 2130837613;
-			
-			// aapt resource value: 0x7f02006e
-			public const int email_ico = 2130837614;
-			
-			// aapt resource value: 0x7f02006f
-			public const int EnableDisableColor = 2130837615;
-			
-			// aapt resource value: 0x7f020070
-			public const int end = 2130837616;
-			
-			// aapt resource value: 0x7f020071
-			public const int forward_default = 2130837617;
-			
-			// aapt resource value: 0x7f020072
-			public const int forward_press = 2130837618;
-			
-			// aapt resource value: 0x7f020073
-			public const int gmail = 2130837619;
-			
-			// aapt resource value: 0x7f020074
-			public const int google_36 = 2130837620;
-			
-			// aapt resource value: 0x7f020075
-			public const int google_image = 2130837621;
-			
-			// aapt resource value: 0x7f020076
-			public const int googleImage = 2130837622;
-			
-			// aapt resource value: 0x7f020077
-			public const int ic_arrow_back = 2130837623;
-			
-			// aapt resource value: 0x7f020078
-			public const int label_switch = 2130837624;
-			
-			// aapt resource value: 0x7f020079
-			public const int listen_ico = 2130837625;
-			
-			// aapt resource value: 0x7f02007a
-			public const int load = 2130837626;
-			
-			// aapt resource value: 0x7f02007b
-			public const int loading_animation = 2130837627;
-			
-			// aapt resource value: 0x7f02007c
-			public const int main_circle_press = 2130837628;
-			
-			// aapt resource value: 0x7f02007d
-			public const int main_text_circle_press = 2130837629;
-			
-			// aapt resource value: 0x7f02007e
-			public const int messenge_ico = 2130837630;
-			
-			// aapt resource value: 0x7f02007f
-			public const int mk_zalo_ico = 2130837631;
-			
-			// aapt resource value: 0x7f020080
-			public const int navigation_empty_icon = 2130837632;
-			
-			// aapt resource value: 0x7f020081
-			public const int notification_action_background = 2130837633;
-			
-			// aapt resource value: 0x7f020082
-			public const int notification_bg = 2130837634;
-			
-			// aapt resource value: 0x7f020083
-			public const int notification_bg_low = 2130837635;
-			
-			// aapt resource value: 0x7f020084
-			public const int notification_bg_low_normal = 2130837636;
-			
-			// aapt resource value: 0x7f020085
-			public const int notification_bg_low_pressed = 2130837637;
-			
-			// aapt resource value: 0x7f020086
-			public const int notification_bg_normal = 2130837638;
-			
-			// aapt resource value: 0x7f020087
-			public const int notification_bg_normal_pressed = 2130837639;
-			
-			// aapt resource value: 0x7f020088
-			public const int notification_icon_background = 2130837640;
-			
-			// aapt resource value: 0x7f0200a8
-			public const int notification_template_icon_bg = 2130837672;
-			
-			// aapt resource value: 0x7f0200a9
-			public const int notification_template_icon_low_bg = 2130837673;
-			
-			// aapt resource value: 0x7f020089
-			public const int notification_tile_bg = 2130837641;
-			
-			// aapt resource value: 0x7f02008a
-			public const int notify_panel_notification_icon_bg = 2130837642;
-			
-			// aapt resource value: 0x7f02008b
-			public const int openid_96dp = 2130837643;
-			
-			// aapt resource value: 0x7f02008c
-			public const int phone_ico = 2130837644;
-			
-			// aapt resource value: 0x7f02008d
-			public const int policy_ico = 2130837645;
-			
-			// aapt resource value: 0x7f0200ad
-			public const int press_label_switch_default = 2130837677;
-			
-			// aapt resource value: 0x7f0200ac
-			public const int press_label_switch_press = 2130837676;
+			public const int copy_right = 2130837606;
 			
 			// aapt resource value: 0x7f0200ab
-			public const int pressed_background = 2130837675;
+			public const int default_background = 2130837675;
+			
+			// aapt resource value: 0x7f020067
+			public const int design_bottom_navigation_item_background = 2130837607;
+			
+			// aapt resource value: 0x7f020068
+			public const int design_fab_background = 2130837608;
+			
+			// aapt resource value: 0x7f020069
+			public const int design_ic_visibility = 2130837609;
+			
+			// aapt resource value: 0x7f02006a
+			public const int design_ic_visibility_off = 2130837610;
+			
+			// aapt resource value: 0x7f02006b
+			public const int design_password_eye = 2130837611;
+			
+			// aapt resource value: 0x7f02006c
+			public const int design_snackbar_background = 2130837612;
+			
+			// aapt resource value: 0x7f02006d
+			public const int Download_Clockwise = 2130837613;
+			
+			// aapt resource value: 0x7f02006e
+			public const int EditTextStyle = 2130837614;
+			
+			// aapt resource value: 0x7f02006f
+			public const int email_ico = 2130837615;
+			
+			// aapt resource value: 0x7f020070
+			public const int EnableDisableColor = 2130837616;
+			
+			// aapt resource value: 0x7f020071
+			public const int end = 2130837617;
+			
+			// aapt resource value: 0x7f020072
+			public const int forward_default = 2130837618;
+			
+			// aapt resource value: 0x7f020073
+			public const int forward_press = 2130837619;
+			
+			// aapt resource value: 0x7f020074
+			public const int gmail = 2130837620;
+			
+			// aapt resource value: 0x7f020075
+			public const int google_36 = 2130837621;
+			
+			// aapt resource value: 0x7f020076
+			public const int google_image = 2130837622;
+			
+			// aapt resource value: 0x7f020077
+			public const int googleImage = 2130837623;
+			
+			// aapt resource value: 0x7f020078
+			public const int ic_arrow_back = 2130837624;
+			
+			// aapt resource value: 0x7f020079
+			public const int label_switch = 2130837625;
+			
+			// aapt resource value: 0x7f02007a
+			public const int listen_ico = 2130837626;
+			
+			// aapt resource value: 0x7f02007b
+			public const int load = 2130837627;
+			
+			// aapt resource value: 0x7f02007c
+			public const int loading_animation = 2130837628;
+			
+			// aapt resource value: 0x7f02007d
+			public const int main_circle_press = 2130837629;
+			
+			// aapt resource value: 0x7f02007e
+			public const int main_text_circle_press = 2130837630;
+			
+			// aapt resource value: 0x7f02007f
+			public const int messenge_ico = 2130837631;
+			
+			// aapt resource value: 0x7f020080
+			public const int mk_zalo_ico = 2130837632;
+			
+			// aapt resource value: 0x7f020081
+			public const int navigation_empty_icon = 2130837633;
+			
+			// aapt resource value: 0x7f020082
+			public const int notification_action_background = 2130837634;
+			
+			// aapt resource value: 0x7f020083
+			public const int notification_bg = 2130837635;
+			
+			// aapt resource value: 0x7f020084
+			public const int notification_bg_low = 2130837636;
+			
+			// aapt resource value: 0x7f020085
+			public const int notification_bg_low_normal = 2130837637;
+			
+			// aapt resource value: 0x7f020086
+			public const int notification_bg_low_pressed = 2130837638;
+			
+			// aapt resource value: 0x7f020087
+			public const int notification_bg_normal = 2130837639;
+			
+			// aapt resource value: 0x7f020088
+			public const int notification_bg_normal_pressed = 2130837640;
+			
+			// aapt resource value: 0x7f020089
+			public const int notification_icon_background = 2130837641;
+			
+			// aapt resource value: 0x7f0200a9
+			public const int notification_template_icon_bg = 2130837673;
+			
+			// aapt resource value: 0x7f0200aa
+			public const int notification_template_icon_low_bg = 2130837674;
+			
+			// aapt resource value: 0x7f02008a
+			public const int notification_tile_bg = 2130837642;
+			
+			// aapt resource value: 0x7f02008b
+			public const int notify_panel_notification_icon_bg = 2130837643;
+			
+			// aapt resource value: 0x7f02008c
+			public const int openid_96dp = 2130837644;
+			
+			// aapt resource value: 0x7f02008d
+			public const int phone_ico = 2130837645;
 			
 			// aapt resource value: 0x7f02008e
-			public const int reject_all = 2130837646;
+			public const int policy_ico = 2130837646;
+			
+			// aapt resource value: 0x7f0200ae
+			public const int press_label_switch_default = 2130837678;
+			
+			// aapt resource value: 0x7f0200ad
+			public const int press_label_switch_press = 2130837677;
+			
+			// aapt resource value: 0x7f0200ac
+			public const int pressed_background = 2130837676;
 			
 			// aapt resource value: 0x7f02008f
-			public const int reject_only = 2130837647;
+			public const int reject_all = 2130837647;
 			
 			// aapt resource value: 0x7f020090
-			public const int right_arrow = 2130837648;
+			public const int reject_only = 2130837648;
 			
 			// aapt resource value: 0x7f020091
-			public const int setting_circle_default = 2130837649;
+			public const int right_arrow = 2130837649;
 			
 			// aapt resource value: 0x7f020092
-			public const int setting_circle_press = 2130837650;
+			public const int setting_circle_default = 2130837650;
 			
 			// aapt resource value: 0x7f020093
-			public const int setting_circle_touch = 2130837651;
+			public const int setting_circle_press = 2130837651;
 			
 			// aapt resource value: 0x7f020094
-			public const int setting_text_circle_press = 2130837652;
+			public const int setting_circle_touch = 2130837652;
 			
 			// aapt resource value: 0x7f020095
-			public const int settings_40 = 2130837653;
+			public const int setting_text_circle_press = 2130837653;
 			
 			// aapt resource value: 0x7f020096
-			public const int shape = 2130837654;
+			public const int settings_40 = 2130837654;
 			
 			// aapt resource value: 0x7f020097
-			public const int sms_ico = 2130837655;
+			public const int shape = 2130837655;
 			
 			// aapt resource value: 0x7f020098
-			public const int speech_ico = 2130837656;
+			public const int sms_ico = 2130837656;
 			
 			// aapt resource value: 0x7f020099
-			public const int splash_logo = 2130837657;
+			public const int speech_ico = 2130837657;
 			
 			// aapt resource value: 0x7f02009a
-			public const int splash_screen = 2130837658;
+			public const int splash_logo = 2130837658;
 			
 			// aapt resource value: 0x7f02009b
-			public const int start = 2130837659;
+			public const int splash_screen = 2130837659;
 			
 			// aapt resource value: 0x7f02009c
-			public const int stroke = 2130837660;
+			public const int start = 2130837660;
 			
 			// aapt resource value: 0x7f02009d
-			public const int subtract = 2130837661;
+			public const int stroke = 2130837661;
 			
 			// aapt resource value: 0x7f02009e
-			public const int support = 2130837662;
+			public const int subtract = 2130837662;
 			
 			// aapt resource value: 0x7f02009f
-			public const int term_ico = 2130837663;
+			public const int support = 2130837663;
 			
 			// aapt resource value: 0x7f0200a0
-			public const int test_ico = 2130837664;
+			public const int term_ico = 2130837664;
 			
 			// aapt resource value: 0x7f0200a1
-			public const int tooltip_frame_dark = 2130837665;
+			public const int test_ico = 2130837665;
 			
 			// aapt resource value: 0x7f0200a2
-			public const int tooltip_frame_light = 2130837666;
+			public const int tooltip_frame_dark = 2130837666;
 			
 			// aapt resource value: 0x7f0200a3
-			public const int voice_ico = 2130837667;
+			public const int tooltip_frame_light = 2130837667;
 			
 			// aapt resource value: 0x7f0200a4
-			public const int zalo_ico = 2130837668;
+			public const int voice_ico = 2130837668;
 			
 			// aapt resource value: 0x7f0200a5
-			public const int zalo_ico_320 = 2130837669;
+			public const int zalo_ico = 2130837669;
 			
 			// aapt resource value: 0x7f0200a6
-			public const int zalo_ico_36 = 2130837670;
+			public const int zalo_ico_320 = 2130837670;
 			
 			// aapt resource value: 0x7f0200a7
-			public const int zaloimage = 2130837671;
+			public const int zalo_ico_36 = 2130837671;
+			
+			// aapt resource value: 0x7f0200a8
+			public const int zaloimage = 2130837672;
 			
 			static Drawable()
 			{

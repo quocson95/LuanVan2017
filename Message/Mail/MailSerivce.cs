@@ -140,7 +140,7 @@ namespace FreeHand.Message.Mail
             handler.Dispose();
         }
 
-        public void SyncMail()
+        public async void SyncMail()
         {
             Log.Debug(TAG, "Start Sync Mail, number account {0}",lstMailAction.Count());
             foreach (var item in lstMailAction )
@@ -149,7 +149,8 @@ namespace FreeHand.Message.Mail
                 {
                     item.Login();
                 }
-                IList<IMessengeData> inbox = item.SyncInbox();
+
+                IList<IMessengeData> inbox = await item.SyncInbox();
                 if (inbox.Count > 0)
                 {
                     if (_cfg.mail.Enable)

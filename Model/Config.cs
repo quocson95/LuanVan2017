@@ -123,7 +123,7 @@ namespace FreeHand
                 MessengeBackUp = null;
                 IsHandleSMSRunnig = false;
                 BlockList = new List<Tuple<string, string>>();
-
+                CustomContetnReply = "Sample";
                 Backup();
             }
 

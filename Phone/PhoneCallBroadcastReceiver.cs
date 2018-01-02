@@ -6,6 +6,7 @@ using Android.Media;
 using Android.Util;
 using Android.Telephony;
 using Android.Runtime;
+using Android.Provider;
 
 namespace FreeHand.Phone
 {
@@ -18,16 +19,17 @@ namespace FreeHand.Phone
         TTSLib _tts;
         string _telephone,_answer;
         bool _acceptCall;
-        Context _context;
+        Context _context;       
         RingerMode _stateRingMode;
         Model.ScriptLang _scriptLang;
-        public PhoneCallBroadcastReceiver()        
+        public PhoneCallBroadcastReceiver()
         {
-            Log.Info(TAG, "Initializing");           
+            Log.Info(TAG, "Initializing");
             _config = Config.Instance();
             _tts = TTSLib.Instance();
             _scriptLang = Model.ScriptLang.Instance();
         }
+
 
          async Task PhoneCallHanler()
         {
@@ -84,7 +86,32 @@ namespace FreeHand.Phone
             am.RingerMode = _stateRingMode;
         }
 
+        int CountMissCall()
+        {
+            // filter call logs by type = missed
+            string queryFilter = String.Format("{0}={1}", CallLog.Calls.Type, (int)CallType.Missed);
+            // filter in desc order limit by no
+            string querySorter = String.Format("{0} desc ", CallLog.Calls.Date);
+            // CallLog.Calls.ContentUri is the path where data is saved
+            Android.Database.ICursor queryData = Application.Context.ContentResolver.Query(CallLog.Calls.ContentUri, null, queryFilter, null, querySorter);
+            int missCall = 0;
+            while (queryData.MoveToNext())
+            {
+                //---phone number---
+                string callNumber = queryData.GetString(queryData.GetColumnIndex(CallLog.Calls.Number));
 
+                //---date of call---
+                string callDate = queryData.GetString(queryData.GetColumnIndex(CallLog.Calls.Date));
+
+                //---1-incoming; 2-outgoing; 3-missed---
+                String callType = queryData.GetString(queryData.GetColumnIndex(CallLog.Calls.Type));
+                String callNew= queryData.GetString(queryData.GetColumnIndex(CallLog.Calls.New));
+                Log.Info(TAG,"Number {0} date {1} type {2} isNew {3} ",callNumber,callDate,callType,callNew);
+                if (callNew.Equals("1"))
+                    missCall++;
+            }
+            return missCall;
+        }
         public override void OnReceive(Context context, Intent intent)
         {
             _context = context;
@@ -101,7 +128,7 @@ namespace FreeHand.Phone
                     Log.Info(TAG, "Phone ExtraStateRinging");
                     _telephone = intent.GetStringExtra(TelephonyManager.ExtraIncomingNumber);
                     Log.Info(TAG, "Incoming Numer " + _telephone);                                     
-                    CheckCall(_telephone, context);                                                        
+                    CheckCall(_telephone, context);                   
                 }
                 else if (state == TelephonyManager.ExtraStateOffhook)
                 {
@@ -126,8 +153,11 @@ namespace FreeHand.Phone
 
                     if (_config.phone.AutoReply && !_acceptCall)
                     {
-                        Log.Info(TAG,"Send sms inform miss call {0}",_config.phone.ContentReply);
-                        SendReply(_telephone);
+                        if (CountMissCall() > 0)
+                        {
+                            Log.Info(TAG, "Send sms inform miss call, content sms:  {0}", _config.phone.ContentReply);
+                            SendReply(_telephone);
+                        }
                     }
                     // incoming call end
                 }

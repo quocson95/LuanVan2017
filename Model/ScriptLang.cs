@@ -15,6 +15,7 @@ namespace FreeHand.Model
         public string tts_name_sender;
         public string tts_you_get_new_mess;
         public string tts_from;
+        public string tts_to;
         public string tts_new_call;
         public string tts_name_caller;
         public string tts_ask_for_reply;
@@ -45,6 +46,7 @@ namespace FreeHand.Model
             tts_name_sender = "Name of Sender";
             tts_you_get_new_mess = "You get a new message";
             tts_from = "From";
+            tts_to = "To email address";
             tts_new_call = "You has new call";
             tts_name_caller = "Name of caller";
             tts_ask_for_reply = "Please speak your reply after sound beep";
@@ -64,11 +66,13 @@ namespace FreeHand.Model
             tts_name_sender = "Tên người gửi";
             tts_you_get_new_mess = "Bạn nhận được một tin nhắn mới";
             tts_from = "Từ";
+            tts_to = "Tới địa chỉ email";
             tts_new_call = "Bạn có một cuộc gọi mới";
             tts_name_caller = "Tên người gọi";
             tts_ask_for_reply = "Vui lòng đọc nôi dung trả lời sau tiếng bíp";
             tts_name_sender_content = "Không rõ";
-            tts_you_get_new_mail = "Bạn có n cuộc gọi nhỡ";
+            tts_you_get_new_mail = "Bạn có email mới";
+
             persist("vi");
         }
 

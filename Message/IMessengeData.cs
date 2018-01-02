@@ -10,7 +10,9 @@
         string GetMessengeContent();
         string GetNameSender();
         string GetAddrSender();
-        string Reply(string msg);       
+        void Reply(string msg);
+        string GetDesAddress();
+        void SetDesAddress(string des);
         void SetNameSender(string name);
         void SetMessengeContent(string content);
         void SetAddrSender(string addr);

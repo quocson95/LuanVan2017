@@ -126,6 +126,7 @@ namespace FreeHand
         //Font
         protected override void AttachBaseContext(Context @base)
         {
+            
             Context c = Model.LocaleHelper.onAttach(@base);
             base.AttachBaseContext(CalligraphyContextWrapper.Wrap(c));
         }

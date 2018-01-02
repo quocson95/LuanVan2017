@@ -35,13 +35,12 @@ namespace FreeHand.Model
         {
             return _number;
         }
-        public string Reply(string msg)
+        public void Reply(string msg)
         {
             if (!string.IsNullOrEmpty(msg))
                 SmsManager.Default.SendTextMessage(_number, null, msg, null, null);
             else
                 Console.WriteLine("message reply is null or empty");
-            return "";
         }
 
         public void SetMessengeContent(string name)
@@ -63,6 +62,15 @@ namespace FreeHand.Model
         {
             return _type;
         }
-               
+
+        public string GetDesAddress()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetDesAddress(string des)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

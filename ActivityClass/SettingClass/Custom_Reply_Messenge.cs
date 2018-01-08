@@ -77,7 +77,6 @@ namespace FreeHand.ActivityClass.SettingClass
                     break;
                 case "mail":
                     editText.Text = _cfg.mail.ContentReply;
-                    //TODO
                     break;
                 case "phone":
                     editText.Text = _cfg.phone.ContentReply;

@@ -1,17 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Android.Content;
+using Android.Util;
+using Newtonsoft.Json;
 using Xamarin.Auth;
 
 namespace FreeHand.Message.Mail
 {
     public class Google
-    {     
+    {
+        public static readonly string TAG = typeof(Google).FullName;
+
         public event EventHandler<AuthenticatorCompletedEventArgs> Completed;
 
         public Google()
-        {           
+        {
         }
+
 
         public void Authenticate()
         {
@@ -76,5 +83,26 @@ namespace FreeHand.Message.Mail
             string msg = sb.ToString();
             Console.WriteLine("Auth_Error: " + msg);
         }
+
+        public static async Task<Account> RefreshToken(Account account)
+        {
+            RefreshAccount refreshAccount;
+            Account newAccount = null;
+            Dictionary<string, string> dictionary = new Dictionary<string, string> { { "refresh_token", account.Properties["refresh_token"] }, { "client_id", Model.Constants.ClientID }, { "grant_type", "refresh_token" } };
+            var request = new OAuth2Request("POST", new Uri(Model.Constants.AccessTokenUrl), dictionary, account);
+            var response = await request.GetResponseAsync();
+            if (response != null && response.StatusCode.Equals(System.Net.HttpStatusCode.OK))
+            {
+                string accountJson = response.GetResponseText();
+                refreshAccount = JsonConvert.DeserializeObject<RefreshAccount>(accountJson);
+                var properties = account.Properties;
+                properties["access_token"] = refreshAccount.AccessToken;
+                newAccount = new Account("", properties, account.Cookies);
+
+            }
+            Log.Info(TAG,"Refresh token {0}",newAccount.ToString());
+            return newAccount;
+        }
     }
+
 }

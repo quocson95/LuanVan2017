@@ -6,6 +6,7 @@ using Android.Content;
 using Android.OS;
 using Android.Util;
 using FreeHand.Model;
+using Xamarin.Auth;
 
 namespace FreeHand.Message.Mail
 {
@@ -13,7 +14,7 @@ namespace FreeHand.Message.Mail
     {
         private static readonly string TAG = typeof(MailSerivce).FullName;
         Config _cfg;
-        bool isStart;
+        bool isStart,isSync;
         Handler handler;
         Action runnable;
         Context _context;
@@ -26,6 +27,7 @@ namespace FreeHand.Message.Mail
             _context = context;
             //_lstMail = _cfg.mail.GetListMailAction();
             isStart = false;
+            isSync = false;
             _messengeQueue = MessengeQueue.GetInstance();
             handler = new Handler();
 
@@ -40,13 +42,8 @@ namespace FreeHand.Message.Mail
                         handler.PostDelayed(runnable, Constants.DELAY_BETWEEN_SYNC_MAIL);
                     }
                     else 
-                    {
-                        DisconnectedMail();
-                        if (_cfg.mail.AccountEmail.Count() > 0)
-                        {
-                            DisconnectedMail();
-                            _cfg.mail.AccountEmail.Clear();
-                        }
+                    {                        
+                        //DisconnectedMail();
                     }
                 });
             });
@@ -96,15 +93,16 @@ namespace FreeHand.Message.Mail
             
         }
 
-        public void Start()
+        public async void Start()
         {
             if (!isStart)
             {
                 Log.Info(TAG,"Start Mail Service");
                 isStart = true;
                 foreach (var item in _cfg.mail.AccountEmail)
-                {
-                    IMailAction newMail = new GmailAction(item.Item1.Email, item.Item2.Properties["access_token"]);
+                {                  
+                    Account account = await Google.RefreshToken(item.Item2);
+                    IMailAction newMail = new GmailAction(item.Item1.Email, account.Properties["access_token"]);
                     lstMailAction.Add(newMail);
                 }
                 handler.PostDelayed(runnable, Constants.DELAY_BETWEEN_SYNC_MAIL);
@@ -118,7 +116,10 @@ namespace FreeHand.Message.Mail
             if (isStart){
                 Log.Info(TAG, "Stop Mail Service");
                 isStart = false;
-                handler.RemoveCallbacks(runnable);  
+                handler.UnregisterFromRuntime();
+                handler.RemoveCallbacks(runnable);
+                if (!isSync)
+                    DisconnectedMail();
                 _messengeQueue.CleanMail();
             }
             else 
@@ -127,6 +128,7 @@ namespace FreeHand.Message.Mail
 
         private void DisconnectedMail()
         {
+            Log.Debug(TAG,"DisconnectedMail");
             foreach (var item in lstMailAction)
             {
                 item.Logout();
@@ -142,9 +144,11 @@ namespace FreeHand.Message.Mail
 
         public async void SyncMail()
         {
+            isSync = true;
             Log.Debug(TAG, "Start Sync Mail, number account {0}",lstMailAction.Count());
             foreach (var item in lstMailAction )
             {
+                if (!isStart) break;
                 if (!item.isLogin())
                 {
                     item.Login();
@@ -161,6 +165,11 @@ namespace FreeHand.Message.Mail
                     }
                 }
             }
+            if (!isStart)
+            {
+                DisconnectedMail();
+            }
+            isSync = false;
         }
 
     }

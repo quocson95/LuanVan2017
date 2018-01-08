@@ -3106,6 +3106,9 @@ namespace FreeHand
 			// aapt resource value: 0x7f0900a4
 			public const int input_numer = 2131296420;
 			
+			// aapt resource value: 0x7f090135
+			public const int input_speak = 2131296565;
+			
 			// aapt resource value: 0x7f0900a5
 			public const int input_warning = 2131296421;
 			
@@ -3525,9 +3528,6 @@ namespace FreeHand
 			
 			// aapt resource value: 0x7f090133
 			public const int test_setting = 2131296563;
-			
-			// aapt resource value: 0x7f090135
-			public const int test_txt_input = 2131296565;
 			
 			// aapt resource value: 0x7f090019
 			public const int text = 2131296281;

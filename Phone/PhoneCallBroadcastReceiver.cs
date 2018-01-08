@@ -19,7 +19,8 @@ namespace FreeHand.Phone
         TTSLib _tts;
         string _telephone,_answer;
         bool _acceptCall;
-        Context _context;       
+        Context _context;
+        int _missCallBeforeIncomingCall;
         RingerMode _stateRingMode;
         Model.ScriptLang _scriptLang;
         public PhoneCallBroadcastReceiver()
@@ -28,18 +29,20 @@ namespace FreeHand.Phone
             _config = Config.Instance();
             _tts = TTSLib.Instance();
             _scriptLang = Model.ScriptLang.Instance();
+            _missCallBeforeIncomingCall = 0;
         }
 
 
          async Task PhoneCallHanler()
         {
             SetSilentRingMode();
-            if (_config.IsUpdateCfg)
-            {
-                _config.IsUpdateCfg = false;
-                await _tts.ReInitTTS();
-            }
+            //if (_config.IsUpdateCfg)
+            //{
+            //    _config.IsUpdateCfg = false;
+            //    await _tts.ReInitTTS();
+            //}
 
+            await _tts.GetTTS();
             string nameCaller;
             nameCaller = Model.Commom.GetNameFromPhoneNumber(_telephone);
             if (string.IsNullOrEmpty(nameCaller)){
@@ -106,10 +109,11 @@ namespace FreeHand.Phone
                 //---1-incoming; 2-outgoing; 3-missed---
                 String callType = queryData.GetString(queryData.GetColumnIndex(CallLog.Calls.Type));
                 String callNew= queryData.GetString(queryData.GetColumnIndex(CallLog.Calls.New));
-                Log.Info(TAG,"Number {0} date {1} type {2} isNew {3} ",callNumber,callDate,callType,callNew);
-                if (callNew.Equals("1"))
+                //Log.Info(TAG,"Number {0} date {1} type {2} isNew {3} ",callNumber,callDate,callType,callNew);
+                if (callType.Equals("3"))
                     missCall++;
             }
+            Log.Info(TAG,"Has {0} misscall",missCall);
             return missCall;
         }
         public override void OnReceive(Context context, Intent intent)
@@ -119,6 +123,7 @@ namespace FreeHand.Phone
             // ensure there is information
             if (intent.Extras != null)
             {
+                _config.phone.IsHandlePhoneRunnig = true;
                 // get the incoming call state
                 string state = intent.GetStringExtra(TelephonyManager.ExtraState);
                 // check the current state
@@ -127,7 +132,8 @@ namespace FreeHand.Phone
                     _acceptCall = false;
                     Log.Info(TAG, "Phone ExtraStateRinging");
                     _telephone = intent.GetStringExtra(TelephonyManager.ExtraIncomingNumber);
-                    Log.Info(TAG, "Incoming Numer " + _telephone);                                     
+                    Log.Info(TAG, "Incoming Numer " + _telephone);
+                    _missCallBeforeIncomingCall = CountMissCall();
                     CheckCall(_telephone, context);                   
                 }
                 else if (state == TelephonyManager.ExtraStateOffhook)
@@ -140,27 +146,30 @@ namespace FreeHand.Phone
                 else if (state == TelephonyManager.ExtraStateIdle)
                 {
                     RestoreRingMode();
+                    _tts.Stop();
                     _config.phone.IsHandlePhoneRunnig = false;
                     _config.phone.MissedCall++;
                     Log.Info(TAG, "Phone ExtraStateIdle,SMS running "+_config.sms.IsHandleSMSRunnig.ToString()  ); 
+                    Log.Info(TAG, "Send Speak Broadcast"); 
                     if (_config.sms.IsHandleSMSRunnig)
-                    {
-                        Log.Info(TAG, "Send Speak Broadcast"); 
+                    {                        
                         _config.sms.IsHandleSMSRunnig = false;
-                        var speakSMSIntent = new Intent("FreeHand.QueueMessenge.Invoke");
-                        context.SendBroadcast(speakSMSIntent);
-                    }                  
 
-                    if (_config.phone.AutoReply && !_acceptCall)
-                    {
-                        if (CountMissCall() > 0)
-                        {
-                            Log.Info(TAG, "Send sms inform miss call, content sms:  {0}", _config.phone.ContentReply);
-                            SendReply(_telephone);
-                        }
-                    }
-                    // incoming call end
+                    }      
+                    var speakSMSIntent = new Intent("FreeHand.QueueMessenge.Invoke");
+                    context.SendBroadcast(speakSMSIntent);                                                         
                 }
+                if (_config.phone.AutoReply && !_acceptCall)
+                {
+
+                    if (CountMissCall() > _missCallBeforeIncomingCall)
+                    {
+                        Log.Info(TAG, "Send sms inform miss call, content sms:  {0}", _config.phone.ContentReply);
+                        SendReply(_telephone);
+                    }
+                }
+                _missCallBeforeIncomingCall = 0;
+
             }
         }                     
 

@@ -20,7 +20,8 @@ namespace FreeHand
         private Config _config;
         Model.ScriptLang _scriptLang;
         private Spinner _spin_enigne_master, _spin_lang_speak,_spin_lang_listen;
-        private TextView _tv_engine_master, _tv_lang_listen, _labelSpeedValue, _labelPitchValue, _label_lang_voice, _label_speed, _label_pitch,_label_testing,_speak_testing;       
+        private TextView _tv_engine_master, _tv_lang_listen, _labelSpeedValue, _labelPitchValue, _label_lang_voice, _label_speed, _label_pitch,_label_testing,_speak_testing;
+        EditText _inputSpeakTxt, _outputListenTxt;
         private SeekBar _seekSpeed, _seekPitch;
         private IList<string> _listLangTTS, _listLangSST;
         //private TaskCompletionSource<Java.Lang.Object> _tcs;  
@@ -83,15 +84,30 @@ namespace FreeHand
             _labelPitchValue = FindViewById<TextView>(Resource.Id.value_pitch);
             _labelSpeedValue = FindViewById<TextView>(Resource.Id.value_speed);
 
-            //Init Value
+            //Test
+            _inputSpeakTxt = FindViewById<EditText>(Resource.Id.input_speak);
 
         }
         private void SetListenerUI()
         {
             SetActionTTSUI();
             SetActionSTTUI();
+            SetActionTestSpeak();
 
         }
+
+        private void SetActionTestSpeak()
+        {
+            _speak_testing.Click += async (sender, e) => 
+            {
+                if (!string.IsNullOrEmpty(_inputSpeakTxt.Text))
+                {
+                    await _tts.GetTTS();
+                    await _tts.SpeakMessenger(_inputSpeakTxt.Text);
+                }
+            };
+        }
+
         private void InitDataUI()
         {
             //Engine
@@ -261,6 +277,7 @@ namespace FreeHand
         {
             Log.Info(TAG, "OnStop");
             _config.Save();
+            _tts.ShutDown();
             base.OnStop();
         }
 

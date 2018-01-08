@@ -215,6 +215,8 @@ namespace FreeHand.ActivityClass.SettingClass
 
         private void HandleSwEnableMail(bool isChecked)
         {
+            _swEnable_mail.Enabled = false;
+            _swEnable_mail.CheckedChange -= CheckedChangeHandleMail;
             _cfg.mail.Enable = isChecked;
             if (isChecked)
             {
@@ -240,6 +242,8 @@ namespace FreeHand.ActivityClass.SettingClass
                 DisableAllServiceMail();
 
             }
+            _swEnable_mail.CheckedChange += CheckedChangeHandleMail;
+            _swEnable_mail.Enabled = true;
         }
 
         private void DisableAllServiceMail()

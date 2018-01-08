@@ -140,6 +140,10 @@ namespace FreeHand.Message.Mail
                     }
                     inbox.Close(false);
                 }
+                catch(ImapProtocolException ex)
+                {
+                    Log.Error(TAG,ex.Message);
+                }
                 catch(Exception e)
                 {
                     Log.Error(TAG,e.Message);
@@ -159,7 +163,7 @@ namespace FreeHand.Message.Mail
             if (isLogin())
             {
                 Log.Info(TAG, "Logout");
-                client.Disconnect(true);
+                client.DisconnectAsync(true);
             }
             else
                 Log.Info(TAG, "Client is not login, can't disconnect");
@@ -248,14 +252,17 @@ namespace FreeHand.Message.Mail
 
                     while ((line = reader.ReadLine()) != null)
                     {
-                        quoted.Write(msg);
+                        quoted.Write("> ");
                         quoted.WriteLine(line);
                     }
                 }
 
+                quoted.Write("\n");
+                quoted.WriteLine(msg);
+
                 reply.Body = new TextPart("plain")
                 {
-                    Text = quoted.ToString()
+                    Text = quoted.ToString(),
                };
 
             }

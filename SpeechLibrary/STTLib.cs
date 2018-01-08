@@ -113,7 +113,7 @@ namespace FreeHand
         {
             string langCode;
             Locale locale;
-            langCode = cultureInfo.IetfLanguageTag;
+            langCode = cultureInfo.TwoLetterISOLanguageName;
             if (!_supportLanguageAsDisplayLanguage.ContainsKey(langCode))
             {
                 locale = new Locale(langCode);

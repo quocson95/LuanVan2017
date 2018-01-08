@@ -258,6 +258,7 @@
     <Compile Include="Message\Mail\AuthenticationState.cs" />
     <Compile Include="Message\Mail\User.cs" />
     <Compile Include="Message\Mail\Google.cs" />
+    <Compile Include="Message\Mail\RefreshAccount.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />

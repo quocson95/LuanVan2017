@@ -43,7 +43,8 @@ namespace FreeHand.Message.Mail
             a.Click += delegate {
                 //gmail.Login_v2();
                 //v3();
-                v4();
+                //v4();
+                outlook();
 
             };
 
@@ -52,6 +53,38 @@ namespace FreeHand.Message.Mail
 
             login.Click += Login_Click;
             //custom_tab_activity_helper = new global::Android.Support.CustomTabs.Chromium.SharedUtilities.CustomTabActivityHelper();
+        }
+
+        private void outlook()
+        {
+            string CLIENT_ID = "7961d4f9-94be-4428-8d30-edcc6d4b3d7b";
+            string SCOPES =   "https://graph.microsoft.com/User.Read" ;
+            string MSGRAPH_URL = "https://graph.microsoft.com/v1.0/me";
+            OAuth2Authenticator Auth2 = null;
+            Auth2 = new OAuth2Authenticator
+                                    (
+                    clientId: CLIENT_ID,
+                    scope: SCOPES,
+                    authorizeUrl: new Uri("https://login.microsoftonline.com/common/oauth2/V2.0/authorize"),
+                    redirectUrl: new Uri("msal7961d4f9-94be-4428-8d30-edcc6d4b3d7b://auth"),
+                    getUsernameAsync: null,
+                    // Native UI API switch
+                    //      true    - NEW native UI support 
+                    //      false   - OLD embedded browser API [DEFAULT]
+                    // DEFAULT will be switched to true in the near future 2017-04
+                    isUsingNativeUI: true
+
+                                    )
+            {
+
+            };
+            Auth2.Completed += OnAuthCompleted;
+            Auth2.Error += OnAuthError;
+            Auth2.BrowsingCompleted += Auth_BrowsingCompleted;
+            AuthenticationState.Authenticator = Auth2;
+            var presenter = new Xamarin.Auth.Presenters.OAuthLoginPresenter();
+            presenter.Login(Auth2);
+            return;
         }
 
         private void v4()

@@ -7,7 +7,7 @@ using Android.Widget;
 using Calligraphy;
 namespace FreeHand
 {
-    [Activity(Label = "MainActivity")]
+    [Activity(Label = "MainActivity", Theme = "@style/MyTheme.Mrkeys")]
     public class MainActivity : Activity
     {                            
         Button btnRun;

@@ -39,6 +39,15 @@ namespace FreeHand
         {
             _mainContext = contex;
         }
+
+        public void ShutDown()
+        {
+            try{
+                _textToSpeech.Shutdown();
+                _textToSpeech = null;
+            }
+            catch {/*don't care*/};
+        }
 		public void SetLang(Locale lang)
 		{
 
@@ -261,6 +270,7 @@ namespace FreeHand
             if (_textToSpeech == null) return;
             try {
                 _textToSpeech.Stop();
+                _tcs.TrySetResult(true);
                 _textToSpeech.Shutdown();
                 _textToSpeech = null;
             }
@@ -272,8 +282,15 @@ namespace FreeHand
 
 		void TextToSpeech.IOnInitListener.OnInit(OperationResult status)
 		{
-			Log.Debug(TAG, "OnInit() status = " + status);			
-            _tcs.TrySetResult(new Java.Lang.Integer((int)status));
+			Log.Debug(TAG, "OnInit() status = " + status);
+            try{
+                _tcs.TrySetResult(new Java.Lang.Integer((int)status));    
+            }
+            catch(System.Exception e){
+                Log.Error(TAG,e.Message);
+            }
+      
+
 
 		}
 

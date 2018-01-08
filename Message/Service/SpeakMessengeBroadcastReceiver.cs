@@ -37,7 +37,7 @@ namespace FreeHand.Message.Service
         {
             Log.Info(TAG, "OnReceive: " + intent.Action);
             _context = context;
-            if (!_config.sms.IsHandleSMSRunnig)
+            if (!_config.sms.IsHandleSMSRunnig && !_config.phone.IsHandlePhoneRunnig)
                 SMSHandleSpeak(context);
         }
 
@@ -60,7 +60,7 @@ namespace FreeHand.Message.Service
         {
             _config.sms.IsHandleSMSRunnig = true;
             stop = false;
-            Log.Info(TAG, "SMS Handle status {0}  " , _config.sms.IsHandleSMSRunnig.ToString());
+            Log.Info(TAG, "SMS Handle status {0}  state: {1} " , _config.sms.IsHandleSMSRunnig.ToString(),_config.sms.StateSMS);
             Log.Debug(TAG, "Queue {0}", _messengeQueue.Count());
             Model.IMessengeData messengeData = null;
 
@@ -76,16 +76,20 @@ namespace FreeHand.Message.Service
                 //await SpeakMsg(Resource.String.tts_continous_speak_prev_mess);
                 await SpeakMsg(_scripLang.tts_continous_speak_prev_mess);
             }
+            if (_config.sms.StateSMS == Config.STATE_SMS.IDLE)
+            {
+                _config.sms.StateSMS = Config.STATE_SMS.SPEAK_NUMBER;
+            }
 
             while (!EmptyMessenge() &&
                    _config.GetPermissionRun(Config.PERMISSION_RUN.MESSENGE) && !stop)
             {
-                if (_config.IsUpdateCfg)
-                {
-                    _config.IsUpdateCfg = false;
-                    await _ttsLib.ReInitTTS();
-                }
-
+                //if (_config.IsUpdateCfg)
+                //{
+                //    _config.IsUpdateCfg = false;
+                //    await _ttsLib.ReInitTTS();
+                //}
+                await _ttsLib.GetTTS();
 
                 Log.Info(TAG, "Speak Messenge State {0} type mess : {1} " , _config.sms.StateSMS,messengeData.Type().ToString());
                 switch (_config.sms.StateSMS)
@@ -135,6 +139,7 @@ namespace FreeHand.Message.Service
                 }
 
             }
+            _config.sms.IsHandleSMSRunnig = false;
             //End While
             if (_config.sms.StateSMS == Config.STATE_SMS.DONE)
             {
@@ -212,8 +217,7 @@ namespace FreeHand.Message.Service
                     Log.Info(TAG, "Auto reply mess SMS {0}", _config.sms.CustomContetnReply);
                     messengeData.Reply(_config.sms.CustomContetnReply);
                     break;
-                case TYPE_MESSAGE.MAIL:
-                    //TODO Add auto reply for mail
+                case TYPE_MESSAGE.MAIL:                    
                     Log.Info(TAG, "Auto reply mess mail {0}", _config.mail.ContentReply);
                     messengeData.Reply(_config.mail.ContentReply);
                     break;
@@ -310,7 +314,12 @@ namespace FreeHand.Message.Service
 
         private bool EmptyMessenge()
         {
-            if (_messengeQueue.Empty() && _config.sms.MessengeBackUp == null) return true;
+            if (_messengeQueue.Empty() && _config.sms.MessengeBackUp == null) 
+            {
+                Log.Debug(TAG, "Empty message");
+                return true;
+            }
+
             return false;
         }
         private async Task<int> listenRequest(Context context,Model.TYPE_MESSAGE type)

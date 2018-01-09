@@ -89,7 +89,7 @@ namespace FreeHand.Phone
             am.RingerMode = _stateRingMode;
         }
 
-        int CountMissCall()
+        public static int CountMissCall()
         {
             // filter call logs by type = missed
             string queryFilter = String.Format("{0}={1}", CallLog.Calls.Type, (int)CallType.Missed);
@@ -110,7 +110,7 @@ namespace FreeHand.Phone
                 String callType = queryData.GetString(queryData.GetColumnIndex(CallLog.Calls.Type));
                 String callNew= queryData.GetString(queryData.GetColumnIndex(CallLog.Calls.New));
                 //Log.Info(TAG,"Number {0} date {1} type {2} isNew {3} ",callNumber,callDate,callType,callNew);
-                if (callType.Equals("3"))
+                if (callType.Equals("3") && callNew.Equals("1"))
                     missCall++;
             }
             Log.Info(TAG,"Has {0} misscall",missCall);

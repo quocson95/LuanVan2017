@@ -21,6 +21,7 @@ namespace FreeHand.Model
         public string tts_ask_for_reply;
         public string tts_name_sender_content;
         public string tts_you_get_new_mail;
+        public string tts_you_has_n_miss_call;
         ScriptLang()
         {
             if (getPersistedData("en").Equals("vi"))
@@ -52,6 +53,7 @@ namespace FreeHand.Model
             tts_ask_for_reply = "Please speak your reply after sound beep";
             tts_name_sender_content = "Unknow";
             tts_you_get_new_mail = "You get a new email";
+            tts_you_has_n_miss_call = "you has n missed call";
 
             persist("en");
         }
@@ -72,6 +74,7 @@ namespace FreeHand.Model
             tts_ask_for_reply = "Vui lòng đọc nôi dung trả lời sau tiếng bíp";
             tts_name_sender_content = "Không rõ";
             tts_you_get_new_mail = "Bạn có email mới";
+            tts_you_has_n_miss_call = "bạn có n cuộc gọi nhỡ";
 
             persist("vi");
         }

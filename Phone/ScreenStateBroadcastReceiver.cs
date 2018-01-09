@@ -8,6 +8,7 @@ using Plugin.Vibrate;
 using Android.OS;
 using System.Text;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace FreeHand.Phone
 {
@@ -20,7 +21,7 @@ namespace FreeHand.Phone
         private DeviceMotionImplementation sensor;
         private string _lastValueX;
         IList<string> _lastValue;
-        CircularBuffer<string> c;
+        CircularBuffer<string> _buffer;
         private TTSLib _tts;
         private Config _config;
         public ScreenStateBroadcastReceiver()       
@@ -29,7 +30,7 @@ namespace FreeHand.Phone
             sensor = new DeviceMotionImplementation();
             _tts = TTSLib.Instance();
             _config = Config.Instance();
-            c = new CircularBuffer<string>(5);
+            _buffer = new CircularBuffer<string>(5);
 
 
         }
@@ -62,6 +63,8 @@ namespace FreeHand.Phone
 
         private void HandleScreenOnEvent()
         {
+            if (sensor.IsActive(MotionSensorType.Accelerometer))
+                sensor.Stop(MotionSensorType.Accelerometer);
         }
 
         private bool IsMissCallLogExist(Context context)
@@ -85,22 +88,27 @@ namespace FreeHand.Phone
                         case MotionSensorType.Accelerometer:
                             Console.WriteLine("A: {0},{1},{2}", ((MotionVector)a.Value).X, ((MotionVector)a.Value).Y, ((MotionVector)a.Value).Z);
                             if (DectectDeviceMotion((MotionVector)a.Value))
-                            {
+                            {                                                      
                                 Log.Info(TAG, "Device Motion");
-                                sensor.Stop(MotionSensorType.Accelerometer);
-                                var v = CrossVibrate.Current;
-                                if (v.CanVibrate) v.Vibration(); //Default 500ms
-
-                                var powerManager = (PowerManager)context.GetSystemService(Context.PowerService);
-                                var wakeLock = powerManager.NewWakeLock(WakeLockFlags.ScreenDim | WakeLockFlags.AcquireCausesWakeup, "Mrkeys");
-                                wakeLock.Acquire();
-                                wakeLock.Release();
-
-                                if (_config.GetPermissionRun(Config.PERMISSION_RUN.NOTIFY_MISS_CALL))
+                                //sensor.Stop(MotionSensorType.Accelerometer);
+                                int n = PhoneCallBroadcastReceiver.CountMissCall();         
+                                if (n > 0)
                                 {
-                                    StringBuilder builder = new StringBuilder(context.GetString(Resource.String.you_have_miss_call));
-                                    builder.Replace("n", "1"); // Replaces 'an' with 'the'.
-                                    await _tts.SpeakMessenger("You have miss call");
+                                    var v = CrossVibrate.Current;
+                                    if (v.CanVibrate) v.Vibration(); //Default 500ms
+
+                                    var powerManager = (PowerManager)context.GetSystemService(Context.PowerService);
+                                    var wakeLock = powerManager.NewWakeLock(WakeLockFlags.ScreenDim | WakeLockFlags.AcquireCausesWakeup, "Mrkeys");
+                                    wakeLock.Acquire();
+                                    wakeLock.Release();
+
+                                    if (_config.GetPermissionRun(Config.PERMISSION_RUN.NOTIFY_MISS_CALL))
+                                    {
+                                        StringBuilder builder = new StringBuilder(Model.ScriptLang.Instance().tts_you_has_n_miss_call);                                  
+                                        builder.Replace("n", n.ToString()); // Replaces 'n' with 'number miss call'.
+                                        await _tts.SpeakMessenger(builder.ToString());
+                                    }
+
                                 }
 
                             }
@@ -116,12 +124,21 @@ namespace FreeHand.Phone
             bool isMotion;
             string value;
             value = x.X.ToString();
-            //c.PopBack();
+            //_buffer.pu
             isMotion = false;
-            if (_lastValueX != null && string.Compare(_lastValueX,value) != 0)
-            {
-                isMotion = true;
+            float t1, t2;
+            t1 = 0;t2 = 0;
+            if (_lastValueX != null){
+                t1 = float.Parse(_lastValueX, CultureInfo.InvariantCulture.NumberFormat);
+                t2 = float.Parse(value, CultureInfo.InvariantCulture.NumberFormat);
             }
+            Log.Debug(TAG, "Last value {0} value {1} compare {2} t1 - t2 {3}", _lastValueX, value, string.Compare(_lastValueX, value), t1 - t2);
+            //if (_lastValueX != null && string.Compare(_lastValueX,value) != 0)
+            //{
+            //    isMotion = true;
+            //}
+            if (Math.Abs(t1 - t2) >= 2)
+                isMotion = true;
             _lastValueX = value;
             return isMotion;
         }

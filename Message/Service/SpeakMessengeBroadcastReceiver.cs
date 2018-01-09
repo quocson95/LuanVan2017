@@ -81,7 +81,7 @@ namespace FreeHand.Message.Service
                 _config.sms.StateSMS = Config.STATE_SMS.SPEAK_NUMBER;
             }
 
-            while (!EmptyMessenge() &&
+            while (messengeData != null &&
                    _config.GetPermissionRun(Config.PERMISSION_RUN.MESSENGE) && !stop)
             {
                 //if (_config.IsUpdateCfg)

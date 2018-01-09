@@ -105,7 +105,7 @@ namespace FreeHand.Phone
                                     if (_config.GetPermissionRun(Config.PERMISSION_RUN.NOTIFY_MISS_CALL))
                                     {
                                         StringBuilder builder = new StringBuilder(Model.ScriptLang.Instance().tts_you_has_n_miss_call);                                  
-                                        builder.Replace("n", n.ToString()); // Replaces 'n' with 'number miss call'.
+                                    builder.Replace("xxx", n.ToString()); // Replaces 'xxx' with 'number miss call'.
                                         await _tts.SpeakMessenger(builder.ToString());
                                     }
 
